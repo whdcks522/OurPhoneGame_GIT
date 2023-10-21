@@ -23,6 +23,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private float _activityTime;
         //새로 추가
         PhotonView photonView;
+        private int maxHealth;
+        public int curHealth;
 
         private void Awake()
         {
@@ -33,8 +35,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             Character.SetState(AnimationState.Idle);
 
+            //복장 커스텀
             CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
             CharacterBuilder.Rebuild();
+            //최대 체력 설정
+            curHealth = 100;
+            maxHealth = curHealth;
         }
 
         public void Update()
