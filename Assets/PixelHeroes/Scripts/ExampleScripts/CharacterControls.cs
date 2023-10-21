@@ -1,5 +1,6 @@
 ﻿using Assets.PixelHeroes.Scripts.CharacterScripts;
 using Photon.Pun;
+using System;
 using UnityEngine;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
 
@@ -8,6 +9,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
     public class CharacterControls : MonoBehaviourPunCallbacks
     {
         public Character Character;
+        public CharacterBuilder CharacterBuilder;
         public CharacterController Controller; // https://docs.unity3d.com/ScriptReference/CharacterController.html
         public float RunSpeed = 1f;
         public float JumpSpeed = 3f;
@@ -30,10 +32,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public void Start()
         {
             Character.SetState(AnimationState.Idle);
+
+            CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
+            CharacterBuilder.Rebuild();
         }
 
         public void Update()
         {
+            if (!photonView.IsMine)//타인의 것이면 안건듬
+                return;
 
 
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
@@ -89,6 +96,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         public void FixedUpdate()
         {
+            if (!photonView.IsMine)//타인의 것이면 안건듬
+                return;
+
             Move();
         }
 
@@ -211,6 +221,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Turn(int direction)
         {
+            Debug.Log("방향 설정");
             var scale = Character.transform.localScale;
 
             scale.x = Mathf.Sign(direction) * Mathf.Abs(scale.x);
