@@ -1,10 +1,11 @@
 ﻿using Assets.PixelHeroes.Scripts.CharacterScripts;
+using Photon.Pun;
 using UnityEngine;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
 
 namespace Assets.PixelHeroes.Scripts.ExampleScripts
 {
-    public class CharacterControls : MonoBehaviour
+    public class CharacterControls : MonoBehaviourPunCallbacks
     {
         public Character Character;
         public CharacterController Controller; // https://docs.unity3d.com/ScriptReference/CharacterController.html
@@ -18,7 +19,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private Vector3 _motion = Vector3.zero;
         private int _inputX, _inputY;
         private float _activityTime;
-        
+        //새로 추가
+        PhotonView photonView;
+
+        private void Awake()
+        {
+            photonView = GetComponent<PhotonView>();
+        }
+
         public void Start()
         {
             Character.SetState(AnimationState.Idle);
@@ -26,6 +34,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         public void Update()
         {
+
+
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
             else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
             else if (Input.GetKeyDown(KeyCode.P)) Character.Animator.SetTrigger("Push");
