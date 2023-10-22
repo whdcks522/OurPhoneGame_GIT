@@ -1220,7 +1220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -50, y: -80}
+  m_AnchoredPosition: {x: -50.000015, y: -80}
   m_SizeDelta: {x: 200, y: 760.2268}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2038207420
@@ -1271,9 +1271,35 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Move [\u2190]\nMove [\u2192]\nJump [\u2191]\nCrouch [\u2193]\nClimb [C]\nPush
-    [P]\nJab [J]\nSlash [S]\nShot [O]\nFire1H [F]\nFire2H [E]\nBlock [B]\nDie [D]\nBlink
-    [L]"
+  m_Text: 'Move [Z]
+
+    Move [C]
+
+    Jump [S]
+
+    Crouch [X]
+
+    Climb [2]
+
+    Push
+    [P]
+
+    Jab [J]
+
+    Slash [1]
+
+    Shot [O]
+
+    Fire1H [F]
+
+    Fire2H [E]
+
+    Block
+    [B]
+
+    Die [D]
+
+    Blink [L]'
 --- !u!222 &2038207422
 CanvasRenderer:
   m_ObjectHideFlags: 0

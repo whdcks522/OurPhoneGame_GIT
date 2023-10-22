@@ -1,8 +1,12 @@
 ﻿using Assets.PixelHeroes.Scripts.CharacterScripts;
 using Photon.Pun;
+using Photon.Pun.Demo.Asteroids;
 using System;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
 
 namespace Assets.PixelHeroes.Scripts.ExampleScripts
@@ -30,14 +34,20 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public GameObject miniUI;
         public Image miniHealthGauge;
         public Text miniName;
-        private Vector3 miniUIVec = new Vector3(1,1,1);
+        private Vector3 dirVec = new Vector3(1,1,1);
+        private Vector3 swordParentVec = new Vector3(0, 0, 0);
         private Color redColor = new Color(197, 44, 28);
         private Color greenColor = new Color(1F,98,21,255);
         private Color blueColor = new Color(37, 97, 192, 255);
+        public GameObject swordParent;
+        public GameObject leaderSword;
+        Rigidbody2D leaderSwordRigid;
+        Vector3 leaderSwordVec = new Vector3(0, 0, 0);
 
         private void Awake()
         {
             photonView = GetComponent<PhotonView>();
+            leaderSwordRigid = leaderSword.GetComponent<Rigidbody2D>();
         }
 
         public void Start()
@@ -60,7 +70,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (!photonView.IsMine)//타인의 것이면 안건듬
                 return;
 
+            KeyInput();
+        }
 
+        #region 키 입력
+        void KeyInput() 
+        {
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
             else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
             else if (Input.GetKeyDown(KeyCode.P)) Character.Animator.SetTrigger("Push");
@@ -82,35 +97,36 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             if (Controller.isGrounded)
             {
-                if (Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKeyDown(KeyCode.X))
                 {
                     GetDown();
                 }
-                else if (Input.GetKeyUp(KeyCode.DownArrow))
+                else if (Input.GetKeyUp(KeyCode.X))
                 {
                     GetUp();
                 }
             }
 
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.Z))
             {
                 _inputX = -1;
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.C))
             {
                 _inputX = 1;
             }
-            
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+
+            if (Input.GetKeyDown(KeyCode.S))
             {
                 _inputY = 1;
-                
+
                 if (Controller.isGrounded)
                 {
                     JumpDust.Play(true);
                 }
             }
         }
+        #endregion
 
         public void FixedUpdate()
         {
@@ -118,8 +134,54 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 return;
 
             Move();
+            SwordMove();
+        }
+        private void SwordMove() //칼이 움직임
+        {
+            //칼 부모의 위치 자동 조정
+            swordParent.transform.position = swordParentVec;
+
+            int tmpX = 0, tmpY = 0;
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                tmpX = 1;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                tmpX = -1;
+            }
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                tmpY = 1;
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                tmpY = -1;
+            }
+
+            if (tmpX != 0 || tmpY != 0) 
+            {
+                //leaderSword.
+            }
+
+            //리더 칼의 위치 조정 
+            leaderSwordVec.x = tmpX;
+            leaderSwordVec.y = tmpY;
+            leaderSwordRigid.velocity = leaderSwordVec.normalized * 15;
+
+            if (tmpX != 0 || tmpY != 0) //하나라도 움직일 때만
+            {
+                //회전 조작
+                leaderSword.transform.rotation = Quaternion.identity;
+                float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
+                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
+                leaderSword.transform.Rotate(rotVec);
+            }
+
+
         }
 
+        #region 이동
         private void Move()
         {
             if (Time.frameCount <= 1)
@@ -146,7 +208,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (state == AnimationState.Jumping)
                 {
-                    if (Input.GetKey(KeyCode.DownArrow))
+                    if (Input.GetKey(KeyCode.X))
                     {
                         GetDown();
                     }
@@ -236,7 +298,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 MoveDust.Stop();
             }
         }
+#endregion
 
+        #region Scale을 돌려서 좌우 반전 적용
         private void Turn(int direction)
         {
             
@@ -245,9 +309,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             scale.x = Mathf.Sign(direction) * Mathf.Abs(scale.x);
 
             Character.transform.localScale = scale;
-            miniUIVec.x = direction;
-            miniUI.transform.localScale = miniUIVec;
+            dirVec.x = direction;
+            miniUI.transform.localScale = dirVec;
+            swordParent.transform.localScale = dirVec;
         }
+        #endregion
 
         private void GetDown()
         {

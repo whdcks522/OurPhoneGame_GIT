@@ -11,7 +11,7 @@ public class TrainManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        Screen.SetResolution(960, 540, false);//해상도 조정
+        //Screen.SetResolution(960, 540, false);//해상도 조정
         PhotonNetwork.SendRate = 480;//60, 동기화가 빨리 된다나 뭐라나
         PhotonNetwork.SerializationRate = 240;//30
     }
