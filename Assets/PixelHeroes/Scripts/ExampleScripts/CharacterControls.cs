@@ -72,12 +72,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (Input.GetKeyDown(KeyCode.D)) Character.SetState(AnimationState.Dead);
 
             // Builder characters only.
-            else if (Input.GetKeyDown(KeyCode.S)) Character.Animator.SetTrigger("Slash");
+            else if (Input.GetKeyDown(KeyCode.Alpha1)) Character.Animator.SetTrigger("Slash");
             else if (Input.GetKeyDown(KeyCode.O)) Character.Animator.SetTrigger("Shot");
             else if (Input.GetKeyDown(KeyCode.F)) Character.Animator.SetTrigger("Fire1H");
             else if (Input.GetKeyDown(KeyCode.E)) Character.Animator.SetTrigger("Fire2H");
-            else if (Input.GetKeyDown(KeyCode.C)) Character.SetState(AnimationState.Climbing);
-            else if (Input.GetKeyUp(KeyCode.C)) Character.SetState(AnimationState.Ready);
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) Character.SetState(AnimationState.Climbing);
+            else if (Input.GetKeyUp(KeyCode.Alpha2)) Character.SetState(AnimationState.Ready);
             else if (Input.GetKeyUp(KeyCode.L)) Character.Blink();
 
             if (Controller.isGrounded)
