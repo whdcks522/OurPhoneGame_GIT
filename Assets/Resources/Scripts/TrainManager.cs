@@ -20,7 +20,7 @@ public class TrainManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()//온라인 상태일경우
     {
-        PhotonNetwork.LocalPlayer.NickName = "Guest"+Random.Range(0,1000);
+        PhotonNetwork.LocalPlayer.NickName = "Guest"+Random.Range(0,9999);
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 6 }, null);//최대 6명인 Room이라는 이름의 룸 생성************8
     }
 

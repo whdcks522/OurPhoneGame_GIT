@@ -2,6 +2,7 @@
 using Photon.Pun;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
 
 namespace Assets.PixelHeroes.Scripts.ExampleScripts
@@ -23,8 +24,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private float _activityTime;
         //새로 추가
         PhotonView photonView;
+        
         private int maxHealth;
         public int curHealth;
+        public GameObject miniUI;
+        public Image miniHealthGauge;
+        public Text miniName;
+        private Vector3 miniUIVec = new Vector3(1,1,1);
+        private Color redColor = new Color(197, 44, 28);
+        private Color greenColor = new Color(1F,98,21,255);
+        private Color blueColor = new Color(37, 97, 192, 255);
 
         private void Awake()
         {
@@ -34,13 +43,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public void Start()
         {
             Character.SetState(AnimationState.Idle);
-
+            
             //복장 커스텀
             CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
             CharacterBuilder.Rebuild();
             //최대 체력 설정
             curHealth = 100;
             maxHealth = curHealth;
+
+            miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
+            miniName.color = photonView.IsMine ? greenColor : redColor;
         }
 
         public void Update()
@@ -227,12 +239,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Turn(int direction)
         {
-            Debug.Log("방향 설정");
+            
             var scale = Character.transform.localScale;
 
             scale.x = Mathf.Sign(direction) * Mathf.Abs(scale.x);
 
             Character.transform.localScale = scale;
+            miniUIVec.x = direction;
+            miniUI.transform.localScale = miniUIVec;
         }
 
         private void GetDown()
