@@ -159,9 +159,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 tmpY = -1;
             }
 
-            if (tmpX != 0 || tmpY != 0) 
+            if ((tmpX != 0 || tmpY != 0) && !leaderSword.activeSelf) 
             {
-                //leaderSword.
+                leaderSword.transform.position = transform.position;
+                leaderSword.SetActive(true);
             }
 
             //리더 칼의 위치 조정 
@@ -177,8 +178,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
                 leaderSword.transform.Rotate(rotVec);
             }
-
-
         }
 
         #region 이동
@@ -310,6 +309,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             Character.transform.localScale = scale;
             dirVec.x = direction;
+            //UI와 검도 x축 전환
             miniUI.transform.localScale = dirVec;
             swordParent.transform.localScale = dirVec;
         }
