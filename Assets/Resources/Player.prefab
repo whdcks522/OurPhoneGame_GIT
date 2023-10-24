@@ -99,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 6857946217381507226}
-  spriteRenderer: {fileID: 2496415211984423335}
 --- !u!60 &8553762102032516495
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -162,7 +161,7 @@ GameObject:
   - component: {fileID: 1743909155299964797}
   - component: {fileID: 6259890221695978630}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: LeaderSwordTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +224,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -235,9 +234,9 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.585034
-        inSlope: 0
-        outSlope: 0
+        value: 0.25850272
+        inSlope: -0.0021042635
+        outSlope: -0.0021042635
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
@@ -15754,7 +15753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4968095510686775453
 Transform:
   m_ObjectHideFlags: 0
@@ -15763,7 +15762,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6046476537605058143}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.59, y: 0.79, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15914,7 +15913,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 141593480685669017}
-  spriteRenderer: {fileID: 2496415211984423335}
 --- !u!1 &6287530597104394198
 GameObject:
   m_ObjectHideFlags: 0
