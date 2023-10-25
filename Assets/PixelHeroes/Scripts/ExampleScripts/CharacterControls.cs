@@ -41,13 +41,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private Color blueColor = new Color(37, 97, 192, 255);
         public GameObject swordParent;
         public GameObject leaderSword;
-        Rigidbody2D leaderSwordRigid;
+        private FollowSword leaderSwordComponent;
+        Rigidbody leaderSwordRigid;
         Vector3 leaderSwordVec = new Vector3(0, 0, 0);
+        public int leaderSwordSpeed = 8;
+        public GameObject backSwords;
+        public SpriteRenderer playerSwordArea;
+        Color swordAreaColor;
 
         private void Awake()
         {
             photonView = GetComponent<PhotonView>();
-            leaderSwordRigid = leaderSword.GetComponent<Rigidbody2D>();
+            leaderSwordRigid = leaderSword.GetComponent<Rigidbody>();
+            leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
         }
 
         public void Start()
@@ -72,6 +78,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             KeyInput();
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform.CompareTag("EnemyBullet"))
+            {
+                //Debug.Log("PlayerHit!");
+            }
+        }
+
 
         #region 키 입력
         void KeyInput() 
@@ -134,8 +149,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 return;
 
             Move();
+            //검 조작
             SwordMove();
+            //검 사거리 표시
+            SwordDirCheck();
+
         }
+
+        void SwordDirCheck() //검 사거리 표시
+        {
+            swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
+            playerSwordArea.color = swordAreaColor;
+        }
+
         private void SwordMove() //칼이 움직임
         {
             //칼 부모의 위치 자동 조정
@@ -159,25 +185,32 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 tmpY = -1;
             }
 
-            if ((tmpX != 0 || tmpY != 0) && !leaderSword.activeSelf) 
+            if (leaderSword.activeSelf) //칼이 활성화돼있을 때
             {
-                leaderSword.transform.position = transform.position;
-                leaderSword.SetActive(true);
+                if (tmpX != 0 || tmpY != 0) //하나라도 움직일 때만
+                {
+                    //리더 칼의 위치 조정 
+                    leaderSwordVec.x = tmpX;
+                    leaderSwordVec.y = tmpY;
+                    leaderSwordRigid.velocity = leaderSwordVec.normalized * leaderSwordSpeed;
+
+                    //회전 조작
+                    leaderSword.transform.rotation = Quaternion.identity;
+                    float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
+                    Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
+                    leaderSword.transform.Rotate(rotVec);
+                }
             }
-
-            //리더 칼의 위치 조정 
-            leaderSwordVec.x = tmpX;
-            leaderSwordVec.y = tmpY;
-            leaderSwordRigid.velocity = leaderSwordVec.normalized * 15;
-
-            if (tmpX != 0 || tmpY != 0) //하나라도 움직일 때만
+            else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
             {
-                //회전 조작
-                leaderSword.transform.rotation = Quaternion.identity;
-                float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
-                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
-                leaderSword.transform.Rotate(rotVec);
+                if ((tmpX != 0 || tmpY != 0)) //처음으로 조작 시, 칼 활성화
+                {
+                    leaderSword.transform.position = transform.position + Vector3.up * 0.5f;
+                    leaderSword.SetActive(true);
+                    backSwords.SetActive(false);
+                }
             }
+            
         }
 
         #region 이동
@@ -324,5 +357,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             Character.Animator.SetTrigger("GetUp");
         }
+
+
     }
 }

@@ -471,9 +471,33 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 500615374362100254, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 500615374362100254, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 378501e57486e3f4e8fa70beb0f8f6d7, type: 3}
+    - target: {fileID: 500615374362100254, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 520556967420459971, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_Name
       value: LeaderSwordTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 910594732435081065, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1977183514319839708, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b16a9edefd0aac47870b3398f64058c, type: 3}
+    - target: {fileID: 3220991010300187982, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4567551690595120229, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_RootOrder
@@ -519,6 +543,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4624134104645745602, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b08ef61ffbafffa44b22ca93f3c9900d, type: 3}
     - target: {fileID: 4968095510686775453, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -551,6 +579,14 @@ PrefabInstance:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
       value: -0.0021042635
       objectReference: {fileID: 0}
+    - target: {fileID: 7122648776649239500, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8474433981630686815, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b08ef61ffbafffa44b22ca93f3c9900d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
