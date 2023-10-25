@@ -123,10 +123,13 @@ public class FollowSword : MonoBehaviour
             characterControls.backSwords.SetActive(true);
             //트레일 렌더러 삭제
             trailRenderer.Clear();
+            //벡터 초기화
+            characterControls.curLeaderSwordVec = Vector3.zero;
             //거리 연산 초기화
             swordDir = 0;
-            int tmpChildSize = characterControls.swordParent.transform.childCount;
 
+
+            int tmpChildSize = characterControls.swordParent.transform.childCount;
             for (int i = 0; i < tmpChildSize; i++)
             {
                 GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;

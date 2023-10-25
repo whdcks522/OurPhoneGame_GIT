@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
+using UnityEngine.InputSystem;
 
 namespace Assets.PixelHeroes.Scripts.ExampleScripts
 {
@@ -43,7 +44,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public GameObject leaderSword;
         private FollowSword leaderSwordComponent;
         Rigidbody leaderSwordRigid;
-        Vector3 leaderSwordVec = new Vector3(0, 0, 0);
+        private Vector2 tmpLeaderSwordVec = new Vector2(0, 0);
+        public Vector2 curLeaderSwordVec = new Vector2(0, 0);
         public int leaderSwordSpeed = 8;
         public GameObject backSwords;
         public SpriteRenderer playerSwordArea;
@@ -158,15 +160,25 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void SwordDirCheck() //검 사거리 표시
         {
+            //칼 부모의 위치 자동 조정
+            swordParent.transform.position = swordParentVec;
+
             swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
             playerSwordArea.color = swordAreaColor;
         }
 
+        void OnMove(InputValue value) //인풋 시스템용이므로 이름 바꾸면 안됨, 정해진 함수임
+        {
+            tmpLeaderSwordVec = value.Get<Vector2>();
+            if (tmpLeaderSwordVec.magnitude != 0) 
+            {
+                curLeaderSwordVec = tmpLeaderSwordVec;
+            }
+        }
+
         private void SwordMove() //칼이 움직임
         {
-            //칼 부모의 위치 자동 조정
-            swordParent.transform.position = swordParentVec;
-
+            /*
             int tmpX = 0, tmpY = 0;
             if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -184,15 +196,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 tmpY = -1;
             }
+            */
 
             if (leaderSword.activeSelf) //칼이 활성화돼있을 때
             {
-                if (tmpX != 0 || tmpY != 0) //하나라도 움직일 때만
+                //if ( != 0 || tmpY != 0) //하나라도 움직일 때만
                 {
                     //리더 칼의 위치 조정 
-                    leaderSwordVec.x = tmpX;
-                    leaderSwordVec.y = tmpY;
-                    leaderSwordRigid.velocity = leaderSwordVec.normalized * leaderSwordSpeed;
+                    //curLeaderSwordVec.x = tmpX;
+                    //curLeaderSwordVec.y = tmpY;
+                    leaderSwordRigid.velocity = curLeaderSwordVec * leaderSwordSpeed;
 
                     //회전 조작
                     leaderSword.transform.rotation = Quaternion.identity;
@@ -203,7 +216,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
             {
-                if ((tmpX != 0 || tmpY != 0)) //처음으로 조작 시, 칼 활성화
+                if ((curLeaderSwordVec.x != 0 || curLeaderSwordVec.y != 0)) //처음으로 조작 시, 칼 활성화
                 {
                     leaderSword.transform.position = transform.position + Vector3.up * 0.5f;
                     leaderSword.SetActive(true);

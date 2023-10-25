@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 9186343845628686374}
+  child: {fileID: 0}
   player: {fileID: 5974046474224742084}
   swordDir: 0
   maxSwordIndex: 0
@@ -15801,6 +15801,7 @@ GameObject:
   - component: {fileID: 6353737503168759803}
   - component: {fileID: 1454313627835892949}
   - component: {fileID: 5498480976259529555}
+  - component: {fileID: 3405993714435365013}
   - component: {fileID: 161898016194952143}
   - component: {fileID: 9030418141534726078}
   - component: {fileID: 7878410586495827228}
@@ -15928,6 +15929,7 @@ MonoBehaviour:
   miniName: {fileID: 2405757037547769105}
   swordParent: {fileID: 6381797422193437685}
   leaderSword: {fileID: 6046476537605058143}
+  curLeaderSwordVec: {x: 0, y: 0}
   leaderSwordSpeed: 20
   backSwords: {fileID: 1703996433826785003}
   playerSwordArea: {fileID: 5066992103306789604}
@@ -15952,6 +15954,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3405993714435365013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5974046474224742084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: cf0bc4e6c11e5174f993a0fbbf6f6370, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &161898016194952143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16187,7 +16219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 141593480685669017}
+  child: {fileID: 0}
   player: {fileID: 5974046474224742084}
   swordDir: 0
   maxSwordIndex: 0
@@ -16365,6 +16397,7 @@ GameObject:
   - component: {fileID: 3576838063591072834}
   - component: {fileID: 3093197489073130909}
   - component: {fileID: 7714301837268073943}
+  - component: {fileID: 1476666547320108967}
   m_Layer: 10
   m_Name: ChildSword_2
   m_TagString: playerSword
@@ -16460,6 +16493,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1476666547320108967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6857946217381507226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  child: {fileID: 0}
+  player: {fileID: 0}
+  swordDir: 0
+  maxSwordIndex: 0
+  curSwordIndex: 0
 --- !u!1 &8573224532436761051
 GameObject:
   m_ObjectHideFlags: 0
@@ -16596,7 +16646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 6857946217381507226}
+  child: {fileID: 0}
   player: {fileID: 5974046474224742084}
   swordDir: 0
   maxSwordIndex: 0
