@@ -167,10 +167,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             playerSwordArea.color = swordAreaColor;
         }
 
-        void OnMove(InputValue value) //인풋 시스템용이므로 이름 바꾸면 안됨, 정해진 함수임
+        public void OnMove(InputValue value) //인풋 시스템용이므로 이름 바꾸면 안됨, 정해진 함수임
         {
             tmpLeaderSwordVec = value.Get<Vector2>();
-            if (tmpLeaderSwordVec.magnitude != 0) 
+            if (tmpLeaderSwordVec.magnitude != 0) //만지고 있는 경우
             {
                 curLeaderSwordVec = tmpLeaderSwordVec;
             }
@@ -178,33 +178,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void SwordMove() //칼이 움직임
         {
-            /*
-            int tmpX = 0, tmpY = 0;
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                tmpX = 1;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                tmpX = -1;
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                tmpY = 1;
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                tmpY = -1;
-            }
-            */
-
             if (leaderSword.activeSelf) //칼이 활성화돼있을 때
             {
-                //if ( != 0 || tmpY != 0) //하나라도 움직일 때만
                 {
                     //리더 칼의 위치 조정 
-                    //curLeaderSwordVec.x = tmpX;
-                    //curLeaderSwordVec.y = tmpY;
+
                     leaderSwordRigid.velocity = curLeaderSwordVec * leaderSwordSpeed;
 
                     //회전 조작

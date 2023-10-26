@@ -124,7 +124,7 @@ public class FollowSword : MonoBehaviour
             //트레일 렌더러 삭제
             trailRenderer.Clear();
             //벡터 초기화
-            characterControls.curLeaderSwordVec = Vector3.zero;
+            //characterControls.curLeaderSwordVec = Vector3.zero;
             //거리 연산 초기화
             swordDir = 0;
 
