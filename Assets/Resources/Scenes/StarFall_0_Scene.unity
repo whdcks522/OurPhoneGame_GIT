@@ -509,10 +509,6 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 242972775464218046, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: m_Color.a
-      value: 0.62352943
-      objectReference: {fileID: 0}
     - target: {fileID: 1454313627835892949, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: moveJoy
       value: 
@@ -521,14 +517,6 @@ PrefabInstance:
       propertyPath: swordJoy
       value: 
       objectReference: {fileID: 2106080955}
-    - target: {fileID: 1454313627835892949, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: leaderSwordSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3763593336441500524, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: m_Color.a
-      value: 0.62352943
-      objectReference: {fileID: 0}
     - target: {fileID: 4567551690595120229, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -539,7 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4567551690595120229, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.27
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4567551690595120229, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -577,25 +565,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7009410182508243788, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: sceneViewId
-      value: 3
+    - target: {fileID: 6353737503168759803, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Height
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7193676651972755567, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: sceneViewId
-      value: 2
+    - target: {fileID: 6353737503168759803, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: m_Center.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7406846429251221552, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: sceneViewId
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7695701698500972198, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: sceneViewId
-      value: 4
+    - target: {fileID: 7406846429251221552, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8972832682827225320, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
-      propertyPath: m_Color.a
-      value: 0.62352943
+    - target: {fileID: 7406846429251221552, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: ObservedComponents.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

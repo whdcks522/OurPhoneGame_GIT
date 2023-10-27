@@ -7,13 +7,12 @@ using UnityEngine.UI;
 
 public class TrainManager : MonoBehaviourPunCallbacks
 {
-    public GameObject playerPrefab;
 
     private void Awake()
     {
         //Screen.SetResolution(960, 540, false);//해상도 조정
-        PhotonNetwork.SendRate = 480;//60, 동기화가 빨리 된다나 뭐라나
-        PhotonNetwork.SerializationRate = 240;//30
+        PhotonNetwork.SendRate = 60;//60, 동기화가 빨리 된다나 뭐라나
+        PhotonNetwork.SerializationRate = 30;//30
     }
 
     public void Connect() => PhotonNetwork.ConnectUsingSettings();//바로 서버에 접속
