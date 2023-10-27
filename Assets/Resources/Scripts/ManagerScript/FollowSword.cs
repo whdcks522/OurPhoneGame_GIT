@@ -133,13 +133,17 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 0 && photonView.IsMine)//리더 검이 충돌 했다면
         {
-            //플레이어와 리더 칼의 거리 연산 초기화
-            swordDir = 0;
+            PhotonView tmpPhotonView = other.gameObject.GetComponent<PhotonView>();
+            if (tmpPhotonView.IsMine) //자신의 영역에서 벗어 났을 때만
+            {
+                //플레이어와 리더 칼의 거리 연산 초기화
+                swordDir = 0;
 
-            if (PhotonNetwork.InRoom)
-                photonView.RPC("leaderSwordExit", RpcTarget.AllBuffered);
-            else
-                leaderSwordExit();
+                if (PhotonNetwork.InRoom)
+                    photonView.RPC("leaderSwordExit", RpcTarget.AllBuffered);
+                else
+                    leaderSwordExit();
+            }
         }
     }
 

@@ -90,6 +90,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             leaderSword = swordParent.transform.GetChild(0).gameObject;
             leaderSwordRigid = leaderSword.GetComponent<Rigidbody>();
             leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
+
+            moveJoy = GameManager.Instance.moveJoy;
+            swordJoy = GameManager.Instance.swordJoy;
         }
 
         void Start()
@@ -345,26 +348,32 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 Debug.Log("Spin");
 
                 if (PhotonNetwork.InRoom) //2인 이상이라면
-                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered);
+                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
                 else
-                    SwordSpinRPC();//1인이라면
+                    SwordSpinRPC(swordJoyVec);//1인이라면
             }
             else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
+                {
                     photonView.RPC("SwordActiveRPC", RpcTarget.AllBuffered);
-                else
-                    SwordActiveRPC();//1인이라면
+                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
+                }
+                else//1인이라면
+                {
+                    SwordActiveRPC();
+                    SwordSpinRPC(swordJoyVec);
+                }
             }
         }
         #endregion
 
         #region 칼 회전 동기화
         [PunRPC]
-        void SwordSpinRPC()
+        void SwordSpinRPC(Vector2 tmpVec)
         {
             //리더 칼의 속도 조정 
-            leaderSwordRigid.velocity = swordJoyVec * leaderSwordSpeed;
+            leaderSwordRigid.velocity = tmpVec * leaderSwordSpeed;
 
             //회전 조작
             leaderSword.transform.rotation = Quaternion.identity;

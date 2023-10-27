@@ -12,7 +12,7 @@ public class LeaderSword : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine)
         {
-            if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
+            if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동 
             {
                 Debug.Log("SwordQuickMove");
                 transform.position = rpcPos;
