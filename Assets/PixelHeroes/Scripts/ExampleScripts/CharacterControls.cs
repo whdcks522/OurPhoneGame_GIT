@@ -175,15 +175,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         public void FixedUpdate()
         {
-            if (!photonView.IsMine)//타인의 것이면 안건듬
-                return;
-
-            Move();
-            //검 조작
-            SwordMove();
-            //검 사거리 표시
-            SwordDirCheck();
-
+            if (photonView.IsMine)//타인의 것이면 안건듬
+            {
+                Move();
+                //검 조작
+                SwordInput();
+                //검 사거리 표시
+                SwordDirCheck();
+            }
         }
 
         void SwordDirCheck() //검 사거리 표시
@@ -195,12 +194,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             playerSwordArea.color = swordAreaColor;
         }
 
-        private void SwordMove() //칼 움직임 조정
+        private void SwordInput() //칼 움직임 조정
         {
-            int tmpX = 0, tmpY = 0;
+            bool isMove = false;
             if (isPC)
             {
-                
+                int tmpX = 0, tmpY = 0;
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     tmpX = 1;
@@ -221,6 +220,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 curLeaderSwordVec.x = tmpX;
                 curLeaderSwordVec.y = tmpY;
 
+                if (tmpX != 0 || tmpY != 0) isMove = true;
+
             }
             else if (!isPC) 
             {
@@ -229,9 +230,18 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
                 curLeaderSwordVec.x = swordJoyVec.x;
                 curLeaderSwordVec.y = swordJoyVec.y;
+
+                if (swordJoyVec.x != 0 || swordJoyVec.y != 0) isMove = true;
             }
 
-            if (leaderSword.activeSelf && ((tmpX != 0 || tmpY != 0) || (swordJoyVec.x != 0 || swordJoyVec.y != 0))) //칼이 활성화돼있을 때, 방향 조작시
+            //검 이동
+            SwordMove(isMove);
+        }
+
+        void SwordMove(bool isMove) 
+        {
+            //칼이 활성화돼있을 때, 방향 조작시
+            if (leaderSword.activeSelf && (isMove)) 
             {
                 //리더 칼의 위치 조정 
                 leaderSwordRigid.velocity = curLeaderSwordVec.normalized * leaderSwordSpeed;
@@ -252,6 +262,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
             }
         }
+
 
         #region 이동
         private void Move()
