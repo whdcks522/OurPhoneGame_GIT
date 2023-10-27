@@ -50,6 +50,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public GameObject backSwords;
         public SpriteRenderer playerSwordArea;
         Color swordAreaColor;
+        public VariableJoystick moveJoy;
+        public Vector2 moveJoyVec;
+        public VariableJoystick swordJoy;
+        public Vector2 swordJoyVec;
+        public bool isPC;
+        
 
         private void Awake()
         {
@@ -112,34 +118,56 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (Input.GetKeyUp(KeyCode.Alpha2)) Character.SetState(AnimationState.Ready);
             else if (Input.GetKeyUp(KeyCode.L)) Character.Blink();
 
-            if (Controller.isGrounded)
+            if (isPC)
             {
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    GetDown();
-                }
-                else if (Input.GetKeyUp(KeyCode.X))
-                {
-                    GetUp();
-                }
-            }
-
-            if (Input.GetKey(KeyCode.Z))
-            {
-                _inputX = -1;
-            }
-            else if (Input.GetKey(KeyCode.C))
-            {
-                _inputX = 1;
-            }
-
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                _inputY = 1;
-
+                /*
                 if (Controller.isGrounded)
                 {
-                    JumpDust.Play(true);
+                    if (Input.GetKeyDown(KeyCode.X))
+                    {
+                        GetDown();
+                    }
+                    else if (Input.GetKeyUp(KeyCode.X))
+                    {
+                        GetUp();
+                    }
+                }
+                */
+
+                if (Input.GetKey(KeyCode.Z))
+                {
+                    _inputX = -1;
+                }
+                else if (Input.GetKey(KeyCode.C))
+                {
+                    _inputX = 1;
+                }
+
+                if (Input.GetKey(KeyCode.S))//Down
+                {
+                    _inputY = 1;
+
+                    if (Controller.isGrounded)
+                    {
+                        JumpDust.Play(true);
+                    }
+                }
+            }
+            else if (!isPC)//조이스틱
+            {
+                moveJoyVec.x = moveJoy.Horizontal;
+                moveJoyVec.y = moveJoy.Vertical;
+                _inputX = (int)moveJoyVec.x;
+
+                
+                if (moveJoyVec.y >= 0.7f)
+                {
+                    _inputY = 1;
+
+                    if (Controller.isGrounded)
+                    {
+                        JumpDust.Play(true);
+                    }
                 }
             }
         }
@@ -161,36 +189,58 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void SwordDirCheck() //검 사거리 표시
         {
             //칼 부모의 위치 자동 조정
-            swordParent.transform.position = swordParentVec;
+            swordParent.transform.position = swordParentVec;//0,0,0 고정시킴
 
             swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
             playerSwordArea.color = swordAreaColor;
         }
 
-        public void OnMove(InputValue value) //인풋 시스템용이므로 이름 바꾸면 안됨, 정해진 함수임
+        private void SwordMove() //칼 움직임 조정
         {
-            tmpLeaderSwordVec = value.Get<Vector2>();
-            if (tmpLeaderSwordVec.magnitude != 0) //만지고 있는 경우
+            int tmpX = 0, tmpY = 0;
+            if (isPC)
             {
-                curLeaderSwordVec = tmpLeaderSwordVec;
-            }
-        }
-
-        private void SwordMove() //칼이 움직임
-        {
-            if (leaderSword.activeSelf) //칼이 활성화돼있을 때
-            {
+                
+                if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    //리더 칼의 위치 조정 
-
-                    leaderSwordRigid.velocity = curLeaderSwordVec * leaderSwordSpeed;
-
-                    //회전 조작
-                    leaderSword.transform.rotation = Quaternion.identity;
-                    float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
-                    Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
-                    leaderSword.transform.Rotate(rotVec);
+                    tmpX = 1;
                 }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    tmpX = -1;
+                }
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    tmpY = 1;
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    tmpY = -1;
+                }
+
+                curLeaderSwordVec.x = tmpX;
+                curLeaderSwordVec.y = tmpY;
+
+            }
+            else if (!isPC) 
+            {
+                swordJoyVec.x = swordJoy.Horizontal;
+                swordJoyVec.y = swordJoy.Vertical;
+
+                curLeaderSwordVec.x = swordJoyVec.x;
+                curLeaderSwordVec.y = swordJoyVec.y;
+            }
+
+            if (leaderSword.activeSelf && ((tmpX != 0 || tmpY != 0) || (swordJoyVec.x != 0 || swordJoyVec.y != 0))) //칼이 활성화돼있을 때, 방향 조작시
+            {
+                //리더 칼의 위치 조정 
+                leaderSwordRigid.velocity = curLeaderSwordVec.normalized * leaderSwordSpeed;
+
+                //회전 조작
+                leaderSword.transform.rotation = Quaternion.identity;
+                float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
+                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
+                leaderSword.transform.Rotate(rotVec);
             }
             else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
             {
@@ -201,7 +251,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     backSwords.SetActive(false);
                 }
             }
-            
         }
 
         #region 이동

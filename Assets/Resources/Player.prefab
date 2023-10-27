@@ -630,7 +630,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3406372403307282763}
   - component: {fileID: 242972775464218046}
-  - component: {fileID: 3606246990706729179}
   m_Layer: 10
   m_Name: LeftSword
   m_TagString: Untagged
@@ -695,7 +694,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300018, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.62352943}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -705,27 +704,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3606246990706729179
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1780772128530515680}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4f4e509a52d125c43b4ceb4f5deee665, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2024326811582132873
 GameObject:
   m_ObjectHideFlags: 0
@@ -5812,7 +5790,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2880487525324507066}
   - component: {fileID: 3763593336441500524}
-  - component: {fileID: 1363562471234476455}
   m_Layer: 10
   m_Name: RightSword
   m_TagString: Untagged
@@ -5877,7 +5854,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300018, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.62352943}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5887,27 +5864,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1363562471234476455
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3770030837094225324}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4f4e509a52d125c43b4ceb4f5deee665, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3847358460461224433
 GameObject:
   m_ObjectHideFlags: 0
@@ -15801,7 +15757,6 @@ GameObject:
   - component: {fileID: 6353737503168759803}
   - component: {fileID: 1454313627835892949}
   - component: {fileID: 5498480976259529555}
-  - component: {fileID: 3405993714435365013}
   - component: {fileID: 161898016194952143}
   - component: {fileID: 9030418141534726078}
   - component: {fileID: 7878410586495827228}
@@ -15832,7 +15787,7 @@ Transform:
   - {fileID: 1656695695387416903}
   - {fileID: 5131936622220100939}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1196669799950250002
 MonoBehaviour:
@@ -15930,9 +15885,14 @@ MonoBehaviour:
   swordParent: {fileID: 6381797422193437685}
   leaderSword: {fileID: 6046476537605058143}
   curLeaderSwordVec: {x: 0, y: 0}
-  leaderSwordSpeed: 20
+  leaderSwordSpeed: 10
   backSwords: {fileID: 1703996433826785003}
   playerSwordArea: {fileID: 5066992103306789604}
+  moveJoy: {fileID: 0}
+  moveJoyVec: {x: 0, y: 0}
+  swordJoy: {fileID: 0}
+  swordJoyVec: {x: 0, y: 0}
+  isPC: 0
 --- !u!95 &5498480976259529555
 Animator:
   serializedVersion: 5
@@ -15954,36 +15914,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3405993714435365013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5974046474224742084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: cf0bc4e6c11e5174f993a0fbbf6f6370, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &161898016194952143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16683,7 +16613,6 @@ GameObject:
   - component: {fileID: 3803480900134858816}
   - component: {fileID: 8972832682827225320}
   - component: {fileID: 88486714482112805}
-  - component: {fileID: 7161905708530257431}
   m_Layer: 10
   m_Name: LeaderSword
   m_TagString: Untagged
@@ -16748,7 +16677,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300018, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.62352943}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -16785,24 +16714,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!95 &7161905708530257431
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9219750979348119479}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4f4e509a52d125c43b4ceb4f5deee665, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
