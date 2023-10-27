@@ -577,6 +577,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7009410182508243788, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7193676651972755567, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7406846429251221552, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7695701698500972198, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8972832682827225320, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_Color.a
       value: 0.62352943
