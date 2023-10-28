@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class StarFallManager : MonoBehaviour
 {
-    public GameObject player;
+    GameManager gameManager;
+    GameObject player;
     public GameObject star;
     public Transform[] starFallPoints;
-    int maxIndex;
+    int maxAttackIndex;
     
 
     float maxTime = 0.5f;
@@ -18,38 +19,55 @@ public class StarFallManager : MonoBehaviour
 
     private void Awake()
     {
-        maxIndex = starFallPoints.Length;
+        gameManager = GameManager.Instance;
+        player = gameManager.player;
+        maxAttackIndex = starFallPoints.Length;
+
     }
 
     private void Update()
     {
         curTime += Time.deltaTime;
+
+
         if (curTime > maxTime)
         {
+            //시간 초기화
             curTime = 0f;
-
-            GameObject bullet = Instantiate(star);
-            int ranPos = Random.Range(0, maxIndex);
-
-            if (ranPos == recentPos) //같은 곳 연속으로 안되도록 설정
-                ranPos = (ranPos + 1) / maxIndex;
-            
-            recentPos = ranPos;
-
-            bullet.transform.position = starFallPoints[ranPos].position;
+            //게임 오브젝트 생성
+            //GameObject bullet = Instantiate(star);
+            GameObject bullet = gameManager.CreateObj("oldStarBullet", GameManager.PoolTypes.BulletType);
+            //컴포넌트 정의
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
+
+            //사출 위치 정하기
+            int ranPos = Random.Range(0, maxAttackIndex);
+
+            //같은 곳 연속으로 안되도록 설정
+            if (ranPos == recentPos) 
+                ranPos = (ranPos + 1) / maxAttackIndex;
+            recentPos = ranPos;
+
+            //위치 조정
+            bullet.transform.position = starFallPoints[ranPos].position;
+            bullet.transform.parent = this.transform;
+            bulletComponent.bulletOnRPC();
+
+            //속도 조정
             Vector2 bulletVec = (player.transform.position - bullet.transform.position).normalized;
 
+            //약간의 궤도 변화
             bulletVec += 0.1f * Random.insideUnitCircle;//반지름이 1인 원 안에서 랜덤 벡터2 좌표 찍어줌
             bulletVec = bulletVec.normalized;
 
+            //최종 속도 조정
             bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
 
+            //회전 조정
             float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
             Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-            bullet.transform.Rotate(rotVec);
-            
+            bullet.transform.Rotate(rotVec); 
         }
     }
 }

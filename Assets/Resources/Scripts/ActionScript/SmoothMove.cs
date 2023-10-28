@@ -3,14 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeaderSword : MonoBehaviourPunCallbacks, IPunObservable
+public class SmoothMove : MonoBehaviourPunCallbacks, IPunObservable
 {
     //속도 공유를 위함
     Vector3 rpcPos;
+    bool isRoom;
+    void Awake() 
+    {
+        isRoom = PhotonNetwork.InRoom;
+    }
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!photonView.IsMine && isRoom)
         {
             if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동 
             {

@@ -82,9 +82,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
 
-
-        
-
         private void Awake()
         {
             leaderSword = swordParent.transform.GetChild(0).gameObject;
@@ -108,33 +105,41 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             maxHealth = curHealth;
 
             //미니 ui 설정
-            miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
-            miniName.color = photonView.IsMine ? greenColor : redColor;
+            if (PhotonNetwork.InRoom) 
+            {
+                miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
+                miniName.color = photonView.IsMine ? greenColor : redColor;
+            } 
         }
-
-        
-
 
         void Update()
         {
-            if (photonView.IsMine)//타인의 것이면 안건듬
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)//타인의 것이면 안건듬
+                {
+                    //키 입력
+                    KeyInput();
+                }
+                else if (!isTeleporting)
+                {
+                    if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
+                    {
+                        Debug.Log("PlayerQuickMove");
+                        TeleportToDestination(rpcPos);
+                    }
+                    else
+                    {
+                        Debug.Log("PlayerSlowMove");
+                        tmpRpcPos = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
+                        TeleportToDestination(tmpRpcPos);
+                    }
+                }
+            }
+            else 
             {
                 //키 입력
                 KeyInput();
-            }
-            else if (!isTeleporting) 
-            {
-                if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
-                {
-                    Debug.Log("PlayerQuickMove");
-                    TeleportToDestination(rpcPos);
-                }
-                else
-                {
-                    Debug.Log("PlayerSlowMove");
-                    tmpRpcPos = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
-                    TeleportToDestination(tmpRpcPos);
-                }
             }
         }
 
@@ -241,7 +246,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        #region 벡터 동기화
+        #region xy 동기화
         [PunRPC]
         void xyRPC(int x, int y)
         {
@@ -259,14 +264,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             //이동
             Move();
-
-            if (photonView.IsMine)//타인의 것이면 안건듬
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)//타인의 것이면 안건듬
+                {
+                    //칼 부모 위치 초기호와 검 사거리 표시
+                    SwordDirCheck();
+                    //PC, 조이스틱에 따른 칼의 움직임 조정
+                    SwordInput();
+                }
+            }
+            else 
             {
                 //칼 부모 위치 초기호와 검 사거리 표시
                 SwordDirCheck();
                 //PC, 조이스틱에 따른 칼의 움직임 조정
                 SwordInput();
-            }
+            }     
         }
 
         
@@ -392,6 +406,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             backSwords.SetActive(false);
         }
         #endregion
+
+        public void Revive() 
+        {
+            
+        }
+
+        
 
 
         #region 이동

@@ -45,9 +45,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
     //현재 칼이 몇번째인지
     int curSwordIndex;
 
-    
-
-
 
     #region 적 정보 클래스 공백
     /*
@@ -92,8 +89,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
             childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
     }
 
-    
-
     void FixedUpdate()
     {
         if (maxSwordIndex == curSwordIndex)//맨 끝 칼은 수행 안함
@@ -131,25 +126,33 @@ public class FollowSword : MonoBehaviourPunCallbacks
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 0 && photonView.IsMine)//리더 검이 충돌 했다면
+        if (PhotonNetwork.InRoom)//멀티 중이라면
         {
-            PhotonView tmpPhotonView = other.gameObject.GetComponent<PhotonView>();
-            if (tmpPhotonView.IsMine) //자신의 영역에서 벗어 났을 때만
+            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 0 && photonView.IsMine)//리더 검이 충돌 했다면
+            {
+                PhotonView tmpPhotonView = other.gameObject.GetComponent<PhotonView>();
+                if (tmpPhotonView.IsMine) //자신의 영역에서 벗어 났을 때만
+                {
+                    //플레이어와 리더 칼의 거리 연산 초기화
+                    swordDir = 0;
+                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered);
+                }
+            }
+        }
+        else //1인이라면
+        {
+            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 0)//리더 검이 충돌 했다면
             {
                 //플레이어와 리더 칼의 거리 연산 초기화
                 swordDir = 0;
-
-                if (PhotonNetwork.InRoom)
-                    photonView.RPC("leaderSwordExit", RpcTarget.AllBuffered);
-                else
-                    leaderSwordExit();
+                leaderSwordExitRPC();
             }
         }
     }
 
     #region 칼이 범위 밖으로 이탈 시
     [PunRPC]
-    void leaderSwordExit()
+    void leaderSwordExitRPC()
     {
         //등의 칼 활성화
         characterControls.backSwords.SetActive(true);

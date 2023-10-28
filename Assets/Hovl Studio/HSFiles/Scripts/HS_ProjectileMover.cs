@@ -18,20 +18,21 @@ public class HS_ProjectileMover : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (flash != null)
         {
-            //Instantiate flash effect on projectile position
+            //사출 이펙트 생성
             var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
+            //사출 이펙트 방향 설정
             flashInstance.transform.forward = gameObject.transform.forward;
             
-            //Destroy flash effect depending on particle Duration time
+            //사출 이펙트 삭제
             var flashPs = flashInstance.GetComponent<ParticleSystem>();
             if (flashPs != null)
             {
-                Destroy(flashInstance, flashPs.main.duration);
+                Destroy(flashInstance, flashPs.main.duration);//게임 오브젝트도 삭제
             }
             else
             {
                 var flashPsParts = flashInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
-                Destroy(flashInstance, flashPsParts.main.duration);
+                Destroy(flashInstance, flashPsParts.main.duration);//게임 오브젝트도 삭제
             }
         }
         Destroy(gameObject,5);
@@ -78,7 +79,7 @@ public class HS_ProjectileMover : MonoBehaviour
             }
         }
 
-        //Removing trail from the projectile on cillision enter or smooth removing. Detached elements must have "AutoDestroying script"
+        //투사체의 투사체의 경로를 삭제.떨어진 요소는 자동 삭제되야함
         foreach (var detachedPrefab in Detached)
         {
             if (detachedPrefab != null)
