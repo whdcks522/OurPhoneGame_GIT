@@ -1,5 +1,6 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun;
+using Photon.Pun.Demo.Asteroids;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -175,4 +176,31 @@ public class FollowSword : MonoBehaviourPunCallbacks
         }
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("EnemyBullet"))
+        {
+            Bullet bullet = other.GetComponent<Bullet>();
+
+            if (bullet.bulletEffectType == Bullet.BulletEffectType.UnBreakable)
+                return;
+
+            if (PhotonNetwork.InRoom && photonView.IsMine)
+            {
+                bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+            }
+            else
+            {
+                bullet.bulletOffRPC();
+            }
+        }
+
+        
+    }
+
+    #region 칼이 범위 밖으로 이탈 시
+    
+    #endregion
+
 }

@@ -11,15 +11,16 @@ GameObject:
   - component: {fileID: 4707217421815254}
   - component: {fileID: 198055572740009458}
   - component: {fileID: 199445176621216000}
-  - component: {fileID: 114853975484049460}
   - component: {fileID: 54456135123927638}
   - component: {fileID: 135808208697255858}
   - component: {fileID: 108281567877914018}
   - component: {fileID: -4470670021516414800}
   - component: {fileID: 1902826177501620436}
-  m_Layer: 0
+  - component: {fileID: 2146903461172564057}
+  - component: {fileID: 5588912798113861312}
+  m_Layer: 9
   m_Name: YellowStarBullet
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 1096327089596252}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -4914,26 +4915,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &114853975484049460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1096327089596252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605a456cfc02f6b499a64717539a27e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  hitOffset: 0.1
-  UseFirePointRotation: 0
-  rotationOffset: {x: 0, y: 0, z: 0}
-  hit: {fileID: 1553327564893038, guid: 8b585bd4793e2404c9ce7e3770159d4b, type: 3}
-  flash: {fileID: 1546629397207042, guid: 0c493020e111d7e4fac7535fde124408, type: 3}
-  Detached:
-  - {fileID: 0}
 --- !u!54 &54456135123927638
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4976,11 +4957,11 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!108 &108281567877914018
 Light:
@@ -5079,5 +5060,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fae2cf0be63c04793401b09579c0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 0
-  bulletSpeed: 0
+  maxTime: 12
+  bulletSpeed: 10
+  bulletEffectType: 0
+  isFlash: 0
+  flashStr: YellowStarFlash
+  isHit: 1
+  hitStr: YellowStarHit
+--- !u!114 &2146903461172564057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096327089596252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 5588912798113861312}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &5588912798113861312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096327089596252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

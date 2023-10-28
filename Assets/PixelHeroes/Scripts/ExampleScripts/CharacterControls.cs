@@ -300,7 +300,18 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             if (other.transform.CompareTag("EnemyBullet"))
             {
-                //Debug.Log("PlayerHit!");
+                Bullet bullet = other.GetComponent<Bullet>();
+                if (bullet.bulletEffectType == Bullet.BulletEffectType.UnBreakable)
+                    return;
+
+                if (PhotonNetwork.InRoom && photonView.IsMine)
+                {
+                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                }
+                else
+                {
+                    bullet.bulletOffRPC();
+                }
             }
         }
 

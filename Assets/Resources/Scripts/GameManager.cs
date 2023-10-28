@@ -20,10 +20,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     //오브젝트 풀링
     //임시로 게임오브젝트 저장할 곳
-    
-    
+
+
     //총알 리스트
-    string[] bulletNames = { "oldStarBullet"};
+    string[] bulletNames = { "YellowStarBullet", "YellowStarFlash", "YellowStarHit"};
+
     List<GameObject>[] bulletPools;//실제로 주소가 저장될 곳
     
 
@@ -73,7 +74,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     
     public GameObject CreateObj(string name, PoolTypes poolTypes) //있으면 적 부르고, 없으면 생성
     {
+        //반드시 매번 초기화
         GameObject tmpGameObject = null;
+
         List<GameObject>[] tmpPools = null;
         string[] tmpNames = null;
 
@@ -112,13 +115,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 tmpGameObject = Instantiate(Resources.Load<GameObject>(tmpNames[index]), Vector3.zero, Quaternion.identity);
             }
+            //더하기
             tmpPools[index].Add(tmpGameObject);
             
             switch (poolTypes)
             {
                 case PoolTypes.BulletType:
                     bulletPools = tmpPools;
-                    //Debug.Log("총알 타입 선택됨 2");
                     break;
             }
         }   

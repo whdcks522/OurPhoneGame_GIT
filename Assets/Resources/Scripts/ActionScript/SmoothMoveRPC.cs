@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmoothMove : MonoBehaviourPunCallbacks, IPunObservable
+public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 {
     //속도 공유를 위함
     Vector3 rpcPos;

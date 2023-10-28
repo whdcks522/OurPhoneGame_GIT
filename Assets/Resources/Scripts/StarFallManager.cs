@@ -34,24 +34,27 @@ public class StarFallManager : MonoBehaviour
         {
             //시간 초기화
             curTime = 0f;
-            //게임 오브젝트 생성
-            //GameObject bullet = Instantiate(star);
-            GameObject bullet = gameManager.CreateObj("oldStarBullet", GameManager.PoolTypes.BulletType);
-            //컴포넌트 정의
-            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-            Bullet bulletComponent = bullet.GetComponent<Bullet>();
+
 
             //사출 위치 정하기
             int ranPos = Random.Range(0, maxAttackIndex);
-
             //같은 곳 연속으로 안되도록 설정
             if (ranPos == recentPos) 
                 ranPos = (ranPos + 1) / maxAttackIndex;
             recentPos = ranPos;
 
+
+            //운석 오브젝트 생성
+            GameObject bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
+            //컴포넌트 정의
+            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+            Bullet bulletComponent = bullet.GetComponent<Bullet>();
+
             //위치 조정
             bullet.transform.position = starFallPoints[ranPos].position;
             bullet.transform.parent = this.transform;
+
+            //운석 활성화
             bulletComponent.bulletOnRPC();
 
             //속도 조정
