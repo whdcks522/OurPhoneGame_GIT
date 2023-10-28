@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,9 +11,16 @@ public class GameManager : MonoBehaviour
     public VariableJoystick moveJoy;
     //ÇÃ·¹ÀÌ¾î Ä®
     public VariableJoystick swordJoy;
+    public GameObject player;
+    public CinemachineVirtualCamera cinemachineVirtualCamera;
     //moveJoy = joySticks.transform.GetChild(0).GetComponent<VariableJoystick>();
     //swordJoy = joySticks.transform.GetChild(1).GetComponent<VariableJoystick>();
-    
+
+    private void Awake()
+    {
+        cinemachineVirtualCamera.Follow = player.transform;
+        cinemachineVirtualCamera.LookAt = player.transform;
+    }
 
     #region ½Ì±ÛÅÏ
     private static GameManager instance;
