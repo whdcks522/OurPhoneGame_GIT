@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Cinemachine;
 using Photon.Pun;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -45,9 +46,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
         //플레이어 생성
-        if (PhotonNetwork.InRoom)//네트워크 중에 있다면
-            player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        else//싱글 플레이라면
+        //if ((PhotonNetwork.InRoom) && SceneManager.GetActiveScene().name == "Training")//네트워크 중에 있다면
+        //    player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        //else//싱글 플레이라면
         {
             player = Instantiate(Resources.Load<GameObject>("Player"), Vector3.zero, Quaternion.identity);
         }

@@ -8,13 +8,13 @@ public class StarFallManager : MonoBehaviour
 {
     GameManager gameManager;
     GameObject player;
-    public GameObject star;
+    [Header("운석 발생 지점")]
     public Transform[] starFallPoints;
     int maxAttackIndex;
-    
 
-    float maxTime = 0.5f;
-    float curTime = 0f;
+    [Header("충족되면 발사")]
+    public float maxTime;
+    public float curTime;
     int recentPos;
 
     private void Awake()
@@ -53,6 +53,8 @@ public class StarFallManager : MonoBehaviour
             //위치 조정
             bullet.transform.position = starFallPoints[ranPos].position;
             bullet.transform.parent = this.transform;
+            //Debug.Log("목표: "+ starFallPoints[ranPos].position);
+            //Debug.Log("현실: " + bullet.transform.position);
 
             //운석 활성화
             bulletComponent.bulletOnRPC();
@@ -68,6 +70,7 @@ public class StarFallManager : MonoBehaviour
             bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
 
             //회전 조정
+            bullet.transform.rotation = Quaternion.identity;
             float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
             Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
             bullet.transform.Rotate(rotVec); 

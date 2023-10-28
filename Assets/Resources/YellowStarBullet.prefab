@@ -21,7 +21,7 @@ GameObject:
   m_Layer: 9
   m_Name: YellowStarBullet
   m_TagString: EnemyBullet
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -55,7 +55,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -5060,7 +5060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fae2cf0be63c04793401b09579c0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 12
+  maxTime: 10
   bulletSpeed: 10
   bulletEffectType: 0
   isFlash: 0

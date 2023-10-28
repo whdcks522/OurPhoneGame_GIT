@@ -8,6 +8,7 @@ TagManager:
   - EnemyBullet
   - Enemy
   - playerSword
+  - Outline
   layers:
   - Default
   - TransparentFX
@@ -18,10 +19,10 @@ TagManager:
   - Player
   - PlayerAttack
   - Enemy
-  - EnemyAttack
+  - EnemyBullet
   - PlayerSword
   - PlayerSwordArea
-  - 
+  - Outline
   - 
   - 
   - 
