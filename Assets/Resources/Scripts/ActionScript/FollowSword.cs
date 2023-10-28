@@ -45,6 +45,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
     int maxSwordIndex;
     //현재 칼이 몇번째인지
     int curSwordIndex;
+    //배틀 매니저
+    BattleUIManager battleUIManager;
 
 
     #region 적 정보 클래스 공백
@@ -69,6 +71,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        battleUIManager = BattleUIManager.Instance;
+
         maxSwordIndex = transform.parent.childCount - 1;
         curSwordIndex = transform.GetSiblingIndex();//현재 자신이 몇 번째인지
 
@@ -194,9 +198,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
             {
                 bullet.bulletOffRPC();
             }
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
         }
-
-        
     }
 
     #region 칼이 범위 밖으로 이탈 시

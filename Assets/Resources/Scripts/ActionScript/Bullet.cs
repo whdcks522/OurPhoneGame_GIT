@@ -42,33 +42,6 @@ public class Bullet : MonoBehaviourPunCallbacks
         particleSystem = GetComponent<ParticleSystem>();
     }
 
-    void Start()
-    {
-        /*
-        if (flash != null)
-        {
-            //사출 이펙트 생성
-            var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
-            //사출 이펙트 방향 설정
-            flashInstance.transform.forward = gameObject.transform.forward;
-
-
-            //사출 이펙트 삭제
-            var flashPs = flashInstance.GetComponent<ParticleSystem>();
-            if (flashPs != null)
-            {
-                Destroy(flashInstance, flashPs.main.duration);//게임 오브젝트도 삭제
-            }
-            else
-            {
-                var flashPsParts = flashInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
-                Destroy(flashInstance, flashPsParts.main.duration);//게임 오브젝트도 삭제
-            }
-        }
-        */
-        //Destroy(gameObject, 5);
-    }
-
     private void Update()
     {
         curTime += Time.deltaTime;
@@ -84,37 +57,6 @@ public class Bullet : MonoBehaviourPunCallbacks
             }
         }
     }
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform.CompareTag("playerSword"))//칼과 충돌
-        {
-            if (PhotonNetwork.InRoom && photonView.IsMine)
-            {
-                photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
-            }
-            else
-            {
-                bulletOffRPC();
-            }
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("player")) //플레이어와 충돌
-        {
-            if (PhotonNetwork.InRoom && photonView.IsMine)
-            {
-                photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
-            }
-            else
-            {
-                bulletOffRPC();
-            }
-        }
-    }
-    */
 
     [PunRPC]
     public void bulletOnRPC()

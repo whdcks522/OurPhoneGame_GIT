@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AuthManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    #region ╫л╠шео
+    private static AuthManager instance;
+    public static AuthManager Instance
     {
-        
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<AuthManager>();
+            return instance;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
 }

@@ -9,11 +9,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    [Header("조이스틱의 정보를 받아들임")]
+    //[Header("조이스틱의 정보를 받아들임")]
     //플레이어 이동
-    public VariableJoystick moveJoy;
+    //public VariableJoystick moveJoy;
     //플레이어 칼
-    public VariableJoystick swordJoy;
+    //public VariableJoystick swordJoy;
     [Header("인스턴스에서 공유하기 위한 플레이어 정보")]
     public GameObject player;
     //카메라
@@ -39,6 +39,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        //가져오기
+        BattleUIManager.Instance.battleUI.SetActive(true);
+        //moveJoy = BattleUIManager.Instance.moveJoy; 
+        //swordJoy = BattleUIManager.Instance.swordJoy;
+
+
         //총알 풀 초기화
         bulletPools = new List<GameObject>[bulletNames.Length];
         for (int index = 0; index < bulletNames.Length; index++)//풀 하나하나 초기화
@@ -60,7 +66,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     #region 싱글턴
-    private static GameManager instance;
+    private static GameManager instance;//따로 작성 없음
     public static GameManager Instance
     {
         get
@@ -116,9 +122,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 tmpGameObject = Instantiate(Resources.Load<GameObject>(tmpNames[index]), Vector3.zero, Quaternion.identity);
             }
-            //더하기
+            //임시 리스트에 더하기
             tmpPools[index].Add(tmpGameObject);
             
+            //동기화
             switch (poolTypes)
             {
                 case PoolTypes.BulletType:

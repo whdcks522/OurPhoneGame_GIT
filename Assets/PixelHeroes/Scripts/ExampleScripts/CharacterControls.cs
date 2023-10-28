@@ -88,8 +88,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             leaderSwordRigid = leaderSword.GetComponent<Rigidbody>();
             leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
 
-            moveJoy = GameManager.Instance.moveJoy;
-            swordJoy = GameManager.Instance.swordJoy;
+            moveJoy = BattleUIManager.Instance.moveJoy;
+            swordJoy = BattleUIManager.Instance.swordJoy;
         }
 
         void Start()

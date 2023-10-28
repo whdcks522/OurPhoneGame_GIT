@@ -17,14 +17,14 @@ GameObject:
   - component: {fileID: -4470670021516414800}
   - component: {fileID: 1902826177501620436}
   - component: {fileID: 2146903461172564057}
-  - component: {fileID: 5588912798113861312}
+  - component: {fileID: 2270408160962360119}
   m_Layer: 9
   m_Name: YellowStarBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4707217421815254
 Transform:
   m_ObjectHideFlags: 0
@@ -5086,11 +5086,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5588912798113861312}
+  - {fileID: 2270408160962360119}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5588912798113861312
+--- !u!114 &2270408160962360119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

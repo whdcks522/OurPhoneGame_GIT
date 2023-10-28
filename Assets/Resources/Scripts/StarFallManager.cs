@@ -51,10 +51,8 @@ public class StarFallManager : MonoBehaviour
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
 
             //위치 조정
-            bullet.transform.position = starFallPoints[ranPos].position;
             bullet.transform.parent = this.transform;
-            //Debug.Log("목표: "+ starFallPoints[ranPos].position);
-            //Debug.Log("현실: " + bullet.transform.position);
+            bullet.transform.position = starFallPoints[ranPos].position;
 
             //운석 활성화
             bulletComponent.bulletOnRPC();
