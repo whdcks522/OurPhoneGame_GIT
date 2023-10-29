@@ -16,6 +16,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] damageSfxClips;
     [Header("회복 Sfx")]
     public AudioClip[] healSfxClips;
+    [Header("문 Sfx")]
+    public AudioClip[] doorSfxClips;
+
 
     [Header("만들 Sfx 채널의 개수")]
     public int channels;//
@@ -24,7 +27,7 @@ public class AudioManager : MonoBehaviour
     AudioSource[] sfxPlayers;
 
     public enum Bgm { Auth, Lobby, Entrance, Chapter1, Chapter1_BossA, Chapter2, Chapter2_BossB }//random으로 활용 가능함
-    public enum Sfx {PowerUp, BigPowerUp, Damage, Heal }
+    public enum Sfx {PowerUp, RankUp, Damage, Heal, Door}
 
     private void Awake()
     {
@@ -91,21 +94,32 @@ public class AudioManager : MonoBehaviour
             int loopIndex = (index + curIndex) % sfxPlayers.Length;//최근에 사용한 인덱스에서 0부터 증가해가며 가능한 것 탐색
             if (sfxPlayers[loopIndex].isPlaying) continue;//실행중이라면 continue
 
-          
-
             AudioClip[] tmpSfxClips = null;
             switch (sfx)
             {
                 case Sfx.PowerUp:
                     tmpSfxClips = powerUpSfxClips;
                     break;
-                case Sfx.BigPowerUp:
+                case Sfx.RankUp:
                     tmpSfxClips = rankUpSfxClips;
+                    break;
+                case Sfx.Damage:
+                    tmpSfxClips = damageSfxClips;
+                    break;
+                case Sfx.Heal:
+                    tmpSfxClips = healSfxClips;
+                    break;
+                case Sfx.Door:
+                    tmpSfxClips = doorSfxClips;
                     break;
             }
 
+            int sfxIndex = Random.Range(0, tmpSfxClips.Length);
+
+            //Debug.Log(sfxIndex);
+
             curIndex = loopIndex;
-            sfxPlayers[loopIndex].clip = tmpSfxClips[(int)sfx];
+            sfxPlayers[loopIndex].clip = tmpSfxClips[sfxIndex];//(int)sfx
             sfxPlayers[loopIndex].Play();
             break;
         }

@@ -17,7 +17,10 @@ public class Bullet : MonoBehaviourPunCallbacks
     public float bulletSpeed;
 
     [Header("총알의 피해량")]
-    public Transform bulletDamage;
+    public int bulletDamage;
+
+    [Header("파괴 시, 총알의 회복량")]
+    public int bulletHeal;
 
     [Header("총알의 목표")]
     public Transform bulletTarget;

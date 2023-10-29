@@ -29,6 +29,7 @@ public class SingleSelectManager : MonoBehaviour
     {
         string targetScene = "";
         battleUIManager.battleType = BattleUIManager.BattleType.Single;
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
         switch (level)
         {
@@ -74,7 +75,7 @@ public class SingleSelectManager : MonoBehaviour
         //yield return new WaitForSeconds(0.2f);
 
         //SceneManager.LoadScene(_targetScene);
-        StartCoroutine(LoadSceneAsyncCoroutine(_targetScene));
+        StartCoroutine(LoadSceneAsyncCoroutine2(_targetScene));
     }
 
     private IEnumerator LoadSceneAsyncCoroutine(string sceneName)//비동기적으로 scene 로드(렉 걸릴때 사용)
@@ -96,5 +97,27 @@ public class SingleSelectManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private IEnumerator LoadSceneAsyncCoroutine2(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false; // 로딩이 끝나도 바로 활성화하지 않음
+        loadText.gameObject.SetActive(true);
+
+        // 로딩이 끝날 때까지 대기
+        while (asyncLoad.progress < 0.9f) // 0.9는 로딩이 끝났을 때의 값
+        {
+            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+
+            loadText.text = "로딩 중: " + (progress * 100) + "%";
+
+            yield return null;
+        }
+
+        // 로딩이 완료되면 활성화
+        asyncLoad.allowSceneActivation = true;
+
+        // 100%까지 도달한 후에 추가 작업을 수행할 수 있음
     }
 }

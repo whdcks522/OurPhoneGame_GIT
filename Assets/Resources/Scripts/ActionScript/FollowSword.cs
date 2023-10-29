@@ -198,7 +198,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
             {
                 bullet.bulletOffRPC();
             }
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
         }
     }
 

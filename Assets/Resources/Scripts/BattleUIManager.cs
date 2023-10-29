@@ -54,7 +54,7 @@ public class BattleUIManager : MonoBehaviour
 
     public void loadSingleSel()
     {
-        audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
+        audioManager.PlaySfx(AudioManager.Sfx.Door);
         SceneManager.LoadScene("SingleSelect");
     }
 

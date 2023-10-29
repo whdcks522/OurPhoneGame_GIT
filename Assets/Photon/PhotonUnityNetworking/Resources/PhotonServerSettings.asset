@@ -50,6 +50,8 @@ MonoBehaviour:
   - bulletOnRPC
   - effectOffRPC
   - effectOnRPC
+  - healthControl
+  - healthControlRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -5062,6 +5062,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTime: 10
   bulletSpeed: 10
+  bulletDamage: 10
+  bulletHeal: 5
+  bulletTarget: {fileID: 0}
   bulletEffectType: 0
   isFlash: 0
   flashStr: YellowStarFlash

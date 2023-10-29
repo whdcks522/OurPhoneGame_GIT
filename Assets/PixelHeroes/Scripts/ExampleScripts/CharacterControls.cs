@@ -28,9 +28,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public int _inputX, _inputY;
         private float _activityTime;
         
-        private int maxHealth;
+        
         [Header("----새로 추가----")]
-        public int curHealth;
+        public float curHealth;
+        private float maxHealth;
 
         [Header("캐릭터 위의 미니 UI")]
         public GameObject miniUI;
@@ -570,11 +571,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (PhotonNetwork.InRoom)
             {
                 if(photonView.IsMine)
-                    battleUIManager.bigHealthBar.value = (float)(curHealth / maxHealth);
+                    battleUIManager.bigHealthBar.value = curHealth / maxHealth;
             }
             else if (!PhotonNetwork.InRoom)
             {
-                battleUIManager.bigHealthBar.value = (float)(curHealth / maxHealth);
+                battleUIManager.bigHealthBar.value = curHealth / maxHealth;
             }
         }
 
@@ -583,35 +584,38 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (other.transform.CompareTag("EnemyBullet"))
             {
                 Bullet bullet = other.GetComponent<Bullet>();
-
+                int dmg = bullet.bulletDamage;
                 if (PhotonNetwork.InRoom)
                 {
                     if (photonView.IsMine)
                     {
-                        //피해 계산
-
+                        //피격 처리
+                        bullet.photonView.RPC("healthControlRPC", RpcTarget.AllBuffered, dmg);
                         //투사체 파괴
                         bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
+                    //피격 처리
+                    healthControlRPC(dmg);
+                    //투사체 파괴
                     bullet.bulletOffRPC();
                 }
             }
         }
 
-        #region 칼 활성 동기화
+        #region 피격 처리
         [PunRPC]
-        void healthControl(int dmg)
+        void healthControlRPC(int _dmg)
         {
             //피해량 계산
-            curHealth -= dmg;
+            curHealth -= _dmg;
 
             //사운드
-            if (dmg > 0) 
+            if (_dmg > 0) 
             {
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.BigPowerUp);
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
             }
         }
         #endregion
