@@ -8,15 +8,23 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] bgmClips;
     AudioSource bgmPlayer;
 
-    [Header("Sfx")]
+    [Header("파워 업 Sfx")]
     public AudioClip[] powerUpSfxClips;
-    public AudioClip[] bigPowerUpSfxClips;
-    public int channels;//만들 채널의 개수
+    [Header("랭크 업 Sfx")]
+    public AudioClip[] rankUpSfxClips;
+    [Header("피해 Sfx")]
+    public AudioClip[] damageSfxClips;
+    [Header("회복 Sfx")]
+    public AudioClip[] healSfxClips;
+
+    [Header("만들 Sfx 채널의 개수")]
+    public int channels;//
+
     int curIndex;//현재 실행 중 인 플레이어 번호
     AudioSource[] sfxPlayers;
 
     public enum Bgm { Auth, Lobby, Entrance, Chapter1, Chapter1_BossA, Chapter2, Chapter2_BossB }//random으로 활용 가능함
-    public enum Sfx {PowerUp, BigPowerUp }
+    public enum Sfx {PowerUp, BigPowerUp, Damage, Heal }
 
     private void Awake()
     {
@@ -92,7 +100,7 @@ public class AudioManager : MonoBehaviour
                     tmpSfxClips = powerUpSfxClips;
                     break;
                 case Sfx.BigPowerUp:
-                    tmpSfxClips = bigPowerUpSfxClips;
+                    tmpSfxClips = rankUpSfxClips;
                     break;
             }
 
@@ -102,65 +110,4 @@ public class AudioManager : MonoBehaviour
             break;
         }
     }
-    /*
-    //효과음 재생
-    public void PlaySfx(Sfx sfx, bool isUseRan)
-    {
-        for (int index = 0; index < sfxPlayers.Length; index++)
-        {
-            int loopIndex = (index + curIndex) % sfxPlayers.Length;//최근에 사용한 인덱스에서 0부터 증가해가며 가능한 것 탐색
-            if (sfxPlayers[loopIndex].isPlaying) continue;//실행중이라면 continue
-
-            switch (sfx)
-            {
-
-                case Sfx.PlayerBulletA:
-                case Sfx.Paper:
-                case Sfx.DoorDrag:
-                case Sfx.Step:
-                case Sfx.BossA:
-                    sfxPlayers[loopIndex].volume = 0.8f;
-                    break;
-                case Sfx.BossB:
-                case Sfx.DoorOpen:
-                case Sfx.Impact:
-                    sfxPlayers[loopIndex].volume = 0.5f;
-                    break;
-            }
-
-            int ranIndex = 0;
-            if (isUseRan)
-            {
-                int maxRanIndex = 1;//랜덤 최대치
-                switch (sfx)
-                {
-                    case Sfx.DoorOpen:
-                    case Sfx.Impact:
-                    case Sfx.PlayerBulletA:
-                        maxRanIndex = 6;
-                        break;
-
-                    case Sfx.Paper:
-                        maxRanIndex = 5;
-                        break;
-
-                    case Sfx.DoorDrag:
-                    case Sfx.Step:
-                    case Sfx.BossB:
-                        maxRanIndex = 3;
-                        break;
-                    case Sfx.BossA:
-                        maxRanIndex = 2;
-                        break;
-                }
-                ranIndex = Random.Range(0, maxRanIndex);//효과음 랜덤을 위함
-            }
-
-            curIndex = loopIndex;
-            sfxPlayers[loopIndex].clip = sfxClips[(int)sfx + ranIndex];
-            sfxPlayers[loopIndex].Play();
-            break;
-        }
-    }
-    */
 }

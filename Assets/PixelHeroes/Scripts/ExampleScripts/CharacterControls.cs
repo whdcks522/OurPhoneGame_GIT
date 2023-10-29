@@ -79,11 +79,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //그냥 순간이동은 못씀!!
         bool isTeleporting = false;
 
+        public BattleUIManager battleUIManager;
+
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
 
         private void Awake()
         {
+            battleUIManager = BattleUIManager.Instance;
+
             leaderSword = swordParent.transform.GetChild(0).gameObject;
             leaderSwordRigid = leaderSword.GetComponent<Rigidbody>();
             leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
@@ -98,22 +102,24 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             Character.SetState(AnimationState.Idle);
             
             //복장 커스텀
-            CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
-            CharacterBuilder.Rebuild();
+            //CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
+            //CharacterBuilder.Rebuild();
             //최대 체력 설정
             curHealth = 100;
             maxHealth = curHealth;
 
-            //미니 ui 설정
+
             if (PhotonNetwork.InRoom)
             {
                 miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
-                miniName.color = photonView.IsMine ? greenColor : redColor;
+                miniName.color = photonView.IsMine ? Color.green : Color.red;
             }
-            else 
+            else if (!PhotonNetwork.InRoom)
             {
-                miniName.color = greenColor;
+                //미니 ui 설정
+                miniName.color = Color.green;
             }
+
         }
 
         void Update()
@@ -140,7 +146,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                 }
             }
-            else 
+            else if (!PhotonNetwork.InRoom)
             {
                 //키 입력
                 KeyInput();
@@ -179,6 +185,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (Input.GetKeyUp(KeyCode.B)) Character.SetState(AnimationState.Ready);
             else if (Input.GetKeyDown(KeyCode.D)) Character.SetState(AnimationState.Dead);
 
+            #region 안쓰는 부분
             // Builder characters only.
             /*
             else if (Input.GetKeyDown(KeyCode.Alpha1)) Character.Animator.SetTrigger("Slash");
@@ -189,6 +196,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (Input.GetKeyUp(KeyCode.Alpha2)) Character.SetState(AnimationState.Ready);
             else if (Input.GetKeyUp(KeyCode.L)) Character.Blink();
             */
+            #endregion
 
             if (isPC)
             {
@@ -278,7 +286,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     SwordInput();
                 }
             }
-            else 
+            else if (!PhotonNetwork.InRoom)
             {
                 //칼 부모 위치 초기호와 검 사거리 표시
                 SwordDirCheck();
@@ -286,143 +294,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 SwordInput();
             }     
         }
-
-        
-
-        #region 칼 부모 위치 초기화와 검 사거리 표시
-        void SwordDirCheck()
-        {
-            //칼 부모의 위치 자동 조정
-            swordParent.transform.position = swordParentVec;//0,0,0 고정시킴
-
-            swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
-            playerSwordArea.color = swordAreaColor;
-        }
-        #endregion
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.transform.CompareTag("EnemyBullet"))
-            {
-                Bullet bullet = other.GetComponent<Bullet>();
-                if (bullet.bulletEffectType == Bullet.BulletEffectType.UnBreakable)
-                    return;
-
-                if (PhotonNetwork.InRoom && photonView.IsMine)
-                {
-                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
-                }
-                else
-                {
-                    bullet.bulletOffRPC();
-                }
-            }
-        }
-
-        #region PC, 조이스틱에 따른 칼의 벡터 입력
-        private void SwordInput()
-        {
-            bool isMove = false;
-            if (isPC)
-            {
-                int tmpX = 0, tmpY = 0;
-                if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    tmpX = 1;
-                }
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    tmpX = -1;
-                }
-                if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    tmpY = 1;
-                }
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    tmpY = -1;
-                }
-
-                swordJoyVec.x = tmpX;
-                swordJoyVec.y = tmpY;
-
-                if (tmpX != 0 || tmpY != 0) isMove = true;
-            }
-
-            else if (!isPC) 
-            {
-                swordJoyVec.x = swordJoy.Horizontal;
-                swordJoyVec.y = swordJoy.Vertical;
-
-                if (swordJoyVec.x != 0 || swordJoyVec.y != 0) isMove = true;
-            }
-            //길이 감소
-            swordJoyVec = swordJoyVec.normalized;
-
-            //조작이 이전과 같은지
-            bool isSame = (leaderSwordRigid.velocity.normalized.x == swordJoyVec.x) && (leaderSwordRigid.velocity.normalized.y == swordJoyVec.y);
-
-            //검 이동
-            if (isMove)
-                SwordMove(isSame);
-        }
-        #endregion
-
-        #region 이전과 조작이 다르면 칼을 움직임
-        void SwordMove(bool isSame) 
-        {
-            //칼이 활성화돼있을 때, 방향 조작시
-            if (leaderSword.activeSelf && !isSame) 
-            {
-                Debug.Log("Spin");
-
-                if (PhotonNetwork.InRoom) //2인 이상이라면
-                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
-                else
-                    SwordSpinRPC(swordJoyVec);//1인이라면
-            }
-            else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
-            {
-                if (PhotonNetwork.InRoom) //2인 이상이라면
-                {
-                    photonView.RPC("SwordActiveRPC", RpcTarget.AllBuffered);
-                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
-                }
-                else//1인이라면
-                {
-                    SwordActiveRPC();
-                    SwordSpinRPC(swordJoyVec);
-                }
-            }
-        }
-        #endregion
-
-        #region 칼 회전 동기화
-        [PunRPC]
-        void SwordSpinRPC(Vector2 tmpVec)
-        {
-            //리더 칼의 속도 조정 
-            leaderSwordRigid.velocity = tmpVec * leaderSwordSpeed;
-
-            //회전 조작
-            leaderSword.transform.rotation = Quaternion.identity;
-            float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
-            leaderSword.transform.Rotate(rotVec);
-        }
-        #endregion
-
-        #region 칼 활성 동기화
-        [PunRPC]
-        void SwordActiveRPC() 
-        {
-            leaderSword.transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
-            leaderSword.SetActive(true);
-            backSwords.SetActive(false);
-        }
-        #endregion
-
-
 
 
         #region 이동
@@ -444,8 +315,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
 
             if (_inputX != 0)//좌우 방향 전환
-            {   
-                if(PhotonNetwork.InRoom)
+            {
+                if (PhotonNetwork.InRoom)
                     photonView.RPC("Turn", RpcTarget.AllBuffered, _inputX);
                 else
                     Turn(_inputX);
@@ -527,7 +398,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 _activityTime = Time.time;
             }
 
-                _inputX = _inputY = 0;
+            _inputX = _inputY = 0;
 
 
             if (Controller.isGrounded && !Mathf.Approximately(Controller.velocity.x, 0))
@@ -564,6 +435,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
+        #region 일어나고 엎어지기
         private void GetDown()
         {
             Character.Animator.SetTrigger("GetDown");
@@ -573,6 +445,177 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             Character.Animator.SetTrigger("GetUp");
         }
+        #endregion
+
+
+
+
+        #region 칼 부모 위치 초기화와 검 사거리 표시
+        void SwordDirCheck()
+        {
+            //칼 부모의 위치 자동 조정
+            swordParent.transform.position = swordParentVec;//0,0,0 고정시킴
+
+            swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
+            playerSwordArea.color = swordAreaColor;
+        }
+        #endregion
+
+        #region PC, 조이스틱에 따른 칼의 벡터 입력
+        private void SwordInput()
+        {
+            bool isMove = false;
+            if (isPC)
+            {
+                int tmpX = 0, tmpY = 0;
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    tmpX = 1;
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    tmpX = -1;
+                }
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    tmpY = 1;
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    tmpY = -1;
+                }
+
+                swordJoyVec.x = tmpX;
+                swordJoyVec.y = tmpY;
+
+                if (tmpX != 0 || tmpY != 0) isMove = true;
+            }
+
+            else if (!isPC) 
+            {
+                swordJoyVec.x = swordJoy.Horizontal;
+                swordJoyVec.y = swordJoy.Vertical;
+
+                if (swordJoyVec.x != 0 || swordJoyVec.y != 0) isMove = true;
+            }
+            //길이 감소
+            swordJoyVec = swordJoyVec.normalized;
+
+            //조작이 이전과 같은지
+            bool isSame = (leaderSwordRigid.velocity.normalized.x == swordJoyVec.x) && (leaderSwordRigid.velocity.normalized.y == swordJoyVec.y);
+
+            //검 이동
+            if (isMove)
+                SwordMove(isSame);
+        }
+        #endregion
+
+        #region 이전과 조작이 다르면 칼을 움직임
+        void SwordMove(bool isSame) 
+        {
+            //칼이 활성화돼있을 때, 방향 조작시
+            if (leaderSword.activeSelf && !isSame) 
+            {
+                if (PhotonNetwork.InRoom) //2인 이상이라면
+                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
+                else
+                    SwordSpinRPC(swordJoyVec);//1인이라면
+            }
+            else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
+            {
+                if (PhotonNetwork.InRoom) //2인 이상이라면
+                {
+                    photonView.RPC("SwordActiveRPC", RpcTarget.AllBuffered);
+                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
+                }
+                else//1인이라면
+                {
+                    SwordActiveRPC();
+                    SwordSpinRPC(swordJoyVec);
+                }
+            }
+        }
+        #endregion
+
+        #region 칼 회전 동기화
+        [PunRPC]
+        void SwordSpinRPC(Vector2 tmpVec)
+        {
+            //리더 칼의 속도 조정 
+            leaderSwordRigid.velocity = tmpVec * leaderSwordSpeed;
+
+            //회전 조작
+            leaderSword.transform.rotation = Quaternion.identity;
+            float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
+            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
+            leaderSword.transform.Rotate(rotVec);
+        }
+        #endregion
+
+        #region 칼 활성 동기화
+        [PunRPC]
+        void SwordActiveRPC() 
+        {
+            leaderSword.transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
+            leaderSword.SetActive(true);
+            backSwords.SetActive(false);
+        }
+        #endregion
+
+
+        private void LateUpdate()
+        {
+            //체력 게이지 적용
+            miniHealthGauge.fillAmount = (float)(curHealth / maxHealth);
+            if (PhotonNetwork.InRoom)
+            {
+                if(photonView.IsMine)
+                    battleUIManager.bigHealthBar.value = (float)(curHealth / maxHealth);
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                battleUIManager.bigHealthBar.value = (float)(curHealth / maxHealth);
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform.CompareTag("EnemyBullet"))
+            {
+                Bullet bullet = other.GetComponent<Bullet>();
+
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        //피해 계산
+
+                        //투사체 파괴
+                        bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
+                {
+                    bullet.bulletOffRPC();
+                }
+            }
+        }
+
+        #region 칼 활성 동기화
+        [PunRPC]
+        void healthControl(int dmg)
+        {
+            //피해량 계산
+            curHealth -= dmg;
+
+            //사운드
+            if (dmg > 0) 
+            {
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.BigPowerUp);
+            }
+        }
+        #endregion
+
 
         #region 플레이어의 위치 정보 동기화
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)//이 안에서 변수 동기화가 이루어짐(IPunObservable)

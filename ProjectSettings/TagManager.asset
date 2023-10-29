@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - playerSword
   - Outline
+  - Effect
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - PlayerSword
   - PlayerSwordArea
   - Outline
-  - 
+  - Effect
   - 
   - 
   - 

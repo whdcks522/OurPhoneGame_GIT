@@ -12,10 +12,18 @@ public class Bullet : MonoBehaviourPunCallbacks
     [Header("총알의 최대 수명")]
     public float maxTime;
     float curTime = 0f;
+
+    [Header("총알의 속도")]
     public float bulletSpeed;
 
+    [Header("총알의 피해량")]
+    public Transform bulletDamage;
+
+    [Header("총알의 목표")]
+    public Transform bulletTarget;
+
     GameManager gameManager;
-    Rigidbody rigidBody;
+    Rigidbody rigid;
     ParticleSystem particleSystem;
 
     
@@ -38,7 +46,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     private void Awake()
     {
         gameManager = GameManager.Instance;
-        rigidBody = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody>();
         particleSystem = GetComponent<ParticleSystem>();
     }
 
@@ -55,6 +63,21 @@ public class Bullet : MonoBehaviourPunCallbacks
             {
                 bulletOffRPC();
             }
+        }
+
+        if (bulletEffectType == BulletEffectType.Chase) 
+        {
+            //속도 조정
+            Vector2 bulletVec = (bulletTarget.position - transform.position).normalized;
+
+            //최종 속도 조정
+            rigid.velocity = bulletVec * bulletSpeed;
+
+            //회전 조정
+            transform.rotation = Quaternion.identity;
+            float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
+            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
+            transform.Rotate(rotVec);
         }
     }
 
@@ -83,7 +106,7 @@ public class Bullet : MonoBehaviourPunCallbacks
                 //회전 조정
                 flash.transform.rotation = transform.rotation;
             }
-            else
+            else if (!PhotonNetwork.InRoom)
             {
                 GameObject flash = gameManager.CreateObj(flashStr, GameManager.PoolTypes.BulletType);
                 Bullet flashBullet = flash.GetComponent<Bullet>();
@@ -113,31 +136,24 @@ public class Bullet : MonoBehaviourPunCallbacks
 
         if (isHit)
         {
-            if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
+            GameObject hit = gameManager.CreateObj(hitStr, GameManager.PoolTypes.BulletType);
+            Effect hitEffect = hit.GetComponent<Effect>();
+
+            //위치 조정
+            hit.transform.position = transform.position;
+            hit.transform.forward = gameObject.transform.forward;
+            hit.transform.parent = transform.parent;
+            //회전 조정
+            hit.transform.rotation = transform.rotation;
+
+            if (PhotonNetwork.InRoom)
             {
-                GameObject hit = gameManager.CreateObj(hitStr, GameManager.PoolTypes.BulletType);
-                Effect hitEffect = hit.GetComponent<Effect>();
-
-                //위치 조정
-                hit.transform.position = transform.position;
-                hit.transform.forward = gameObject.transform.forward;
-                hit.transform.parent = transform.parent;
-                hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered);
-
-                //회전 조정
-                hit.transform.rotation = transform.rotation;
+                if (PhotonNetwork.IsMasterClient)
+                    hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered);
             }
-            else
+            else if (!PhotonNetwork.InRoom)
             {
-                GameObject hit = gameManager.CreateObj(hitStr, GameManager.PoolTypes.BulletType);
-                Effect hitEffect = hit.GetComponent<Effect>();
-                hit.transform.position = transform.position;
-                hit.transform.forward = gameObject.transform.forward;
-                hit.transform.parent = transform.parent;
                 hitEffect.effectOnRPC();
-
-                //회전 조정
-                hit.transform.rotation = transform.rotation;
             }
         }
     }

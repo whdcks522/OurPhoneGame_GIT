@@ -15,16 +15,17 @@ public class Effect : MonoBehaviourPunCallbacks
         curTime += Time.deltaTime;
         if (curTime > maxTime)
         {
-            if (PhotonNetwork.InRoom && photonView.IsMine)
+            if (PhotonNetwork.InRoom)
             {
+                if(photonView.IsMine)
                 photonView.RPC("effectOffRPC", RpcTarget.AllBuffered);
             }
-            else
+            else if(!PhotonNetwork.InRoom)
             {
                 effectOffRPC();
             }
         }
-    }
+    } 
 
     #region 총알 활성 동기화
     [PunRPC]
@@ -32,10 +33,6 @@ public class Effect : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
-
-        // 파티클 시스템을 다시 시작
-        //particleSystem.Stop();
-        //particleSystem.Play();
     }
     #endregion
 
@@ -47,9 +44,6 @@ public class Effect : MonoBehaviourPunCallbacks
         curTime = 0f;
         //게임오브젝트 비활성화
         gameObject.SetActive(false);
-        // 파티클 시스템을 다시 시작
-        //particleSystem.Stop();
-        //particleSystem.Play();
     }
     #endregion
 }

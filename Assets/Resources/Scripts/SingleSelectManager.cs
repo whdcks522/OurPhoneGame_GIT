@@ -87,7 +87,7 @@ public class SingleSelectManager : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f); // 0.9는 로딩이 끝났을 때의 값
-            Debug.Log("로딩 중: " + (progress * 100) + "%");
+
             loadText.text = "로딩 중: " + (progress * 100) + "%";
             if (progress >= 1f)
             {
