@@ -105,11 +105,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             maxHealth = curHealth;
 
             //미니 ui 설정
-            if (PhotonNetwork.InRoom) 
+            if (PhotonNetwork.InRoom)
             {
                 miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
                 miniName.color = photonView.IsMine ? greenColor : redColor;
-            } 
+            }
+            else 
+            {
+                miniName.color = greenColor;
+            }
         }
 
         void Update()
@@ -418,12 +422,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        public void Revive() 
-        {
-            
-        }
 
-        
 
 
         #region 이동

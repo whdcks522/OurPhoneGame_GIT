@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4770554907439740}
   - component: {fileID: 198882470480326590}
   - component: {fileID: 199449717300385300}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4909,7 +4909,7 @@ GameObject:
   - component: {fileID: 4150477799126996}
   - component: {fileID: 198676599309825374}
   - component: {fileID: 199442328979863538}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9816,7 +9816,7 @@ GameObject:
   - component: {fileID: 4208272615608694}
   - component: {fileID: 198980938547098942}
   - component: {fileID: 199134653080545752}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Rainbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14714,7 +14714,7 @@ GameObject:
   - component: {fileID: 4043586599514338}
   - component: {fileID: 198363101809769212}
   - component: {fileID: 199020022536007930}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19622,12 +19622,10 @@ GameObject:
   - component: {fileID: 198252148094537218}
   - component: {fileID: 199634373377481648}
   - component: {fileID: 3054801496804327231}
-  - component: {fileID: -7776479757806290891}
-  - component: {fileID: 7856265227035837732}
-  - component: {fileID: 6087382566921551513}
-  m_Layer: 9
+  - component: {fileID: 4897143200695521795}
+  m_Layer: 13
   m_Name: YellowStarHit
-  m_TagString: EnemyBullet
+  m_TagString: Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24541,7 +24539,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-7776479757806290891
+--- !u!114 &4897143200695521795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24550,64 +24548,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1553327564893038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84fae2cf0be63c04793401b09579c0c0, type: 3}
+  m_Script: {fileID: 11500000, guid: d76278ee1e30c02459d372ffc92b66c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 1
-  bulletSpeed: 0
-  bulletEffectType: 1
-  isFlash: 0
-  flashStr: 
-  isHit: 0
-  hitStr: 
---- !u!54 &7856265227035837732
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553327564893038}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!135 &6087382566921551513
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553327564893038}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  maxTime: 0.5
 --- !u!1 &1646056354635764
 GameObject:
   m_ObjectHideFlags: 0
@@ -24619,7 +24563,7 @@ GameObject:
   - component: {fileID: 4615634866803830}
   - component: {fileID: 198456973491769182}
   - component: {fileID: 199305271383097608}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29517,7 +29461,7 @@ GameObject:
   - component: {fileID: 4957487407830386}
   - component: {fileID: 198288840151454858}
   - component: {fileID: 199808584399264674}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34415,7 +34359,7 @@ GameObject:
   - component: {fileID: 4214363127399860}
   - component: {fileID: 198164762944425264}
   - component: {fileID: 199042909326187988}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: SubGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

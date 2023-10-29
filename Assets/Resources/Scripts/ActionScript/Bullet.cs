@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviourPunCallbacks
 {
-    
+    [Header("총알의 최대 수명")]
     public float maxTime;
     float curTime = 0f;
     public float bulletSpeed;
@@ -58,6 +58,7 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
     }
 
+    #region 총알 활성 동기화
     [PunRPC]
     public void bulletOnRPC()
     {
@@ -65,8 +66,8 @@ public class Bullet : MonoBehaviourPunCallbacks
         gameObject.SetActive(true);
 
         // 파티클 시스템을 다시 시작
-        particleSystem.Stop();
-        particleSystem.Play();
+        //particleSystem.Stop();
+        //particleSystem.Play();
 
         if (isFlash)
         {
@@ -77,7 +78,7 @@ public class Bullet : MonoBehaviourPunCallbacks
                 flash.transform.position = transform.position;
                 flash.transform.forward = gameObject.transform.forward;
                 flash.transform.parent = transform.parent;
-                flashBullet.photonView.RPC("bulletOnRPC", RpcTarget.AllBuffered);
+                flashBullet.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered);
 
                 //회전 조정
                 flash.transform.rotation = transform.rotation;
@@ -96,8 +97,9 @@ public class Bullet : MonoBehaviourPunCallbacks
             }
         }
     }
+    #endregion
 
-
+    #region 총알 비활성 동기화
     [PunRPC]
     public void bulletOffRPC()
     {
@@ -106,21 +108,21 @@ public class Bullet : MonoBehaviourPunCallbacks
         //게임오브젝트 비활성화
         gameObject.SetActive(false);
         // 파티클 시스템을 다시 시작
-        particleSystem.Stop();
-        particleSystem.Play();
+        //particleSystem.Stop();
+        //particleSystem.Play();
 
         if (isHit)
         {
             if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
             {
                 GameObject hit = gameManager.CreateObj(hitStr, GameManager.PoolTypes.BulletType);
-                Bullet hitBullet = hit.GetComponent<Bullet>();
+                Effect hitEffect = hit.GetComponent<Effect>();
 
                 //위치 조정
                 hit.transform.position = transform.position;
                 hit.transform.forward = gameObject.transform.forward;
                 hit.transform.parent = transform.parent;
-                hitBullet.photonView.RPC("bulletOnRPC", RpcTarget.AllBuffered);
+                hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered);
 
                 //회전 조정
                 hit.transform.rotation = transform.rotation;
@@ -128,15 +130,16 @@ public class Bullet : MonoBehaviourPunCallbacks
             else
             {
                 GameObject hit = gameManager.CreateObj(hitStr, GameManager.PoolTypes.BulletType);
-                Bullet hitBullet = hit.GetComponent<Bullet>();
+                Effect hitEffect = hit.GetComponent<Effect>();
                 hit.transform.position = transform.position;
                 hit.transform.forward = gameObject.transform.forward;
                 hit.transform.parent = transform.parent;
-                hitBullet.bulletOnRPC();
+                hitEffect.effectOnRPC();
 
                 //회전 조정
                 hit.transform.rotation = transform.rotation;
             }
         }
     }
+    #endregion
 }

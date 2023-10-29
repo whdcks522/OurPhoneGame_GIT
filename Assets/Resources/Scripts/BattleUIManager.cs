@@ -19,6 +19,12 @@ public class BattleUIManager : MonoBehaviour
     }
     #endregion
 
+    public enum BattleType 
+    {
+        Rest, Single, Multy
+    }
+    public BattleType battleType;
+
     [Header("전투 UI 정보")]
     public GameObject battleUI;
     //플레이어 이동
@@ -32,6 +38,8 @@ public class BattleUIManager : MonoBehaviour
     private void Awake()
     {
         audioManager = GetComponent<AudioManager>();
+
+        battleUI.SetActive(false);
     }
 
     private void Start()
@@ -45,5 +53,10 @@ public class BattleUIManager : MonoBehaviour
     public void loadSingleSel()
     {
         SceneManager.LoadScene("SingleSelect");
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 }
