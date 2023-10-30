@@ -52,6 +52,12 @@ MonoBehaviour:
   - effectOnRPC
   - healthControl
   - healthControlRPC
+  - damageControlRPC
+  - healControlRPC
+  - SwordSpfinRPC
+  - swordCountRPC
+  - bombOffRPC
+  - bombOnRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

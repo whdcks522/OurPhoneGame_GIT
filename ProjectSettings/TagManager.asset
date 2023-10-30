@@ -10,6 +10,7 @@ TagManager:
   - playerSword
   - Outline
   - Effect
+  - Bomb
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - PlayerSwordArea
   - Outline
   - Effect
-  - 
+  - Bomb
   - 
   - 
   - 

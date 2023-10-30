@@ -1323,7 +1323,7 @@ MonoBehaviour:
   - {fileID: 1747887668}
   - {fileID: 636360941}
   maxTime: 1
-  curTime: 0
+  maxPowerUpindex: 10
 --- !u!4 &1514642370
 Transform:
   m_ObjectHideFlags: 0
@@ -1410,6 +1410,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1185741316032696079, guid: 34016945e42510e4880e864a7f752c26, type: 3}
+      propertyPath: m_Size.y
+      value: 49.630272
+      objectReference: {fileID: 0}
+    - target: {fileID: 1185741316032696079, guid: 34016945e42510e4880e864a7f752c26, type: 3}
+      propertyPath: m_Center.y
+      value: -0.184865
+      objectReference: {fileID: 0}
     - target: {fileID: 2607280106155743211, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1453,6 +1461,10 @@ PrefabInstance:
     - target: {fileID: 2607280106155743211, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566685834123836942, guid: 34016945e42510e4880e864a7f752c26, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5326585186242922979, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: orthographic size

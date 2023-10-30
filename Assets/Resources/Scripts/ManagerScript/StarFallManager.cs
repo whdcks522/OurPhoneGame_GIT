@@ -12,10 +12,16 @@ public class StarFallManager : MonoBehaviour
     public Transform[] starFallPoints;
     int maxAttackIndex;
 
-    [Header("충족되면 발사")]
+    //최대 발사 시간
     public float maxTime;
-    public float curTime;
+    //현재 발사 시간
+    float curTime;
+    //최근에 발사한 위치
     int recentPos;
+    //파워업 주기
+    public int maxPowerUpindex;
+    //현재 파워업 변수
+    int curPowerUpindex = 0;
 
     private void Awake()
     {
@@ -44,8 +50,21 @@ public class StarFallManager : MonoBehaviour
             recentPos = ranPos;
 
 
+            GameObject bullet = null;
+            bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
             //운석 오브젝트 생성
-            GameObject bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
+            /*
+            if (curPowerUpindex >= maxPowerUpindex)//강화 운석
+            {
+                bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
+                curPowerUpindex = 0;
+            }
+            else //기본 운석
+            {
+                bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
+                curPowerUpindex++;
+            }
+            */
             //컴포넌트 정의
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             Bullet bulletComponent = bullet.GetComponent<Bullet>();

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SingleSelectManager : MonoBehaviour
 {
-    BattleUIManager battleUIManager;
+    public BattleUIManager battleUIManager;
     [Header("페이드 아웃을 구현할 이미지")]
     public GameObject fadeGameObject;
     Image fadeImage;
@@ -15,6 +15,12 @@ public class SingleSelectManager : MonoBehaviour
     Text loadText;
     [Header("스크롤바 0으로 초기화를 위함")]
     public Scrollbar verticalScrollbar;
+
+    public string singlePanelInnerTitle;
+    public Text singlePanelOutterTitle;
+    public Text singlePanelDesc;
+    public Text singleRankText;
+
 
     private void Awake()
     {
@@ -25,36 +31,17 @@ public class SingleSelectManager : MonoBehaviour
         verticalScrollbar.value = 1;
     }
 
-    public void starFallSelected(int level)
+    public void enterSingleScene() 
     {
-        string targetScene = "";
         battleUIManager.battleType = BattleUIManager.BattleType.Single;
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
-        switch (level)
-        {
-            case 0:
-                targetScene = "StarFall_0";
-                break;
-            case 1:
-                targetScene = "StarFall_1";
-                break;
-            case 2:
-                targetScene = "StarFall_2";
-                break;
-            default:
-                targetScene = "StarFall_0";
-                Debug.LogError("Error!");
-                break;
-        }
-
         // 시작할 때 페이드 아웃 효과 실행
-        StartCoroutine(StartFadeOut(targetScene));
+        StartCoroutine(StartFadeOut(singlePanelInnerTitle));
     }
 
     IEnumerator StartFadeOut(string _targetScene)
     {
-        Debug.Log("B");
         fadeGameObject.SetActive(true);
         Color color = fadeImage.color;
         float time = 0, maxTime = 1;
@@ -75,7 +62,7 @@ public class SingleSelectManager : MonoBehaviour
         //yield return new WaitForSeconds(0.2f);
 
         //SceneManager.LoadScene(_targetScene);
-        StartCoroutine(LoadSceneAsyncCoroutine2(_targetScene));
+        StartCoroutine(LoadSceneAsyncCoroutine(_targetScene));
     }
 
     private IEnumerator LoadSceneAsyncCoroutine(string sceneName)//비동기적으로 scene 로드(렉 걸릴때 사용)
@@ -97,27 +84,5 @@ public class SingleSelectManager : MonoBehaviour
 
             yield return null;
         }
-    }
-
-    private IEnumerator LoadSceneAsyncCoroutine2(string sceneName)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        asyncLoad.allowSceneActivation = false; // 로딩이 끝나도 바로 활성화하지 않음
-        loadText.gameObject.SetActive(true);
-
-        // 로딩이 끝날 때까지 대기
-        while (asyncLoad.progress < 0.9f) // 0.9는 로딩이 끝났을 때의 값
-        {
-            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-
-            loadText.text = "로딩 중: " + (progress * 100) + "%";
-
-            yield return null;
-        }
-
-        // 로딩이 완료되면 활성화
-        asyncLoad.allowSceneActivation = true;
-
-        // 100%까지 도달한 후에 추가 작업을 수행할 수 있음
     }
 }

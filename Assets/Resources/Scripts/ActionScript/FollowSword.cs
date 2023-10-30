@@ -1,9 +1,11 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun;
 using Photon.Pun.Demo.Asteroids;
+using Photon.Pun.Demo.PunBasics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,12 +29,12 @@ public class FollowSword : MonoBehaviourPunCallbacks
     //클래스 정보 큐
     Queue<FollowSwordInfo> followSwordQueue = new Queue<FollowSwordInfo>();
 
-    GameObject child;//자식 설정
+    public GameObject child;//자식 설정
     int followDelay = 5;//따라가는 지연시간
     //현재 칼의 정보
     private FollowSwordInfo childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
-    [Header("플레이어 게임오브젝트")]
-    public GameObject player;
+    //[Header("플레이어 게임오브젝트")]
+    GameObject player;
     //플레이어의 함수
     private CharacterControls characterControls;
     //경로
@@ -72,20 +74,14 @@ public class FollowSword : MonoBehaviourPunCallbacks
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
+        player = transform.root.gameObject;
+        characterControls = player.GetComponent<CharacterControls>();
 
         maxSwordIndex = transform.parent.childCount - 1;
         curSwordIndex = transform.GetSiblingIndex();//현재 자신이 몇 번째인지
 
-        if (curSwordIndex != maxSwordIndex) //번호 설정
-        {
-            child = transform.parent.GetChild(curSwordIndex+1).gameObject;
-        }
-
-        if (curSwordIndex == 0)//리더 칼의 경우
-        {
-            characterControls = player.GetComponent<CharacterControls>();
-            trailRenderer = GetComponentInChildren<TrailRenderer>();
-        }
+        trailRenderer = GetComponentInChildren<TrailRenderer>();
+        
     }
 
     private void OnEnable()
@@ -96,9 +92,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (maxSwordIndex == curSwordIndex)//맨 끝 칼은 수행 안함
-            return;
-
         //큐에 정보 삽입
         followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation));
 
@@ -107,17 +100,24 @@ public class FollowSword : MonoBehaviourPunCallbacks
         {
             childSwordInfo = followSwordQueue.Dequeue();
 
-            if (!child.activeSelf) //꺼져 있다면 켜줌
-            { 
+            if (!child.activeSelf && curSwordIndex < characterControls.curSwordCount) //꺼져 있다면 켜줌 //child != null && 
+            {
+                
                 child.SetActive(true);
-                child.transform.position = player.transform.position + Vector3.up * 0.5f;
+                trailRenderer.Clear();
+                //child.transform.position = player.transform.position + Vector3.up * 0.5f;
             }
         }
+
+        if (curSwordIndex > characterControls.curSwordCount)//맨 끝 칼은 수행 안함
+            return;
+
 
         //최종 이동
         child.transform.rotation = childSwordInfo.swordRot;
         child.transform.position = childSwordInfo.swordVec;
 
+        //영역을 보여주기 위함
         if (curSwordIndex == 0) 
         {
             Vector3 swordPos = transform.position;
@@ -161,25 +161,51 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         //등의 칼 활성화
         characterControls.backSwords.SetActive(true);
-        //트레일 렌더러 삭제
-        trailRenderer.Clear();
+        //무기 수 1 감소
+        characterControls.swordCountRPC(false);
+        //폭탄 생성
+        GameObject bomb = null;
+
+        if (PhotonNetwork.InRoom)
+        {
+            if (photonView.IsMine)
+                bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+        }
+        else if (!PhotonNetwork.InRoom) 
+        {
+            bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+        }
+        //여기 없는 경우 오류 날 수도 있음
+        Bomb bombComponent = bomb.GetComponent<Bomb>();
+        
+        //폭탄 위치 조정
+        bomb.transform.parent = battleUIManager.gameManager.transform;
+        bomb.transform.position = transform.position;
+        //폭탄 활성화
+        bombComponent.bombOnRPC();
+
+
+        
+
 
         for (int i = 0; i <= maxSwordIndex; i++)
         {
             GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
             FollowSword tmpSwordComponent = tmpSword.GetComponent<FollowSword>();
 
-            tmpSword.transform.position = player.transform.position;
             tmpSword.SetActive(false);
-
+            //트레일 렌더러 초기화
+            trailRenderer.Clear();
 
             if (tmpSwordComponent != null)
             {
-                tmpSwordComponent.followSwordQueue.Clear();
+                tmpSwordComponent.followSwordQueue.Clear();//큐 초기화
             }
         }
     }
     #endregion
+
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -190,20 +216,49 @@ public class FollowSword : MonoBehaviourPunCallbacks
             if (bullet.bulletEffectType == Bullet.BulletEffectType.UnBreakable)
                 return;
 
-            if (PhotonNetwork.InRoom && photonView.IsMine)
+            if (PhotonNetwork.InRoom)
             {
-                bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                if (photonView.IsMine)
+                {
+                    //총알 파괴
+                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                    //회복
+                    characterControls.photonView.RPC("healOffRPC", RpcTarget.AllBuffered, bullet.bulletHeal);
+                }
             }
-            else
+            else if (!PhotonNetwork.InRoom)
             {
+                //총알 파괴
                 bullet.bulletOffRPC();
+                //회복
+                characterControls.healControlRPC(bullet.bulletHeal);
             }
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-        }
-    }
 
-    #region 칼이 범위 밖으로 이탈 시
-    
-    #endregion
+            if (bullet.bulletEffectType == Bullet.BulletEffectType.PowerUp)//파워업의 경우
+            {
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        //무기 수 1 증가
+                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, true);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom) 
+                {
+                    //무기 수 1 증가
+                    characterControls.swordCountRPC(true);
+                }
+                    
+            }
+            else if (bullet.bulletEffectType == Bullet.BulletEffectType.Normal)
+            {
+                //일반 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+            }  
+        }
+
+        
+    }
 
 }

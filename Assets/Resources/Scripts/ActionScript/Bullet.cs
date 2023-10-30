@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     
     public enum BulletEffectType
     {
-        Normal, UnBreakable, Chase
+        Normal, PowerUp, UnBreakable, Chase
     }
     [Header("총알의 특수효과")]
     public BulletEffectType bulletEffectType;
@@ -91,10 +91,6 @@ public class Bullet : MonoBehaviourPunCallbacks
         //게임오브젝트 활성화
         gameObject.SetActive(true);
 
-        // 파티클 시스템을 다시 시작
-        //particleSystem.Stop();
-        //particleSystem.Play();
-
         if (isFlash)
         {
             if (PhotonNetwork.InRoom && PhotonNetwork.IsMasterClient)
@@ -133,9 +129,7 @@ public class Bullet : MonoBehaviourPunCallbacks
         curTime = 0f;
         //게임오브젝트 비활성화
         gameObject.SetActive(false);
-        // 파티클 시스템을 다시 시작
-        //particleSystem.Stop();
-        //particleSystem.Play();
+        
 
         if (isHit)
         {

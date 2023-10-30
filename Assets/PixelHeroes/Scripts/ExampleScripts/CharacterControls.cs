@@ -55,8 +55,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         GameObject leaderSword;
         private FollowSword leaderSwordComponent;
         Rigidbody leaderSwordRigid;
+
         [Header("리더 칼의 속도")]
-        public int leaderSwordSpeed = 8;
+        public int leaderSwordSpeed;
+
+        [Header("현재 칼의 갯수")]
+        public int curSwordCount;
 
         [Header("등의 있는 칼 게임오브젝트")]
         public GameObject backSwords;
@@ -64,6 +68,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("칼 영역 표시 게임오브젝트")]
         public SpriteRenderer playerSwordArea;
         Color swordAreaColor;
+
+        
+
+        //랭크 업 효과음을 위한 bool
+        bool isSRank, isARank, isBRank, isCRank, isDRank;
+
+
 
         [Header("조이스틱의 정보를 받아들임")]
         //플레이어 이동
@@ -77,6 +88,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         Vector3 rpcPos;
         //중간으로 이동 시 사용하는 그 벡터
         Vector3 tmpRpcPos;
+        //피격 받을시 날아갈 벡터
+        Vector3 attackVec;
         //그냥 순간이동은 못씀!!
         bool isTeleporting = false;
 
@@ -88,13 +101,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private void Awake()
         {
             battleUIManager = BattleUIManager.Instance;
-
             leaderSword = swordParent.transform.GetChild(0).gameObject;
             leaderSwordRigid = leaderSword.GetComponent<Rigidbody>();
             leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
 
             moveJoy = BattleUIManager.Instance.moveJoy;
             swordJoy = BattleUIManager.Instance.swordJoy;
+
+            curHealth = 100;
+            maxHealth = curHealth;
         }
 
         void Start()
@@ -105,11 +120,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //복장 커스텀
             //CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
             //CharacterBuilder.Rebuild();
-            //최대 체력 설정
-            curHealth = 100;
-            maxHealth = curHealth;
-
-
+            
             if (PhotonNetwork.InRoom)
             {
                 miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
@@ -176,6 +187,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 키 입력
         void KeyInput() 
         {
+            if (curHealth <= 0) return;
+
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
             else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
             else if (Input.GetKeyDown(KeyCode.P)) Character.Animator.SetTrigger("Push");
@@ -296,6 +309,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }     
         }
 
+        
+
 
         #region 이동
         private void Move()
@@ -380,7 +395,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                 }
             }//땅에 있을 시
-            else
+            else//하늘에 있을 시
             {
                 _motion = new Vector3(RunSpeed * _inputX, _motion.y);
                 Character.SetState(AnimationState.Jumping);
@@ -388,7 +403,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             _motion.y += Gravity;
 
-            Controller.Move(_motion * Time.fixedDeltaTime);//!!!!!!!!!!!!!!
+            Controller.Move(_motion * Time.fixedDeltaTime);//!!!!!!!!!!!!!!이부분 빼면 안움직임
             //Controller.
             Character.Animator.SetBool("Grounded", Controller.isGrounded);
             Character.Animator.SetBool("Moving", Controller.isGrounded && _inputX != 0);
@@ -566,18 +581,124 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void LateUpdate()
         {
+            //자연 체력 감소
+            curHealth -= 0.01f;
+
             //체력 게이지 적용
-            miniHealthGauge.fillAmount = (float)(curHealth / maxHealth);
+            miniHealthGauge.fillAmount = curHealth / maxHealth;
+
+            //시간에 따라 점수 증가
+            battleUIManager.curScore +=  Time.deltaTime;
+
+            //등급에 따른 텍스트 정리
+            battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + " / ";
+            if (battleUIManager.curScore >= battleUIManager.Sscore) //S급 이상의 경우
+            {
+                if (!isSRank) 
+                {
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    isSRank = true;
+                }
+                battleUIManager.bigRankText.text = "<color=yellow>S</color>";
+                battleUIManager.bigScoreText.text += '-';
+            }
+            else if (battleUIManager.curScore >= battleUIManager.Ascore) //A급 이상의 경우
+            {
+                if (!isARank)
+                {
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    isARank = true;
+                }
+                battleUIManager.bigRankText.text = "A";
+                battleUIManager.bigScoreText.text += battleUIManager.Sscore;
+            }
+            else if (battleUIManager.curScore >= battleUIManager.Bscore) //B급 이상의 경우
+            {
+                if (!isBRank)
+                {
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    isBRank = true;
+                }
+                battleUIManager.bigRankText.text = "B";
+                battleUIManager.bigScoreText.text += battleUIManager.Ascore;
+            }
+            else if (battleUIManager.curScore >= battleUIManager.Cscore) //C급 이상의 경우
+            {
+                if (!isCRank)
+                {
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    isCRank = true;
+                }
+                battleUIManager.bigRankText.text = "C";
+                battleUIManager.bigScoreText.text += battleUIManager.Bscore;
+            }
+            else if (battleUIManager.curScore >= battleUIManager.Dscore) //D급 이상의 경우
+            {
+                if (!isDRank)
+                {
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    isDRank = true;
+                }
+                battleUIManager.bigRankText.text = "D";
+                battleUIManager.bigScoreText.text += battleUIManager.Cscore;
+            }
+            else if (battleUIManager.curScore >= battleUIManager.Escore) //E급 이상의 경우
+            {
+                battleUIManager.bigRankText.text = "<color=red>E</color>";
+                battleUIManager.bigScoreText.text += battleUIManager.Dscore;
+            }
+
+
+
+
+
             if (PhotonNetwork.InRoom)
             {
                 if(photonView.IsMine)
-                    battleUIManager.bigHealthBar.value = curHealth / maxHealth;
+                {
+                    float firstValue = battleUIManager.bigHealthBar.value;
+                    float secondValue = battleUIManager.bigHealthBar.value;
+                    battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 0.1f);
+                }
             }
             else if (!PhotonNetwork.InRoom)
             {
-                battleUIManager.bigHealthBar.value = curHealth / maxHealth;
+                float firstValue = battleUIManager.bigHealthBar.value;
+                float secondValue = battleUIManager.bigHealthBar.value;
+                battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 0.1f);
             }
         }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
+            {
+                curHealth = 0;
+                battleUIManager.btnContinue.SetActive(false);
+                battleUIManager.btnStop();
+            }
+        }
+
+        #region 무기 변화 동기화
+        [PunRPC]
+        public void swordCountRPC(bool isAdd)
+        {
+            if (isAdd)
+            {
+                curSwordCount++;
+                if (curSwordCount > 9) curSwordCount = 9;
+                //파워 업 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
+            }
+            else if (!isAdd) 
+            {
+                curSwordCount--;
+                if (curSwordCount < 0) curSwordCount = 0;
+                //무기 파괴 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Broken);
+            }
+        }
+        #endregion
 
         private void OnTriggerEnter(Collider other)
         {
@@ -585,12 +706,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 Bullet bullet = other.GetComponent<Bullet>();
                 int dmg = bullet.bulletDamage;
+                attackVec = (transform.position - other.transform.position).normalized * 5;//밀려나는 방향
+
                 if (PhotonNetwork.InRoom)
                 {
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        bullet.photonView.RPC("healthControlRPC", RpcTarget.AllBuffered, dmg);
+                        bullet.photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg, attackVec);
                         //투사체 파괴
                         bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
                     }
@@ -598,7 +721,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!PhotonNetwork.InRoom)
                 {
                     //피격 처리
-                    healthControlRPC(dmg);
+                    damageControlRPC(dmg, attackVec);
                     //투사체 파괴
                     bullet.bulletOffRPC();
                 }
@@ -607,16 +730,41 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region 피격 처리
         [PunRPC]
-        void healthControlRPC(int _dmg)
+        public void damageControlRPC(int _dmg, Vector3 _attackVec)
         {
             //피해량 계산
             curHealth -= _dmg;
+            if (curHealth < 0) curHealth = 0;
+            else if (curHealth > 100) curHealth = 100;
 
-            //사운드
-            if (_dmg > 0) 
+            //충격 방향
+            _motion = _attackVec;//new Vector3(RunSpeed * _inputX, _motion.y);
+
+            if (curHealth > 0)//피격
             {
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
+                Character.SetState(AnimationState.Jumping);
             }
+            else if (curHealth <= 0)
+            {
+                if(Character.GetState() != AnimationState.Dead)
+                    Character.SetState(AnimationState.Dead);
+            } 
+            //_motion.y += Gravity;
+            //효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
+        }
+        #endregion
+
+        #region 칼로 파괴시, 회복
+        [PunRPC]
+        public void healControlRPC(int _heal)
+        {
+            //회복량 계산
+            curHealth += _heal;
+
+            //초과하지 않도록
+            if (curHealth > maxHealth) 
+                curHealth = maxHealth;
         }
         #endregion
 

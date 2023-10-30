@@ -5067,7 +5067,7 @@ MonoBehaviour:
   bulletTarget: {fileID: 0}
   bulletEffectType: 0
   isFlash: 0
-  flashStr: YellowStarFlash
+  flashStr: 
   isHit: 1
   hitStr: YellowStarHit
 --- !u!114 &2146903461172564057

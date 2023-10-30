@@ -9,46 +9,50 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    //[Header("조이스틱의 정보를 받아들임")]
-    //플레이어 이동
-    //public VariableJoystick moveJoy;
-    //플레이어 칼
-    //public VariableJoystick swordJoy;
     [Header("인스턴스에서 공유하기 위한 플레이어 정보")]
     public GameObject player;
+    public CharacterController characterController;
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
-
-    //오브젝트 풀링
-    //임시로 게임오브젝트 저장할 곳
-
+    BattleUIManager battleUIManager;
 
     //총알 리스트
-    string[] bulletNames = { "YellowStarBullet", "YellowStarFlash", "YellowStarHit"};
+    string[] bulletNames = { "YellowStarBullet", "YellowStarHit",
+                                "BlackStarBullet", "BlackStarHit",
+                                "GreenStarBullet", "GreenStarHit" };
+    //총알 주소가 저장될 곳
+    List<GameObject>[] bulletPools;
 
-    List<GameObject>[] bulletPools;//실제로 주소가 저장될 곳
-    
-
-    //moveJoy = joySticks.transform.GetChild(0).GetComponent<VariableJoystick>();
-    //swordJoy = joySticks.transform.GetChild(1).GetComponent<VariableJoystick>();
+    //폭탄 리스트
+    string[] bombNames = {"Broken Phantasm" };
+    //폭탄 주소가 저장될 곳
+    List<GameObject>[] bombPools;
 
     public enum PoolTypes
     {
-        EnemyType, BulletType
+        BulletType, BombType //EnemyType, 
     }
 
     private void Awake()
     {
+        battleUIManager = BattleUIManager.Instance;
+        battleUIManager.gameManager = this;
         //가져오기
-        BattleUIManager.Instance.battleUI.SetActive(true);
-        //moveJoy = BattleUIManager.Instance.moveJoy; 
-        //swordJoy = BattleUIManager.Instance.swordJoy;
+        battleUIManager.battleUI.SetActive(true);
+        battleUIManager.curScore = 0;
+        battleUIManager.bigRankText.text = "E";
+        battleUIManager.bigScoreText.text = 0 +" / "+ battleUIManager.Dscore;
 
 
         //총알 풀 초기화
         bulletPools = new List<GameObject>[bulletNames.Length];
         for (int index = 0; index < bulletNames.Length; index++)//풀 하나하나 초기화
             bulletPools[index] = new List<GameObject>();
+
+        //폭탄 풀 초기화(4개씩 수정)
+        bombPools = new List<GameObject>[bombNames.Length];
+        for (int index = 0; index < bombNames.Length; index++)//풀 하나하나 초기화
+            bombPools[index] = new List<GameObject>();
 
 
         //플레이어 생성
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             player = Instantiate(Resources.Load<GameObject>("Player"), Vector3.zero, Quaternion.identity);
         }
+        characterController = player.GetComponent<CharacterController>();
 
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
@@ -94,11 +99,16 @@ public class GameManager : MonoBehaviourPunCallbacks
                  tmpNames = bulletNames;
                  //Debug.Log("총알 타입 선택됨");
                  break;
+            case PoolTypes.BombType:
+                tmpPools = bombPools;
+                tmpNames = bombNames;
+                Debug.Log("폭탄 타입 선택됨");
+                break;
         }
 
         int index = NametoIndex(tmpNames, name);
-
-        //있다면 찾아봄
+        if (poolTypes == PoolTypes.BombType) Debug.Log(index);
+       //있다면 찾아봄
         foreach (GameObject item in tmpPools[index])
         {
             if (!item.activeSelf)
@@ -130,6 +140,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 case PoolTypes.BulletType:
                     bulletPools = tmpPools;
+                    break;
+                case PoolTypes.BombType:
+                    bombPools = tmpPools;
                     break;
             }
         }   
