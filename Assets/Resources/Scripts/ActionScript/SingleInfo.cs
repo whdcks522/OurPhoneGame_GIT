@@ -22,6 +22,11 @@ public class SingleInfo : MonoBehaviour
     public int Dscore;
     public int Escore;
 
+    void Start() 
+    {
+        if (sceneInnerTitle == "") 
+            gameObject.SetActive(false);
+    }
     public void Onclick() 
     {
         //코드 상에서 사용하는 이름
@@ -31,9 +36,12 @@ public class SingleInfo : MonoBehaviour
         //실제 사용자에게 보여지는 전장 설명
         singleSelectManager.singlePanelDesc.text = sceneDesc;
         //실제 사용자에게 보여지는 등급 설명
-        singleSelectManager.singleRankText.text = "S: " + Sscore + " A: " + Ascore + '\n' +
-                                                    "B: " + Bscore + " C: " + Cscore + '\n' +
-                                                      "D: " + Dscore + " E: " + Escore;
+        singleSelectManager.singleRankText.text = "S: " + Sscore + '\n' +
+                                                  "A: " + Ascore + '\n' +
+                                                  "B: " + Bscore + '\n' +
+                                                  "C: " + Cscore + '\n' +
+                                                  "D: " + Dscore + '\n' +
+                                                  "E: " + Escore;
 
         //전역 변수 설정
         singleSelectManager.battleUIManager.Sscore = Sscore;

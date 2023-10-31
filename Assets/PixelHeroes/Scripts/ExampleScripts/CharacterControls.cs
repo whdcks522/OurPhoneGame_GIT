@@ -69,7 +69,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public SpriteRenderer playerSwordArea;
         Color swordAreaColor;
 
-        
+      
 
         //랭크 업 효과음을 위한 bool
         bool isSRank, isARank, isBRank, isCRank, isDRank;
@@ -88,8 +88,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         Vector3 rpcPos;
         //중간으로 이동 시 사용하는 그 벡터
         Vector3 tmpRpcPos;
-        //피격 받을시 날아갈 벡터
-        Vector3 attackVec;
+
         //그냥 순간이동은 못씀!!
         bool isTeleporting = false;
 
@@ -582,7 +581,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private void LateUpdate()
         {
             //자연 체력 감소
-            curHealth -= 0.01f;
+            curHealth -= 0.5f * Time.deltaTime;
+
+            //생존 파악
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    //피격 처리
+                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                damageControlRPC(0);
+            }
+
+            if (curHealth <= 0) return;
 
             //체력 게이지 적용
             miniHealthGauge.fillAmount = curHealth / maxHealth;
@@ -599,7 +614,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
                     isSRank = true;
                 }
-                battleUIManager.bigRankText.text = "<color=yellow>S</color>";
+                battleUIManager.bigRankText.text = "<color=#FFB900>S</color>";
                 battleUIManager.bigScoreText.text += '-';
             }
             else if (battleUIManager.curScore >= battleUIManager.Ascore) //A급 이상의 경우
@@ -609,7 +624,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
                     isARank = true;
                 }
-                battleUIManager.bigRankText.text = "A";
+                battleUIManager.bigRankText.text = "<color=#FFB400>A</color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Sscore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Bscore) //B급 이상의 경우
@@ -619,7 +634,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
                     isBRank = true;
                 }
-                battleUIManager.bigRankText.text = "B";
+                battleUIManager.bigRankText.text = "<color=#FFAF00>B</color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Ascore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Cscore) //C급 이상의 경우
@@ -629,7 +644,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
                     isCRank = true;
                 }
-                battleUIManager.bigRankText.text = "C";
+                battleUIManager.bigRankText.text = "<color=#FFAA00>C</color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Bscore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Dscore) //D급 이상의 경우
@@ -639,33 +654,33 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
                     isDRank = true;
                 }
-                battleUIManager.bigRankText.text = "D";
+                battleUIManager.bigRankText.text = "<color=#FFA500>D</color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Cscore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Escore) //E급 이상의 경우
             {
-                battleUIManager.bigRankText.text = "<color=red>E</color>";
+                battleUIManager.bigRankText.text = "<color=white>E</color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Dscore;
             }
 
 
 
 
-
+            //체력바
             if (PhotonNetwork.InRoom)
             {
                 if(photonView.IsMine)
                 {
                     float firstValue = battleUIManager.bigHealthBar.value;
                     float secondValue = battleUIManager.bigHealthBar.value;
-                    battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 0.1f);
+                    battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 0.5f);
                 }
             }
             else if (!PhotonNetwork.InRoom)
             {
                 float firstValue = battleUIManager.bigHealthBar.value;
                 float secondValue = battleUIManager.bigHealthBar.value;
-                battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 0.1f);
+                battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 0.5f);
             }
         }
 
@@ -674,14 +689,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
             {
                 curHealth = 0;
-                battleUIManager.btnContinue.SetActive(false);
-                battleUIManager.btnStop();
             }
         }
 
         #region 무기 변화 동기화
         [PunRPC]
-        public void swordCountRPC(bool isAdd)
+        public bool swordCountRPC(bool isAdd)
         {
             if (isAdd)
             {
@@ -693,10 +706,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (!isAdd) 
             {
                 curSwordCount--;
-                if (curSwordCount < 0) curSwordCount = 0;
+                if (curSwordCount < 0) 
+                {
+                    curSwordCount = 0;
+                    return false;//무기가 충분하지 않음
+                }
                 //무기 파괴 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Broken);
             }
+            return true;//남은 무기가 없는 경우
         }
         #endregion
 
@@ -706,14 +724,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 Bullet bullet = other.GetComponent<Bullet>();
                 int dmg = bullet.bulletDamage;
-                attackVec = (transform.position - other.transform.position).normalized * 5;//밀려나는 방향
+
 
                 if (PhotonNetwork.InRoom)
                 {
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        bullet.photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg, attackVec);
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg);
                         //투사체 파괴
                         bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
                     }
@@ -721,7 +739,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!PhotonNetwork.InRoom)
                 {
                     //피격 처리
-                    damageControlRPC(dmg, attackVec);
+                    damageControlRPC(dmg);
                     //투사체 파괴
                     bullet.bulletOffRPC();
                 }
@@ -730,29 +748,65 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region 피격 처리
         [PunRPC]
-        public void damageControlRPC(int _dmg, Vector3 _attackVec)
+        public void damageControlRPC(int _dmg)
         {
             //피해량 계산
             curHealth -= _dmg;
             if (curHealth < 0) curHealth = 0;
             else if (curHealth > 100) curHealth = 100;
 
-            //충격 방향
-            _motion = _attackVec;//new Vector3(RunSpeed * _inputX, _motion.y);
+            //충격 초기화
+            if (_dmg != 0)
+            {
+                _motion = Vector3.zero;
 
-            if (curHealth > 0)//피격
-            {
-                Character.SetState(AnimationState.Jumping);
+                if (curHealth > 0)//피격
+                {
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
+                    //애니메이션 처리
+                    Character.SetState(AnimationState.Jumping);
+                }
             }
-            else if (curHealth <= 0)
+
+            if (curHealth <= 0)
             {
-                if(Character.GetState() != AnimationState.Dead)
+                if (Character.GetState() != AnimationState.Dead) 
+                {
+                    //애니메이션
                     Character.SetState(AnimationState.Dead);
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
+                    if (PhotonNetwork.InRoom)
+                    {
+                        if (photonView.IsMine) 
+                        {
+                            leaderSword.GetComponent<FollowSword>().photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, false);
+                            //Invoke("SoonDie", 1f);
+                        }
+                    }
+                    else if (!PhotonNetwork.InRoom)
+                    {
+                        //칼 비활성화
+                        leaderSword.GetComponent<FollowSword>().leaderSwordExitRPC(false);
+                        Invoke("SoonDie", 1f);
+                    }
+                }    
             } 
-            //_motion.y += Gravity;
-            //효과음
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
         }
+
+        //죽었고 조금 뒤, 죽음에 대한 처리
+        void SoonDie() 
+        {
+            battleUIManager.hiddenText.text =
+                "최종 점수: " + battleUIManager.bigRankText.text + " 랭크 " + Mathf.FloorToInt(battleUIManager.curScore);
+
+            //이어하기 못하도록
+            battleUIManager.btnContinue.SetActive(false);
+            //정지 패널 나오도록
+            battleUIManager.btnStop();
+        }
+        
         #endregion
 
         #region 칼로 파괴시, 회복

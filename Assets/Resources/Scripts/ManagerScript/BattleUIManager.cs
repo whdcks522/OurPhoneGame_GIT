@@ -50,7 +50,8 @@ public class BattleUIManager : MonoBehaviour
     public GameObject stopPanel;
     [Header("이어하기 버튼")]
     public GameObject btnContinue;
-    
+    [Header("최종점수 텍스트")]
+    public Text hiddenText;
 
     [Header("다른 컴포넌트 정보")]
     public AudioManager audioManager;

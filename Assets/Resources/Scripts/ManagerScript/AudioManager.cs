@@ -20,8 +20,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] doorSfxClips;
     [Header("종이 Sfx")]
     public AudioClip[] paperSfxClips;
-    [Header("깨지는 Sfx")]
+    [Header("무기 깨지는 Sfx")]
     public AudioClip[] brokenSfxClips;
+    [Header("시간 종료 Sfx")]
+    public AudioClip[] timeOverSfxClips;
 
 
     [Header("만들 Sfx 채널의 개수")]
@@ -31,7 +33,7 @@ public class AudioManager : MonoBehaviour
     AudioSource[] sfxPlayers;
 
     public enum Bgm { Auth, Lobby, Entrance, Chapter1, Chapter1_BossA, Chapter2, Chapter2_BossB }//random으로 활용 가능함
-    public enum Sfx {PowerUp, RankUp, Damage, Heal, Door, Paper, Broken}
+    public enum Sfx {PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver}
 
     private void Awake()
     {
@@ -121,6 +123,9 @@ public class AudioManager : MonoBehaviour
                     break;
                 case Sfx.Broken:
                     tmpSfxClips = brokenSfxClips;
+                    break;
+                case Sfx.TimeOver:
+                    tmpSfxClips = timeOverSfxClips;
                     break;
             }
 

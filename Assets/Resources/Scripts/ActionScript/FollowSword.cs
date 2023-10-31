@@ -102,9 +102,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
             if (!child.activeSelf && curSwordIndex < characterControls.curSwordCount) //꺼져 있다면 켜줌 //child != null && 
             {
-                
                 child.SetActive(true);
-                trailRenderer.Clear();
+                child.GetComponent<FollowSword>().trailRenderer.Clear();
                 //child.transform.position = player.transform.position + Vector3.up * 0.5f;
             }
         }
@@ -140,7 +139,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
                 {
                     //플레이어와 리더 칼의 거리 연산 초기화
                     swordDir = 0;
-                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered);
+                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, true);
                 }
             }
         }
@@ -150,44 +149,49 @@ public class FollowSword : MonoBehaviourPunCallbacks
             {
                 //플레이어와 리더 칼의 거리 연산 초기화
                 swordDir = 0;
-                leaderSwordExitRPC();
+                leaderSwordExitRPC(true);
             }
         }
     }
 
     #region 칼이 범위 밖으로 이탈 시
     [PunRPC]
-    void leaderSwordExitRPC()
+    public void leaderSwordExitRPC(bool isOut)
     {
+        if (isOut)//직접 밖으로 나간 경우
+        {
+            //무기 수 1 감소
+            characterControls.swordCountRPC(false);
+            //폭탄 생성
+            GameObject bomb = null;
+
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+            }
+            //여기 없는 경우 오류 날 수도 있음
+            Bomb bombComponent = bomb.GetComponent<Bomb>();
+
+            //폭탄 위치 조정
+            bomb.transform.parent = battleUIManager.gameManager.transform;
+            bomb.transform.position = transform.position;
+            //폭탄 활성화
+            bombComponent.bombOnRPC();
+        } 
+        
+
+
+
         //등의 칼 활성화
         characterControls.backSwords.SetActive(true);
-        //무기 수 1 감소
-        characterControls.swordCountRPC(false);
-        //폭탄 생성
-        GameObject bomb = null;
-
-        if (PhotonNetwork.InRoom)
-        {
-            if (photonView.IsMine)
-                bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
-        }
-        else if (!PhotonNetwork.InRoom) 
-        {
-            bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
-        }
-        //여기 없는 경우 오류 날 수도 있음
-        Bomb bombComponent = bomb.GetComponent<Bomb>();
-        
-        //폭탄 위치 조정
-        bomb.transform.parent = battleUIManager.gameManager.transform;
-        bomb.transform.position = transform.position;
-        //폭탄 활성화
-        bombComponent.bombOnRPC();
-
-
-        
-
-
+        //다시 칼 비활성화
         for (int i = 0; i <= maxSwordIndex; i++)
         {
             GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
@@ -256,9 +260,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
                 //일반 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
             }  
-        }
-
-        
+        } 
     }
-
 }
