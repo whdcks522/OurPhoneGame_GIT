@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 801508547449783011}
   m_Layer: 3
   m_Name: RedPencil
-  m_TagString: Untagged
+  m_TagString: Construction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718486350521625500}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0a86998eec96ea34f98402d66cef91a3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

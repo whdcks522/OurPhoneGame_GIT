@@ -17517,10 +17517,12 @@ MonoBehaviour:
   swordJoy: {fileID: 0}
   battleUIManager: {fileID: 0}
   jumpForce: 8
-  rayRadius: 0.2
-  raySize: 2.8
-  isPC: 0
   startPos: 3
+  rayRadius: 0.25
+  raySize: 0
+  isPC: 1
+  rayVec: {x: 0, y: -0.25, z: 0}
+  isAll: 0
 --- !u!95 &5498480976259529555
 Animator:
   serializedVersion: 5

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 688198820351447751}
   - component: {fileID: 1519028701353152470}
   m_Layer: 3
-  m_Name: YellowpostIt
-  m_TagString: Untagged
+  m_Name: OrangepostIt
+  m_TagString: Construction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c39b45fc8f24cd64297d8de029995b64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 837a1e8b1075fbd4da826445c26e4d89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718486350521625500}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0a86998eec96ea34f98402d66cef91a3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -105,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.2, y: 5.2, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 2, z: 0.2}
+  m_Center: {x: 0, y: -0.1, z: 0}
 --- !u!54 &1519028701353152470
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 using System.Collections;
@@ -18,8 +19,13 @@ public class Block : MonoBehaviourPunCallbacks
     [Header("이동 방향")]
     public Vector3 dirVec = Vector3.right;
 
+    //게임 매니저
+    GameManager gameManager;
+    //플레이어 스크립트
+    CharacterControls characterControls;
+
     //낙하중인가
-    bool isFalling = true;
+    //bool isFalling = true;
 
     public enum BlockType
     {
@@ -29,6 +35,9 @@ public class Block : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        gameManager = GameManager.Instance;
+        //characterControls = gameManager.cha
+
         maxHealth = curHealth;
         rigid = GetComponent<Rigidbody>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -39,7 +48,7 @@ public class Block : MonoBehaviourPunCallbacks
         //게임오브젝트 활성화
         gameObject.SetActive(true);
         //낙하 초기화
-        isFalling = true;
+        //isFalling = true;
         //체력 관리
         curHealth = maxHealth;
         //매터리얼 관리
@@ -53,11 +62,11 @@ public class Block : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
-        rigid.AddForce(Vector3.down * 3);
+        //rigid.AddForce(Vector3.down * 3);
 
-        if (!isFalling) 
+        //if (!isFalling) 
         {
-            rigid.velocity = dirVec * 1;
+            //rigid.velocity = dirVec * 1;
         }
     }
 
@@ -95,7 +104,9 @@ public class Block : MonoBehaviourPunCallbacks
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)
+                {
                     photonView.RPC("blockOffRPC", RpcTarget.AllBuffered);
+                }
             }
             else if (!PhotonNetwork.InRoom) 
             {
@@ -129,12 +140,12 @@ public class Block : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.InRoom)
             {
-                isFalling = false;
+                //isFalling = false;
             }
             else if (!PhotonNetwork.InRoom)
             {
                 //다시 불러옴
-                isFalling = false;
+                //isFalling = false;
             }
         }
     }
@@ -145,12 +156,12 @@ public class Block : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.InRoom)
             {
-                isFalling = true;
+                //isFalling = true;
             }
             else if (!PhotonNetwork.InRoom)
             {
                 //다시 불러옴
-                isFalling = true;
+                //isFalling = true;
             }
         }
     }

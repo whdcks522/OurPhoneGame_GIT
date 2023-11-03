@@ -98,13 +98,17 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         Rigidbody rigid;
         [Header("Rigidbody 점프력")]
         public int jumpForce;
+
+        [Header("레이의 시작점")]
+        public float startPos;
         [Header("레이의 반지름")]
         public float rayRadius;
         [Header("레이의 사거리")]
         public float raySize;
-
+        
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
+
 
         private void Awake()
         {
@@ -331,8 +335,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }     
         }
 
-        public float startPos;
-        
+        public Vector3 rayVec = Vector3.zero;
+        public bool isAll = false;
         #region 이동
         private void Move()
         {
@@ -341,13 +345,40 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 Turn(_inputX);
             }
 
-            if (rigid.velocity.y <= jumpForce/2) 
+            bool isJumpAni = false;
+
+            if (Character.GetState() == AnimationState.Jumping)
+            {
+                isJumpAni = true;
+            }
+
+            //if (rigid.velocity.y <= jumpForce/2) 
             {
                 RaycastHit hit;//시작점, 반지름, 방향, 길이, 레이어
-                bool isConst = Physics.SphereCast(transform.position + Vector3.up * startPos, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Construction"));
-                bool isBlock = Physics.SphereCast(transform.position + Vector3.up * startPos, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
+ 
+                bool isConst = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Construction"));
+                bool isBlock = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
 
-                if (isConst || isBlock)//바닥에 있을 때
+
+                isAll = false;
+                RaycastHit[] rayHits = Physics.SphereCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize, LayerMask.GetMask("Construction"));
+                foreach (RaycastHit hitObj in rayHits) 
+                {
+                    //Debug.Log()
+                    //hitObj.transform.GetComponent<Enemy>().HitbyGrenade(transform.position);
+                    if (hitObj.transform.CompareTag("Construction")) 
+                    {
+                        // Debug.Log("건축물:" + hitObj.transform.gameObject.name);
+                        isAll = true;
+                    }
+                   // else 
+                    {
+                        //Debug.Log(hitObj.transform.gameObject.name);
+                    }
+                }
+
+
+                if (isAll)//바닥에 있을 때 isConst || isBlock
                 {
 
 
@@ -362,12 +393,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             MoveDust.Stop();
                         }
                         //점프 먼지 시작
-                        JumpDust.Play();
+                        //JumpDust.Play();
                     }
 
                     else if (_inputX != 0)//좌우 방향 전환
                     {
-                        Debug.Log("ff");
                         Character.SetState(AnimationState.Running);
                         //런닝 먼지 시작
                         if (!MoveDust.isPlaying && Character.GetState() == AnimationState.Running)
@@ -392,18 +422,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             _inputX = _inputY = 0;
 
-            
-
-            // 바닥을 체크하는 레이캐스트
-            //bool isOnGround = Physics2D.OverlapCircle(transform.position + Vector3.up * 0.5f, 0.5f, LayerMask.GetMask("Construction"));
-
-            // isOnGround를 사용하여 바닥이 있는지 확인
-            //if (isOnGround)
+            //점프인 경우와 아닌 경우로 전환했을 때
+            if ((isJumpAni && Character.GetState() != AnimationState.Jumping)|| (!isJumpAni && Character.GetState() == AnimationState.Jumping)) //점프였다가 걷는 경우
             {
-                //Debug.Log("바닥에 있음");
+                JumpDust.Play();
             }
 
-            //  _motion = new Vector3(RunSpeed * _inputX, _motion.y);
+            #region 물리 바꿈
+
             return;
 
             if (Time.frameCount <= 1)
@@ -528,6 +554,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 MoveDust.Stop();
             }
+            #endregion
+
         }
         #endregion
 
@@ -677,6 +705,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void LateUpdate()
         {
+            curHealth = 100;
+
             if (isDead)
                 return;
 
@@ -835,8 +865,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
             {
-                transform.position = Vector3.zero;
-                return;
                 curHealth = 0;
             }
         }

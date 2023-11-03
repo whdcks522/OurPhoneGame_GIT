@@ -5,16 +5,25 @@ using UnityEngine;
 public class Island : MonoBehaviour
 {
     public float speed; // 마찰력 계수
-    private Rigidbody rb;
+    private Rigidbody rigidbody;
 
-    private void Start()
+    public enum IslandType
     {
-        rb = GetComponent<Rigidbody>();
-        rb.velocity = Vector2.zero; // 초기 속도를 0으로 설정하여 움직이지 않게 합니다.
+        Conveyor
+    }
+    public IslandType islandType;
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        rigidbody.velocity = Vector2.zero; // 초기 속도를 0으로 설정하여 움직이지 않게 합니다.
     }
 
-    private void Update()
+
+    private void FixedUpdate()
     {
-        rb.AddForce(Vector2.right * speed);
+        if (IslandType.Conveyor == islandType) 
+        {
+            rigidbody.AddForce(Vector2.right * speed);
+        }
     }
 }
