@@ -73,19 +73,23 @@ public class Block : MonoBehaviourPunCallbacks
     {
         curHealth -= damage;
         //매터리얼 관리
-        if (curHealth >= 50)
+        if (curHealth >= 80)
         {
-            
-            float tmpValue = (100f - curHealth) / 50f;
+            spriteRenderer.material.SetColor("_customColor", new Color(0.5f, 0.5f, 0.5f, 1));
+        }
+        else if (curHealth <= 60) 
+        {
+            spriteRenderer.material.SetColor("_customColor", new Color(1, 1, 1, 1));
+        }
+        else if (curHealth <= 40)
+        {
+            spriteRenderer.material.SetColor("_customColor", new Color(1, 0.5f, 0.5f, 1));
+        }
+        else if (curHealth <= 20)
+        {
+            spriteRenderer.material.SetColor("_customColor", new Color(1, 0, 0, 1));
+        }
 
-            spriteRenderer.material.SetColor("_customColor", new Color(tmpValue, tmpValue, tmpValue, 1));
-        }
-        else if (curHealth <= 50) 
-        {
-            float tmpValue = (50f - curHealth) / 50f;
-            spriteRenderer.material.SetColor("_customColor", new Color(tmpValue, 0, 0, 1));
-        }
-        
         if (curHealth <= 0)
         {
             if (PhotonNetwork.InRoom)

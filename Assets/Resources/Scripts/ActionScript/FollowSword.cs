@@ -84,17 +84,13 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
         maxSwordIndex = transform.parent.childCount;
         curSwordIndex = transform.GetSiblingIndex() + 1;//현재 자신이 몇 번째인지
-
-        //trailRenderer = GetComponentInChildren<TrailRenderer>();
-        
     }
 
     private void OnEnable()
     {
         trailRenderer.Clear();
 
-        //if(maxSwordIndex != curSwordIndex)//클래스 객체 정보 초기화
-            childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
+        childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
     }
 
     void FixedUpdate()

@@ -68,6 +68,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("칼 영역 표시 게임오브젝트")]
         public SpriteRenderer playerSwordArea;
         Color swordAreaColor;
+        
 
       
 
@@ -75,7 +76,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isSRank, isARank, isBRank, isCRank, isDRank;
         //이미 죽음
         bool isDead = false;
-
 
 
         [Header("조이스틱의 정보를 받아들임")]
@@ -95,12 +95,21 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isTeleporting = false;
 
         public BattleUIManager battleUIManager;
+        Rigidbody rigid;
+        [Header("Rigidbody 점프력")]
+        public int jumpForce;
+        [Header("레이의 반지름")]
+        public float rayRadius;
+        [Header("레이의 사거리")]
+        public float raySize;
 
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
 
         private void Awake()
         {
+            rigid = GetComponent<Rigidbody>();
+            
             battleUIManager = BattleUIManager.Instance;
 
             for (int i = 0; i < swordParent.transform.childCount; i++)
@@ -238,6 +247,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
                 */
 
+                _inputX = 0;
                 if (Input.GetKey(KeyCode.Z))
                 {
                     _inputX = -1;
@@ -247,13 +257,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     _inputX = 1;
                 }
 
+                _inputY = 0;
                 if (Input.GetKey(KeyCode.S))//Down 지워버림
                 {
                     _inputY = 1;
 
-                    if (Controller.isGrounded)
+                    //if (Controller.isGrounded)
                     {
-                        JumpDust.Play(true);
+                        //JumpDust.Play(true);
                     }
                 }
             }
@@ -268,9 +279,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     _inputY = 1;
 
-                    if (Controller.isGrounded)
+                    //if (Controller.isGrounded)
                     {
-                        JumpDust.Play(true);
+                        //JumpDust.Play(true);
                     }
                 }
             }
@@ -289,9 +300,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             _inputX = x;
             _inputY = y;
 
-            if (Controller.isGrounded && y == 1)
+            //if (Controller.isGrounded && y == 1)
             {
-                JumpDust.Play(true);
+                //JumpDust.Play(true);
             }
         }
         #endregion
@@ -300,6 +311,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             //이동
             Move();
+
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)//타인의 것이면 안건듬
@@ -319,12 +331,80 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }     
         }
 
+        public float startPos;
         
-
-
         #region 이동
         private void Move()
         {
+            if (_inputX != 0)//좌우 방향 전환
+            {
+                Turn(_inputX);
+            }
+
+            if (rigid.velocity.y <= jumpForce/2) 
+            {
+                RaycastHit hit;//시작점, 반지름, 방향, 길이, 레이어
+                bool isConst = Physics.SphereCast(transform.position + Vector3.up * startPos, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Construction"));
+                bool isBlock = Physics.SphereCast(transform.position + Vector3.up * startPos, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
+
+                if (isConst || isBlock)//바닥에 있을 때
+                {
+
+
+                    if (_inputY > 0)//점프
+                    {
+                        Character.SetState(AnimationState.Jumping);
+                        rigid.velocity = new Vector3(rigid.velocity.x, jumpForce);
+
+                        //런닝 먼지 중지
+                        if (MoveDust.isPlaying)
+                        {
+                            MoveDust.Stop();
+                        }
+                        //점프 먼지 시작
+                        JumpDust.Play();
+                    }
+
+                    else if (_inputX != 0)//좌우 방향 전환
+                    {
+                        Debug.Log("ff");
+                        Character.SetState(AnimationState.Running);
+                        //런닝 먼지 시작
+                        if (!MoveDust.isPlaying && Character.GetState() == AnimationState.Running)
+                        {
+                            MoveDust.Play();
+                        }
+                    }
+                    else if (_inputX == 0)//좌우 방향 전환
+                    {
+                        //런닝 먼지 중지
+                        Character.SetState(AnimationState.Idle);
+                        if (MoveDust.isPlaying)
+                        {
+                            MoveDust.Stop();
+                        }
+                    }
+                }
+            }
+                     
+            rigid.velocity = new Vector2(_inputX* RunSpeed, rigid.velocity.y);
+
+
+            _inputX = _inputY = 0;
+
+            
+
+            // 바닥을 체크하는 레이캐스트
+            //bool isOnGround = Physics2D.OverlapCircle(transform.position + Vector3.up * 0.5f, 0.5f, LayerMask.GetMask("Construction"));
+
+            // isOnGround를 사용하여 바닥이 있는지 확인
+            //if (isOnGround)
+            {
+                //Debug.Log("바닥에 있음");
+            }
+
+            //  _motion = new Vector3(RunSpeed * _inputX, _motion.y);
+            return;
 
             if (Time.frameCount <= 1)
             {
@@ -348,7 +428,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (_inputX != 0)//좌우 방향 전환
             {
                 if (PhotonNetwork.InRoom)
-                    photonView.RPC("Turn", RpcTarget.AllBuffered, _inputX);
+                    photonView.RPC("Turn", RpcTarget.AllBuffered, _inputX);//-------------
                 else
                     Turn(_inputX);
             }
@@ -417,19 +497,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
 
             _motion.y += Gravity;
-            if (isDead) 
-            {
-                if (state == AnimationState.Dead)
-                {
-                    Debug.Log("시간흐름: " + Time.timeScale);
-                    Debug.Log("중력: " + _motion.y);
-                }
-                else
-                {
-                    Debug.Log(state);
-                }
-            }
-            
+             
 
             Controller.Move(_motion * Time.fixedDeltaTime);//!!!!!!!!!!!!!!이부분 빼면 안움직임
             //Controller.
@@ -498,7 +566,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void SwordDirCheck()
         {
             //칼 부모의 위치 자동 조정
-            swordParent.transform.position = swordParentVec;//0,0,0 고정시킴
+            //swordParent.transform.position = swordParentVec;//0,0,0 고정시킴  //이거 빼니까 고쳐지네 뭐징..
 
             swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
             playerSwordArea.color = swordAreaColor;
@@ -767,6 +835,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
             {
+                transform.position = Vector3.zero;
+                return;
                 curHealth = 0;
             }
         }
