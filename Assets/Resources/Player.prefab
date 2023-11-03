@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1969343971620132084}
   - component: {fileID: 3832677617255816428}
   m_Layer: 10
-  m_Name: ChildSword_1
+  m_Name: ChildSword_10
   m_TagString: playerSword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,8 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 8970127748784201795}
+  child: {fileID: 0}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 554678537047860343}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &3832677617255816428
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -133,7 +137,7 @@ GameObject:
   - component: {fileID: 7629178055015520628}
   - component: {fileID: 1821614375241386906}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,7 +371,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 5762922852383065240}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 263677236813503384}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &6572002343198315849
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -400,7 +408,7 @@ GameObject:
   - component: {fileID: 1743909155299964797}
   - component: {fileID: 6259890221695978630}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: LeaderSwordTrail_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -633,8 +641,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 0}
+  child: {fileID: 141593480685669017}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 6375178255713890187}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &3473385970877408918
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1102,7 +1114,7 @@ GameObject:
   - component: {fileID: 8730321742503566169}
   - component: {fileID: 4457625464112178257}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1336,7 +1348,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 3925482333871758672}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 4457625464112178257}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &2058254289157768741
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6747,7 +6763,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 283883041438498517}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 4129060967423004733}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &4798738045259858296
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6780,7 +6800,7 @@ GameObject:
   - component: {fileID: 6268847620128274341}
   - component: {fileID: 1005886793439678650}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11900,7 +11920,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 4729382956313458514}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 1821614375241386906}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &266943069362703966
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11922,6 +11946,87 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4827215689120873500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5010107035443883307}
+  - component: {fileID: 1760091986968588360}
+  - component: {fileID: 1721769833028800449}
+  m_Layer: 16
+  m_Name: BlockArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5010107035443883307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827215689120873500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4567551690595120229}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1760091986968588360
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827215689120873500}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &1721769833028800449
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827215689120873500}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &4871657499303767157
 GameObject:
   m_ObjectHideFlags: 0
@@ -11933,7 +12038,7 @@ GameObject:
   - component: {fileID: 6034052157171507825}
   - component: {fileID: 554678537047860343}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12078,7 +12183,7 @@ GameObject:
   - component: {fileID: 8547269218615218665}
   - component: {fileID: 263677236813503384}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12223,7 +12328,7 @@ GameObject:
   - component: {fileID: 3950383301511720896}
   - component: {fileID: 6375178255713890187}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12457,7 +12562,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 5762922852383065240}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 1005886793439678650}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &5155321558556975300
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17407,6 +17516,7 @@ Transform:
   - {fileID: 5825050747348620590}
   - {fileID: 1656695695387416903}
   - {fileID: 5131936622220100939}
+  - {fileID: 5010107035443883307}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17507,7 +17617,7 @@ MonoBehaviour:
   miniName: {fileID: 2405757037547769105}
   swordParent: {fileID: 6381797422193437685}
   leaderSwordSpeed: 10
-  curSwordCount: 4
+  curSwordCount: 5
   backSwords: {fileID: 1703996433826785003}
   playerSwordArea: {fileID: 5066992103306789604}
   moveJoy: {fileID: 0}
@@ -17574,7 +17684,7 @@ GameObject:
   - component: {fileID: 5117317708719656753}
   - component: {fileID: 7406846429251221552}
   m_Layer: 10
-  m_Name: LeaderSword
+  m_Name: LeaderSword_1
   m_TagString: playerSword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17660,8 +17770,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  child: {fileID: 141593480685669017}
+  child: {fileID: 8970127748784201795}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  trailRenderer: {fileID: 6259890221695978630}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &3414103428817012096
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17853,7 +17967,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4968095510686775453}
-  - {fileID: 1510295548249218728}
   - {fileID: 6519428128558236872}
   - {fileID: 2851304703184957277}
   - {fileID: 182321410196101581}
@@ -17862,6 +17975,7 @@ Transform:
   - {fileID: 6840895279619763182}
   - {fileID: 2549489215732301547}
   - {fileID: 496136569378528226}
+  - {fileID: 1510295548249218728}
   m_Father: {fileID: 4567551690595120229}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17876,7 +17990,7 @@ GameObject:
   - component: {fileID: 5145182993578083931}
   - component: {fileID: 1986923581611249642}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18110,7 +18224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 6949382106540633811}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 1986923581611249642}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &6209787350266957259
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18382,7 +18500,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 1961907249849268425}
+  player: {fileID: 0}
+  characterControls: {fileID: 0}
+  trailRenderer: {fileID: 7964095566423556670}
   swordDir: 0
+  battleUIManager: {fileID: 0}
 --- !u!135 &3089201236071381802
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18415,7 +18537,7 @@ GameObject:
   - component: {fileID: 4260204042486181364}
   - component: {fileID: 7964095566423556670}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18560,7 +18682,7 @@ GameObject:
   - component: {fileID: 8758659626014228132}
   - component: {fileID: 4129060967423004733}
   m_Layer: 0
-  m_Name: LeaderSwordTrail
+  m_Name: ChildSwordTrail_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

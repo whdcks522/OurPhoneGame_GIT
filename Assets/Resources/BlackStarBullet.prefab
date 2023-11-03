@@ -5062,7 +5062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTime: 10
   bulletSpeed: 10
-  bulletDamage: 10
+  bulletDamage: 20
   bulletHeal: 5
   bulletTarget: {fileID: 0}
   bulletEffectType: 0

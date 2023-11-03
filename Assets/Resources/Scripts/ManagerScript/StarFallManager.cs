@@ -51,9 +51,9 @@ public class StarFallManager : MonoBehaviour
 
 
             GameObject bullet = null;
-            bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
+            //bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
             //운석 오브젝트 생성
-            /*
+            
             if (curPowerUpindex >= maxPowerUpindex)//강화 운석
             {
                 bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
@@ -64,7 +64,7 @@ public class StarFallManager : MonoBehaviour
                 bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
                 curPowerUpindex++;
             }
-            */
+            
             //컴포넌트 정의
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             Bullet bulletComponent = bullet.GetComponent<Bullet>();

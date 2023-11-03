@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,24 +32,28 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     public GameObject child;//자식 설정
     int followDelay = 5;//따라가는 지연시간
+
     //현재 칼의 정보
     private FollowSwordInfo childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
-    //[Header("플레이어 게임오브젝트")]
-    GameObject player;
+
+    [Header("플레이어 게임오브젝트(비활성화 시, 죽으면 오류)")]
+    public GameObject player;
     //플레이어의 함수
-    private CharacterControls characterControls;
+    public CharacterControls characterControls;
+
     //경로
-    private TrailRenderer trailRenderer;
+    public TrailRenderer trailRenderer;
 
     [Header("칼과 플레이어 사이의 거리 계산")]
     public float swordDir;
 
-    //있는 칼의 수
+    //사용 가능한 전체 칼의 수
     int maxSwordIndex;
     //현재 칼이 몇번째인지
     int curSwordIndex;
+
     //배틀 매니저
-    BattleUIManager battleUIManager;
+    public BattleUIManager battleUIManager;
 
 
     #region 적 정보 클래스 공백
@@ -77,21 +82,35 @@ public class FollowSword : MonoBehaviourPunCallbacks
         player = transform.root.gameObject;
         characterControls = player.GetComponent<CharacterControls>();
 
-        maxSwordIndex = transform.parent.childCount - 1;
-        curSwordIndex = transform.GetSiblingIndex();//현재 자신이 몇 번째인지
+        maxSwordIndex = transform.parent.childCount;
+        curSwordIndex = transform.GetSiblingIndex() + 1;//현재 자신이 몇 번째인지
 
-        trailRenderer = GetComponentInChildren<TrailRenderer>();
+        //trailRenderer = GetComponentInChildren<TrailRenderer>();
         
     }
 
     private void OnEnable()
     {
-        if(maxSwordIndex != curSwordIndex)//클래스 객체 정보 초기화
+        trailRenderer.Clear();
+
+        //if(maxSwordIndex != curSwordIndex)//클래스 객체 정보 초기화
             childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
     }
 
     void FixedUpdate()
     {
+        //사용 가능 영역을 보여주기 위함
+        if (curSwordIndex == 1)
+        {
+            Vector3 swordPos = transform.position;
+            Vector3 playerPos = player.transform.position;
+
+            // 두 위치 간의 거리를 계산합니다.
+            swordDir = Vector3.Distance(swordPos, playerPos) / 500;
+        }
+
+        bool isRecentActive = false;
+
         //큐에 정보 삽입
         followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation));
 
@@ -100,15 +119,16 @@ public class FollowSword : MonoBehaviourPunCallbacks
         {
             childSwordInfo = followSwordQueue.Dequeue();
 
-            if (!child.activeSelf && curSwordIndex < characterControls.curSwordCount) //꺼져 있다면 켜줌 //child != null && 
+            //꺼져 있다면 켜줌 
+            if (!child.activeSelf && curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
             {
                 child.SetActive(true);
-                child.GetComponent<FollowSword>().trailRenderer.Clear();
-                //child.transform.position = player.transform.position + Vector3.up * 0.5f;
+                isRecentActive = true;
+                //child.GetComponent<FollowSword>().trailRenderer.Clear();
             }
         }
 
-        if (curSwordIndex > characterControls.curSwordCount)//맨 끝 칼은 수행 안함
+        if (curSwordIndex >= characterControls.curSwordCount)//맨 끝 칼은 수행 안함
             return;
 
 
@@ -116,15 +136,10 @@ public class FollowSword : MonoBehaviourPunCallbacks
         child.transform.rotation = childSwordInfo.swordRot;
         child.transform.position = childSwordInfo.swordVec;
 
-        //영역을 보여주기 위함
-        if (curSwordIndex == 0) 
-        {
-            Vector3 swordPos = transform.position;
-            Vector3 playerPos = player.transform.position;
+        if(isRecentActive)//awake하기 전에 부를까봐  
+            child.GetComponent<FollowSword>().trailRenderer.Clear();
 
-            // 두 위치 간의 거리를 계산합니다.
-            swordDir = Vector3.Distance(swordPos, playerPos)/ 500;
-        }
+        
     }
 
     
@@ -132,74 +147,59 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InRoom)//멀티 중이라면
         {
-            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 0 && photonView.IsMine)//리더 검이 충돌 했다면
+            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 1 && photonView.IsMine)//리더 검이 충돌 했다면
             {
                 PhotonView tmpPhotonView = other.gameObject.GetComponent<PhotonView>();
                 if (tmpPhotonView.IsMine) //자신의 영역에서 벗어 났을 때만
                 {
                     //플레이어와 리더 칼의 거리 연산 초기화
                     swordDir = 0;
-                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, true);
+                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 1);
                 }
             }
         }
         else //1인이라면
         {
-            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 0)//리더 검이 충돌 했다면
+            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 1)//리더 검이 충돌 했다면
             {
                 //플레이어와 리더 칼의 거리 연산 초기화
                 swordDir = 0;
-                leaderSwordExitRPC(true);
+                leaderSwordExitRPC(1);
             }
         }
     }
 
     #region 칼이 범위 밖으로 이탈 시
     [PunRPC]
-    public void leaderSwordExitRPC(bool isOut)
+    public void leaderSwordExitRPC(int level)
     {
-        if (isOut)//직접 밖으로 나간 경우
+        //0: 그냥 수납
+        //1: 무기만 폭파(칼 범위 밖으로 나간 경우)
+        //2: 본인과 무기 폭파
+        if (level == 1 && characterControls.curSwordCount > 1)
         {
-            //무기 수 1 감소
-            characterControls.swordCountRPC(false);
-            //폭탄 생성
-            GameObject bomb = null;
-
-            if (PhotonNetwork.InRoom)
-            {
-                if (photonView.IsMine)
-                {
-                    bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
-                }
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
-            }
-            //여기 없는 경우 오류 날 수도 있음
-            Bomb bombComponent = bomb.GetComponent<Bomb>();
-
-            //폭탄 위치 조정
-            bomb.transform.parent = battleUIManager.gameManager.transform;
-            bomb.transform.position = transform.position;
-            //폭탄 활성화
-            bombComponent.bombOnRPC();
-        } 
+            createBomb(transform.position);
+        }
+        else if (level == 2) 
+        {
+            //플레이어 폭파
+            createBomb(player.transform.position);
+            //무기 폭파
+            if(gameObject.activeSelf)
+                createBomb(transform.position);
+        }
         
-
-
-
         //등의 칼 활성화
         characterControls.backSwords.SetActive(true);
         //다시 칼 비활성화
-        for (int i = 0; i <= maxSwordIndex; i++)
+        for (int i = 0; i <= maxSwordIndex - 1; i++)
         {
             GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
             FollowSword tmpSwordComponent = tmpSword.GetComponent<FollowSword>();
 
+            //칼 활성화
             tmpSword.SetActive(false);
-            //트레일 렌더러 초기화
-            trailRenderer.Clear();
+
 
             if (tmpSwordComponent != null)
             {
@@ -209,7 +209,35 @@ public class FollowSword : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    
+    #region 폭탄 생성
+    void createBomb(Vector3 bombPos) 
+    {
+        //무기 수 1 감소
+        characterControls.swordCountRPC(false);
+        //폭탄 생성
+        GameObject bomb = null;
+
+        if (PhotonNetwork.InRoom)
+        {
+            if (photonView.IsMine)
+            {
+                bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+            }
+        }
+        else if (!PhotonNetwork.InRoom)
+        {
+            bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+        }
+        //여기 없는 경우 오류 날 수도 있음
+        Bomb bombComponent = bomb.GetComponent<Bomb>();
+
+        //폭탄 위치 조정
+        bomb.transform.parent = battleUIManager.gameManager.transform;
+        bomb.transform.position = bombPos;
+        //폭탄 활성화
+        bombComponent.bombOnRPC();
+    }
+    #endregion
 
     private void OnTriggerEnter(Collider other)
     {
@@ -248,18 +276,38 @@ public class FollowSword : MonoBehaviourPunCallbacks
                         characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, true);
                     }
                 }
-                else if (!PhotonNetwork.InRoom) 
+                else if (!PhotonNetwork.InRoom)
                 {
                     //무기 수 1 증가
                     characterControls.swordCountRPC(true);
                 }
-                    
+
             }
             else if (bullet.bulletEffectType == Bullet.BulletEffectType.Normal)
             {
                 //일반 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-            }  
-        } 
+            }
+        }
+       
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.CompareTag("Block"))
+        {
+            Block block = other.gameObject.GetComponent<Block>();
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    block.photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * 10f);
+                }
+            }
+            else if (!PhotonNetwork.InRoom) 
+            {
+                block.healthControl(Time.deltaTime * 10f);
+            }
+        }
     }
 }

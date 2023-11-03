@@ -55,5 +55,5 @@ Material:
     - _varietyX: 10
     - _varietyY: 2
     m_Colors:
-    - _customColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+    - _customColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

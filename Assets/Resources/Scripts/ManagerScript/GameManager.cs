@@ -28,9 +28,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     //폭탄 주소가 저장될 곳
     List<GameObject>[] bombPools;
 
+    //블록 리스트
+    string[] blockNames = { "NormalBlock" };
+    //블록 주소가 저장될 곳
+    List<GameObject>[] blockPools;
+
     public enum PoolTypes
     {
-        BulletType, BombType //EnemyType, 
+        BulletType, BombType, BlockType //EnemyType, 
     }
 
     private void Awake()
@@ -53,6 +58,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         bombPools = new List<GameObject>[bombNames.Length];
         for (int index = 0; index < bombNames.Length; index++)//풀 하나하나 초기화
             bombPools[index] = new List<GameObject>();
+
+        //폭탄 풀 초기화(4개씩 수정)
+        blockPools = new List<GameObject>[blockNames.Length];
+        for (int index = 0; index < blockNames.Length; index++)//풀 하나하나 초기화
+            blockPools[index] = new List<GameObject>();
 
 
         //플레이어 생성
@@ -101,13 +111,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                  break;
             case PoolTypes.BombType:
                 tmpPools = bombPools;
-                tmpNames = bombNames;
-                Debug.Log("폭탄 타입 선택됨");
+                tmpNames = bombNames;//awake에서 선언햇니
+                break;
+            case PoolTypes.BlockType:
+                tmpPools = blockPools;
+                tmpNames = blockNames;//awake에서 선언햇니
                 break;
         }
 
         int index = NametoIndex(tmpNames, name);
-        if (poolTypes == PoolTypes.BombType) Debug.Log(index);
        //있다면 찾아봄
         foreach (GameObject item in tmpPools[index])
         {
@@ -143,6 +155,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                     break;
                 case PoolTypes.BombType:
                     bombPools = tmpPools;
+                    break;
+                case PoolTypes.BlockType:
+                    blockPools = tmpPools;
                     break;
             }
         }   

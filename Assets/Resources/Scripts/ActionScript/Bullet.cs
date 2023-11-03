@@ -44,8 +44,6 @@ public class Bullet : MonoBehaviourPunCallbacks
     public bool isHit;
     public string hitStr;
 
-    
-
     private void Awake()
     {
         gameManager = GameManager.Instance;
@@ -58,11 +56,12 @@ public class Bullet : MonoBehaviourPunCallbacks
         curTime += Time.deltaTime;
         if (curTime > maxTime)
         {
-            if (PhotonNetwork.InRoom && photonView.IsMine) 
+            if (PhotonNetwork.InRoom) 
             {
-                photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                if (photonView.IsMine)
+                    photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
             }
-            else
+            else if(!PhotonNetwork.InRoom)
             {
                 bulletOffRPC();
             }
@@ -155,4 +154,22 @@ public class Bullet : MonoBehaviourPunCallbacks
         }
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Outline")) //¸Ê ¹ÛÀ¸·Î ³ª°¡Áö¸é Á¾·á
+        {
+            if (PhotonNetwork.InRoom) 
+            {
+                if(photonView.IsMine)
+                    //ÃÑ¾Ë ÆÄ±«
+                    photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                bulletOffRPC();
+            }
+        }
+    }
 }
