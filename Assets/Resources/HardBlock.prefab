@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4995233831190496646}
   - component: {fileID: 796250505217014716}
   m_Layer: 15
-  m_Name: NormalBlock
+  m_Name: HardBlock
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cdcb7ff99f31ad642929690e1663805c, type: 2}
+  - {fileID: 2100000, guid: 768021af6541c00449ebb08529751532, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -191,8 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2116e32f8212280449f7438b204a1a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHealth: 100
+  curHealth: 1000
   createPos: {x: 0, y: 0, z: 0}
-  blockHeal: 1
-  crackMul: 1
-  blockType: 0
+  blockHeal: 25
+  crackMul: 2

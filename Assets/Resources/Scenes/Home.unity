@@ -1238,6 +1238,15 @@ MonoBehaviour:
   timeOverSfxClips:
   - {fileID: 8300000, guid: 171108e279f834fd181474de640efb70, type: 3}
   - {fileID: 8300000, guid: 9791f2f2e16a742ddaabdf59eecfaf18, type: 3}
+  summonSfxClips:
+  - {fileID: 8300000, guid: 3b9ebb7ab17874521bb18cf30f271d57, type: 3}
+  blockSfxClips:
+  - {fileID: 8300000, guid: 59b85645ce3a0324093821c3fd3d0eed, type: 3}
+  - {fileID: 8300000, guid: 752551c0f9a976545a611243e16425da, type: 3}
+  - {fileID: 8300000, guid: ea46811d6564e974eb67311b92e19800, type: 3}
+  - {fileID: 8300000, guid: 63a86c411429bbb46b96ec7d0ce8dc14, type: 3}
+  warnSfxClips:
+  - {fileID: 8300000, guid: dfe5d2def8f0f47e58ba1e0d096317ff, type: 3}
   channels: 5
 --- !u!114 &978758252
 MonoBehaviour:
@@ -1271,6 +1280,7 @@ MonoBehaviour:
   Dscore: 0
   Escore: 0
   curScore: 0
+  rankType: 0
 --- !u!1001 &993478293
 PrefabInstance:
   m_ObjectHideFlags: 0

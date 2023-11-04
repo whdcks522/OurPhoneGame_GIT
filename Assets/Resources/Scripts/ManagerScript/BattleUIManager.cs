@@ -65,6 +65,13 @@ public class BattleUIManager : MonoBehaviour
     public int Escore;
     [Header("현재 생존 점수")]
     public float curScore;
+    
+    public enum RankType
+    {
+        S, A, B, C, D, E
+    }
+    [Header("현재 생존 랭크")]
+    public RankType rankType;
 
     private void Start()
     {

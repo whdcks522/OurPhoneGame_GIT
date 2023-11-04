@@ -297,12 +297,12 @@ public class FollowSword : MonoBehaviourPunCallbacks
             {
                 if (photonView.IsMine)
                 {
-                    block.photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * 10f);
+                    block.photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * 5f);
                 }
             }
             else if (!PhotonNetwork.InRoom) 
             {
-                block.healthControl(Time.deltaTime * 10f);
+                block.healthControl(Time.deltaTime * 5f);
             }
         }
     }

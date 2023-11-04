@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     List<GameObject>[] bombPools;
 
     //블록 리스트
-    string[] blockNames = { "NormalBlock" };
+    string[] blockNames = { "NormalBlock", "HardBlock" };
     //블록 주소가 저장될 곳
     List<GameObject>[] blockPools;
 
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         //가져오기
         battleUIManager.battleUI.SetActive(true);
         battleUIManager.curScore = 0;
+        battleUIManager.rankType = BattleUIManager.RankType.E;
         battleUIManager.bigRankText.text = "E";
         battleUIManager.bigScoreText.text = 0 +" / "+ battleUIManager.Dscore;
 

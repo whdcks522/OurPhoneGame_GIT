@@ -99,13 +99,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("Rigidbody 점프력")]
         public int jumpForce;
 
-        [Header("레이의 시작점")]
-        public float startPos;
+
         [Header("레이의 반지름")]
         public float rayRadius;
         [Header("레이의 사거리")]
         public float raySize;
-        
+        [Header("레이의 시작점")]
+        public Vector3 rayVec = Vector3.zero;
+        [Header("현재 바닥인지")]
+        public bool isGround = false;
+
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
 
@@ -313,6 +316,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         public void FixedUpdate()
         {
+            if (isDead) 
+                return;
+
             //이동
             Move();
 
@@ -335,8 +341,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }     
         }
 
-        public Vector3 rayVec = Vector3.zero;
-        public bool isAll = false;
+        
         #region 이동
         private void Move()
         {
@@ -352,7 +357,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 isJumpAni = true;
             }
 
-            //if (rigid.velocity.y <= jumpForce/2) 
+            if (rigid.velocity.y <= 2) //jumpForce/4
             {
                 RaycastHit hit;//시작점, 반지름, 방향, 길이, 레이어
  
@@ -360,28 +365,20 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 bool isBlock = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
 
 
-                isAll = false;
-                RaycastHit[] rayHits = Physics.SphereCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize, LayerMask.GetMask("Construction"));
+                isGround = false;
+                RaycastHit[] rayHits = Physics.SphereCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
                 foreach (RaycastHit hitObj in rayHits) 
                 {
-                    //Debug.Log()
-                    //hitObj.transform.GetComponent<Enemy>().HitbyGrenade(transform.position);
-                    if (hitObj.transform.CompareTag("Construction")) 
+                    if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) || hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block")))
                     {
-                        // Debug.Log("건축물:" + hitObj.transform.gameObject.name);
-                        isAll = true;
-                    }
-                   // else 
-                    {
-                        //Debug.Log(hitObj.transform.gameObject.name);
+                        isGround = true;
+                        break;
                     }
                 }
 
 
-                if (isAll)//바닥에 있을 때 isConst || isBlock
+                if (isGround)//바닥에 있을 때 isConst || isBlock
                 {
-
-
                     if (_inputY > 0)//점프
                     {
                         Character.SetState(AnimationState.Jumping);
@@ -392,8 +389,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         {
                             MoveDust.Stop();
                         }
-                        //점프 먼지 시작
-                        //JumpDust.Play();
                     }
 
                     else if (_inputX != 0)//좌우 방향 전환
@@ -415,8 +410,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         }
                     }
                 }
+                else if (!isGround) //공중에 있을 때
+                {
+                    if(Character.GetState() != AnimationState.Jumping)
+                        Character.SetState(AnimationState.Jumping);
+                }
             }
-                     
+
             rigid.velocity = new Vector2(_inputX* RunSpeed, rigid.velocity.y);
 
 
@@ -705,8 +705,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void LateUpdate()
         {
-            curHealth = 100;
-
             if (isDead)
                 return;
 
@@ -757,7 +755,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (!isSRank) 
                 {
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    battleUIManager.rankType = BattleUIManager.RankType.S;
                     isSRank = true;
+
                 }
                 battleUIManager.bigRankText.text = "<color=#FFB900>S</color>";
                 battleUIManager.bigScoreText.text += '-';
@@ -767,6 +767,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (!isARank)
                 {
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    battleUIManager.rankType = BattleUIManager.RankType.A;
                     isARank = true;
                 }
                 battleUIManager.bigRankText.text = "<color=#FFB400>A</color>";
@@ -777,6 +778,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (!isBRank)
                 {
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    battleUIManager.rankType = BattleUIManager.RankType.B;
                     isBRank = true;
                 }
                 battleUIManager.bigRankText.text = "<color=#FFAF00>B</color>";
@@ -787,6 +789,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (!isCRank)
                 {
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    battleUIManager.rankType = BattleUIManager.RankType.C;
                     isCRank = true;
                 }
                 battleUIManager.bigRankText.text = "<color=#FFAA00>C</color>";
@@ -797,6 +800,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (!isDRank)
                 {
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                    battleUIManager.rankType = BattleUIManager.RankType.D;
                     isDRank = true;
                 }
                 battleUIManager.bigRankText.text = "<color=#FFA500>D</color>";
@@ -863,7 +867,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     bullet.bulletOffRPC();
                 }
             }
-            else if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
+            else if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
             {
                 curHealth = 0;
             }

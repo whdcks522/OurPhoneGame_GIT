@@ -106,5 +106,27 @@ public class Bomb : MonoBehaviourPunCallbacks
                 }
             }
         }
+        else if (other.transform.CompareTag("Block"))
+        {
+            Block block = other.GetComponent<Block>();
+
+            if (PhotonNetwork.InRoom)//¸ÖÆ¼ÀÇ °æ¿ì
+            {
+                if (photonView.IsMine)
+                {
+                    //ÃÑ¾Ë ÆÄ±«
+                    block.photonView.RPC("blockOffRPC", RpcTarget.AllBuffered, true);
+                    //È¸º¹
+                    characterControls.photonView.RPC("healOffRPC", RpcTarget.AllBuffered, block.blockHeal);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)//½Ì±ÛÀÇ °æ¿ì
+            {
+                //ÃÑ¾Ë ÆÄ±«
+                block.blockOffRPC(true);
+                //È¸º¹
+                characterControls.healControlRPC(block.blockHeal);
+            }
+        }
     }
 }

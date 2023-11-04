@@ -11,44 +11,54 @@ public class Block : MonoBehaviourPunCallbacks
     [Header("블록의 체력")]
     float maxHealth;
     public float curHealth;
-    Rigidbody rigid;
-    SpriteRenderer spriteRenderer;
+    
     [Header("재생성될 위치")]
     public Vector3 createPos;
 
-    [Header("이동 방향")]
-    public Vector3 dirVec = Vector3.right;
+    [Header("파괴 시, 회복량")]
+    public int blockHeal;
 
+    [Header("추가로 금간 정도")]
+    public int crackMul;
+
+    public enum BlockType
+    {
+       Zero, Quarter, Half, Sum, Full
+    }
+    [Header("블록의 상태")]
+    public BlockType blockType;
+
+    //금간 색
+    Color crackColor;
+    //생성 됐을 때의 크기
+    Vector3 sizeVec = Vector3.one;
     //게임 매니저
     GameManager gameManager;
     //플레이어 스크립트
     CharacterControls characterControls;
-
-    //낙하중인가
-    //bool isFalling = true;
-
-    public enum BlockType
-    {
-        Normal, UnBreakable
-    }
-    public BlockType blockType;
+    BattleUIManager battleUIManager;
+    Rigidbody rigid;
+    SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        gameManager = GameManager.Instance;
-        //characterControls = gameManager.cha
+        battleUIManager = BattleUIManager.Instance;
+        gameManager = battleUIManager.gameManager;
+        characterControls = gameManager.player.GetComponent<CharacterControls>();
 
         maxHealth = curHealth;
         rigid = GetComponent<Rigidbody>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     [PunRPC]
-    public void blockOnRPC()
+    public void blockOnRPC()//False: 못부셔셔 진화한 경우
     {
+        //크기 랜덤화
+        sizeVec = new Vector3 (Random.Range(1,4), Random.Range(2, 4), 1);
+        transform.localScale = sizeVec;
+
         //게임오브젝트 활성화
         gameObject.SetActive(true);
-        //낙하 초기화
-        //isFalling = true;
         //체력 관리
         curHealth = maxHealth;
         //매터리얼 관리
@@ -57,47 +67,91 @@ public class Block : MonoBehaviourPunCallbacks
         rigid.velocity = Vector3.zero;
         //위치 초기화
         transform.position = createPos;
-        
-    }
-
-    private void FixedUpdate()
-    {
-        //rigid.AddForce(Vector3.down * 3);
-
-        //if (!isFalling) 
-        {
-            //rigid.velocity = dirVec * 1;
-        }
+        //등급 초기화
+        blockType = BlockType.Full;
     }
 
     [PunRPC]
-    public void blockOffRPC()
+    public void blockOffRPC(bool isBreak)//true: 깨부셨을 경우
     {
         //게임오브젝트 활성화
         gameObject.SetActive(false);
+        if (isBreak) 
+        {
+            //파괴 효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+
+            characterControls.healControlRPC(blockHeal);
+        }
+        else if (!isBreak)
+        {
+            //경고 효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Warn);
+
+            //강한 블록 생성
+            GameObject block = gameManager.CreateObj("HardBlock", GameManager.PoolTypes.BlockType);
+            Block blockComponent = block.GetComponent<Block>();
+
+            //블록 부모 조정
+            block.transform.parent = transform.parent.transform;
+            blockComponent.createPos = createPos;
+
+            //블록 활성화
+            blockComponent.blockOnRPC();
+        }
     }
+
 
     [PunRPC]
     public void healthControl(float damage) 
     {
         curHealth -= damage;
         //매터리얼 관리
-        if (curHealth >= 80)
+        float crackValue = 5;
+        if (curHealth >= maxHealth * 3f / 4f)//75
         {
-            spriteRenderer.material.SetColor("_customColor", new Color(0.5f, 0.5f, 0.5f, 1));
+            
+            if (blockType != BlockType.Sum) 
+            {
+                blockType = BlockType.Sum;
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+            }
+            crackColor = new Color(0.5f, 0.5f, 0.5f, 1);
         }
-        else if (curHealth <= 60) 
+        else if (curHealth >= maxHealth  / 2f) 
         {
-            spriteRenderer.material.SetColor("_customColor", new Color(1, 1, 1, 1));
+            if (blockType != BlockType.Half)
+            {
+                blockType = BlockType.Half;
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+            }
+            crackColor = new Color(1, 1, 1, 1);
+            crackValue = 7;
         }
-        else if (curHealth <= 40)
+        else if (curHealth >= maxHealth * 1f / 4f)
         {
-            spriteRenderer.material.SetColor("_customColor", new Color(1, 0.5f, 0.5f, 1));
+            if (blockType != BlockType.Quarter)
+            {
+                blockType = BlockType.Quarter;
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+            }
+            crackColor = new Color(1, 0.5f, 0.5f, 1);
+            crackValue = 9;
         }
-        else if (curHealth <= 20)
+        else if (curHealth > 0)
         {
-            spriteRenderer.material.SetColor("_customColor", new Color(1, 0, 0, 1));
+            if (blockType != BlockType.Zero)
+            {
+                blockType = BlockType.Zero;
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+            }
+            crackColor = new Color(1, 0, 0, 1);
+            crackValue = 11;
         }
+
+        //_customFloat
+        spriteRenderer.material.SetColor("_customColor", crackColor);
+        spriteRenderer.material.SetFloat("_customFloat", crackValue * crackMul);
 
         if (curHealth <= 0)
         {
@@ -110,10 +164,11 @@ public class Block : MonoBehaviourPunCallbacks
             }
             else if (!PhotonNetwork.InRoom) 
             {
-                blockOffRPC();
+                blockOffRPC(true);
             }
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
@@ -121,49 +176,18 @@ public class Block : MonoBehaviourPunCallbacks
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)
-                    //총알 파괴
-                    photonView.RPC("blockOnRPC", RpcTarget.AllBuffered);
+                {
+                    //블록 파괴
+                    photonView.RPC("blockOffRPC", RpcTarget.AllBuffered, false);
+
+                }
 
             }
             else if (!PhotonNetwork.InRoom)
             {
-                //다시 불러옴
-                blockOnRPC();
+                //블록 파괴 실패
+                blockOffRPC(false);
             }
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        //
-        if (collision.transform.CompareTag("ConveyorIsland") || collision.transform.CompareTag("Block")) //맵 밖으로 나가지면 종료
-        {
-            if (PhotonNetwork.InRoom)
-            {
-                //isFalling = false;
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                //다시 불러옴
-                //isFalling = false;
-            }
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.transform.CompareTag("ConveyorIsland") || collision.transform.CompareTag("Block")) //맵 밖으로 나가지면 종료
-        {
-            if (PhotonNetwork.InRoom)
-            {
-                //isFalling = true;
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                //다시 불러옴
-                //isFalling = true;
-            }
-        }
-    }
-
 }
