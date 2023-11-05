@@ -56,9 +56,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private FollowSword leaderSwordComponent;
         Rigidbody leaderSwordRigid;
 
-        [Header("리더 칼의 속도")]
-        public int leaderSwordSpeed;
-
         [Header("현재 칼의 갯수")]
         public int curSwordCount;
 
@@ -72,10 +69,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
       
 
-        //랭크 업 효과음을 위한 bool
-        bool isSRank, isARank, isBRank, isCRank, isDRank;
-        //이미 죽음
-        bool isDead = false;
+        
 
 
         [Header("조이스틱의 정보를 받아들임")]
@@ -91,8 +85,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //중간으로 이동 시 사용하는 그 벡터
         Vector3 tmpRpcPos;
 
+        //랭크 업 효과음을 위한 bool
+        bool isSRank, isARank, isBRank, isCRank, isDRank;
+        //이미 죽음
+        bool isDead = false;
         //그냥 순간이동은 못씀!!
         bool isTeleporting = false;
+        [Header("체력 감소율")]
+        public float healthMinus = 0;
+        [Header("점수 증가율")]
+        public float scorePlus = 0;
 
         public BattleUIManager battleUIManager;
         Rigidbody rigid;
@@ -359,10 +361,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             if (rigid.velocity.y <= 2) //jumpForce/4
             {
-                RaycastHit hit;//시작점, 반지름, 방향, 길이, 레이어
+                //RaycastHit hit;//시작점, 반지름, 방향, 길이, 레이어
  
-                bool isConst = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Construction"));
-                bool isBlock = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
+                //bool isConst = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Construction"));
+                //bool isBlock = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
 
 
                 isGround = false;
@@ -654,7 +656,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void SwordMove(bool isSame) 
         {
             //칼이 활성화돼있을 때, 방향 조작시
-            if (leaderSword.activeSelf && !isSame) 
+            if (leaderSword.activeSelf) // && !isSame
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                     photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
@@ -681,14 +683,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
-            //리더 칼의 속도 조정 
-            leaderSwordRigid.velocity = tmpVec * leaderSwordSpeed;
-
-            //회전 조작
-            leaderSword.transform.rotation = Quaternion.identity;
-            float zValue = Mathf.Atan2(leaderSwordRigid.velocity.x, leaderSwordRigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
-            leaderSword.transform.Rotate(rotVec);
+            FollowSword followSword = leaderSword.GetComponent<FollowSword>();
+            followSword.leaderSwordVec = tmpVec;
         }
         #endregion
 
@@ -709,7 +705,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 return;
 
             //자연 체력 감소
-            curHealth -= 0.5f * Time.deltaTime;
+            curHealth -= healthMinus * Time.deltaTime;
 
             //생존 파악
             if (PhotonNetwork.InRoom)
@@ -725,6 +721,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 damageControlRPC(0);
             }
             //UI 관리-------------------------------------------------------
+
             //미니 체력 바 적용
             miniHealthGauge.fillAmount = curHealth / maxHealth;
 
@@ -746,7 +743,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
 
             //시간에 따라 점수 증가
-            battleUIManager.curScore +=  Time.deltaTime;
+            battleUIManager.curScore +=  Time.deltaTime * scorePlus;
 
             //랭크와 점수 텍스트 적용
             battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + " / ";
@@ -845,8 +842,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             if (other.transform.CompareTag("EnemyBullet"))
             {
-                Debug.Log(gameObject.name);
-
                 Bullet bullet = other.GetComponent<Bullet>();
                 int dmg = bullet.bulletDamage;
 

@@ -80,18 +80,12 @@ public class BattleUIManager : MonoBehaviour
         battleUI.SetActive(false);
     }
 
-
-    public void loadSingleSel()
+    //정지 버튼
+    public void btnStop()
     {
         //종이 효과음
         audioManager.PlaySfx(AudioManager.Sfx.Paper);
 
-        SceneManager.LoadScene("SingleSelect");
-    }
-
-    //정지 버튼
-    public void btnStop()
-    {
         bigHealthBarParticle.SetActive(false);
 
         stopPanel.SetActive(true);
@@ -99,9 +93,11 @@ public class BattleUIManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    //활성화 버튼
-    public void btnActivate()
+    public void realBtnContinue()//이어하기
     {
+        //종이 효과음
+        audioManager.PlaySfx(AudioManager.Sfx.Paper);
+
         stopPanel.SetActive(false);
         Time.timeScale = 1;
 
@@ -121,7 +117,7 @@ public class BattleUIManager : MonoBehaviour
         btnContinue.SetActive(true);
 
         //정지 패널 안보이도록
-        btnActivate();
+        realBtnContinue();
 
         // 현재 씬을 다시 로드합니다.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -134,12 +130,17 @@ public class BattleUIManager : MonoBehaviour
         btnContinue.SetActive(true);
 
         //정지 패널 안보이도록
-        btnActivate();
+        realBtnContinue();
 
         //선택창 고르기
         if (battleType == BattleType.Single)
         {
             SceneManager.LoadScene("SingleSelect");
+            battleType = BattleType.Rest;
+        }
+        else if (battleType == BattleType.Single)
+        {
+            // SceneManager.LoadScene("SingleSelect");
             battleType = BattleType.Rest;
         }
         else

@@ -28,7 +28,7 @@ public class StarFallManager : MonoBehaviour
     int curPowerUpIndex = 0;
 
     [Header("추가 생산 속도 배열")]
-    public float[] createBlockArr;
+    public float[] createBulletArr;
     //랭크에 따른 추가 생산
     float rankSpeed = 1;
 
@@ -46,6 +46,8 @@ public class StarFallManager : MonoBehaviour
         player = gameManager.player;
         starFallPointsSize = starFallPoints.Length;
 
+        //플레이어 점수 증가 비율 설정
+        gameManager.characterControl.scorePlus = 1;
     }
 
     private void Update()
@@ -58,27 +60,39 @@ public class StarFallManager : MonoBehaviour
             switch (battleUIManager.rankType)
             {
                 case BattleUIManager.RankType.S:
-                    rankSpeed = createBlockArr[0];
+                    rankSpeed = createBulletArr[0];
+                    gameManager.characterControl.healthMinus = createBulletArr[0];
+
                     maxPowerUpIndex = PowerUpIndexArr[0];
                     break;
                 case BattleUIManager.RankType.A:
-                    rankSpeed = createBlockArr[1];
+                    rankSpeed = createBulletArr[1];
+                    gameManager.characterControl.healthMinus = createBulletArr[1];
+
                     maxPowerUpIndex = PowerUpIndexArr[1];
                     break;
                 case BattleUIManager.RankType.B:
-                    rankSpeed = createBlockArr[2];
+                    rankSpeed = createBulletArr[2];
+                    gameManager.characterControl.healthMinus = createBulletArr[2];
+
                     maxPowerUpIndex = PowerUpIndexArr[2];
                     break;
                 case BattleUIManager.RankType.C:
-                    rankSpeed = createBlockArr[3];
+                    rankSpeed = createBulletArr[3];
+                    gameManager.characterControl.healthMinus = createBulletArr[3];
+
                     maxPowerUpIndex = PowerUpIndexArr[3];
                     break;
                 case BattleUIManager.RankType.D:
-                    rankSpeed = createBlockArr[4];
+                    rankSpeed = createBulletArr[4];
+                    gameManager.characterControl.healthMinus = createBulletArr[4];
+
                     maxPowerUpIndex = PowerUpIndexArr[4];
                     break;
                 case BattleUIManager.RankType.E:
-                    rankSpeed = createBlockArr[5];
+                    rankSpeed = createBulletArr[5];
+                    gameManager.characterControl.healthMinus = createBulletArr[5];
+
                     maxPowerUpIndex = PowerUpIndexArr[5];
                     break;
             }
@@ -95,9 +109,7 @@ public class StarFallManager : MonoBehaviour
 
 
             GameObject bullet = null;
-            //bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
             //운석 오브젝트 생성
-            
             if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
             {
                 bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);

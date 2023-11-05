@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2496415211984423335}
   - component: {fileID: 1969343971620132084}
   - component: {fileID: 3832677617255816428}
+  - component: {fileID: 7676860734714421727}
   m_Layer: 10
   m_Name: ChildSword_10
   m_TagString: playerSword
@@ -102,8 +103,9 @@ MonoBehaviour:
   child: {fileID: 0}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 554678537047860343}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 554678537047860343}
   battleUIManager: {fileID: 0}
 --- !u!135 &3832677617255816428
 SphereCollider:
@@ -112,7 +114,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141593480685669017}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -120,12 +122,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7676860734714421727
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141593480685669017}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &166736614879914559
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +312,7 @@ GameObject:
   - component: {fileID: 1402764812876160967}
   - component: {fileID: 7182272752900189752}
   - component: {fileID: 6572002343198315849}
+  - component: {fileID: 735538781935765463}
   m_Layer: 10
   m_Name: ChildSword_5
   m_TagString: playerSword
@@ -373,8 +403,9 @@ MonoBehaviour:
   child: {fileID: 5762922852383065240}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 263677236813503384}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 263677236813503384}
   battleUIManager: {fileID: 0}
 --- !u!135 &6572002343198315849
 SphereCollider:
@@ -383,7 +414,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283883041438498517}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -391,12 +422,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &735538781935765463
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283883041438498517}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &520556967420459971
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +529,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -554,6 +612,7 @@ GameObject:
   - component: {fileID: 7137618461239388490}
   - component: {fileID: 8037880050351289097}
   - component: {fileID: 3473385970877408918}
+  - component: {fileID: 6455215839465402871}
   m_Layer: 10
   m_Name: ChildSword_9
   m_TagString: playerSword
@@ -644,8 +703,9 @@ MonoBehaviour:
   child: {fileID: 141593480685669017}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 6375178255713890187}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 6375178255713890187}
   battleUIManager: {fileID: 0}
 --- !u!135 &3473385970877408918
 SphereCollider:
@@ -654,7 +714,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 766768751948493867}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -662,12 +722,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6455215839465402871
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766768751948493867}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &910594732435081065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1264,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -1260,6 +1347,7 @@ GameObject:
   - component: {fileID: 39826465053875229}
   - component: {fileID: 6304617991553796765}
   - component: {fileID: 2058254289157768741}
+  - component: {fileID: 9042390293180416121}
   m_Layer: 10
   m_Name: ChildSword_3
   m_TagString: playerSword
@@ -1350,8 +1438,9 @@ MonoBehaviour:
   child: {fileID: 3925482333871758672}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 4457625464112178257}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 4457625464112178257}
   battleUIManager: {fileID: 0}
 --- !u!135 &2058254289157768741
 SphereCollider:
@@ -1360,7 +1449,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961907249849268425}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1368,12 +1457,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &9042390293180416121
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961907249849268425}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &2024326811582132873
 GameObject:
   m_ObjectHideFlags: 0
@@ -6675,6 +6791,7 @@ GameObject:
   - component: {fileID: 3447589726843113953}
   - component: {fileID: 1738130137570465625}
   - component: {fileID: 4798738045259858296}
+  - component: {fileID: 3469151244221538507}
   m_Layer: 10
   m_Name: ChildSword_4
   m_TagString: playerSword
@@ -6765,8 +6882,9 @@ MonoBehaviour:
   child: {fileID: 283883041438498517}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 4129060967423004733}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 4129060967423004733}
   battleUIManager: {fileID: 0}
 --- !u!135 &4798738045259858296
 SphereCollider:
@@ -6775,7 +6893,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3925482333871758672}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6783,12 +6901,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &3469151244221538507
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925482333871758672}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &4543530305456112733
 GameObject:
   m_ObjectHideFlags: 0
@@ -6863,7 +7008,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -11832,6 +11977,7 @@ GameObject:
   - component: {fileID: 5061754987573259237}
   - component: {fileID: 7621470609914036758}
   - component: {fileID: 266943069362703966}
+  - component: {fileID: 6979212182369976589}
   m_Layer: 10
   m_Name: ChildSword_8
   m_TagString: playerSword
@@ -11922,8 +12068,9 @@ MonoBehaviour:
   child: {fileID: 4729382956313458514}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 1821614375241386906}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 1821614375241386906}
   battleUIManager: {fileID: 0}
 --- !u!135 &266943069362703966
 SphereCollider:
@@ -11932,7 +12079,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4729382956313458514}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -11940,12 +12087,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6979212182369976589
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729382956313458514}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &4871657499303767157
 GameObject:
   m_ObjectHideFlags: 0
@@ -12020,7 +12194,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -12165,7 +12339,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -12310,7 +12484,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -12393,6 +12567,7 @@ GameObject:
   - component: {fileID: 8946787510704924175}
   - component: {fileID: 337199477753010080}
   - component: {fileID: 5155321558556975300}
+  - component: {fileID: 1209383683167078759}
   m_Layer: 10
   m_Name: ChildSword_6
   m_TagString: playerSword
@@ -12483,8 +12658,9 @@ MonoBehaviour:
   child: {fileID: 5762922852383065240}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 1005886793439678650}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 1005886793439678650}
   battleUIManager: {fileID: 0}
 --- !u!135 &5155321558556975300
 SphereCollider:
@@ -12493,7 +12669,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5762922852383065240}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -12501,12 +12677,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1209383683167078759
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762922852383065240}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &5910255157898511048
 GameObject:
   m_ObjectHideFlags: 0
@@ -17511,12 +17714,13 @@ MonoBehaviour:
   miniHealthGauge: {fileID: 500615374362100254}
   miniName: {fileID: 2405757037547769105}
   swordParent: {fileID: 6381797422193437685}
-  leaderSwordSpeed: 10
   curSwordCount: 5
   backSwords: {fileID: 1703996433826785003}
   playerSwordArea: {fileID: 5066992103306789604}
   moveJoy: {fileID: 0}
   swordJoy: {fileID: 0}
+  healthMinus: 0
+  scorePlus: 0
   battleUIManager: {fileID: 0}
   jumpForce: 12
   rayRadius: 0.2
@@ -17576,7 +17780,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5974046474224742084}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -17592,9 +17796,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &6279435390125943472
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17767,8 +17971,9 @@ MonoBehaviour:
   child: {fileID: 8970127748784201795}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
-  trailRenderer: {fileID: 6259890221695978630}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 6259890221695978630}
   battleUIManager: {fileID: 0}
 --- !u!135 &3414103428817012096
 SphereCollider:
@@ -17777,7 +17982,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6046476537605058143}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -17785,7 +17990,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -17799,8 +18004,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6046476537605058143}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 5
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -17816,7 +18021,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!114 &5117317708719656753
 MonoBehaviour:
@@ -18047,7 +18252,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -18130,6 +18335,7 @@ GameObject:
   - component: {fileID: 8514128474275185500}
   - component: {fileID: 8217557353523059691}
   - component: {fileID: 6209787350266957259}
+  - component: {fileID: 4828032408295561965}
   m_Layer: 10
   m_Name: ChildSword_7
   m_TagString: playerSword
@@ -18220,8 +18426,9 @@ MonoBehaviour:
   child: {fileID: 6949382106540633811}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 1986923581611249642}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 1986923581611249642}
   battleUIManager: {fileID: 0}
 --- !u!135 &6209787350266957259
 SphereCollider:
@@ -18230,7 +18437,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6949382106540633811}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -18238,12 +18445,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4828032408295561965
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949382106540633811}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &7562052729628584719
 GameObject:
   m_ObjectHideFlags: 0
@@ -18406,6 +18640,7 @@ GameObject:
   - component: {fileID: 8311511646335629278}
   - component: {fileID: 5584286323736908464}
   - component: {fileID: 3089201236071381802}
+  - component: {fileID: 2762644841896789636}
   m_Layer: 10
   m_Name: ChildSword_2
   m_TagString: playerSword
@@ -18496,8 +18731,9 @@ MonoBehaviour:
   child: {fileID: 1961907249849268425}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  trailRenderer: {fileID: 7964095566423556670}
   swordDir: 0
+  leaderSwordVec: {x: 0, y: 0, z: 0}
+  trailRenderer: {fileID: 7964095566423556670}
   battleUIManager: {fileID: 0}
 --- !u!135 &3089201236071381802
 SphereCollider:
@@ -18506,7 +18742,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8970127748784201795}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8614fe73e0b95db4f9d197e0b2e4a15c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -18514,12 +18750,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2762644841896789636
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970127748784201795}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 56
+  m_CollisionDetection: 0
 --- !u!1 &8992492020023199918
 GameObject:
   m_ObjectHideFlags: 0
@@ -18594,7 +18857,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -18739,7 +19002,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3

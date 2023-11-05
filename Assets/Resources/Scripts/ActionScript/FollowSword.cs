@@ -41,19 +41,30 @@ public class FollowSword : MonoBehaviourPunCallbacks
     //플레이어의 함수
     public CharacterControls characterControls;
 
-    //경로
-    public TrailRenderer trailRenderer;
-
     [Header("칼과 플레이어 사이의 거리 계산")]
     public float swordDir;
 
+
+    [Header("리더의 속도")]
+    public Vector3 leaderSwordVec = Vector3.zero;
+    //리더 칼의 속도
+    int leaderSwordSpeed = 10;
+
+
+    //경로
+    public TrailRenderer trailRenderer;
     //사용 가능한 전체 칼의 수
     int maxSwordIndex;
     //현재 칼이 몇번째인지
     int curSwordIndex;
+    //칼의 데미지
+    int swordDamage = 5;
 
     //배틀 매니저
     public BattleUIManager battleUIManager;
+    Rigidbody rigid;
+
+    
 
 
     #region 적 정보 클래스 공백
@@ -84,6 +95,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
         maxSwordIndex = transform.parent.childCount;
         curSwordIndex = transform.GetSiblingIndex() + 1;//현재 자신이 몇 번째인지
+
+        rigid = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -95,13 +108,26 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
+        //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
+        rigid.angularVelocity = Vector3.zero;
+
         //사용 가능 영역을 보여주기 위함
         if (curSwordIndex == 1)
         {
+            rigid.velocity = leaderSwordVec * leaderSwordSpeed;
+
+            //회전 조작
+            transform.rotation = Quaternion.identity;
+            float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
+            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
+            transform.Rotate(rotVec);
+
+
+            // 두 위치 간의 거리를 계산합니다.
             Vector3 swordPos = transform.position;
             Vector3 playerPos = player.transform.position;
 
-            // 두 위치 간의 거리를 계산합니다.
+
             swordDir = Vector3.Distance(swordPos, playerPos) / 500;
         }
 
@@ -288,7 +314,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
        
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnCollisionStay(Collision other)
     {
         if (other.transform.CompareTag("Block"))
         {
@@ -297,12 +323,12 @@ public class FollowSword : MonoBehaviourPunCallbacks
             {
                 if (photonView.IsMine)
                 {
-                    block.photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * 5f);
+                    block.photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * swordDamage);
                 }
             }
-            else if (!PhotonNetwork.InRoom) 
+            else if (!PhotonNetwork.InRoom)
             {
-                block.healthControl(Time.deltaTime * 5f);
+                block.healthControl(Time.deltaTime * swordDamage);
             }
         }
     }

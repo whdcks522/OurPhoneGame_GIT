@@ -1109,7 +1109,15 @@ MonoBehaviour:
   - {fileID: 1747887668}
   - {fileID: 636360941}
   maxTime: 1
-  maxPowerUpindex: 10
+  PowerUpIndexArr: 320000001e00000019000000140000000f0000000a000000
+  createBulletArr:
+  - 2
+  - 1.8
+  - 1.6
+  - 1.4
+  - 1.2
+  - 1
+  scenelevel: 0
 --- !u!4 &1514642370
 Transform:
   m_ObjectHideFlags: 0
@@ -1456,7 +1464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: a4fce3b4507a5764e9eff282ed97a1ab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.47
+      value: -8.29
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: a4fce3b4507a5764e9eff282ed97a1ab, type: 3}
       propertyPath: m_LocalPosition.z

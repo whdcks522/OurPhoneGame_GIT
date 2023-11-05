@@ -6,12 +6,14 @@ using Cinemachine;
 using Photon.Pun;
 using System;
 using UnityEngine.SceneManagement;
+using Assets.PixelHeroes.Scripts.ExampleScripts;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
     [Header("인스턴스에서 공유하기 위한 플레이어 정보")]
     public GameObject player;
-    public CharacterController characterController;
+    public CharacterControls characterControl;
+    //public CharacterController characterController;
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
     BattleUIManager battleUIManager;
@@ -47,7 +49,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         battleUIManager = BattleUIManager.Instance;
         battleUIManager.gameManager = this;
-        //가져오기
+        if (!PhotonNetwork.InRoom)
+        {
+            player = Instantiate(Resources.Load<GameObject>("Player"), Vector3.zero, Quaternion.identity);
+        }
+        //characterController = player.GetComponent<CharacterController>();
+        characterControl = player.GetComponent<CharacterControls>();
+
+        //UI 가져오기
         battleUIManager.battleUI.SetActive(true);
         battleUIManager.curScore = 0;
         battleUIManager.rankType = BattleUIManager.RankType.E;
@@ -80,11 +89,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         //if ((PhotonNetwork.InRoom) && SceneManager.GetActiveScene().name == "Training")//네트워크 중에 있다면
         //    player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
         //else//싱글 플레이라면
-        if (!PhotonNetwork.InRoom)
-        {
-            player = Instantiate(Resources.Load<GameObject>("Player"), Vector3.zero, Quaternion.identity);
-        }
-        characterController = player.GetComponent<CharacterController>();
+       
 
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();

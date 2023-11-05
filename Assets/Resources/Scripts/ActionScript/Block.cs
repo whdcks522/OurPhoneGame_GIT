@@ -12,9 +12,9 @@ public class Block : MonoBehaviourPunCallbacks
     [Header("블록의 체력")]
     float maxHealth;
     public float curHealth;
-    
-    [Header("재생성될 위치")]
-    public Vector3 createPos;
+
+    [Header("발생 지점")]
+    public Transform[] blockPoints;
 
     [Header("파괴 시, 회복량")]
     public int blockHeal;
@@ -26,7 +26,7 @@ public class Block : MonoBehaviourPunCallbacks
     {
        Zero, Quarter, Half, Full
     }
-    [Header("블록의 상태")]
+    [Header("블록의 체력 상태")]
     public BlockHealthType blockHealthType;
 
     //금간 색
@@ -69,7 +69,8 @@ public class Block : MonoBehaviourPunCallbacks
         //가속 초기화
         rigid.velocity = Vector3.zero;
         //위치 초기화
-        transform.position = createPos;
+        int r = Random.Range(0, blockPoints.Length);
+        transform.position = blockPoints[r].position;
         //등급 초기화
         blockHealthType = BlockHealthType.Full;
     }
@@ -103,7 +104,7 @@ public class Block : MonoBehaviourPunCallbacks
 
             //블록 부모 조정
             block.transform.parent = transform.parent.transform;
-            blockComponent.createPos = createPos;
+            blockComponent.blockPoints = blockPoints;
 
             //블록 활성화
             blockComponent.blockOnRPC();

@@ -45,42 +45,57 @@ public class BlockCrashManager : MonoBehaviour
         
         player = gameManager.player;
         curTime = maxTime;
+
+        //플레이어 점수 증가 비율 설정
+        gameManager.characterControl.scorePlus = 1;
     }
 
     private void Update()
     {
-        switch (battleUIManager.rankType) 
-        {
-            case BattleUIManager.RankType.S:
-                rankSpeed = createBlockArr[0];
-                maxPowerUpIndex = PowerUpIndexArr[0];
-                break;
-            case BattleUIManager.RankType.A:
-                rankSpeed = createBlockArr[1];
-                maxPowerUpIndex = PowerUpIndexArr[1];
-                break;
-            case BattleUIManager.RankType.B:
-                rankSpeed = createBlockArr[2];
-                maxPowerUpIndex = PowerUpIndexArr[2];
-                break;
-            case BattleUIManager.RankType.C:
-                rankSpeed = createBlockArr[3];
-                maxPowerUpIndex = PowerUpIndexArr[3];
-                break;
-            case BattleUIManager.RankType.D:
-                rankSpeed = createBlockArr[4];
-                maxPowerUpIndex = PowerUpIndexArr[4];
-                break;
-            case BattleUIManager.RankType.E:
-                rankSpeed = createBlockArr[5];
-                maxPowerUpIndex = PowerUpIndexArr[5];
-                break;
-        }
-
         curTime += Time.deltaTime * rankSpeed;
 
         if (curTime > maxTime)
         {
+            switch (battleUIManager.rankType)
+            {
+                case BattleUIManager.RankType.S:
+                    rankSpeed = createBlockArr[0];
+                    gameManager.characterControl.healthMinus = createBlockArr[0];
+
+                    maxPowerUpIndex = PowerUpIndexArr[0];
+                    break;
+                case BattleUIManager.RankType.A:
+                    rankSpeed = createBlockArr[1];
+                    gameManager.characterControl.healthMinus = createBlockArr[1];
+
+                    maxPowerUpIndex = PowerUpIndexArr[1];
+                    break;
+                case BattleUIManager.RankType.B:
+                    rankSpeed = createBlockArr[2];
+                    gameManager.characterControl.healthMinus = createBlockArr[2];
+
+                    maxPowerUpIndex = PowerUpIndexArr[2];
+                    break;
+                case BattleUIManager.RankType.C:
+                    rankSpeed = createBlockArr[3];
+                    gameManager.characterControl.healthMinus = createBlockArr[3];
+
+                    maxPowerUpIndex = PowerUpIndexArr[3];
+                    break;
+                case BattleUIManager.RankType.D:
+                    rankSpeed = createBlockArr[4];
+                    gameManager.characterControl.healthMinus = createBlockArr[4];
+
+                    maxPowerUpIndex = PowerUpIndexArr[4];
+                    break;
+                case BattleUIManager.RankType.E:
+                    rankSpeed = createBlockArr[5];
+                    gameManager.characterControl.healthMinus = createBlockArr[5];
+
+                    maxPowerUpIndex = PowerUpIndexArr[5];
+                    break;
+            }
+
             //사출 위치 정하기
             //int ranPos = Random.Range(0, blockPoints.Length);
             startIndex++;
@@ -138,7 +153,7 @@ public class BlockCrashManager : MonoBehaviour
 
             //블록 부모 조정
             block.transform.parent = this.transform;
-            blockComponent.createPos = blockPoints[startIndex].position;
+            blockComponent.blockPoints = blockPoints;
 
             //블록 활성화
             blockComponent.blockOnRPC();

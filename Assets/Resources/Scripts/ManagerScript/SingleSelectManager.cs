@@ -58,10 +58,6 @@ public class SingleSelectManager : MonoBehaviour
         }
 
         loadGameObject.SetActive(true);
-
-        //yield return new WaitForSeconds(0.2f);
-
-        //SceneManager.LoadScene(_targetScene);
         StartCoroutine(LoadSceneAsyncCoroutine(_targetScene));
     }
 
