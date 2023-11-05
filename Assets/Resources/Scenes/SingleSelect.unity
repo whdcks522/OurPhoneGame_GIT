@@ -1366,8 +1366,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
-      value: "<color=black>\uBCBD</color>\uC744 \uCD5C\uB300\uD55C \uB9CE\uC774 \uD30C\uAD34\uD558\uBA70
-        \uC0DD\uC874\uD574\uB77C!\n"
+      value: "<color=black>\uAC80\uC740 \uBCBD</color>\uC744 \uCD5C\uB300\uD55C \uB9CE\uC774
+        \uD30C\uAD34\uD558\uBA70 \uC0DD\uC874\uD574\uB77C! <color=white>\uD558\uC580
+        \uBCBD</color>\uC740 \uACAC\uACE0\uD558\uB2E4.\n"
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
@@ -1453,6 +1454,24 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 65d4b8e78bf9cd2408c03650f14950a1, type: 3}
+    - target: {fileID: 5905994463621392433, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: sceneDesc
+      value: "<color=black>\uAC80\uC740 \uBCBD</color>\uC744 \uCD5C\uB300\uD55C \uB9CE\uC774
+        \uD30C\uAD34\uD558\uBA70 \uC0DD\uC874\uD574\uB77C! <color=white>\uD558\uC580
+        \uBCBD</color>\uC740 \uACAC\uACE0\uD558\uB2E4.\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905994463621392433, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: sceneInnerTitle
+      value: BlockCrash_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905994463621392433, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: sceneOutterTitle
+      value: "\uBCBD\uBD80\uC218\uAE30 1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905994463621392433, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleSelectManager
+      value: 
+      objectReference: {fileID: 770684545}
     - target: {fileID: 6155926699271343636, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Text
       value: "\uBCBD\uBD80\uC218\uAE30:"
@@ -1501,6 +1520,10 @@ PrefabInstance:
       propertyPath: sceneInnerTitle
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8790546204906070695, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleSelectManager
+      value: 
+      objectReference: {fileID: 770684545}
     - target: {fileID: 8921679317087240579, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_IsActive
       value: 1

@@ -845,6 +845,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             if (other.transform.CompareTag("EnemyBullet"))
             {
+                Debug.Log(gameObject.name);
+
                 Bullet bullet = other.GetComponent<Bullet>();
                 int dmg = bullet.bulletDamage;
 

@@ -33,9 +33,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     //블록 주소가 저장될 곳
     List<GameObject>[] blockPools;
 
+    //이펙트 리스트
+    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6" };
+    //블록 주소가 저장될 곳
+    List<GameObject>[] effectPools;
+
     public enum PoolTypes
     {
-        BulletType, BombType, BlockType //EnemyType, 
+        BulletType, BombType, BlockType, EffectType //EnemyType, 
     }
 
     private void Awake()
@@ -64,6 +69,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         blockPools = new List<GameObject>[blockNames.Length];
         for (int index = 0; index < blockNames.Length; index++)//풀 하나하나 초기화
             blockPools[index] = new List<GameObject>();
+
+        //폭탄 풀 초기화(4개씩 수정)
+        effectPools = new List<GameObject>[effectNames.Length];
+        for (int index = 0; index < effectNames.Length; index++)//풀 하나하나 초기화
+            effectPools[index] = new List<GameObject>();
 
 
         //플레이어 생성
@@ -109,7 +119,6 @@ public class GameManager : MonoBehaviourPunCallbacks
              case PoolTypes.BulletType:
                  tmpPools = bulletPools;
                  tmpNames = bulletNames;
-                 //Debug.Log("총알 타입 선택됨");
                  break;
             case PoolTypes.BombType:
                 tmpPools = bombPools;
@@ -119,6 +128,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 tmpPools = blockPools;
                 tmpNames = blockNames;//awake에서 선언햇니
                 break;
+            case PoolTypes.EffectType:
+                tmpPools = effectPools;
+                tmpNames = effectNames;//awake에서 선언햇니
+                break;
         }
 
         int index = NametoIndex(tmpNames, name);
@@ -127,7 +140,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (!item.activeSelf)
             {
-                //Debug.Log("재사용함");
                 tmpGameObject = item;
                 break;
             }
@@ -136,8 +148,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         //없으면 생성하고 select에 할당
         if (!tmpGameObject)
         {
-            //Debug.Log("생성함");
-
             //네트워크 중에 있다면
             if (PhotonNetwork.InRoom)
                 tmpGameObject = PhotonNetwork.Instantiate(tmpNames[index], Vector3.zero, Quaternion.identity);
@@ -160,6 +170,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                     break;
                 case PoolTypes.BlockType:
                     blockPools = tmpPools;
+                    break;
+                case PoolTypes.EffectType:
+                    effectPools = tmpPools;
                     break;
             }
         }   

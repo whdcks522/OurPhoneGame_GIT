@@ -1247,7 +1247,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 63a86c411429bbb46b96ec7d0ce8dc14, type: 3}
   warnSfxClips:
   - {fileID: 8300000, guid: dfe5d2def8f0f47e58ba1e0d096317ff, type: 3}
-  channels: 5
+  channels: 10
 --- !u!114 &978758252
 MonoBehaviour:
   m_ObjectHideFlags: 0
