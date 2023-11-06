@@ -17727,6 +17727,8 @@ MonoBehaviour:
   raySize: 0
   rayVec: {x: 0, y: -0.2, z: 0}
   isGround: 0
+  playerStateType: 0
+  isDead: 0
   isPC: 1
 --- !u!95 &5498480976259529555
 Animator:

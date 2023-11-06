@@ -125,7 +125,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //if (AuthManager.Instance.User != null)
            // PhotonNetwork.LocalPlayer.NickName = AuthManager.Instance.playerEmail;
         //else
-            //PhotonNetwork.LocalPlayer.NickName = "NickName" + Random.Range(0, 10000);//NickNameInput.text
+            PhotonNetwork.LocalPlayer.NickName = "NickName" + Random.Range(0, 10000);//NickNameInput.text
 
 
         WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";

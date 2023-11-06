@@ -46,6 +46,12 @@ public class BattleUIManager : MonoBehaviour
     [Header("포인트 텍스트")]
     public Text bigScoreText;
 
+    [Header("싱글 정지 버튼")]
+    public GameObject singleStopBtn;
+    [Header("멀티 나가기 버튼")]
+    public GameObject multyExitBtn;
+
+
     [Header("정지 패널")]
     public GameObject stopPanel;
     [Header("이어하기 버튼")]
@@ -126,28 +132,28 @@ public class BattleUIManager : MonoBehaviour
     
     public void btnExit()//나가기 버튼
     {
-        //이어하기 버튼 다시 보이도록
-        btnContinue.SetActive(true);
-
-        //정지 패널 안보이도록
-        realBtnContinue();
-
         //선택창 고르기
-        if (battleType == BattleType.Single)
+        if (battleType == BattleType.Single)//싱글
         {
+            //이어하기 버튼 다시 보이도록
+            btnContinue.SetActive(true);
+
+            //정지 패널 안보이도록
+            realBtnContinue();
+
             SceneManager.LoadScene("SingleSelect");
-            battleType = BattleType.Rest;
+            battleUI.SetActive(false);
         }
-        else if (battleType == BattleType.Single)
+        else if (battleType == BattleType.Multy)//멀티
         {
-            // SceneManager.LoadScene("SingleSelect");
-            battleType = BattleType.Rest;
+            //나가기
+            gameManager.LeaveRoom();
         }
         else
         {
             Debug.Log("SceneError");
         }
-        battleUI.SetActive(false);
+        
     }
 
    

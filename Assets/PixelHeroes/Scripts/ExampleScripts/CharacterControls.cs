@@ -66,12 +66,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public SpriteRenderer playerSwordArea;
         Color swordAreaColor;
         
-
-      
-
-        
-
-
         [Header("조이스틱의 정보를 받아들임")]
         //플레이어 이동
         public VariableJoystick moveJoy;
@@ -82,15 +76,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         //속도 공유를 위함
         Vector3 rpcPos;
-        //중간으로 이동 시 사용하는 그 벡터
-        Vector3 tmpRpcPos;
 
         //랭크 업 효과음을 위한 bool
         bool isSRank, isARank, isBRank, isCRank, isDRank;
-        //이미 죽음
-        bool isDead = false;
-        //그냥 순간이동은 못씀!!
-        bool isTeleporting = false;
+        
         [Header("체력 감소율")]
         public float healthMinus = 0;
         [Header("점수 증가율")]
@@ -111,9 +100,47 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("현재 바닥인지")]
         public bool isGround = false;
 
+        //플레이어의 상태--------------
+        public enum PlayerStateType
+        {
+            Dead, Control, CanHeal
+        }
+        public PlayerStateType playerStateType;
+        //이미 죽음
+        public bool isDead = false;
+        //칼을 던질 수 있는 상태인지
+        bool isControl = false;
+        //회복 가능한 상태인지
+        bool isCanHeal = false;
+
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
 
+        [PunRPC]
+        public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
+        {
+            switch (tmpPlayerStateType) 
+            {
+                case PlayerStateType.Dead:
+                    //사망 처리
+                    isDead = true;
+                    //애니메이션
+                    Character.SetState(AnimationState.Dead);
+                    //체력 처리
+                    curHealth = 0;
+                    miniHealthGauge.fillAmount = 0;
+                    battleUIManager.bigHealthBar.value = 0;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
+                    break;
+                case PlayerStateType.Control:
+                    isControl = isCheck;
+                    break;
+                case PlayerStateType.CanHeal:
+                    isCanHeal = isCheck;
+                    break;
+            }
+        }
 
         private void Awake()
         {
@@ -136,15 +163,22 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             moveJoy = BattleUIManager.Instance.moveJoy;
             swordJoy = BattleUIManager.Instance.swordJoy;
-
+            //체력 동기화
             maxHealth = curHealth;
 
+            //멀티의 변수 관리
+            if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
+            {
+                changeStateRPC(PlayerStateType.Control, true);
+                changeStateRPC(PlayerStateType.CanHeal, true);
+            }
             //자신의 미니 UI 안보이게
             if (PhotonNetwork.InRoom) 
             {
                 if (photonView.IsMine)
                     miniUI.SetActive(false);
             }
+            
 
         }
 
@@ -201,7 +235,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 키 입력
         void KeyInput() 
         {
-            if (curHealth <= 0) return;
+            if (curHealth <= 0 || !isControl) return;
 
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
             else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
@@ -297,6 +331,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
+        
+
+
+
         public void FixedUpdate()
         {
             if (isDead) 
@@ -305,9 +343,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //이동
             Move();
 
-            if (PhotonNetwork.InRoom)
+            if (isControl)
             {
-                if (photonView.IsMine)//타인의 것이면 안건듬
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)//타인의 것이면 안건듬
+                    {
+                        //칼 부모 위치 초기호와 검 사거리 표시
+                        SwordDirCheck();
+                        //PC, 조이스틱에 따른 칼의 움직임 조정
+                        SwordInput();
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
                 {
                     //칼 부모 위치 초기호와 검 사거리 표시
                     SwordDirCheck();
@@ -315,13 +363,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     SwordInput();
                 }
             }
-            else if (!PhotonNetwork.InRoom)
-            {
-                //칼 부모 위치 초기호와 검 사거리 표시
-                SwordDirCheck();
-                //PC, 조이스틱에 따른 칼의 움직임 조정
-                SwordInput();
-            }     
         }
 
         
@@ -858,7 +899,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     if (!photonView.IsMine) 
                     {
-                    
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1);
                     }
                 }
             }
@@ -891,27 +933,20 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (Character.GetState() != AnimationState.Dead) 
                 {
-                    Debug.Log("사망함");
-                    //사망 처리
-                    isDead = true;
-                    //애니메이션
-                    Character.SetState(AnimationState.Dead);
-                    //체력 처리
-                    curHealth = 0;
-                    miniHealthGauge.fillAmount = 0;
-                    battleUIManager.bigHealthBar.value = 0;
-                    //효과음
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
+                    
                     if (PhotonNetwork.InRoom)
                     {
                         if (photonView.IsMine) 
                         {
+                            photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
+                            //칼 비활성화
                             leaderSword.GetComponent<FollowSword>().photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 2);
-                            //Invoke("SoonDie", 1.5f);
+                            
                         }
                     }
                     else if (!PhotonNetwork.InRoom)
                     {
+                        changeStateRPC(PlayerStateType.Dead, true);
                         //칼 비활성화
                         leaderSword.GetComponent<FollowSword>().leaderSwordExitRPC(2);
                         Invoke("SoonDie", 1.5f);
@@ -919,14 +954,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }    
             } 
         }
+ 
 
         //죽었고 조금 뒤, 죽음에 대한 처리
         void SoonDie() 
         {
+            //최종 점수 보여주기
             battleUIManager.hiddenText.text =
                 "최종 점수: " + Mathf.FloorToInt(battleUIManager.curScore)+" 랭크:" + battleUIManager.bigRankText.text;
 
-            //이어하기 못하도록
+            //이어하기 버튼은 못 나오도록
             battleUIManager.btnContinue.SetActive(false);
             //정지 패널 나오도록
             battleUIManager.btnStop();
@@ -938,7 +975,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         public void healControlRPC(int _heal)
         {
-            if (isDead) 
+            if (isDead || !isCanHeal) 
                 return;
 
             //회복량 계산
