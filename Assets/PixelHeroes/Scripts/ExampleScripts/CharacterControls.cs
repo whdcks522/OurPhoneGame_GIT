@@ -854,7 +854,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             if (collision.gameObject.CompareTag("playerSword")) 
             {
-                Debug.Log("Hit!");
+                if (PhotonNetwork.InRoom) 
+                {
+                    if (!photonView.IsMine) 
+                    {
+                    
+                    }
+                }
             }
         }
 
