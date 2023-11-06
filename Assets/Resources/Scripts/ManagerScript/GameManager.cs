@@ -49,7 +49,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         battleUIManager = BattleUIManager.Instance;
         battleUIManager.gameManager = this;
-        if (!PhotonNetwork.InRoom)
+        if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
+        {
+            //if(photonView.IsMine)
+                player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        }
+        else if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
         {
             player = Instantiate(Resources.Load<GameObject>("Player"), Vector3.zero, Quaternion.identity);
         }
@@ -84,11 +89,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         for (int index = 0; index < effectNames.Length; index++)//풀 하나하나 초기화
             effectPools[index] = new List<GameObject>();
 
-
-        //플레이어 생성
-        //if ((PhotonNetwork.InRoom) && SceneManager.GetActiveScene().name == "Training")//네트워크 중에 있다면
-        //    player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        //else//싱글 플레이라면
        
 
         //카메라 관리

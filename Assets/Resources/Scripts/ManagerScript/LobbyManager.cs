@@ -24,6 +24,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
 
+    BattleUIManager BattleUIManager;
+    private readonly string gameVersion = "1";
+
+    private void Awake()
+    {
+        BattleUIManager = BattleUIManager.Instance;
+    }
 
     #region 방리스트 갱신
     // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
@@ -32,17 +39,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (num == -2)//왼쪽 화살표
         {
-            //AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.Paper, true);
+            BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
             --currentPage;
         }
         else if (num == -1)//오른쪽 화살표
         {
-            //AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.Paper, true);
+            BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
             ++currentPage;
         }
         else //입장 버튼
         {
-            //AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.DoorOpen, true);
+            BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
             PhotonNetwork.JoinRoom(myList[multiple + num].Name);
         }
 
@@ -97,14 +104,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         Connect();
-        //AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.DoorDrag, true);
+        
 
         //챕터 선택을 위한 드롭다운 값 조절
         chapDropdown.value = 0;
     }
 
 
-    public void Connect() => PhotonNetwork.ConnectUsingSettings();//AuthManager에서 이미 써서 필요 없음
+    
+    public void Connect() 
+    {
+        PhotonNetwork.GameVersion = gameVersion;
+        PhotonNetwork.ConnectUsingSettings();
+    } //AuthManager에서 이미 써서 필요 없음
 
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();//AuthManager에서 이미 써서 필요 없음
 
@@ -114,16 +126,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
            // PhotonNetwork.LocalPlayer.NickName = AuthManager.Instance.playerEmail;
         //else
             //PhotonNetwork.LocalPlayer.NickName = "NickName" + Random.Range(0, 10000);//NickNameInput.text
-        WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
 
+
+        WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
+        //입장 효과음
+        BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
         //리스트 조정
         myList.Clear();
     }
 
     public void Disconnect() //아래도 같이 호출되나봄
     {
+        //입장 효과음
+        BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+
         PhotonNetwork.Disconnect();
         //AuthManager.Instance.Destroy();
+        //BattleUIManager.gameObject
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
@@ -135,27 +154,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom() //방 생성
     {
-        //AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.DoorOpen, true);
 
         //옛날 방식
         //PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });//수정함
 
         //최신 방식
-        string sceneName = "";
-        if (chapDropdown.value == 0) sceneName = "Chap1 ";
-        else if (chapDropdown.value == 1) sceneName = "Chap2 ";
+        string sceneName = "PvP";
+        //if (chapDropdown.value == 0) sceneName = "Chap1 ";
+        //else if (chapDropdown.value == 1) sceneName = "Chap2 ";
 
-        string roomName = RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text;
+        string roomName = RoomInput.text == "" ? "PvPRoom" + Random.Range(0, 100) : RoomInput.text;
 
         RoomOptions roomOptions = new RoomOptions
         {
             MaxPlayers = 2,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
-        {
-            { "IsAllowedToEnter", true },
-            { "IsAllowedToExit", true },
-            { "SceneName", sceneName } // 이동하고자 하는 Scene의 이름 저장
-        },
+            {
+                { "IsAllowedToEnter", true },
+                { "IsAllowedToExit", true },
+                { "SceneName", sceneName } // 이동하고자 하는 Scene의 이름 저장
+            },
             CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName" } // 로비에서도 이 속성을 보여주기 위해 추가
         };
 
@@ -165,6 +183,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        //입장 효과음
+        BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+
         //옛날 방식
         //PhotonNetwork.LoadLevel("Chap1_Scene");
 
@@ -175,8 +196,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             //들어갈 룸의 Scene 이름 확인
             string sceneName = (string)PhotonNetwork.CurrentRoom.CustomProperties["SceneName"];
             //좌표 설정
-            if (sceneName == "Chap1 ") sceneName = "Chap1_Scene";
-            else if (sceneName == "Chap2 ") sceneName = "Chap2_Scene";
+            //if (sceneName == "Chap1 ") sceneName = "Chap1_Scene";
+            //else if (sceneName == "Chap2 ") sceneName = "Chap2_Scene";
             //실제로 입장
             PhotonNetwork.LoadLevel(sceneName);
         }
@@ -202,26 +223,4 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
     #endregion
     //----------
-    /*
-    public void callAuthManager(bool isMaximize)//개인용 저장하기
-    {
-        if (isMaximize)
-        {
-            AuthManager.Instance.originAchievements.Arr[0] = 0;
-            AuthManager.Instance.originAchievements.Arr[1] = 0;
-            AuthManager.Instance.originAchievements.Arr[2] = 0;
-            AuthManager.Instance.originAchievements.Arr[3] = 0;
-        }
-        if (AuthManager.Instance.User != null)
-        {
-            AuthManager.Instance.SaveJson();
-            AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.DoorOpen, true);
-        }
-        else
-        {
-            AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.DoorDrag, true);
-            Debug.Log("LobbyError");
-        }
-    }
-    */
 }

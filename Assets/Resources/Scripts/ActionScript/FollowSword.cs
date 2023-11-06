@@ -6,7 +6,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
@@ -198,17 +197,40 @@ public class FollowSword : MonoBehaviourPunCallbacks
         //0: 그냥 수납
         //1: 무기만 폭파(칼 범위 밖으로 나간 경우)
         //2: 본인과 무기 폭파
+
+        //1: 무기만 폭파(칼 범위 밖으로 나간 경우)
         if (level == 1 && characterControls.curSwordCount > 1)
         {
-            createBomb(transform.position);
+            if (PhotonNetwork.InRoom) 
+            {
+                if(photonView.IsMine)
+                    createBomb(transform.position);
+            }
+            else if (!PhotonNetwork.InRoom)
+                createBomb(transform.position);
         }
+        //2: 본인과 무기 폭파
         else if (level == 2) 
         {
-            //플레이어 폭파
-            createBomb(player.transform.position);
-            //무기 폭파
-            if(gameObject.activeSelf)
-                createBomb(transform.position);
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    //플레이어 폭파
+                    createBomb(player.transform.position);
+                    //무기 폭파
+                    if (gameObject.activeSelf)
+                        createBomb(transform.position);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                //플레이어 폭파
+                createBomb(player.transform.position);
+                //무기 폭파
+                if (gameObject.activeSelf)
+                    createBomb(transform.position);
+            }
         }
         
         //등의 칼 활성화
@@ -234,8 +256,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     #region 폭탄 생성
     void createBomb(Vector3 bombPos) 
     {
-        //무기 수 1 감소
-        characterControls.swordCountRPC(false);
+       
         //폭탄 생성
         GameObject bomb = null;
 
@@ -243,21 +264,30 @@ public class FollowSword : MonoBehaviourPunCallbacks
         {
             if (photonView.IsMine)
             {
+                //무기 수 1 감소
+                characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, -1);
+
                 bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+
+                //여기 없는 경우 오류 날 수도 있음
+                Bomb bombComponent = bomb.GetComponent<Bomb>();
+                //폭탄 해당 위치에 활성화
+                bombComponent.bombOnRPC(bombPos);
+                bombComponent.photonView.RPC("bombOnRPC", RpcTarget.AllBuffered, bombPos);
             }
         }
         else if (!PhotonNetwork.InRoom)
         {
-            bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
-        }
-        //여기 없는 경우 오류 날 수도 있음
-        Bomb bombComponent = bomb.GetComponent<Bomb>();
+            //무기 수 1 감소
+            characterControls.swordCountRPC(-1);
 
-        //폭탄 위치 조정
-        bomb.transform.parent = battleUIManager.gameManager.transform;
-        bomb.transform.position = bombPos;
-        //폭탄 활성화
-        bombComponent.bombOnRPC();
+            bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+
+            //여기 없는 경우 오류 날 수도 있음
+            Bomb bombComponent = bomb.GetComponent<Bomb>();
+            //폭탄 해당 위치에 활성화
+            bombComponent.bombOnRPC(bombPos);
+        }  
     }
     #endregion
 
@@ -270,6 +300,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
             if (bullet.bulletEffectType == Bullet.BulletEffectType.UnBreakable)
                 return;
 
+            //총알 파괴와 회복
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)
@@ -295,13 +326,13 @@ public class FollowSword : MonoBehaviourPunCallbacks
                     if (photonView.IsMine)
                     {
                         //무기 수 1 증가
-                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, true);
+                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, 1);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
                     //무기 수 1 증가
-                    characterControls.swordCountRPC(true);
+                    characterControls.swordCountRPC(1);
                 }
 
             }

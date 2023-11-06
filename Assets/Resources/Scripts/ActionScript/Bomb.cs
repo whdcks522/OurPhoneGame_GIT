@@ -45,10 +45,11 @@ public class Bomb : MonoBehaviourPunCallbacks
 
     #region 폭탄 활성 동기화
     [PunRPC]
-    public void bombOnRPC()
+    public void bombOnRPC(Vector3 bombPos)
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
+        gameObject.transform.position = bombPos;
         particleSystem.Play();
     }
     #endregion
@@ -96,13 +97,13 @@ public class Bomb : MonoBehaviourPunCallbacks
                     if (photonView.IsMine)
                     {
                         //무기 수 1 증가
-                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, true);
+                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, 1);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
                     //무기 수 1 증가
-                    characterControls.swordCountRPC(true);
+                    characterControls.swordCountRPC(1);
                 }
             }
         }

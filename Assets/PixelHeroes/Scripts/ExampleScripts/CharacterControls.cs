@@ -121,13 +121,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             
             battleUIManager = BattleUIManager.Instance;
 
+            //칼 관리
             for (int i = 0; i < swordParent.transform.childCount; i++)
             {
                 GameObject tmpSword = swordParent.transform.GetChild(i).gameObject;
                 tmpSword.GetComponent<FollowSword>().player = gameObject;
                 tmpSword.GetComponent<FollowSword>().characterControls = this;
                 tmpSword.GetComponent<FollowSword>().battleUIManager = battleUIManager;
-
             }
 
             leaderSword = swordParent.transform.GetChild(0).gameObject;
@@ -138,6 +138,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             swordJoy = BattleUIManager.Instance.swordJoy;
 
             maxHealth = curHealth;
+
+            //자신의 미니 UI 안보이게
+            if (PhotonNetwork.InRoom) 
+            {
+                if (photonView.IsMine)
+                    miniUI.SetActive(false);
+            }
+
         }
 
         void Start()
@@ -171,19 +179,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //키 입력
                     KeyInput();
                 }
-                else if (!isTeleporting)
+                else if((transform.position - rpcPos).sqrMagnitude >= 4)//너무 멀면 순간이동 
                 {
-                    if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
-                    {
-                        Debug.Log("PlayerQuickMove");
-                        TeleportToDestination(rpcPos);
-                    }
-                    else
-                    {
-                        Debug.Log("PlayerSlowMove");
-                        tmpRpcPos = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
-                        TeleportToDestination(tmpRpcPos);
-                    }
+                    Debug.Log("PlayerQuickMove");
+                    transform.position = rpcPos;
+                }
+                else
+                {
+                    Debug.Log("PlayerSlowMove");
+                    Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
+
                 }
             }
             else if (!PhotonNetwork.InRoom)
@@ -192,25 +197,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 KeyInput();
             }
         }
-
-        #region 특수 순간이동      
-        private void TeleportToDestination(Vector3 targetVec)
-        {
-            isTeleporting = true;
-
-            // 임시로 충돌 처리 비활성화
-            Controller.enabled = false;
-
-            // 순간 이동
-            transform.position = targetVec;
-
-            // 충돌 처리 다시 활성화
-            Controller.enabled = true;
-
-            isTeleporting = false;
-        }
-        #endregion
-
 
         #region 키 입력
         void KeyInput() 
@@ -308,11 +294,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             _inputX = x;
             _inputY = y;
-
-            //if (Controller.isGrounded && y == 1)
-            {
-                //JumpDust.Play(true);
-            }
         }
         #endregion
 
@@ -361,11 +342,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             if (rigid.velocity.y <= 2) //jumpForce/4
             {
-                //RaycastHit hit;//시작점, 반지름, 방향, 길이, 레이어
- 
-                //bool isConst = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Construction"));
-                //bool isBlock = Physics.SphereCast(transform.position + rayVec, rayRadius, Vector3.down, out hit, raySize, LayerMask.GetMask("Block"));
-
 
                 isGround = false;
                 RaycastHit[] rayHits = Physics.SphereCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
@@ -421,8 +397,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             rigid.velocity = new Vector2(_inputX* RunSpeed, rigid.velocity.y);
 
+            if (PhotonNetwork.InRoom) 
+            {
+                if (photonView.IsMine)
+                    _inputX = _inputY = 0;
+            }
+            else if (!PhotonNetwork.InRoom)
+                _inputX = _inputY = 0;
 
-            _inputX = _inputY = 0;
 
             //점프인 경우와 아닌 경우로 전환했을 때
             if ((isJumpAni && Character.GetState() != AnimationState.Jumping)|| (!isJumpAni && Character.GetState() == AnimationState.Jumping)) //점프였다가 걷는 경우
@@ -807,25 +789,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 battleUIManager.bigRankText.text = "<color=white>E</color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Dscore;
-            }
-
-            
+            }   
         }
 
         #region 무기 변화 동기화
         [PunRPC]
-        public bool swordCountRPC(bool isAdd)
+        public bool swordCountRPC(int value)
         {
-            if (isAdd)
+            if (value > 0)
             {
-                curSwordCount++;
+                curSwordCount += value;
                 if (curSwordCount > 9) curSwordCount = 10;
                 //파워 업 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
             }
-            else if (!isAdd) 
+            else if (value < 0) 
             {
-                curSwordCount--;
+                curSwordCount += value;
                 if (curSwordCount < 1) 
                 {
                     curSwordCount = 1;
@@ -867,6 +847,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
             {
                 curHealth = 0;
+            }
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("playerSword")) 
+            {
+                Debug.Log("Hit!");
             }
         }
 

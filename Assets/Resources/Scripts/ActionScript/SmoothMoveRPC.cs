@@ -17,15 +17,15 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine && isRoom)
         {
-            if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동 
+            if ((transform.position - rpcPos).sqrMagnitude >= 1.5f)//너무 멀면 순간이동 
             {
-                Debug.Log("SwordQuickMove");
+                Debug.Log("SmoothMove_QuickMove");
                 transform.position = rpcPos;
             }
             else
             {
-                Debug.Log("SwordSlowMove");
-                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
+                Debug.Log("SmoothMove_SlowMove");
+                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
             }
         }
     }

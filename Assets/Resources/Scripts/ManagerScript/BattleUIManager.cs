@@ -149,4 +149,8 @@ public class BattleUIManager : MonoBehaviour
         }
         battleUI.SetActive(false);
     }
+
+   
+
+    void destroyBattleUiManager() { }
 }
