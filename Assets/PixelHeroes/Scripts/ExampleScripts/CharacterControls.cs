@@ -103,13 +103,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //플레이어의 상태--------------
         public enum PlayerStateType
         {
-            Dead, Control, CanHeal
+            Dead, LeftControl, RightControl, CanHeal
         }
         public PlayerStateType playerStateType;
         //이미 죽음
         public bool isDead = false;
         //칼을 던질 수 있는 상태인지
-        bool isControl = false;
+        bool isLeftControl = false;
+        bool isRightControl = false;
         //회복 가능한 상태인지
         bool isCanHeal = false;
 
@@ -140,8 +141,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         Debug.Log("isDead?!");
                     }
                     break;
-                case PlayerStateType.Control:
-                    isControl = isCheck;
+                case PlayerStateType.LeftControl:
+                    isLeftControl = isCheck;
+                    break;
+                case PlayerStateType.RightControl:
+                    isRightControl = isCheck;
                     break;
                 case PlayerStateType.CanHeal:
                     isCanHeal = isCheck;
@@ -176,7 +180,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //멀티의 변수 관리
             if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
             {
-                changeStateRPC(PlayerStateType.Control, true);
+                changeStateRPC(PlayerStateType.LeftControl, true);
+                changeStateRPC(PlayerStateType.RightControl, true);
                 changeStateRPC(PlayerStateType.CanHeal, true);
             }
             //자신의 미니 UI 안보이게
@@ -242,7 +247,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 키 입력
         void KeyInput() 
         {
-            if (curHealth <= 0 || !isControl) return;
+            if (curHealth <= 0 || !isLeftControl) return;
 
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
             else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
@@ -350,7 +355,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //이동
             Move();
 
-            if (isControl)
+            if (isRightControl)
             {
                 if (PhotonNetwork.InRoom)
                 {
@@ -395,7 +400,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 RaycastHit[] rayHits = Physics.SphereCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
                 foreach (RaycastHit hitObj in rayHits) 
                 {
-                    if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) || hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block")))
+                    if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
+                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
+                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword")))
                     {
                         isGround = true;
                         break;

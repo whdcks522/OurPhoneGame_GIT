@@ -48,7 +48,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
                 {
                     CharacterControls cc = gameManager.list[i].GetComponent<CharacterControls>();
 
-                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.Control, true);
+                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
+                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.CanHeal, true);
                 }
             }
