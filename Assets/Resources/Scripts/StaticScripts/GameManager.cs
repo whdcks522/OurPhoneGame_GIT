@@ -53,39 +53,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         battleUIManager = BattleUIManager.Instance;
         battleUIManager.gameManager = this;
-        if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)//Room에 있는지 물어보면 작동 안하더라
-        {
-            var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
-            var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//혹시 몰라서 나눔
-
-            player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
-            player.transform.parent = transform;
-
-            //UI 가져오기
-            battleUIManager.battleUI.SetActive(true);
-            battleUIManager.multyExitBtn.SetActive(true);
-            battleUIManager.singleStopBtn.SetActive(false);
-        }
-        else if (battleUIManager.battleType == BattleUIManager.BattleType.Single)//싱글의 경우
-        {
-            player = Instantiate(Resources.Load<GameObject>("Player"), Vector3.zero, Quaternion.identity);
-
-            //UI 가져오기
-            battleUIManager.battleUI.SetActive(true);
-            battleUIManager.curScore = 0;
-            battleUIManager.rankType = BattleUIManager.RankType.E;
-            battleUIManager.bigRankText.text = "E";
-            battleUIManager.bigScoreText.text = 0 + " / " + battleUIManager.Dscore;
-            battleUIManager.multyExitBtn.SetActive(false);
-            battleUIManager.singleStopBtn.SetActive(true);
-            
-        }
-        list.Add(player);
-
-        characterControl = player.GetComponent<CharacterControls>();
-
-        
-
 
         //총알 풀 초기화
         bulletPools = new List<GameObject>[bulletNames.Length];
@@ -106,13 +73,48 @@ public class GameManager : MonoBehaviourPunCallbacks
         effectPools = new List<GameObject>[effectNames.Length];
         for (int index = 0; index < effectNames.Length; index++)//풀 하나하나 초기화
             effectPools[index] = new List<GameObject>();
+        
+        if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)//Room에 있는지 물어보면 작동 안하더라
+        {
+            var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
+            var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//혹시 몰라서 나눔
 
-       
+            player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
+            player.transform.parent = transform;
+
+            //UI 가져오기
+            battleUIManager.battleUI.SetActive(true);
+            battleUIManager.multyExitBtn.SetActive(true);
+            battleUIManager.singleStopBtn.SetActive(false);
+        }
+        else if (battleUIManager.battleType == BattleUIManager.BattleType.Single)//싱글의 경우
+        {
+            //칼 폭파 미리 생성
+
+            //UI 가져오기
+            battleUIManager.battleUI.SetActive(true);
+            battleUIManager.curScore = 0;
+            battleUIManager.rankType = BattleUIManager.RankType.E;
+            battleUIManager.bigRankText.text = "E";
+            battleUIManager.bigScoreText.text = 0 + " / " + battleUIManager.Dscore;
+            battleUIManager.multyExitBtn.SetActive(false);
+            battleUIManager.singleStopBtn.SetActive(true);
+        }
+        list.Add(player);
+
+        characterControl = player.GetComponent<CharacterControls>();
+
+        
+
+
+        
 
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         cinemachineVirtualCamera.Follow = player.transform;
         cinemachineVirtualCamera.LookAt = player.transform;
+
+
     }
 
     #region 싱글턴

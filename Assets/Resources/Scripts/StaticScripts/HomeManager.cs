@@ -19,8 +19,6 @@ public class HomeManager : MonoBehaviour
         battleUIManager.battleType = BattleUIManager.BattleType.Single;
 
         SceneManager.LoadScene("SingleSelect");
-
-
     }
 
     public void loadSingleMul()
@@ -30,5 +28,10 @@ public class HomeManager : MonoBehaviour
         battleUIManager.battleType = BattleUIManager.BattleType.Multy;
 
         SceneManager.LoadScene("Lobby");
+    }
+
+    public void tmp()
+    {
+        SceneManager.LoadScene("Train_0");
     }
 }
