@@ -18,6 +18,8 @@ public class Block : MonoBehaviourPunCallbacks
     [Header("파괴 시, 회복량")]
     public int blockHeal;
 
+    //기본 금간 정도
+    float crackValue = 5;
     [Header("추가로 금간 정도")]
     public int crackMul;
 
@@ -60,27 +62,29 @@ public class Block : MonoBehaviourPunCallbacks
     [PunRPC]
     public void blockOnRPC()//False: 못부셔셔 진화한 경우
     {
-        //크기 랜덤화
-        sizeVec = new Vector3 (Random.Range(1,4), Random.Range(2, 4), 1);
-        transform.localScale = sizeVec;
-
         //게임오브젝트 활성화
         gameObject.SetActive(true);
         //체력 관리
         curHealth = maxHealth;
+
         //매터리얼 관리
+        crackValue = 5;
         if (blockEffectType == BlockEffectType.Normal)
         {
             crackColor = new Color(0.5f, 0.5f, 0.5f, 1);
+            //크기 랜덤화
+            sizeVec = new Vector3(Random.Range(1, 4), Random.Range(2, 4), 1);
+            transform.localScale = sizeVec;
         }
         else if (blockEffectType == BlockEffectType.PowerUp)
         {
             //매터리얼 관리
-            crackColor = new Color(0.5f, 0.5f, 0.5f, 1);
+            crackColor = new Color(0.5f, 1, 0.5f, 1);
         }
         
+
         spriteRenderer.material.SetColor("_customColor" , crackColor);
-        spriteRenderer.material.SetFloat("_customFloat", 5 * crackMul);
+        spriteRenderer.material.SetFloat("_customFloat", crackValue * crackMul);
         //가속 초기화
         rigid.velocity = Vector3.zero;
         //위치 초기화
@@ -104,17 +108,29 @@ public class Block : MonoBehaviourPunCallbacks
                 //파괴 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
                 //파괴 이펙트
-                GameObject effect = gameManager.CreateObj("Explosion 3", GameManager.PoolTypes.EffectType);
+                GameObject effect = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
                 effect.transform.parent = transform.parent.transform;
             }
             else if (blockEffectType == BlockEffectType.PowerUp)
             {
-                //파괴 효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        //무기 수 1 증가
+                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, 1);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
+                {
+                    //무기 수 1 증가
+                    characterControls.swordCountRPC(1);
+                }
+
                 //파괴 이펙트
-                GameObject effect = gameManager.CreateObj("PowerUp Explostion 23", GameManager.PoolTypes.EffectType);
+                GameObject effect = gameManager.CreateObj("Explosion 2_PowerUp", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
                 effect.transform.parent = transform.parent.transform;
@@ -146,90 +162,79 @@ public class Block : MonoBehaviourPunCallbacks
     {
         curHealth -= damage;
         //매터리얼 관리
-        float crackValue = 5;
-
-        if (curHealth >= maxHealth * 3f / 4f) 
+        
+        if (blockEffectType == BlockEffectType.Normal) 
         {
-
-        }
-        else if (curHealth >= maxHealth / 2f)
-        {
-            if (blockHealthType != BlockHealthType.Half)
+            if (curHealth >= maxHealth * 3f / 4f) { }
+            else if (curHealth >= maxHealth / 2f)
             {
-                //상태 변화
-                blockHealthType = BlockHealthType.Half;
-                //효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
-                
-
-                if (blockEffectType == BlockEffectType.Normal)
+                if (blockHealthType != BlockHealthType.Half)
                 {
-                    //매터리얼 관리
-                    crackColor = new Color(1, 1, 1, 1);  
-                }
-                else if (blockEffectType == BlockEffectType.PowerUp)
-                {
+                    //상태 변화
+                    blockHealthType = BlockHealthType.Half;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
                     //매터리얼 관리
                     crackColor = new Color(1, 1, 1, 1);
+                    //매터리얼 관리
+                    crackValue = 7;
                 }
             }
-            //매터리얼 관리
-            crackValue = 7;
-        }
-        else if (curHealth >= maxHealth * 1f / 4f)
-        {
-            if (blockHealthType != BlockHealthType.Quarter)
+            else if (curHealth >= maxHealth * 1f / 4f)
             {
-                //상태 변화
-                blockHealthType = BlockHealthType.Quarter;
-                //효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
-                //이펙트
-                GameObject effect = gameManager.CreateObj("Explosion 6", GameManager.PoolTypes.EffectType);
-                effect.SetActive(true);
-                effect.transform.position = transform.position;
-                effect.transform.parent = transform.parent.transform;
-                
-
-                if (blockEffectType == BlockEffectType.Normal)
+                if (blockHealthType != BlockHealthType.Quarter)
                 {
+                    //상태 변화
+                    blockHealthType = BlockHealthType.Quarter;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                    //이펙트
+                    GameObject effect = gameManager.CreateObj("Explosion 6", GameManager.PoolTypes.EffectType);
+                    effect.SetActive(true);
+                    effect.transform.position = transform.position;
+                    effect.transform.parent = transform.parent.transform;
+
                     //매터리얼 관리
                     crackColor = new Color(1, 0.5f, 0.5f, 1);
-                }
-                else if (blockEffectType == BlockEffectType.PowerUp)
-                {
                     //매터리얼 관리
-                    crackColor = new Color(0.5f, 1, 0.5f, 1);
-                }  
+                    crackValue = 9;
+                }
             }
-            //매터리얼 관리
-            crackValue = 9;
-        }
-        else if (curHealth > 0)
-        {
-            if (blockHealthType != BlockHealthType.Zero)
+            else if (curHealth > 0)
             {
-                //상태 변화
-                blockHealthType = BlockHealthType.Zero;
-                //효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
-                
-                if (blockEffectType == BlockEffectType.Normal)
+                if (blockHealthType != BlockHealthType.Zero)
                 {
+                    //상태 변화
+                    blockHealthType = BlockHealthType.Zero;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+
                     //매터리얼 관리
+                    
                     crackColor = new Color(1, 0, 0, 1);
-                }
-                else if (blockEffectType == BlockEffectType.PowerUp)
-                {
-                    //매터리얼 관리
-                    crackColor = new Color(0, 1, 0, 1);
-                }
+                    crackValue = 11;
+                } 
             }
-            //매터리얼 관리
-            crackValue = 11;
+        }
+        else if (blockEffectType == BlockEffectType.PowerUp) 
+        {
+            if (curHealth >= maxHealth / 2f) { }
+            else if (curHealth > 0)
+            {
+                if (blockHealthType != BlockHealthType.Zero)
+                {
+                    //상태 변화
+                    blockHealthType = BlockHealthType.Zero;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+
+                    //매터리얼 관리
+                    crackColor = new Color(0, 0.6f, 0, 1);
+                    crackValue = 11;
+                } 
+            }
         }
 
-        //_customFloat
         spriteRenderer.material.SetColor("_customColor", crackColor);
         spriteRenderer.material.SetFloat("_customFloat", crackValue * crackMul);
 

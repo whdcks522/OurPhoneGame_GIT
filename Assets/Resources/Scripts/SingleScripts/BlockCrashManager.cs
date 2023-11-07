@@ -96,8 +96,6 @@ public class BlockCrashManager : MonoBehaviour
                     break;
             }
 
-            //사출 위치 정하기
-            //int ranPos = Random.Range(0, blockPoints.Length);
             startIndex++;
             if (startIndex >= blockPoints.Length) 
                 startIndex = 0;
@@ -110,43 +108,19 @@ public class BlockCrashManager : MonoBehaviour
             //생성할 블록의 이름
             string blockName = "NormalBlock";
 
-            if (curPowerUpIndex >= maxPowerUpIndex)
+            if (curPowerUpIndex == maxPowerUpIndex)
             {
                 //변수 초기화
                 curPowerUpIndex = 0;
                 //생성할 블록 변경
+                blockName = "PowerUpBlock";
+            }
+            else if (curPowerUpIndex == maxPowerUpIndex / 2)
+            {
+                //생성할 블록 변경
                 blockName = "HardBlock";
-                
-
-                //강화 투사체 생성
-                GameObject bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
-
-                //컴포넌트 정의
-                Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-                Bullet bulletComponent = bullet.GetComponent<Bullet>();
-
-                //위치 조정
-                bullet.transform.parent = this.transform;
-                bullet.transform.position = blockPoints[startIndex].position;
-
-                //운석 활성화
-                bulletComponent.bulletOnRPC();
-
-                //속도 조정
-                Vector2 bulletVec = (player.transform.position - bullet.transform.position).normalized;
-
-                //최종 속도 조정
-                bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
-
-                //회전 조정
-                bullet.transform.rotation = Quaternion.identity;
-                float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-                bullet.transform.Rotate(rotVec);
-                
             }
 
-            
 
             GameObject block = gameManager.CreateObj(blockName, GameManager.PoolTypes.BlockType);
             Block blockComponent = block.GetComponent<Block>();
