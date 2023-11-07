@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class SingleInfo : MonoBehaviour
@@ -36,12 +37,15 @@ public class SingleInfo : MonoBehaviour
         //실제 사용자에게 보여지는 전장 설명
         singleSelectManager.singlePanelDesc.text = sceneDesc;
         //실제 사용자에게 보여지는 등급 설명
-        singleSelectManager.singleRankText.text = "S: " + Sscore + '\n' +
-                                                  "A: " + Ascore + '\n' +
-                                                  "B: " + Bscore + '\n' +
-                                                  "C: " + Cscore + '\n' +
-                                                  "D: " + Dscore + '\n' +
-                                                  "E: " + Escore;
+        // Sscore, Ascore, Bscore, Cscore, Dscore, Escore 변수는 적절하게 설정된 것으로 가정합니다.
+
+        singleSelectManager.singleRankText[0].text = "<color=red> S </color>: " + Sscore;
+        singleSelectManager.singleRankText[1].text = "<color=#FFAA00> A </color>: " + Ascore;
+        singleSelectManager.singleRankText[2].text = "<color=#FFFF00> B </color>: " + Bscore;
+        singleSelectManager.singleRankText[3].text = "<color=#00AA00> C </color>: " + Cscore;
+        singleSelectManager.singleRankText[4].text = "<color=#00AAFF> D </color>: " + Dscore;
+        singleSelectManager.singleRankText[5].text = "<color=#AA00FF> E </color>: " + Escore;
+
 
         //전역 변수 설정
         singleSelectManager.battleUIManager.Sscore = Sscore;

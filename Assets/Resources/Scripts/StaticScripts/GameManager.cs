@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             battleUIManager.battleUI.SetActive(true);
             battleUIManager.curScore = 0;
             battleUIManager.rankType = BattleUIManager.RankType.E;
-            battleUIManager.bigRankText.text = "E";
+            battleUIManager.bigRankText.text = "<color=#AA00FF> E </color>";
             battleUIManager.bigScoreText.text = 0 + " / " + battleUIManager.Dscore;
             battleUIManager.multyExitBtn.SetActive(false);
             battleUIManager.singleStopBtn.SetActive(true);

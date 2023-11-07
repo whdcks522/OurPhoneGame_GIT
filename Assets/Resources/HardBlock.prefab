@@ -192,11 +192,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2116e32f8212280449f7438b204a1a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHealth: 300
+  curHealth: 250
   blockPoints: []
   blockHeal: 25
-  crackMul: 4
-  blockHealthType: 0
+  crackMul: 5
+  blockHealthType: 3
+  blockEffectType: 0
 --- !u!114 &924019020414929280
 MonoBehaviour:
   m_ObjectHideFlags: 0

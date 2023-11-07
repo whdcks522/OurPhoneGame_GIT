@@ -16,10 +16,14 @@ public class SingleSelectManager : MonoBehaviour
     [Header("스크롤바 0으로 초기화를 위함")]
     public Scrollbar verticalScrollbar;
 
+    [Header("현재 선택한 게임의 코드(개발자) 상 이름")]
     public string singlePanelInnerTitle;
+    [Header("현재 선택한 게임의 사용자 상 이름")]
     public Text singlePanelOutterTitle;
+    [Header("현재 선택한 게임의 설명")]
     public Text singlePanelDesc;
-    public Text singleRankText;
+    [Header("현재 선택한 게임의 랭크")]
+    public Text[] singleRankText;
 
 
     private void Awake()

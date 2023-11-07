@@ -28,6 +28,13 @@ public class Block : MonoBehaviourPunCallbacks
     [Header("블록의 체력 상태")]
     public BlockHealthType blockHealthType;
 
+    public enum BlockEffectType
+    {
+        Normal, PowerUp
+    }
+    [Header("블록의 효과")]
+    public BlockEffectType blockEffectType;
+
     //금간 색
     Color crackColor;
     //생성 됐을 때의 크기
@@ -124,14 +131,22 @@ public class Block : MonoBehaviourPunCallbacks
         }
         else if (curHealth >= maxHealth / 2f)
         {
-            if (blockHealthType != BlockHealthType.Half)
+            if (blockEffectType == BlockEffectType.Normal)
             {
-                //상태 변화
-                blockHealthType = BlockHealthType.Half;
-                //효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                if (blockHealthType != BlockHealthType.Half)
+                {
+                    //상태 변화
+                    blockHealthType = BlockHealthType.Half;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                }
+                crackColor = new Color(1, 1, 1, 1);
             }
-            crackColor = new Color(1, 1, 1, 1);
+            else if (blockEffectType == BlockEffectType.PowerUp)
+            {
+            
+            }
+            
             crackValue = 7;
         }
         else if (curHealth >= maxHealth * 1f / 4f)

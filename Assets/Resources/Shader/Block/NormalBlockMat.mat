@@ -52,7 +52,7 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _customFloat: 5
+    - _customFloat: 7
     - _varietyX: 10
     - _varietyY: 2
     m_Colors:
