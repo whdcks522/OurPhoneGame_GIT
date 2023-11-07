@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     List<GameObject>[] blockPools;
 
     //이펙트 리스트
-    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6" };
+    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "PowerUp Explostion 23" };
     //블록 주소가 저장될 곳
     List<GameObject>[] effectPools;
 

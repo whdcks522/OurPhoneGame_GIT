@@ -776,7 +776,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             battleUIManager.curScore +=  Time.deltaTime * scorePlus;
 
             //랭크와 점수 텍스트 적용
-            battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + " / ";
+            battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + "/";
             if (battleUIManager.curScore >= battleUIManager.Sscore) //S급 이상의 경우
             {
                 if (!isSRank) 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7695648418629594107
+--- !u!114 &-5697282437722669568
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PowerUplBlockMat
-  m_Shader: {fileID: -6465566751694194690, guid: 690ac45c93302a443843343bae67128d, type: 3}
+  m_Name: PowerUpBlockMat
+  m_Shader: {fileID: -6465566751694194690, guid: 7d9c1c2f545a91647a4937d4831a5e54, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -52,7 +52,7 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _customFloat: 7
+    - _customFloat: 5
     m_Colors:
-    - _customColor: {r: 0, g: 0.5660378, b: 0.13805798, a: 1}
+    - _customColor: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 0}
   m_BuildTextureStacks: []

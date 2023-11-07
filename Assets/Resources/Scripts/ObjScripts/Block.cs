@@ -69,7 +69,16 @@ public class Block : MonoBehaviourPunCallbacks
         //체력 관리
         curHealth = maxHealth;
         //매터리얼 관리
-        crackColor = new Color(0.5f, 0.5f, 0.5f, 1);
+        if (blockEffectType == BlockEffectType.Normal)
+        {
+            crackColor = new Color(0.5f, 0.5f, 0.5f, 1);
+        }
+        else if (blockEffectType == BlockEffectType.PowerUp)
+        {
+            //매터리얼 관리
+            crackColor = new Color(0.5f, 0.5f, 0.5f, 1);
+        }
+        
         spriteRenderer.material.SetColor("_customColor" , crackColor);
         spriteRenderer.material.SetFloat("_customFloat", 5 * crackMul);
         //가속 초기화
@@ -86,19 +95,33 @@ public class Block : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(false);
-        if (isBreak) 
+        if (isBreak) //부순경우
         {
-            //파괴 효과음
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-            //파괴 이펙트
-            GameObject effect = gameManager.CreateObj("Explosion 3", GameManager.PoolTypes.EffectType);
-            effect.SetActive(true);
-            effect.transform.position = transform.position;
-            effect.transform.parent = transform.parent.transform;
-
             characterControls.healControlRPC(blockHeal);
+
+            if (blockEffectType == BlockEffectType.Normal) 
+            {
+                //파괴 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+                //파괴 이펙트
+                GameObject effect = gameManager.CreateObj("Explosion 3", GameManager.PoolTypes.EffectType);
+                effect.SetActive(true);
+                effect.transform.position = transform.position;
+                effect.transform.parent = transform.parent.transform;
+            }
+            else if (blockEffectType == BlockEffectType.PowerUp)
+            {
+                //파괴 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
+                //파괴 이펙트
+                GameObject effect = gameManager.CreateObj("PowerUp Explostion 23", GameManager.PoolTypes.EffectType);
+                effect.SetActive(true);
+                effect.transform.position = transform.position;
+                effect.transform.parent = transform.parent.transform;
+            }
+
         }
-        else if (!isBreak)
+        else if (!isBreak)//떨어진 경우
         {
             //경고 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Warn);
@@ -131,22 +154,26 @@ public class Block : MonoBehaviourPunCallbacks
         }
         else if (curHealth >= maxHealth / 2f)
         {
-            if (blockEffectType == BlockEffectType.Normal)
+            if (blockHealthType != BlockHealthType.Half)
             {
-                if (blockHealthType != BlockHealthType.Half)
+                //상태 변화
+                blockHealthType = BlockHealthType.Half;
+                //효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                
+
+                if (blockEffectType == BlockEffectType.Normal)
                 {
-                    //상태 변화
-                    blockHealthType = BlockHealthType.Half;
-                    //효과음
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                    //매터리얼 관리
+                    crackColor = new Color(1, 1, 1, 1);  
                 }
-                crackColor = new Color(1, 1, 1, 1);
+                else if (blockEffectType == BlockEffectType.PowerUp)
+                {
+                    //매터리얼 관리
+                    crackColor = new Color(1, 1, 1, 1);
+                }
             }
-            else if (blockEffectType == BlockEffectType.PowerUp)
-            {
-            
-            }
-            
+            //매터리얼 관리
             crackValue = 7;
         }
         else if (curHealth >= maxHealth * 1f / 4f)
@@ -162,8 +189,20 @@ public class Block : MonoBehaviourPunCallbacks
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
                 effect.transform.parent = transform.parent.transform;
+                
+
+                if (blockEffectType == BlockEffectType.Normal)
+                {
+                    //매터리얼 관리
+                    crackColor = new Color(1, 0.5f, 0.5f, 1);
+                }
+                else if (blockEffectType == BlockEffectType.PowerUp)
+                {
+                    //매터리얼 관리
+                    crackColor = new Color(0.5f, 1, 0.5f, 1);
+                }  
             }
-            crackColor = new Color(1, 0.5f, 0.5f, 1);
+            //매터리얼 관리
             crackValue = 9;
         }
         else if (curHealth > 0)
@@ -174,8 +213,19 @@ public class Block : MonoBehaviourPunCallbacks
                 blockHealthType = BlockHealthType.Zero;
                 //효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                
+                if (blockEffectType == BlockEffectType.Normal)
+                {
+                    //매터리얼 관리
+                    crackColor = new Color(1, 0, 0, 1);
+                }
+                else if (blockEffectType == BlockEffectType.PowerUp)
+                {
+                    //매터리얼 관리
+                    crackColor = new Color(0, 1, 0, 1);
+                }
             }
-            crackColor = new Color(1, 0, 0, 1);
+            //매터리얼 관리
             crackValue = 11;
         }
 
