@@ -15,6 +15,13 @@ public class SingleInfo : MonoBehaviour
     [TextArea]
     public string sceneDesc;
 
+    public bool isVisible = true;
+
+    [Header("이동 할 씬의 선행 스크립트")]
+    public SingleInfo PreInfo;
+    [Header("이동 할 씬 최대 점수")]
+    public int Maxscore;
+    
     [Header("이동 할 씬 목표 점수들")]
     public int Sscore;
     public int Ascore;
@@ -25,7 +32,7 @@ public class SingleInfo : MonoBehaviour
 
     void Start() 
     {
-        if (sceneInnerTitle == "") 
+        if (!isVisible) 
             gameObject.SetActive(false);
     }
     public void Onclick() 
@@ -37,8 +44,6 @@ public class SingleInfo : MonoBehaviour
         //실제 사용자에게 보여지는 전장 설명
         singleSelectManager.singlePanelDesc.text = sceneDesc;
         //실제 사용자에게 보여지는 등급 설명
-        // Sscore, Ascore, Bscore, Cscore, Dscore, Escore 변수는 적절하게 설정된 것으로 가정합니다.
-
         singleSelectManager.singleRankText[0].text = "<color=red> S </color>: " + Sscore;
         singleSelectManager.singleRankText[1].text = "<color=#FFAA00> A </color>: " + Ascore;
         singleSelectManager.singleRankText[2].text = "<color=#FFFF00> B </color>: " + Bscore;
