@@ -1,6 +1,8 @@
 ﻿using Assets.PixelHeroes.Scripts.CharacterScripts;
+using CartoonFX;
 using Photon.Pun;
 using Photon.Pun.Demo.Asteroids;
+using Photon.Pun.Demo.PunBasics;
 using System;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
@@ -86,6 +88,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public float scorePlus = 0;
 
         public BattleUIManager battleUIManager;
+        GameManager gameManager;
         Rigidbody rigid;
         [Header("Rigidbody 점프력")]
         public int jumpForce;
@@ -123,7 +126,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             switch (tmpPlayerStateType) 
             {
                 case PlayerStateType.Dead:
-                    if (isDead)
+                    if (isCheck)
                     {
                         //사망 처리
                         isDead = true;
@@ -136,7 +139,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                     }
-                    else 
+                    else if (!isCheck)
                     {
                         Debug.Log("isDead?!");
                     }
@@ -158,7 +161,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             rigid = GetComponent<Rigidbody>();
             
             battleUIManager = BattleUIManager.Instance;
-
+            
             //칼 관리
             for (int i = 0; i < swordParent.transform.childCount; i++)
             {
@@ -190,12 +193,18 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (photonView.IsMine)
                     miniUI.SetActive(false);
             }
-            
+            else if (!PhotonNetwork.InRoom)
+            {
+                    miniUI.SetActive(false);
+            }
+
 
         }
 
         void Start()
         {
+            gameManager = battleUIManager.gameManager;
+
             //기존에 있던 것
             Character.SetState(AnimationState.Idle);
             
@@ -469,132 +478,132 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             #region 물리 바꿈
 
-            return;
+            /*
 
-            if (Time.frameCount <= 1)
-            {
-                Controller.Move(new Vector3(0, Gravity) * Time.fixedDeltaTime);
-                return;
-            }
+             if (Time.frameCount <= 1)
+             {
+                 Controller.Move(new Vector3(0, Gravity) * Time.fixedDeltaTime);
+                 return;
+             }
 
-            var state = Character.GetState();
+             var state = Character.GetState();
 
-            if (state == AnimationState.Dead)//죽었는데 방향키 누르면 움직이도록
-            {
-                _motion.y += Gravity;
-                Controller.Move(_motion * Time.fixedDeltaTime);
+             if (state == AnimationState.Dead)//죽었는데 방향키 누르면 움직이도록
+             {
+                 _motion.y += Gravity;
+                 Controller.Move(_motion * Time.fixedDeltaTime);
 
-                //if (_inputX == 0)
-                return;
+                 //if (_inputX == 0)
+                 return;
 
-                //Character.SetState(AnimationState.Running);
-            }
+                 //Character.SetState(AnimationState.Running);
+             }
 
-            if (_inputX != 0)//좌우 방향 전환
-            {
-                if (PhotonNetwork.InRoom)
-                    photonView.RPC("Turn", RpcTarget.AllBuffered, _inputX);//-------------
-                else
-                    Turn(_inputX);
-            }
+             if (_inputX != 0)//좌우 방향 전환
+             {
+                 if (PhotonNetwork.InRoom)
+                     photonView.RPC("Turn", RpcTarget.AllBuffered, _inputX);//-------------
+                 else
+                     Turn(_inputX);
+             }
 
-            if (Controller.isGrounded)//땅에 있을 시
-            {
-                if (state == AnimationState.Jumping)
-                {
-                    if (Input.GetKey(KeyCode.X))
-                    {
-                        GetDown();
-                    }
-                    else
-                    {
-                        Character.Animator.SetTrigger("Landed");
-                        Character.SetState(AnimationState.Ready);
-                        JumpDust.Play(true);
-                    }
-                }
+             if (Controller.isGrounded)//땅에 있을 시
+             {
+                 if (state == AnimationState.Jumping)
+                 {
+                     if (Input.GetKey(KeyCode.X))
+                     {
+                         GetDown();
+                     }
+                     else
+                     {
+                         Character.Animator.SetTrigger("Landed");
+                         Character.SetState(AnimationState.Ready);
+                         JumpDust.Play(true);
+                     }
+                 }
 
-                _motion = state == AnimationState.Crawling
-                    ? new Vector3(CrawlSpeed * _inputX, 0)
-                    : new Vector3(RunSpeed * _inputX, JumpSpeed * _inputY);
+                 _motion = state == AnimationState.Crawling
+                     ? new Vector3(CrawlSpeed * _inputX, 0)
+                     : new Vector3(RunSpeed * _inputX, JumpSpeed * _inputY);
 
-                if (_inputX != 0 || _inputY != 0)
-                {
-                    if (_inputY > 0)
-                    {
-                        Character.SetState(AnimationState.Jumping);
-                    }
-                    else
-                    {
-                        switch (state)
-                        {
-                            case AnimationState.Idle:
-                            case AnimationState.Ready:
-                                Character.SetState(AnimationState.Running);
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    switch (state)
-                    {
-                        case AnimationState.Crawling:
-                        case AnimationState.Climbing:
-                        case AnimationState.Blocking:
-                            break;
-                        default:
-                            var targetState = Time.time - _activityTime > 5 ? AnimationState.Idle : AnimationState.Ready;
+                 if (_inputX != 0 || _inputY != 0)
+                 {
+                     if (_inputY > 0)
+                     {
+                         Character.SetState(AnimationState.Jumping);
+                     }
+                     else
+                     {
+                         switch (state)
+                         {
+                             case AnimationState.Idle:
+                             case AnimationState.Ready:
+                                 Character.SetState(AnimationState.Running);
+                                 break;
+                         }
+                     }
+                 }
+                 else
+                 {
+                     switch (state)
+                     {
+                         case AnimationState.Crawling:
+                         case AnimationState.Climbing:
+                         case AnimationState.Blocking:
+                             break;
+                         default:
+                             var targetState = Time.time - _activityTime > 5 ? AnimationState.Idle : AnimationState.Ready;
 
-                            if (state != targetState)
-                            {
-                                Character.SetState(targetState);
-                            }
+                             if (state != targetState)
+                             {
+                                 Character.SetState(targetState);
+                             }
 
-                            break;
-                    }
-                }
-            }//땅에 있을 시
-            else//하늘에 있을 시
-            {
-                _motion = new Vector3(RunSpeed * _inputX, _motion.y);
-                Character.SetState(AnimationState.Jumping);
-            }
+                             break;
+                     }
+                 }
+             }//땅에 있을 시
+             else//하늘에 있을 시
+             {
+                 _motion = new Vector3(RunSpeed * _inputX, _motion.y);
+                 Character.SetState(AnimationState.Jumping);
+             }
 
-            _motion.y += Gravity;
-             
-
-            Controller.Move(_motion * Time.fixedDeltaTime);//!!!!!!!!!!!!!!이부분 빼면 안움직임
-            //Controller.
-            Character.Animator.SetBool("Grounded", Controller.isGrounded);
-            Character.Animator.SetBool("Moving", Controller.isGrounded && _inputX != 0);
-            Character.Animator.SetBool("Falling", !Controller.isGrounded && Controller.velocity.y < 0);
-
-            if (_inputX != 0 && _inputY != 0 || Character.Animator.GetBool("Action"))
-            {
-                _activityTime = Time.time;
-            }
-
-            _inputX = _inputY = 0;
+             _motion.y += Gravity;
 
 
-            if (Controller.isGrounded && !Mathf.Approximately(Controller.velocity.x, 0))
-            {
-                var velocity = MoveDust.velocityOverLifetime;
+             Controller.Move(_motion * Time.fixedDeltaTime);//!!!!!!!!!!!!!!이부분 빼면 안움직임
+             //Controller.
+             Character.Animator.SetBool("Grounded", Controller.isGrounded);
+             Character.Animator.SetBool("Moving", Controller.isGrounded && _inputX != 0);
+             Character.Animator.SetBool("Falling", !Controller.isGrounded && Controller.velocity.y < 0);
 
-                velocity.xMultiplier = 0.2f * -Mathf.Sign(Controller.velocity.x);
+             if (_inputX != 0 && _inputY != 0 || Character.Animator.GetBool("Action"))
+             {
+                 _activityTime = Time.time;
+             }
 
-                if (!MoveDust.isPlaying)
-                {
-                    MoveDust.Play();
-                }
-            }
-            else
-            {
-                MoveDust.Stop();
-            }
+             _inputX = _inputY = 0;
+
+
+             if (Controller.isGrounded && !Mathf.Approximately(Controller.velocity.x, 0))
+             {
+                 var velocity = MoveDust.velocityOverLifetime;
+
+                 velocity.xMultiplier = 0.2f * -Mathf.Sign(Controller.velocity.x);
+
+                 if (!MoveDust.isPlaying)
+                 {
+                     MoveDust.Play();
+                 }
+             }
+             else
+             {
+                 MoveDust.Stop();
+             }
+             */
             #endregion
-
         }
         #endregion
 
@@ -755,7 +764,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (!PhotonNetwork.InRoom)
             {
-                damageControlRPC(0);
+                damageControlRPC(0, false);
             }
             //UI 관리-------------------------------------------------------
 
@@ -894,7 +903,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!PhotonNetwork.InRoom)
                 {
                     //피격 처리
-                    damageControlRPC(dmg);
+                    damageControlRPC(dmg, true);
                     //투사체 파괴
                     bullet.bulletOffRPC();
                 }
@@ -914,15 +923,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (!photonView.IsMine) 
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1);
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1, false);
                     }
+                }
+                else if (!PhotonNetwork.InRoom)
+                {
+                    damageControlRPC(1, false);
                 }
             }
         }
 
         #region 피격 처리
         [PunRPC]
-        public void damageControlRPC(int _dmg)
+        public void damageControlRPC(int _dmg, bool isEffect)
         {
             //피해량 계산
             curHealth -= _dmg;
@@ -930,9 +943,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (curHealth > 100) curHealth = 100;
 
             //충격 초기화
-            if (_dmg != 0)
+            if (_dmg != 0)//피해가 있을 때
             {
+                //이동 억제
                 _motion = Vector3.zero;
+
+                if (isEffect) 
+                {
+                    //피격 텍스트 이펙트
+                    GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                    //이름으로 설정
+                    textEffect.name = _dmg.ToString();
+
+                    textEffect.SetActive(true);
+                    textEffect.transform.position = transform.position;
+                }
+                
+
 
                 if (curHealth > 0)//피격
                 {

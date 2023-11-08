@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     List<GameObject>[] blockPools;
 
     //이펙트 리스트(2가 강한 폭발, 6이 약한 폭발)
-    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_PowerUp", "congratulation 9" };
+    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_PowerUp", "Text 52" };//"congratulation 9"
     //블록 주소가 저장될 곳
     List<GameObject>[] effectPools;
 
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     
-    public GameObject CreateObj(string name, PoolTypes poolTypes) //있으면 적 부르고, 없으면 생성
+    public GameObject CreateObj(string _name, PoolTypes poolTypes) //있으면 적 부르고, 없으면 생성
     {
         //반드시 매번 초기화
         GameObject tmpGameObject = null;
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 break;
         }
 
-        int index = NametoIndex(tmpNames, name);
+        int index = NametoIndex(tmpNames, _name);
        //있다면 찾아봄
         foreach (GameObject item in tmpPools[index])
         {
@@ -175,11 +175,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             //네트워크 중에 있다면
             if (PhotonNetwork.InRoom)
+            {
                 tmpGameObject = PhotonNetwork.Instantiate(tmpNames[index], Vector3.zero, Quaternion.identity);
+                tmpGameObject.name = _name;
+            }
             //싱글 플레이라면
             else
             {
                 tmpGameObject = Instantiate(Resources.Load<GameObject>(tmpNames[index]), Vector3.zero, Quaternion.identity);
+                tmpGameObject.name = _name;
             }
             //임시 리스트에 더하기
             tmpPools[index].Add(tmpGameObject);

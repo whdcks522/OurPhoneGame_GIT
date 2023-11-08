@@ -49,6 +49,7 @@ public class Block : MonoBehaviourPunCallbacks
     Rigidbody rigid;
     SpriteRenderer spriteRenderer;
 
+
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;

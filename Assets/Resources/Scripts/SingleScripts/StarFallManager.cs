@@ -120,7 +120,7 @@ public class StarFallManager : MonoBehaviour
                 bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
                 curPowerUpIndex++;
             }
-            
+
             //컴포넌트 정의
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
