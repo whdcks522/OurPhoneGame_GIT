@@ -8,7 +8,6 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
 
 namespace Assets.PixelHeroes.Scripts.ExampleScripts
@@ -402,7 +401,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 isJumpAni = true;
             }
 
-            if (rigid.velocity.y <= 2) //jumpForce/4
+            if (rigid.velocity.y <= 4) //jumpForce/4
             {
 
                 isGround = false;
@@ -925,10 +924,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //피격 처리
                         photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1, false);
                     }
-                }
-                else if (!PhotonNetwork.InRoom)
-                {
-                    damageControlRPC(1, false);
                 }
             }
         }

@@ -1,15 +1,9 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun;
-using Photon.Pun.Demo.Asteroids;
-using Photon.Pun.Demo.PunBasics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Windows;
+
 
 public class FollowSword : MonoBehaviourPunCallbacks
 {
@@ -107,12 +101,11 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
-        rigid.angularVelocity = Vector3.zero;
-
         //사용 가능 영역을 보여주기 위함
         if (curSwordIndex == 1)
         {
+            //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
+            rigid.angularVelocity = Vector3.zero;
             rigid.velocity = leaderSwordVec * leaderSwordSpeed;
 
             //회전 조작
