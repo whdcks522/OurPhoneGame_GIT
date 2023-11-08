@@ -52,12 +52,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Shader
-    uniqueID: 3609087717
-    locked: 0
-  - name: Icon_Text
-    uniqueID: 2418370039
-    locked: 0
   - name: LoadScene
     uniqueID: 1430916865
     locked: 0
