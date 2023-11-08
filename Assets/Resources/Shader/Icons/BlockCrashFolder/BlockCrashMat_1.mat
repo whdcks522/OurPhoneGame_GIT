@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TrainMat_1
-  m_Shader: {fileID: -6465566751694194690, guid: 1bc979ecc22bcb446a5c988720318dc5, type: 3}
+  m_Name: BlockCrashMat_1
+  m_Shader: {fileID: -6465566751694194690, guid: 84fff4fb6ff0788469dd517c7eed90c2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -31,6 +31,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 8991b69971442491a9c6389b1be302c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d0729e8329f547f3af2f6b8cfb406f39_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: e391a52e90e05bf43855fcc7e0ed144f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -46,8 +50,8 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _AddColor: {r: 0.5238519, g: 0.8490566, b: 0.60827166, a: 0}
-    - _BaseColor: {r: 0.44955492, g: 0.6099911, b: 0.8301887, a: 0}
+    - _AddColor: {r: 0.8428195, g: 0.8509804, b: 0.5254902, a: 0}
+    - _BaseColor: {r: 0.4509804, g: 0.83137256, b: 0.6804459, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &790936430122302537
 MonoBehaviour:

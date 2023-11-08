@@ -215,6 +215,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: miniGameBtn1
       objectReference: {fileID: 0}
+    - target: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: PreInfo
+      value: 
+      objectReference: {fileID: 2590811924923200852}
+    - target: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: isVisible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: sceneLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6327790854878475045, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -304,6 +316,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+--- !u!114 &2976767784787819813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+  m_PrefabInstance: {fileID: 1519481707497388012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba8dff423327bb49a34322f33ed46d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4811705662078371017 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6327790854878475045, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
@@ -405,11 +428,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9118757026084428597, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: m_Name
+      value: shader
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+--- !u!114 &2590811924923200852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+  m_PrefabInstance: {fileID: 2282686953921707933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba8dff423327bb49a34322f33ed46d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5223454224101461176 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6327790854878475045, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
@@ -426,6 +464,18 @@ PrefabInstance:
     - target: {fileID: 1850710837588572831, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
       propertyPath: m_Name
       value: miniGameBtn2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: PreInfo
+      value: 
+      objectReference: {fileID: 2976767784787819813}
+    - target: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: isVisible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348737849907956425, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
+      propertyPath: sceneLevel
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6327790854878475045, guid: 4daeacb208e44a04699f9723b7bd80e3, type: 3}
       propertyPath: m_Pivot.x

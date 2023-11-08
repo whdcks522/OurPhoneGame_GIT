@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TrainMat_0
-  m_Shader: {fileID: -6465566751694194690, guid: 84fff4fb6ff0788469dd517c7eed90c2, type: 3}
+  m_Name: StarFallMat_0
+  m_Shader: {fileID: -6465566751694194690, guid: 1ddcc23b35152a446a7d149ea951c7a9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -27,12 +27,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_847f1c8b76f1478c85de074e337d8c25_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 8991b69971442491a9c6389b1be302c1, type: 3}
+    - _SampleTexture2D_38aca67022764fc2a8e63662dc25e9f9_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b4c058e0744fa8b4f89db9d3171f4eb9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_d0729e8329f547f3af2f6b8cfb406f39_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: e391a52e90e05bf43855fcc7e0ed144f, type: 3}
+    - _SampleTexture2D_3cf99cf2bcd74a5ea4dd14d224ca4975_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b4c058e0744fa8b4f89db9d3171f4eb9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4ae0a52bc2da436ebf04a1120cd60322_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b4c058e0744fa8b4f89db9d3171f4eb9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -50,10 +54,10 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _AddColor: {r: 1, g: 0.08141988, b: 0, a: 0}
-    - _BaseColor: {r: 0.68482167, g: 0.5226415, b: 1, a: 1}
+    - _AddColor: {r: 0.4620149, g: 0.51598144, b: 0.9716981, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &790936430122302537
+--- !u!114 &3532026276975866904
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

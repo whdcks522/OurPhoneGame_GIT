@@ -16,7 +16,7 @@ public class SingleInfo : MonoBehaviour
     public string sceneDesc;
 
     public bool isVisible = true;
-
+    public int sceneLevel;
     [Header("이동 할 씬의 선행 스크립트")]
     public SingleInfo PreInfo;
     [Header("이동 할 씬 최대 점수")]
@@ -32,8 +32,10 @@ public class SingleInfo : MonoBehaviour
 
     void Start() 
     {
-        if (!isVisible) 
-            gameObject.SetActive(false);
+        gameObject.SetActive(false);
+
+        if (isVisible || sceneLevel == 0) 
+            gameObject.SetActive(true);
     }
     public void Onclick() 
     {
