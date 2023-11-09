@@ -195,7 +195,7 @@ MonoBehaviour:
   curHealth: 250
   blockPoints: []
   blockHeal: 25
-  crackMul: 5
+  crackMul: 8
   blockHealthType: 3
   blockEffectType: 0
 --- !u!114 &924019020414929280

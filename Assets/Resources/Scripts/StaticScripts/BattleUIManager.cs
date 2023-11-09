@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using AssetKits.ParticleImage;
+using KoreanTyper;
 
 public class BattleUIManager : MonoBehaviour
 {
@@ -41,10 +42,15 @@ public class BattleUIManager : MonoBehaviour
     public Slider bigHealthBar;
     [Header("체력 바 슬라이더의 파티클")]
     public GameObject bigHealthBarParticle;
+
     [Header("랭크 텍스트")]
     public Text bigRankText;
     [Header("포인트 텍스트")]
     public Text bigScoreText;
+    [Header("설명 텍스트")]
+    public Text bigDescText;
+    //설명하는 코루틴
+    Coroutine descCor;
 
     [Header("싱글 정지 버튼")]
     public GameObject singleStopBtn;
@@ -71,7 +77,12 @@ public class BattleUIManager : MonoBehaviour
     public int Escore;
     [Header("현재 생존 점수")]
     public float curScore;
-    
+
+    //채팅용 대기시간 0.05초
+    WaitForSeconds wait0_05 = new WaitForSeconds(0.05f);
+    //채팅용 대기시간 2초
+    WaitForSeconds wait2_00 = new WaitForSeconds(2);
+
     public enum RankType
     {
         S, A, B, C, D, E
@@ -85,6 +96,43 @@ public class BattleUIManager : MonoBehaviour
 
         battleUI.SetActive(false);
     }
+
+    public void typingControl(string _str) 
+    {
+        if (descCor != null) 
+        {
+            StopCoroutine(descCor);
+        }
+        descCor = StartCoroutine(typingRoutine(_str));
+    }
+
+    #region 대화
+    public IEnumerator typingRoutine(string str)
+    {
+        //효과음
+        audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+
+        bigDescText.text = "";
+        yield return null;
+
+        int typingLength = str.GetTypingLength();
+
+        for (int index = 0; index <= typingLength; index++)
+        {
+            bigDescText.text = str.Typing(index);
+            yield return wait0_05;
+        }
+        yield return wait2_00;
+        for (int index = typingLength; index >= 0; index--)
+        {
+            bigDescText.text = str.Typing(index);
+            yield return wait0_05;
+        }
+        yield return null;
+        bigDescText.text = "";
+
+    }
+    #endregion
 
     //정지 버튼
     public void btnStop()

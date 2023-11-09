@@ -104,11 +104,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         characterControl = player.GetComponent<CharacterControls>();
 
-        
-
-
-        
-
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         cinemachineVirtualCamera.Follow = player.transform;

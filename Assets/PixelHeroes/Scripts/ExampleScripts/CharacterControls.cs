@@ -101,20 +101,28 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public Vector3 rayVec = Vector3.zero;
         [Header("현재 바닥인지")]
         public bool isGround = false;
+        //관통하는 건축물을 위함
+        int playerLayer;
+        int trueConstructionLayer;
+        int playerSwordLayer; 
 
         //플레이어의 상태--------------
         public enum PlayerStateType
         {
-            Dead, LeftControl, RightControl, CanHeal
+           None, Dead, LeftControl, IsCanJump,RightControl, CanHeal, SwordCount, SwordCollision
         }
         public PlayerStateType playerStateType;
         //이미 죽음
         public bool isDead = false;
-        //칼을 던질 수 있는 상태인지
+        //이동이 가능한 상태인지
         bool isLeftControl = false;
+        //점프가 가능한 상태인지
+        bool isCanJump = false;
+        //칼을 던질 수 있는 상태인지
         bool isRightControl = false;
         //회복 가능한 상태인지
         bool isCanHeal = false;
+
 
         [Header("PC로 진행중인지 확인")]
         public bool isPC;
@@ -146,11 +154,28 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.LeftControl:
                     isLeftControl = isCheck;
                     break;
+                case PlayerStateType.IsCanJump:
+                    isCanJump = isCheck;
+                    break;
                 case PlayerStateType.RightControl:
                     isRightControl = isCheck;
                     break;
                 case PlayerStateType.CanHeal:
                     isCanHeal = isCheck;
+                    break;
+                case PlayerStateType.SwordCount://true면 무기 꽉 채우기, false면 1로 만들기
+                    if (isCheck) 
+                    {
+                        swordCountRPC(9);
+                    }
+                    else if (!isCheck)
+                    {
+                        swordCountRPC(-9);
+                    }
+                    break;
+                case PlayerStateType.SwordCollision://true면 충돌, false면 무시
+                    //플레이어와 칼 레이어 관리
+                    Physics.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
                     break;
             }
         }
@@ -183,6 +208,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
             {
                 changeStateRPC(PlayerStateType.LeftControl, true);
+                changeStateRPC(PlayerStateType.IsCanJump, true);
                 changeStateRPC(PlayerStateType.RightControl, true);
                 changeStateRPC(PlayerStateType.CanHeal, true);
             }
@@ -196,12 +222,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                     miniUI.SetActive(false);
             }
-
-
         }
+
+        
 
         void Start()
         {
+            playerLayer = LayerMask.NameToLayer("Player");
+            trueConstructionLayer = LayerMask.NameToLayer("TrueConstruction");
+            playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
+
             gameManager = battleUIManager.gameManager;
 
             //기존에 있던 것
@@ -224,8 +254,22 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         }
 
+        
+
         void Update()
         {
+            if (rigid.velocity.y > 0) 
+            {
+                //레이어 무시
+                Physics.IgnoreLayerCollision(playerLayer, trueConstructionLayer, true);
+            }
+            else if (rigid.velocity.y <= 0)
+            {
+                //레이어 인식
+                Physics.IgnoreLayerCollision(playerLayer, trueConstructionLayer, false);
+            }
+
+
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)//타인의 것이면 안건듬
@@ -316,7 +360,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //JumpDust.Play(true);
                     }
                 }
-            }
+            }//PC
             else if (!isPC)//조이스틱
             {
                 moveJoyVec.x = moveJoy.Horizontal;
@@ -333,7 +377,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //JumpDust.Play(true);
                     }
                 }
-            }
+            }//조이스틱
+
+            if(!isCanJump)
+                _inputY = 0;
 
             if (PhotonNetwork.InRoom)
             {
@@ -409,8 +456,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 foreach (RaycastHit hitObj in rayHits) 
                 {
                     if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
-                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
-                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword")))
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword"))||
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("TrueConstruction")))
                     {
                         isGround = true;
                         break;

@@ -2,6 +2,8 @@ using Assets.PixelHeroes.Scripts.ExampleScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using KoreanTyper;
 
 public class Box : MonoBehaviour
 {
@@ -14,34 +16,50 @@ public class Box : MonoBehaviour
     [TextArea]
     public string boxDesc;
 
-    [Header("플레이어")]
+    [Header("플레이어 스크립트")]
     public CharacterControls characterControls;
-
+    [Header("플레이어의 해금할 능력")]
     public CharacterControls.PlayerStateType boxAbility;
 
     SpriteRenderer spriteRenderer;
     BattleUIManager battleUIManager;
+    
+    //훈련소에 어서오세요!
+
     private void Awake()
     {
-        battleUIManager = BattleUIManager.Instance;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        battleUIManager = BattleUIManager.Instance;
+
+        
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.transform.CompareTag("Player"))
+        {
+            battleUIManager.typingControl(boxDesc);
+            
+            if (boxChat.activeSelf) 
+            {
+                //채팅 이미지 비활성화
+                boxChat.SetActive(false);
+                //박스 이미지 변화
+                spriteRenderer.sprite = openBoxImage;
+                //플레이어 능력 해금
+                characterControls.changeStateRPC(boxAbility, true);
+            }
+        }
+    }
+
+    
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Player") && boxChat.activeSelf) 
+        if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
         {
-            //효과음
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-
-            Debug.Log(boxDesc);
-            boxChat.SetActive(false);
-            spriteRenderer.sprite = openBoxImage;
-        }   
-    }
-
-    private void FixedUpdate()
-    {
-        
+            Destroy(this.gameObject);
+        }
     }
 }
