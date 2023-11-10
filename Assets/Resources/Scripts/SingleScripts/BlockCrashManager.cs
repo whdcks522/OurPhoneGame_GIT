@@ -115,12 +115,6 @@ public class BlockCrashManager : MonoBehaviour
                 //생성할 블록 변경
                 blockName = "PowerUpBlock";
             }
-            else if (curPowerUpIndex == maxPowerUpIndex / 2)
-            {
-                //생성할 블록 변경
-                blockName = "HardBlock";
-            }
-
 
             GameObject block = gameManager.CreateObj(blockName, GameManager.PoolTypes.BlockType);
             Block blockComponent = block.GetComponent<Block>();

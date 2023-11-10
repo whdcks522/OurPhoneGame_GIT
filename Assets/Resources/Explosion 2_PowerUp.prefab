@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 881568718370479878, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1783899312016058751, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1783899312016058751, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Materials.Array.size
@@ -27,6 +31,10 @@ PrefabInstance:
     - target: {fileID: 2698543428240577488, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
       value: 0.4129583
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028619984782, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028619984782, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Materials.Array.size
@@ -46,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028638981966, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Name
-      value: Explosion 2 Variant
+      value: Explosion 2_PowerUp
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028638981966, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_IsActive
@@ -54,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028639474542, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028639474542, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -102,7 +110,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028927298310, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054028927298312, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6649054028927298312, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Materials.Array.size
@@ -126,7 +138,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6649054029572757660, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029572757662, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6649054029572757662, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Materials.Array.size
@@ -146,7 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6649054029692529113, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029692529115, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6649054029692529115, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Materials.Array.size
@@ -166,7 +186,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6649054029846979191, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649054029846979193, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6649054029846979193, guid: 5511b7ac7eda77b41930b416f949461b, type: 3}
       propertyPath: m_Materials.Array.size

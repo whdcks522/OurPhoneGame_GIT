@@ -54,7 +54,8 @@ public class Block : MonoBehaviourPunCallbacks
     {
         battleUIManager = BattleUIManager.Instance;
         gameManager = battleUIManager.gameManager;
-        characterControls = gameManager.player.GetComponent<CharacterControls>();
+        characterControls = gameManager.characterControl;
+        //characterControls = gameManager.player.GetComponent<CharacterControls>();
 
         maxHealth = curHealth;
         rigid = GetComponent<Rigidbody>();

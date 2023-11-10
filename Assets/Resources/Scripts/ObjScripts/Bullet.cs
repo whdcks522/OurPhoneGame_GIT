@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     [Header("√—æÀ¿« ∏Ò«•")]
     public Transform bulletTarget;
 
+    BattleUIManager battleUIManager;
     GameManager gameManager;
     Rigidbody rigid;
     ParticleSystem particleSystem;
@@ -46,7 +47,8 @@ public class Bullet : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        gameManager = GameManager.Instance;
+        battleUIManager = BattleUIManager.Instance;
+        gameManager = battleUIManager.gameManager;
         rigid = GetComponent<Rigidbody>();
         particleSystem = GetComponent<ParticleSystem>();
     }

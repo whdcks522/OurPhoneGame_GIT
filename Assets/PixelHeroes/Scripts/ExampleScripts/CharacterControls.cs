@@ -458,7 +458,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword"))||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("TrueConstruction")))
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("TrueConstruction"))||
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")))
                     {
                         isGround = true;
                         break;

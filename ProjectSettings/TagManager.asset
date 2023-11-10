@@ -22,7 +22,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - PlayerAttack
+  - 
   - Enemy
   - EnemyBullet
   - PlayerSword
@@ -31,11 +31,11 @@ TagManager:
   - Effect
   - Bomb
   - Block
-  - BlockArea
+  - 
   - GreenLeaf
   - RedRose
   - TrueConstruction
-  - 
+  - Box
   - 
   - 
   - 

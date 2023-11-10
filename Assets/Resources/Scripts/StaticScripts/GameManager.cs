@@ -111,20 +111,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     }
-
-    #region 싱글턴
-    private static GameManager instance;//따로 작성 없음
-    public static GameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-                instance = FindObjectOfType<GameManager>();
-            return instance;
-        }
-    }
-    #endregion
-
     
     public GameObject CreateObj(string _name, PoolTypes poolTypes) //있으면 적 부르고, 없으면 생성
     {
