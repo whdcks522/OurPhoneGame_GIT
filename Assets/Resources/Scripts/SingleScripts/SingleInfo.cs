@@ -46,13 +46,12 @@ public class SingleInfo : MonoBehaviour
         //실제 사용자에게 보여지는 전장 설명
         singleSelectManager.singlePanelDesc.text = sceneDesc;
         //실제 사용자에게 보여지는 등급 설명
-        singleSelectManager.singleRankText[0].text = "<color=red> S </color>: " + Sscore;
-        singleSelectManager.singleRankText[1].text = "<color=#FFAA00> A </color>: " + Ascore;
-        singleSelectManager.singleRankText[2].text = "<color=#FFFF00> B </color>: " + Bscore;
-        singleSelectManager.singleRankText[3].text = "<color=#00AA00> C </color>: " + Cscore;
-        singleSelectManager.singleRankText[4].text = "<color=#00AAFF> D </color>: " + Dscore;
-        singleSelectManager.singleRankText[5].text = "<color=#AA00FF> E </color>: " + Escore;
-
+        singleSelectManager.singleRankText[0].text = "<color=#AA00FF> S </color>: " + Sscore;
+        singleSelectManager.singleRankText[1].text = "<color=#0000FF> A </color>: " + Ascore;
+        singleSelectManager.singleRankText[2].text = "<color=#00AA00> B </color>: " + Bscore;
+        singleSelectManager.singleRankText[3].text = "<color=#FF0000> C </color>: " + Cscore;
+        singleSelectManager.singleRankText[4].text = "<color=#FFFF00> D </color>: " + Dscore;
+        singleSelectManager.singleRankText[5].text = "<color=#FFFFFF> E </color>: " + Escore;
 
         //전역 변수 설정
         singleSelectManager.battleUIManager.Sscore = Sscore;
@@ -64,5 +63,7 @@ public class SingleInfo : MonoBehaviour
 
         //종이 효과음
         singleSelectManager.battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+        //시작 버튼 가시화
+        singleSelectManager.btnStart.SetActive(true);
     }
 }

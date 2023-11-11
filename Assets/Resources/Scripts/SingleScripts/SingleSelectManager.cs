@@ -25,6 +25,9 @@ public class SingleSelectManager : MonoBehaviour
     [Header("현재 선택한 게임의 랭크")]
     public Text[] singleRankText;
 
+    [Header("시작 버튼")]
+    public GameObject btnStart;
+
 
     private void Awake()
     {

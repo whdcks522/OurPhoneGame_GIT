@@ -43,27 +43,26 @@ public class Block : MonoBehaviourPunCallbacks
     Vector3 sizeVec = Vector3.one;
 
     //플레이어 스크립트
+    public GameManager gameManager;//지우지 말 것
     public CharacterControls characterControls;//지우지 말 것
     BattleUIManager battleUIManager;
-    public GameManager gameManager;//지우지 말 것
+    
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        characterControls = gameManager.characterControl;
-
+        if(gameManager == null)
+            gameManager = battleUIManager.gameManager;
+        if (characterControls == null)
+            characterControls = gameManager.characterControl;
 
         maxHealth = curHealth;
         rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
-    {
-        
-    }
 
     [PunRPC]
     public void blockOnRPC()//False: 못부셔셔 진화한 경우

@@ -176,7 +176,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     break;
                 case PlayerStateType.SwordCollision://true면 충돌, false면 무시
                     //플레이어와 칼 레이어 관리
+                    playerLayer = LayerMask.NameToLayer("Player");
+                    playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
+
                     Physics2D.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
+                    Physics.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
                     break;
             }
         }
@@ -229,8 +233,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void Start()
         {
-            playerLayer = LayerMask.NameToLayer("Player");
-            playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
+            
 
             gameManager = battleUIManager.gameManager;
 
@@ -811,14 +814,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (photonView.IsMine)
                 {
                     float firstValue = battleUIManager.bigHealthBar.value;
-                    float secondValue = battleUIManager.bigHealthBar.value;
                     battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
                 }
             }
             else if (!PhotonNetwork.InRoom)
             {
                 float firstValue = battleUIManager.bigHealthBar.value;
-                float secondValue = battleUIManager.bigHealthBar.value;
                 battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
             }
 
@@ -836,7 +837,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     isSRank = true;
 
                 }
-                battleUIManager.bigRankText.text = "<color=red> S </color>";
+                battleUIManager.bigRankText.text = "<color=#AA00FF> S </color>";
                 battleUIManager.bigScoreText.text += '-';
             }
             else if (battleUIManager.curScore >= battleUIManager.Ascore) //A급 이상의 경우
@@ -847,7 +848,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.rankType = BattleUIManager.RankType.A;
                     isARank = true;
                 }
-                battleUIManager.bigRankText.text = "<color=#FFAA00> A </color>";
+                battleUIManager.bigRankText.text = "<color=#0000FF> A </color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Sscore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Bscore) //B급 이상의 경우
@@ -858,7 +859,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.rankType = BattleUIManager.RankType.B;
                     isBRank = true;
                 }
-                battleUIManager.bigRankText.text = "<color=#FFFF00> B </color>";
+                battleUIManager.bigRankText.text = "<color=#00AA00> B </color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Ascore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Cscore) //C급 이상의 경우
@@ -869,7 +870,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.rankType = BattleUIManager.RankType.C;
                     isCRank = true;
                 }
-                battleUIManager.bigRankText.text = "<color=#00AA00> C </color>";
+                battleUIManager.bigRankText.text = "<color=#FF0000> C </color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Bscore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Dscore) //D급 이상의 경우
@@ -880,12 +881,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.rankType = BattleUIManager.RankType.D;
                     isDRank = true;
                 }
-                battleUIManager.bigRankText.text = "<color=#00AAFF> D </color>";
+                battleUIManager.bigRankText.text = "<color=#FFFF00> D </color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Cscore;
             }
             else if (battleUIManager.curScore >= battleUIManager.Escore) //E급 이상의 경우
             {
-                battleUIManager.bigRankText.text = "<color=#AA00FF> E </color>";
+                battleUIManager.bigRankText.text = "<color=#FFFFFF> E </color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Dscore;
             }   
         }

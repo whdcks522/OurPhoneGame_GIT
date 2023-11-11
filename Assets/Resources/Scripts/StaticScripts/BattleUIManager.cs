@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using AssetKits.ParticleImage;
 using KoreanTyper;
+using Unity.VisualScripting;
 
 public class BattleUIManager : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class BattleUIManager : MonoBehaviour
     public Text bigScoreText;
     [Header("설명 텍스트")]
     public Text bigDescText;
+    string saveDescText = "";
     //설명하는 코루틴
     Coroutine descCor;
 
@@ -81,10 +83,10 @@ public class BattleUIManager : MonoBehaviour
     [Header("현재 생존 점수")]
     public float curScore;
 
-    //채팅용 대기시간 0.05초
-    WaitForSeconds wait0_05 = new WaitForSeconds(0.05f);
-    //채팅용 대기시간 2초
-    WaitForSeconds wait2_00 = new WaitForSeconds(2);
+    //채팅용 대기시간 0.025초
+    WaitForSeconds wait0_025 = new WaitForSeconds(0.025f);
+    //채팅용 대기시간 3초
+    WaitForSeconds wait3_00 = new WaitForSeconds(3);
 
     
 
@@ -104,38 +106,49 @@ public class BattleUIManager : MonoBehaviour
 
     public void typingControl(string _str) 
     {
-        if (descCor != null) 
+        //if (descCor != null) 
         {
-            StopCoroutine(descCor);
+            //StopCoroutine(descCor);
         }
-        descCor = StartCoroutine(typingRoutine(_str));
+        if (saveDescText != _str)
+        {
+            if (descCor != null)
+                StopCoroutine(descCor);                
+            descCor = StartCoroutine(typingRoutine(_str));
+        }
     }
 
     #region 대화
     public IEnumerator typingRoutine(string str)
     {
-        //효과음
-        audioManager.PlaySfx(AudioManager.Sfx.RankUp);
 
-        bigDescText.text = "";
-        yield return null;
+            saveDescText = str;
+            bigDescText.text = "";
 
-        int typingLength = str.GetTypingLength();
+            yield return null;
 
-        for (int index = 0; index <= typingLength; index++)
-        {
-            bigDescText.text = str.Typing(index);
-            yield return wait0_05;
-        }
-        yield return wait2_00;
-        for (int index = typingLength; index >= 0; index--)
-        {
-            bigDescText.text = str.Typing(index);
-            yield return wait0_05;
-        }
-        yield return null;
-        bigDescText.text = "";
+            int typingLength = str.GetTypingLength();
+            for (int index = 0; index <= typingLength; index++)
+            {
+                bigDescText.text = str.Typing(index);
 
+                yield return wait0_025;
+                yield return wait0_025;
+
+                //효과음
+                audioManager.PlaySfx(AudioManager.Sfx.Typing);
+            }
+            yield return wait3_00;
+            for (int index = typingLength; index >= 0; index--)
+            {
+                bigDescText.text = str.Typing(index);
+                yield return wait0_025;
+            }
+            yield return null;
+
+            saveDescText = "";
+            bigDescText.text = "";
+        
     }
     #endregion
 

@@ -11,7 +11,7 @@ using Photon.Realtime;
 public class TrainManager : MonoBehaviour
 {
     //최대 발사 시간
-    float maxTime = 1f;
+    float maxTime = 0.25f;
     //현재 발사 시간
     float curTime = 0f;
     //발사 위치 지수
@@ -37,11 +37,6 @@ public class TrainManager : MonoBehaviour
     public GameManager gameManager;
 
 
-    private void Awake()
-    {
-        
-    }
-
     private void Start()
     {
         battleUIManager = BattleUIManager.Instance;
@@ -57,8 +52,9 @@ public class TrainManager : MonoBehaviour
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, false);
         //칼과 충돌 무시
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.SwordCollision, false);
+        characterControls.backSwords.SetActive(true);
 
-        battleUIManager.typingControl("훈련소에 어서오세요!");
+        battleUIManager.typingControl("훈련장에 어서오세요!");
         StartCoroutine(moveBoxRoutine());
     }
 

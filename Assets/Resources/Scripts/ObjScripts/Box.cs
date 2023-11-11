@@ -31,8 +31,6 @@ public class Box : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         battleUIManager = BattleUIManager.Instance;
-
-        
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -51,6 +49,10 @@ public class Box : MonoBehaviour
                 spriteRenderer.sprite = openBoxImage;
                 //플레이어 능력 해금
                 characterControls.changeStateRPC(boxAbility, true);
+                if (boxAbility == CharacterControls.PlayerStateType.RightControl) 
+                {
+                    characterControls.backSwords.SetActive(true);
+                }
             }
         }
     }
