@@ -36,13 +36,14 @@ public class StarFallManager : MonoBehaviour
     public int scenelevel;
 
     BattleUIManager battleUIManager;
-    GameManager gameManager;
+    [Header("게임 매니저")]
+    public GameManager gameManager;
     GameObject player;
 
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        gameManager = battleUIManager.gameManager;
+        
         player = gameManager.player;
         starFallPointsSize = starFallPoints.Length;
 
@@ -122,7 +123,7 @@ public class StarFallManager : MonoBehaviour
             }
 
             //컴포넌트 정의
-            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+            Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
 
             //위치 조정

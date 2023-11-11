@@ -25,9 +25,12 @@ public class Bullet : MonoBehaviourPunCallbacks
     [Header("총알의 목표")]
     public Transform bulletTarget;
 
+    [Header("총알의 목표")]
+    public bool isAlreadyHit = false;
+
     BattleUIManager battleUIManager;
     GameManager gameManager;
-    Rigidbody rigid;
+    Rigidbody2D rigid;
     ParticleSystem particleSystem;
 
     
@@ -49,7 +52,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     {
         battleUIManager = BattleUIManager.Instance;
         gameManager = battleUIManager.gameManager;
-        rigid = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody2D>();
         particleSystem = GetComponent<ParticleSystem>();
     }
 
@@ -91,6 +94,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
+        isAlreadyHit = false;
 
         if (isFlash)
         {
@@ -126,6 +130,8 @@ public class Bullet : MonoBehaviourPunCallbacks
     [PunRPC]
     public void bulletOffRPC()
     {
+        //재차 피격 안일어나도록
+        isAlreadyHit = true;
         //시간 동기화
         curTime = 0f;
         //게임오브젝트 비활성화
@@ -157,7 +163,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
         {

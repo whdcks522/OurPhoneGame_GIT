@@ -8,6 +8,9 @@ using KoreanTyper;
 
 public class BattleUIManager : MonoBehaviour
 {
+    [Header("PC로 진행중인지")]
+    public bool isPC;
+
     #region 싱글턴
     private static BattleUIManager instance;
     public static BattleUIManager Instance
@@ -82,6 +85,8 @@ public class BattleUIManager : MonoBehaviour
     WaitForSeconds wait0_05 = new WaitForSeconds(0.05f);
     //채팅용 대기시간 2초
     WaitForSeconds wait2_00 = new WaitForSeconds(2);
+
+    
 
     public enum RankType
     {

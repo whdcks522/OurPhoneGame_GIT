@@ -55,7 +55,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //첫 번재 칼 게임 오브젝트
         GameObject leaderSword;
         private FollowSword leaderSwordComponent;
-        Rigidbody leaderSwordRigid;
+        Rigidbody2D leaderSwordRigid;
 
         [Header("현재 칼의 갯수")]
         public int curSwordCount;
@@ -88,7 +88,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         public BattleUIManager battleUIManager;
         GameManager gameManager;
-        Rigidbody rigid;
+        Rigidbody2D rigid;
         [Header("Rigidbody 점프력")]
         public int jumpForce;
 
@@ -103,7 +103,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public bool isGround = false;
         //관통하는 건축물을 위함
         int playerLayer;
-        int trueConstructionLayer;
         int playerSwordLayer; 
 
         //플레이어의 상태--------------
@@ -122,10 +121,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isRightControl = false;
         //회복 가능한 상태인지
         bool isCanHeal = false;
-
-
-        [Header("PC로 진행중인지 확인")]
-        public bool isPC;
+        //PC로 진행중인지 확인
+        bool isPC;
 
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
@@ -145,6 +142,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         battleUIManager.bigHealthBar.value = 0;
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
+                        //칼 비활성화
+                        leaderSword.GetComponent<FollowSword>().leaderSwordExitRPC(2);
+                        //곧 죽음
+                        Invoke("SoonDie", 1.5f);
                     }
                     else if (!isCheck)
                     {
@@ -175,17 +176,17 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     break;
                 case PlayerStateType.SwordCollision://true면 충돌, false면 무시
                     //플레이어와 칼 레이어 관리
-                    Physics.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
+                    Physics2D.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
                     break;
             }
         }
 
         private void Awake()
         {
-            rigid = GetComponent<Rigidbody>();
+            rigid = GetComponent<Rigidbody2D>();
             
             battleUIManager = BattleUIManager.Instance;
-            
+            isPC = battleUIManager.isPC;
             //칼 관리
             for (int i = 0; i < swordParent.transform.childCount; i++)
             {
@@ -196,7 +197,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
 
             leaderSword = swordParent.transform.GetChild(0).gameObject;
-            leaderSwordRigid = leaderSword.GetComponent<Rigidbody>();
+            leaderSwordRigid = leaderSword.GetComponent<Rigidbody2D>();
             leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
 
             moveJoy = BattleUIManager.Instance.moveJoy;
@@ -229,7 +230,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void Start()
         {
             playerLayer = LayerMask.NameToLayer("Player");
-            trueConstructionLayer = LayerMask.NameToLayer("TrueConstruction");
             playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
 
             gameManager = battleUIManager.gameManager;
@@ -258,18 +258,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void Update()
         {
-            if (rigid.velocity.y > 0) 
-            {
-                //레이어 무시
-                Physics.IgnoreLayerCollision(playerLayer, trueConstructionLayer, true);
-            }
-            else if (rigid.velocity.y <= 0)
-            {
-                //레이어 인식
-                Physics.IgnoreLayerCollision(playerLayer, trueConstructionLayer, false);
-            }
-
-
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)//타인의 것이면 안건듬
@@ -448,17 +436,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 isJumpAni = true;
             }
 
-            if (rigid.velocity.y <= 4) //jumpForce/4
+            //if (rigid.velocity.y <= 4) //jumpForce/4
             {
-
                 isGround = false;
-                RaycastHit[] rayHits = Physics.SphereCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
-                foreach (RaycastHit hitObj in rayHits) 
+                RaycastHit2D[] rayHits = Physics2D.CircleCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
+                foreach (RaycastHit2D hitObj in rayHits) 
                 {
                     if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword"))||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("TrueConstruction"))||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")))
                     {
                         isGround = true;
@@ -930,30 +916,32 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.transform.CompareTag("EnemyBullet"))
             {
                 Bullet bullet = other.GetComponent<Bullet>();
                 int dmg = bullet.bulletDamage;
 
-
-                if (PhotonNetwork.InRoom)
+                if (!bullet.isAlreadyHit) 
                 {
-                    if (photonView.IsMine)
+                    if (PhotonNetwork.InRoom)
+                    {
+                        if (photonView.IsMine)
+                        {
+                            //피격 처리
+                            photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg);
+                            //투사체 파괴
+                            bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                        }
+                    }
+                    else if (!PhotonNetwork.InRoom)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg);
+                        damageControlRPC(dmg, true);
                         //투사체 파괴
-                        bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                        bullet.bulletOffRPC();
                     }
-                }
-                else if (!PhotonNetwork.InRoom)
-                {
-                    //피격 처리
-                    damageControlRPC(dmg, true);
-                    //투사체 파괴
-                    bullet.bulletOffRPC();
                 }
             }
             else if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
@@ -962,7 +950,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
         }
 
-        private void OnCollisionStay(Collision collision)
+        private void OnCollisionStay2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("playerSword")) 
             {
@@ -1025,16 +1013,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         {
                             photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                             //칼 비활성화
-                            leaderSword.GetComponent<FollowSword>().photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 2);
+                            //leaderSword.GetComponent<FollowSword>().photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 2);
                             
                         }
                     }
                     else if (!PhotonNetwork.InRoom)
                     {
                         changeStateRPC(PlayerStateType.Dead, true);
-                        //칼 비활성화
-                        leaderSword.GetComponent<FollowSword>().leaderSwordExitRPC(2);
-                        Invoke("SoonDie", 1.5f);
                     }
                 }    
             } 

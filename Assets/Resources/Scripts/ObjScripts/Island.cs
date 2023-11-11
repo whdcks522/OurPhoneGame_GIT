@@ -5,7 +5,7 @@ using UnityEngine;
 public class Island : MonoBehaviour
 {
     public float speed; // 마찰력 계수
-    private Rigidbody rigidbody;
+    private Rigidbody2D rigidbody;
     [Header("진행 방향")]
     public Vector3 dirVec;
 
@@ -16,11 +16,11 @@ public class Island : MonoBehaviour
     }
     [Header("섬 타입")]
     public IslandType islandType;
+
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody2D>();
         dirVec = dirVec.normalized;
-        //rigidbody.velocity = Vector2.zero; // 초기 속도를 0으로 설정하여 움직이지 않게 합니다.
     }
 
 
@@ -28,6 +28,7 @@ public class Island : MonoBehaviour
     {
         if (IslandType.Conveyor == islandType) 
         {
+            Debug.Log("Move");
             rigidbody.AddForce(dirVec * speed * 1000);
         }
     }

@@ -55,7 +55,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     //배틀 매니저
     public BattleUIManager battleUIManager;
-    Rigidbody rigid;
+    Rigidbody2D rigid;
 
     
 
@@ -89,7 +89,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
         maxSwordIndex = transform.parent.childCount;
         curSwordIndex = transform.GetSiblingIndex() + 1;//현재 자신이 몇 번째인지
 
-        rigid = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
@@ -105,7 +105,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
         if (curSwordIndex == 1)
         {
             //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
-            rigid.angularVelocity = Vector3.zero;
+            rigid.angularVelocity = 0f;
             rigid.velocity = leaderSwordVec * leaderSwordSpeed;
 
             //회전 조작
@@ -157,7 +157,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     }
 
     
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (PhotonNetwork.InRoom)//멀티 중이라면
         {
@@ -284,7 +284,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("EnemyBullet"))
         {
@@ -338,7 +338,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
        
     }
 
-    private void OnCollisionStay(Collision other)
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (other.transform.CompareTag("Block"))
         {

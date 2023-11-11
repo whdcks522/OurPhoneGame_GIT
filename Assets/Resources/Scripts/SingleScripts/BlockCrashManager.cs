@@ -32,18 +32,14 @@ public class BlockCrashManager : MonoBehaviour
     
     [Header("씬의 레벨")]
     public int scenelevel;
-
-    GameManager gameManager;
-    GameObject player;
+    [Header("게임 매니저")]
+    public GameManager gameManager;
     
     BattleUIManager battleUIManager;
 
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        gameManager = battleUIManager.gameManager;
-        
-        player = gameManager.player;
         curTime = maxTime;
 
         //플레이어 점수 증가 비율 설정
@@ -118,6 +114,7 @@ public class BlockCrashManager : MonoBehaviour
 
             GameObject block = gameManager.CreateObj(blockName, GameManager.PoolTypes.BlockType);
             Block blockComponent = block.GetComponent<Block>();
+
 
             //블록 부모 조정
             block.transform.parent = this.transform;

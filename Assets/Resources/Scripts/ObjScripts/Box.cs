@@ -35,7 +35,7 @@ public class Box : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.transform.CompareTag("Player"))
         {
@@ -43,6 +43,8 @@ public class Box : MonoBehaviour
             
             if (boxChat.activeSelf) 
             {
+                //점수 증가
+                battleUIManager.curScore += 10;
                 //채팅 이미지 비활성화
                 boxChat.SetActive(false);
                 //박스 이미지 변화
@@ -55,7 +57,7 @@ public class Box : MonoBehaviour
 
     
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
         {

@@ -8007,8 +8007,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 40dc0f8a64bc72548914dfad602d8562, type: 2}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: Ascore
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: Bscore
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: Cscore
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: Dscore
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: Sscore
-      value: 250
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc

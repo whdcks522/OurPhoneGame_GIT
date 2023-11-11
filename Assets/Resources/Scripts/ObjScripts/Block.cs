@@ -41,26 +41,30 @@ public class Block : MonoBehaviourPunCallbacks
     Color crackColor;
     //생성 됐을 때의 크기
     Vector3 sizeVec = Vector3.one;
-    //게임 매니저
-    GameManager gameManager;
-    //플레이어 스크립트
-    CharacterControls characterControls;
-    BattleUIManager battleUIManager;
-    Rigidbody rigid;
-    SpriteRenderer spriteRenderer;
 
+    //플레이어 스크립트
+    public CharacterControls characterControls;//지우지 말 것
+    BattleUIManager battleUIManager;
+    public GameManager gameManager;//지우지 말 것
+    Rigidbody2D rigid;
+    SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        gameManager = battleUIManager.gameManager;
         characterControls = gameManager.characterControl;
-        //characterControls = gameManager.player.GetComponent<CharacterControls>();
+
 
         maxHealth = curHealth;
-        rigid = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    private void Start()
+    {
+        
+    }
+
     [PunRPC]
     public void blockOnRPC()//False: 못부셔셔 진화한 경우
     {
@@ -256,7 +260,7 @@ public class Block : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
         {
