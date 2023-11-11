@@ -1153,7 +1153,8 @@ MonoBehaviour:
   - {fileID: 1632183843}
   - {fileID: 954881206}
   maxTime: 5
-  PowerUpIndexArr: 640000004b000000320000001e000000140000000a000000
+  PowerUpIndexArr: 1e00000019000000140000000f0000000a00000005000000
+  maxCureIndex: 10
   createBlockArr:
   - 2
   - 1.8
