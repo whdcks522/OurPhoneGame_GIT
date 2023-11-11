@@ -764,7 +764,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void SwordSpinRPC(Vector2 tmpVec)
         {
             FollowSword followSword = leaderSword.GetComponent<FollowSword>();
-            followSword.leaderSwordVec = tmpVec;
+            followSword.saveSwordVec = tmpVec;
         }
         #endregion
 

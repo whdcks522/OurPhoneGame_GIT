@@ -19624,7 +19624,7 @@ GameObject:
   - component: {fileID: 3054801496804327231}
   - component: {fileID: 4897143200695521795}
   m_Layer: 13
-  m_Name: PowerUpStarHit
+  m_Name: PowerUpBulletHit
   m_TagString: Effect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

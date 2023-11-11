@@ -67,7 +67,7 @@ public class TrainManager : MonoBehaviour
         {
             //시간 초기화
             curTime = 0f;
-            GameObject bullet  = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
+            GameObject bullet  = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
 
             //컴포넌트 정의
             Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();

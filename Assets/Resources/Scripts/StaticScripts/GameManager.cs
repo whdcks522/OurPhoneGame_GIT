@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     BattleUIManager battleUIManager;
 
     //총알 리스트
-    string[] bulletNames = { "YellowStarBullet", "YellowStarHit",
-                                "PowerUpStarBullet","PowerUpStarHit" };
+    string[] bulletNames = { "YellowBullet", "YellowBulletHit",
+                                "PowerUpBullet","PowerUpBulletHit" };
     //총알 주소가 저장될 곳
     List<GameObject>[] bulletPools;
 

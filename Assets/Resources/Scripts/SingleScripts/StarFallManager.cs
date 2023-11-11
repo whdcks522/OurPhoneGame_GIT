@@ -116,12 +116,12 @@ public class StarFallManager : MonoBehaviour
             //운석 오브젝트 생성
             if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
             {
-                bullet = gameManager.CreateObj("PowerUpStarBullet", GameManager.PoolTypes.BulletType);
+                bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
                 curPowerUpIndex = 0;
             }
             else //기본 운석
             {
-                bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
+                bullet = gameManager.CreateObj("YellowBullet", GameManager.PoolTypes.BulletType);
                 curPowerUpIndex++;
             }
 

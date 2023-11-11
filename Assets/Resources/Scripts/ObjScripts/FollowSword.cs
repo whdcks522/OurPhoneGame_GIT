@@ -11,27 +11,24 @@ public class FollowSword : MonoBehaviourPunCallbacks
     public class FollowSwordInfo
     {
         public Vector2 swordPos { get; set; }//위치
-        
-        public Quaternion swordRot { get; set; }//회전
         public Vector2 swordVec { get; set; }//속도
 
-        public FollowSwordInfo(Vector2 tmpPos, Quaternion tmpRot, Vector2 tmpVec)
+        public FollowSwordInfo(Vector2 tmpPos, Vector2 tmpVec)
         {
             swordPos = tmpPos;
-            swordRot = tmpRot;
             swordVec = tmpVec;
         }
     }
 
     //클래스 정보 큐
-    Queue<FollowSwordInfo> followSwordQueue = new Queue<FollowSwordInfo>();
+    Queue<FollowSwordInfo> swordQueue = new Queue<FollowSwordInfo>();
 
     public FollowSword upperSword;
     public GameObject lowerSword;//자식 설정
     int followDelay = 5;//따라가는 지연시간
 
     //현재 칼의 정보
-    private FollowSwordInfo childSwordInfo = new FollowSwordInfo(Vector2.zero, Quaternion.identity, Vector2.zero);
+    private FollowSwordInfo swordQueueInfo = new FollowSwordInfo(Vector2.zero, Vector2.zero);
 
     [Header("플레이어 게임오브젝트(비활성화 시, 죽으면 오류)")]
     public GameObject player;
@@ -43,9 +40,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
 
     [Header("리더의 속도")]
-    public Vector3 leaderSwordVec = Vector3.zero;
-    //리더 칼의 속도
-    int leaderSwordSpeed = 10;
+    public Vector3 saveSwordVec = Vector3.zero;
 
 
     //경로
@@ -100,7 +95,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         trailRenderer.Clear();
 
-        childSwordInfo = new FollowSwordInfo(transform.position, transform.rotation, rigid.velocity);//transform이 나을듯?
+        swordQueueInfo = new FollowSwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
     }
 
     void FixedUpdate()
@@ -111,65 +106,57 @@ public class FollowSword : MonoBehaviourPunCallbacks
             Vector2 swordPos = transform.position;
             Vector2 playerPos = player.transform.position;
 
-            swordDir = Vector3.Distance(swordPos, playerPos) / 400;
+            swordDir = Vector3.Distance(swordPos, playerPos) / 400;  
         }
 
         bool isRecentActive = false;
 
         //큐에 정보 삽입
-        followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation, leaderSwordVec.normalized));
+        swordQueue.Enqueue(new FollowSwordInfo(transform.position, saveSwordVec));
 
         //가득 차면, 클래스 정보 뱉기
-        if (followSwordQueue.Count > followDelay)
+        if (swordQueue.Count > followDelay)
         {
-            childSwordInfo = followSwordQueue.Dequeue();
+            swordQueueInfo = swordQueue.Dequeue();
 
             //꺼져 있다면 켜줌 
             if (curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
             {
                 if (!lowerSword.activeSelf) 
                 {
-                
-                
-                }
-                lowerSword.SetActive(true);
-                lowerSword.transform.position = childSwordInfo.swordPos;
+                    lowerSword.SetActive(true);
+                    lowerSword.transform.position = swordQueueInfo.swordPos;
 
-                isRecentActive = true;
-                //child.GetComponent<FollowSword>().trailRenderer.Clear();
+                    isRecentActive = true;
+                    lowerSword.GetComponent<FollowSword>().trailRenderer.Clear();
+                } 
             }
         }
 
         //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
         rigid.angularVelocity = 0f;
-        rigid.velocity = leaderSwordVec * leaderSwordSpeed;
-
+        rigid.velocity = saveSwordVec * 10;
+      
         //회전 조작
         transform.rotation = Quaternion.identity;
         float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
         Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
         transform.Rotate(rotVec);
 
-        if (curSwordIndex >= characterControls.curSwordCount)//맨 끝 칼은 수행 안함
-            return;
+        //if (curSwordIndex >= characterControls.curSwordCount)//맨 끝 칼은 수행 안함
+        //   return;
 
-        
+        if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
+        {
+            lowerSword.GetComponent<FollowSword>().saveSwordVec = swordQueueInfo.swordVec;
+        }
 
-
-        //최종 이동
-        //lowerSword.transform.rotation = childSwordInfo.swordRot;
-        lowerSword.GetComponent<FollowSword>().leaderSwordVec = childSwordInfo.swordVec;
-
-        
-
-        //child.transform.position = childSwordInfo.swordVec;
+            
 
 
 
         //if (isRecentActive)//awake하기 전에 부를까봐  
         //    child.GetComponent<FollowSword>().trailRenderer.Clear();
-
-
     }
 
     
@@ -258,14 +245,15 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
                 if (tmpSwordComponent != null)
                 {
-                    tmpSwordComponent.followSwordQueue.Clear();//큐 초기화
+                    tmpSwordComponent.swordQueue.Clear();//큐 초기화
                 }
             }
         }
+        //---------- 죽을 때 오류
         else if (curSwordIndex != 1)
         {
-            transform.position = upperSword.childSwordInfo.swordPos;
-        }       
+            transform.position = upperSword.swordQueueInfo.swordPos;
+        }
     }
     #endregion
 

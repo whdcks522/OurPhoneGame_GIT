@@ -16,10 +16,10 @@ GameObject:
   - component: {fileID: 1902826177501620436}
   - component: {fileID: 2146903461172564057}
   - component: {fileID: 2270408160962360119}
-  - component: {fileID: 6402088475316710510}
-  - component: {fileID: 3247157134479015609}
+  - component: {fileID: 5672371759129035130}
+  - component: {fileID: 4455339376528137670}
   m_Layer: 9
-  m_Name: YellowStarBullet
+  m_Name: PowerUpBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096327089596252}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
@@ -4214,9 +4214,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.8830378, b: 0.06132078, a: 1}
+        key0: {r: 0, g: 0, b: 0, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0.4106257, b: 1, a: 0}
+        key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 1, g: 1, b: 1, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -4224,7 +4224,7 @@ ParticleSystem:
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 47185
+        ctime2: 65535
         ctime3: 65535
         ctime4: 0
         ctime5: 0
@@ -4239,7 +4239,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_ColorSpace: -1
+        m_ColorSpace: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minGradient:
@@ -4863,7 +4863,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6036a0e4ee6ca6a4caaab7af93026c21, type: 2}
+  - {fileID: 2100000, guid: 161852a92f31b914b8f1affca6c04673, type: 2}
   - {fileID: 2100000, guid: 8c09dd34b88312b4eac937b08d8971b5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -5014,14 +5014,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxTime: 10
   bulletSpeed: 10
-  bulletDamage: 20
-  bulletHeal: 5
+  bulletDamage: 10
+  bulletHeal: 20
   bulletTarget: {fileID: 0}
-  bulletEffectType: 0
+  isAlreadyHit: 0
+  bulletEffectType: 1
   isFlash: 0
   flashStr: 
   isHit: 1
-  hitStr: YellowStarHit
+  hitStr: PowerUpBulletHit
 --- !u!114 &2146903461172564057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5057,34 +5058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &6402088475316710510
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1096327089596252}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &3247157134479015609
+--- !u!58 &5672371759129035130
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5119,3 +5093,30 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!50 &4455339376528137670
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096327089596252}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
