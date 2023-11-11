@@ -26,7 +26,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
     //클래스 정보 큐
     Queue<FollowSwordInfo> followSwordQueue = new Queue<FollowSwordInfo>();
 
-    public GameObject child;//자식 설정
+    public FollowSword upperSword;
+    public GameObject lowerSword;//자식 설정
     int followDelay = 5;//따라가는 지연시간
 
     //현재 칼의 정보
@@ -104,24 +105,11 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        //사용 가능 영역을 보여주기 위함
         if (curSwordIndex == 1)
         {
-            //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
-            rigid.angularVelocity = 0f;
-            rigid.velocity = leaderSwordVec * leaderSwordSpeed;
-
-            //회전 조작
-            transform.rotation = Quaternion.identity;
-            float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
-            transform.Rotate(rotVec);
-
-
             // 두 위치 간의 거리를 계산합니다.
-            Vector3 swordPos = transform.position;
-            Vector3 playerPos = player.transform.position;
-
+            Vector2 swordPos = transform.position;
+            Vector2 playerPos = player.transform.position;
 
             swordDir = Vector3.Distance(swordPos, playerPos) / 400;
         }
@@ -129,7 +117,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
         bool isRecentActive = false;
 
         //큐에 정보 삽입
-        followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation, rigid.velocity.normalized));
+        followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation, leaderSwordVec.normalized));
 
         //가득 차면, 클래스 정보 뱉기
         if (followSwordQueue.Count > followDelay)
@@ -137,22 +125,42 @@ public class FollowSword : MonoBehaviourPunCallbacks
             childSwordInfo = followSwordQueue.Dequeue();
 
             //꺼져 있다면 켜줌 
-            if (!child.activeSelf && curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
+            if (curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
             {
-                child.SetActive(true);
-                child.transform.position = childSwordInfo.swordPos;
+                if (!lowerSword.activeSelf) 
+                {
+                
+                
+                }
+                lowerSword.SetActive(true);
+                lowerSword.transform.position = childSwordInfo.swordPos;
+
                 isRecentActive = true;
                 //child.GetComponent<FollowSword>().trailRenderer.Clear();
             }
         }
 
+        //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
+        rigid.angularVelocity = 0f;
+        rigid.velocity = leaderSwordVec * leaderSwordSpeed;
+
+        //회전 조작
+        transform.rotation = Quaternion.identity;
+        float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
+        Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
+        transform.Rotate(rotVec);
+
         if (curSwordIndex >= characterControls.curSwordCount)//맨 끝 칼은 수행 안함
             return;
 
+        
+
 
         //최종 이동
-        child.transform.rotation = childSwordInfo.swordRot;
-        child.GetComponent<FollowSword>().rigid.velocity = childSwordInfo.swordVec * leaderSwordSpeed;
+        //lowerSword.transform.rotation = childSwordInfo.swordRot;
+        lowerSword.GetComponent<FollowSword>().leaderSwordVec = childSwordInfo.swordVec;
+
+        
 
         //child.transform.position = childSwordInfo.swordVec;
 
@@ -161,7 +169,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
         //if (isRecentActive)//awake하기 전에 부를까봐  
         //    child.GetComponent<FollowSword>().trailRenderer.Clear();
 
-        
+
     }
 
     
@@ -169,7 +177,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InRoom)//멀티 중이라면
         {
-            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 1 && photonView.IsMine)//리더 검이 충돌 했다면
+            if (other.transform.CompareTag("PlayerSwordArea") && photonView.IsMine)//리더 검이 충돌 했다면
             {
                 PhotonView tmpPhotonView = other.gameObject.GetComponent<PhotonView>();
                 if (tmpPhotonView.IsMine) //자신의 영역에서 벗어 났을 때만
@@ -182,7 +190,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
         }
         else //1인이라면
         {
-            if (other.transform.CompareTag("PlayerSwordArea") && curSwordIndex == 1)//리더 검이 충돌 했다면
+            if (other.transform.CompareTag("PlayerSwordArea"))//리더 검이 충돌 했다면  && curSwordIndex == 1
             {
                 //플레이어와 리더 칼의 거리 연산 초기화
                 swordDir = 0;
@@ -200,22 +208,33 @@ public class FollowSword : MonoBehaviourPunCallbacks
         //2: 본인과 무기 폭파
 
         //1: 무기만 폭파(칼 범위 밖으로 나간 경우)
-        if (level == 1 && characterControls.curSwordCount > 1)
+        if (curSwordIndex == 1) //리더 칼이 나간 경우
         {
-            if (PhotonNetwork.InRoom) 
+            if (level == 1 && characterControls.curSwordCount > 1)
             {
-                if(photonView.IsMine)
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                        createBomb(transform.position);
+                }
+                else if (!PhotonNetwork.InRoom)
                     createBomb(transform.position);
             }
-            else if (!PhotonNetwork.InRoom)
-                createBomb(transform.position);
-        }
-        //2: 본인과 무기 폭파
-        else if (level == 2) 
-        {
-            if (PhotonNetwork.InRoom)
+            //2: 본인과 무기 폭파
+            else if (level == 2)
             {
-                if (photonView.IsMine)
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        //플레이어 폭파
+                        createBomb(player.transform.position);
+                        //무기 폭파
+                        if (gameObject.activeSelf)
+                            createBomb(transform.position);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
                 {
                     //플레이어 폭파
                     createBomb(player.transform.position);
@@ -224,33 +243,29 @@ public class FollowSword : MonoBehaviourPunCallbacks
                         createBomb(transform.position);
                 }
             }
-            else if (!PhotonNetwork.InRoom)
+
+            //등의 칼 활성화
+            characterControls.backSwords.SetActive(true);
+            //다시 칼 비활성화
+            for (int i = 0; i <= maxSwordIndex - 1; i++)
             {
-                //플레이어 폭파
-                createBomb(player.transform.position);
-                //무기 폭파
-                if (gameObject.activeSelf)
-                    createBomb(transform.position);
+                GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
+                FollowSword tmpSwordComponent = tmpSword.GetComponent<FollowSword>();
+
+                //칼 활성화
+                tmpSword.SetActive(false);
+                tmpSword.transform.position = player.transform.position;
+
+                if (tmpSwordComponent != null)
+                {
+                    tmpSwordComponent.followSwordQueue.Clear();//큐 초기화
+                }
             }
         }
-        
-        //등의 칼 활성화
-        characterControls.backSwords.SetActive(true);
-        //다시 칼 비활성화
-        for (int i = 0; i <= maxSwordIndex - 1; i++)
+        else if (curSwordIndex != 1)
         {
-            GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
-            FollowSword tmpSwordComponent = tmpSword.GetComponent<FollowSword>();
-
-            //칼 활성화
-            tmpSword.SetActive(false);
-
-
-            if (tmpSwordComponent != null)
-            {
-                tmpSwordComponent.followSwordQueue.Clear();//큐 초기화
-            }
-        }
+            transform.position = upperSword.childSwordInfo.swordPos;
+        }       
     }
     #endregion
 

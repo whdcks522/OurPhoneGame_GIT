@@ -24,8 +24,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     //총알 리스트
     string[] bulletNames = { "YellowStarBullet", "YellowStarHit",
-                                "BlackStarBullet", "BlackStarHit",
-                                "GreenStarBullet", "GreenStarHit" };
+                                "PowerUpStarBullet","PowerUpStarHit" };
     //총알 주소가 저장될 곳
     List<GameObject>[] bulletPools;
 
@@ -35,12 +34,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     List<GameObject>[] bombPools;
 
     //블록 리스트
-    string[] blockNames = { "NormalBlock", "HardBlock", "PowerUpBlock" };
+    string[] blockNames = { "NormalBlock", "HardBlock", "PowerUpBlock", "CureBlock" };
     //블록 주소가 저장될 곳
     List<GameObject>[] blockPools;
 
-    //이펙트 리스트(2가 강한 폭발, 6이 약한 폭발)
-    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_PowerUp", "Text 52" };//"congratulation 9"
+    //이펙트 리스트(2가 강한 폭발, 6이 약한 폭발),3은 안씀
+    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_Cure", "Explosion 2_PowerUp", "Text 52" };//"congratulation 9"
     //블록 주소가 저장될 곳
     List<GameObject>[] effectPools;
 

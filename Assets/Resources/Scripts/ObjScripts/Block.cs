@@ -32,7 +32,7 @@ public class Block : MonoBehaviourPunCallbacks
 
     public enum BlockEffectType
     {
-        Normal, PowerUp
+        Normal, PowerUp, Cure
     }
     [Header("블록의 효과")]
     public BlockEffectType blockEffectType;
@@ -84,9 +84,14 @@ public class Block : MonoBehaviourPunCallbacks
         else if (blockEffectType == BlockEffectType.PowerUp)
         {
             //매터리얼 관리
+            crackColor = new Color(0.5f, 0.5f, 1, 1);
+        }
+        else if (blockEffectType == BlockEffectType.Cure)
+        {
+            //매터리얼 관리
             crackColor = new Color(0.5f, 1, 0.5f, 1);
         }
-        
+
 
         spriteRenderer.material.SetColor("_customColor" , crackColor);
         spriteRenderer.material.SetFloat("_customFloat", crackValue * crackMul);
@@ -140,7 +145,16 @@ public class Block : MonoBehaviourPunCallbacks
                 effect.transform.position = transform.position;
                 effect.transform.parent = transform.parent.transform;
             }
-
+            else if (blockEffectType == BlockEffectType.Cure)
+            {
+                //파괴 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+                //파괴 이펙트
+                GameObject effect = gameManager.CreateObj("Explosion 2_Cure", GameManager.PoolTypes.EffectType);
+                effect.SetActive(true);
+                effect.transform.position = transform.position;
+                effect.transform.parent = transform.parent.transform;
+            }
         }
         else if (!isBreak)//떨어진 경우
         {
@@ -234,9 +248,27 @@ public class Block : MonoBehaviourPunCallbacks
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
 
                     //매터리얼 관리
-                    crackColor = new Color(0, 0.6f, 0, 1);
+                    crackColor = new Color(0, 0, 0.6f, 1);
                     crackValue = 11;
                 } 
+            }
+        }
+        else if (blockEffectType == BlockEffectType.Cure)
+        {
+            if (curHealth >= maxHealth / 2f) { }
+            else if (curHealth > 0)
+            {
+                if (blockHealthType != BlockHealthType.Zero)
+                {
+                    //상태 변화
+                    blockHealthType = BlockHealthType.Zero;
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+
+                    //매터리얼 관리
+                    crackColor = new Color(0, 0.6f, 0, 1);
+                    crackValue = 11;
+                }
             }
         }
 

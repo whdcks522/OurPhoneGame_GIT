@@ -16,12 +16,17 @@ public class BlockCrashManager : MonoBehaviour
     //현재 발사 시간
     float curTime;
 
-    [Header("파워업 유성 랭크 별 주기")]
+    [Header("파워업 블록 최대 주기")]
     public int[] PowerUpIndexArr;
     //최대 파워업 유성 
     int maxPowerUpIndex;
     //현재 파워업 유성 
     int curPowerUpIndex = 0;
+
+    [Header("회복 블록 최대 주기")]
+    public int maxCureIndex;
+    //현재 회복 블록 
+    int curCureIndex = 0;
 
     [Header("추가 생산 속도 배열")]
     public float[] createBlockArr;
@@ -99,18 +104,26 @@ public class BlockCrashManager : MonoBehaviour
             curTime = 0f;
             //강화 투사체와 강화 벽 생성
             curPowerUpIndex++;
+            curCureIndex++;
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
             //생성할 블록의 이름
             string blockName = "NormalBlock";
-
-            if (curPowerUpIndex == maxPowerUpIndex)
+            if (curCureIndex >= maxCureIndex)
+            {
+                //변수 초기화
+                curCureIndex = 0;
+                //생성할 블록 변경
+                blockName = "CureBlock";
+            }
+            else if (curPowerUpIndex >= maxPowerUpIndex)
             {
                 //변수 초기화
                 curPowerUpIndex = 0;
                 //생성할 블록 변경
                 blockName = "PowerUpBlock";
             }
+
 
             GameObject block = gameManager.CreateObj(blockName, GameManager.PoolTypes.BlockType);
             Block blockComponent = block.GetComponent<Block>();

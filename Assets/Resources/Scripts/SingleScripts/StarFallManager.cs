@@ -101,6 +101,9 @@ public class StarFallManager : MonoBehaviour
             //시간 초기화
             curTime = 0f;
 
+            //생성 효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
+
             //사출 위치 정하기
             int ranPos = Random.Range(0, starFallPointsSize);
             //같은 곳 연속으로 안되도록 설정
@@ -113,7 +116,7 @@ public class StarFallManager : MonoBehaviour
             //운석 오브젝트 생성
             if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
             {
-                bullet = gameManager.CreateObj("GreenStarBullet", GameManager.PoolTypes.BulletType);
+                bullet = gameManager.CreateObj("PowerUpStarBullet", GameManager.PoolTypes.BulletType);
                 curPowerUpIndex = 0;
             }
             else //기본 운석

@@ -110,7 +110,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
            None, Dead, LeftControl, IsCanJump,RightControl, CanHeal, SwordCount, SwordCollision
         }
-        public PlayerStateType playerStateType;
         //이미 죽음
         public bool isDead = false;
         //이동이 가능한 상태인지
@@ -180,7 +179,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
 
                     Physics2D.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
-                    Physics.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
+                    //Physics.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
                     break;
             }
         }
@@ -233,8 +232,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void Start()
         {
-            
-
             gameManager = battleUIManager.gameManager;
 
             //기존에 있던 것
@@ -898,7 +895,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (value > 0)
             {
                 curSwordCount += value;
-                if (curSwordCount > 9) curSwordCount = 10;
+                if (curSwordCount > 7) curSwordCount = 8;
                 //파워 업 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
             }

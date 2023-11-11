@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 5672371759129035130}
   - component: {fileID: 4455339376528137670}
   m_Layer: 9
-  m_Name: GreenStarBullet
+  m_Name: PowerUpStarBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4863,7 +4863,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 18ca33340b350194a96892d92e5f8948, type: 2}
+  - {fileID: 2100000, guid: 161852a92f31b914b8f1affca6c04673, type: 2}
   - {fileID: 2100000, guid: 8c09dd34b88312b4eac937b08d8971b5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -5017,11 +5017,12 @@ MonoBehaviour:
   bulletDamage: 10
   bulletHeal: 20
   bulletTarget: {fileID: 0}
+  isAlreadyHit: 0
   bulletEffectType: 1
   isFlash: 0
   flashStr: 
   isHit: 1
-  hitStr: GreenStarHit
+  hitStr: PowerUpStarHit
 --- !u!114 &2146903461172564057
 MonoBehaviour:
   m_ObjectHideFlags: 0
