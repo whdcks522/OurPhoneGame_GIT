@@ -10,13 +10,16 @@ public class FollowSword : MonoBehaviourPunCallbacks
     [Serializable]//클래스 정보
     public class FollowSwordInfo
     {
-        public Vector3 swordVec { get; set; }
-        public Quaternion swordRot { get; set; }
+        public Vector2 swordPos { get; set; }//위치
+        
+        public Quaternion swordRot { get; set; }//회전
+        public Vector2 swordVec { get; set; }//속도
 
-        public FollowSwordInfo(Vector3 tmpVec, Quaternion tmpRot)
+        public FollowSwordInfo(Vector2 tmpPos, Quaternion tmpRot, Vector2 tmpVec)
         {
-            swordVec = tmpVec;
+            swordPos = tmpPos;
             swordRot = tmpRot;
+            swordVec = tmpVec;
         }
     }
 
@@ -27,7 +30,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     int followDelay = 5;//따라가는 지연시간
 
     //현재 칼의 정보
-    private FollowSwordInfo childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
+    private FollowSwordInfo childSwordInfo = new FollowSwordInfo(Vector2.zero, Quaternion.identity, Vector2.zero);
 
     [Header("플레이어 게임오브젝트(비활성화 시, 죽으면 오류)")]
     public GameObject player;
@@ -96,7 +99,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         trailRenderer.Clear();
 
-        childSwordInfo = new FollowSwordInfo(Vector3.zero, Quaternion.identity);
+        childSwordInfo = new FollowSwordInfo(transform.position, transform.rotation, rigid.velocity);//transform이 나을듯?
     }
 
     void FixedUpdate()
@@ -120,13 +123,13 @@ public class FollowSword : MonoBehaviourPunCallbacks
             Vector3 playerPos = player.transform.position;
 
 
-            swordDir = Vector3.Distance(swordPos, playerPos) / 500;
+            swordDir = Vector3.Distance(swordPos, playerPos) / 400;
         }
 
         bool isRecentActive = false;
 
         //큐에 정보 삽입
-        followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation));
+        followSwordQueue.Enqueue(new FollowSwordInfo(transform.position, transform.rotation, rigid.velocity.normalized));
 
         //가득 차면, 클래스 정보 뱉기
         if (followSwordQueue.Count > followDelay)
@@ -137,6 +140,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
             if (!child.activeSelf && curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
             {
                 child.SetActive(true);
+                child.transform.position = childSwordInfo.swordPos;
                 isRecentActive = true;
                 //child.GetComponent<FollowSword>().trailRenderer.Clear();
             }
@@ -148,10 +152,14 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
         //최종 이동
         child.transform.rotation = childSwordInfo.swordRot;
-        child.transform.position = childSwordInfo.swordVec;
+        child.GetComponent<FollowSword>().rigid.velocity = childSwordInfo.swordVec * leaderSwordSpeed;
 
-        if(isRecentActive)//awake하기 전에 부를까봐  
-            child.GetComponent<FollowSword>().trailRenderer.Clear();
+        //child.transform.position = childSwordInfo.swordVec;
+
+
+
+        //if (isRecentActive)//awake하기 전에 부를까봐  
+        //    child.GetComponent<FollowSword>().trailRenderer.Clear();
 
         
     }

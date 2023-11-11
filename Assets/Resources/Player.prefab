@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 0}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 554678537047860343}
@@ -115,14 +115,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141593480685669017}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -415,8 +415,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 5762922852383065240}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 263677236813503384}
@@ -429,14 +429,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283883041438498517}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -729,8 +729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 141593480685669017}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 6375178255713890187}
@@ -743,14 +743,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 766768751948493867}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1478,8 +1478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 3925482333871758672}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 4457625464112178257}
@@ -1492,14 +1492,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961907249849268425}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -6950,8 +6950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 283883041438498517}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 4129060967423004733}
@@ -6964,14 +6964,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3925482333871758672}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -12150,8 +12150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 4729382956313458514}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 1821614375241386906}
@@ -12164,14 +12164,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4729382956313458514}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -12754,8 +12754,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 5762922852383065240}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 1005886793439678650}
@@ -12768,14 +12768,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5762922852383065240}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -17841,7 +17841,6 @@ MonoBehaviour:
   isGround: 0
   playerStateType: 0
   isDead: 0
-  isPC: 1
 --- !u!95 &5498480976259529555
 Animator:
   serializedVersion: 5
@@ -18620,8 +18619,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 6949382106540633811}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 1986923581611249642}
@@ -18634,14 +18633,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6949382106540633811}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -18939,8 +18938,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 1961907249849268425}
-  player: {fileID: 0}
-  characterControls: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   leaderSwordVec: {x: 0, y: 0, z: 0}
   trailRenderer: {fileID: 7964095566423556670}
@@ -18953,14 +18952,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8970127748784201795}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

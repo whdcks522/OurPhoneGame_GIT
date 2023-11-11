@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/SingleScene/SingleSelect.unity
     guid: 6f207ecffbed0e8428bf0a776e5c62f1
   - enabled: 1
-    path: Assets/Resources/Scenes/Train_0.unity
+    path: Assets/Resources/Scenes/SingleScene/Train_0.unity
     guid: 096fa1fe5c243a0479abd6f2c5ad1edb
   - enabled: 1
     path: Assets/Resources/Scenes/SingleScene/Train_1.unity
