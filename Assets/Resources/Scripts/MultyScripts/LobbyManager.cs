@@ -160,7 +160,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         RoomOptions roomOptions = new RoomOptions
         {
-            MaxPlayers = 1,
+            MaxPlayers = 2,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
             {
                 { "IsAllowedToEnter", true },

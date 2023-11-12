@@ -37,7 +37,9 @@ public class PvPManager : MonoBehaviourPunCallbacks
             PhotonNetwork.PlayerList.Length >= PhotonNetwork.CurrentRoom.MaxPlayers && 
             gameManager.playerGroup.childCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
         {
-            if (!gameManager.alreadyStart)
+            //게임 시작
+
+            if (!gameManager.alreadyStart)//막 시작한 경우
             {
                 gameManager.photonView.RPC("alreadyStartControl", RpcTarget.AllBuffered, true);
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
@@ -48,6 +50,20 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
                 }
             }
+
+            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+            {
+                CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                //if (cc.curHealth <= 0) 
+                {
+                    string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+                        PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
+                    battleUIManager.typingControl(str);
+                }
+                    
+            }
+
+
 
 
             return;
