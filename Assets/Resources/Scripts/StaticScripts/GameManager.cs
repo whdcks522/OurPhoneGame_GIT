@@ -232,10 +232,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void LeaveRoom()
     {
+        Debug.Log("Exit");
+
         battleUIManager.battleUI.SetActive(false);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Lobby");
-
+        
         return;
 
         bool canEnterRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToEnter"];

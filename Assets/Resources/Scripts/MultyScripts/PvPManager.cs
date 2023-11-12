@@ -39,6 +39,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
         {
             if (!gameManager.alreadyStart)
             {
+                Debug.Log("Activate");
                 gameManager.alreadyStart = true;
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                 {
@@ -93,11 +94,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
                 string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
                 battleUIManager.typingControl(str);
-            }
-            else if (!gameManager.alreadyStart) //시작하고 나서 누구 한명 탈주한 경우
-            {
-                //방 터트리기
-                gameManager.allLeaveRoom();
             }
         }
 
