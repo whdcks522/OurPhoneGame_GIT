@@ -280,12 +280,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
                 else if((transform.position - rpcPos).sqrMagnitude >= 4)//너무 멀면 순간이동 
                 {
-                    Debug.Log("PlayerQuickMove");
+                    //Debug.Log("PlayerQuickMove");
                     transform.position = rpcPos;
                 }
                 else
                 {
-                    Debug.Log("PlayerSlowMove");
+                    //Debug.Log("PlayerSlowMove");
                     Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
 
                 }
