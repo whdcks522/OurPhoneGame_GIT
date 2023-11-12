@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             characterControl = player.GetComponent<CharacterControls>();
             characterControl.gameManager = this;
             player.transform.parent = playerGroup;
-            Debug.LogError(battleUIManager.battleType);
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
@@ -107,8 +106,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else if (battleUIManager.battleType == BattleUIManager.BattleType.Single)//싱글의 경우
         {
-            //칼 폭파 미리 생성
-            Debug.LogError(battleUIManager.battleType);
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
             battleUIManager.curScore = 0;
@@ -118,7 +115,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             battleUIManager.multyExitBtn.SetActive(false);
             battleUIManager.singleStopBtn.SetActive(true);
         }
-        else Debug.LogError(battleUIManager.battleType);
 
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();

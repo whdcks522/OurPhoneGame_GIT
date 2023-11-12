@@ -125,6 +125,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
         {
+            Debug.Log("호출됨");
+
             switch (tmpPlayerStateType) 
             {
                 case PlayerStateType.Dead:
