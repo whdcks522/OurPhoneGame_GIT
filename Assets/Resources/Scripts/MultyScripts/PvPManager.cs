@@ -32,15 +32,13 @@ public class PvPManager : MonoBehaviourPunCallbacks
         player = gameManager.player;
 
         //플레이어 점수 증가 비율 설정
-        gameManager.characterControl.scorePlus = 0;
+        //gameManager.characterControl.scorePlus = 0;
         //플레이어 체력 감소 비율 설정
-        gameManager.characterControl.healthMinus = 0;
+        //gameManager.characterControl.healthMinus = 0;
     }
 
     private void Update()
     {
-        return;
-
         if (isMasterCilentLocal && PhotonNetwork.PlayerList.Length >= 2)
         {
             if (isFirst) 
