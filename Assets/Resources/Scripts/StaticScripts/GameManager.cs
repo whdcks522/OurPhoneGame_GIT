@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
             player.transform.parent = playerGroup;
+            Debug.LogError(battleUIManager.battleType);
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
@@ -103,7 +104,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if (battleUIManager.battleType == BattleUIManager.BattleType.Single)//싱글의 경우
         {
             //칼 폭파 미리 생성
-            Debug.Log(battleUIManager.battleType);
+            Debug.LogError(battleUIManager.battleType);
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
             battleUIManager.curScore = 0;
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             battleUIManager.multyExitBtn.SetActive(false);
             battleUIManager.singleStopBtn.SetActive(true);
         }
-        else Debug.Log(battleUIManager.battleType);
+        else Debug.LogError(battleUIManager.battleType);
 
         //characterControl = player.GetComponent<CharacterControls>();
 
