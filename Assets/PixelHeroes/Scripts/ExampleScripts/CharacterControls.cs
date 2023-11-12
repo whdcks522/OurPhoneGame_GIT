@@ -799,7 +799,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (photonView.IsMine)
                 {
                     //피격 처리
-                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0);
+                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0, false);
                 }
             }
             else if (!PhotonNetwork.InRoom)

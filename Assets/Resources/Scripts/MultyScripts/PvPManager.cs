@@ -19,7 +19,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
     bool isFirst = true;
 
     BattleUIManager battleUIManager;
-    GameManager gameManager;
+    [Header("게임매니저")]
+    public GameManager gameManager;
     GameObject player;
 
     public bool isMasterCilentLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
@@ -28,7 +29,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        gameManager = battleUIManager.gameManager;
         player = gameManager.player;
 
         //플레이어 점수 증가 비율 설정
@@ -39,6 +39,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        return;
+
         if (isMasterCilentLocal && PhotonNetwork.PlayerList.Length >= 2)
         {
             if (isFirst) 
@@ -50,7 +52,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
-                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.CanHeal, true);
                 }
             }
             

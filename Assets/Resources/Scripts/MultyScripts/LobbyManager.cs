@@ -17,9 +17,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Button NextBtn;
     public Text StatusText;
     public Text ErrorText;
-    public Dropdown chapDropdown;
-    //public LobbyPlayer lobbyPlayer;
-
 
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
@@ -104,10 +101,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         Connect();
-        
-
-        //챕터 선택을 위한 드롭다운 값 조절
-        chapDropdown.value = 0;
     }
 
 
@@ -141,8 +134,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
         PhotonNetwork.Disconnect();
+
         //AuthManager.Instance.Destroy();
-        //BattleUIManager.gameObject
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
