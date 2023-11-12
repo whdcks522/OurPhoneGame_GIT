@@ -32,7 +32,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (isMasterCilentLocal && PhotonNetwork.PlayerList.Length >= 2)
+        if (isMasterCilentLocal && PhotonNetwork.PlayerList.Length >= 2 && gameManager.playerGroup.childCount >= 2)
         {
             if (isFirst) 
             {
