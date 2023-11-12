@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
             var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//혹시 몰라서 나눔
 
-            //player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
+            player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
             player.transform.position = spawnPosition.position;
             player.transform.parent = transform;
             playerList.Add(player);
