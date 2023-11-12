@@ -55,7 +55,7 @@ public class Sword : MonoBehaviourPunCallbacks
     //배틀 매니저
     public BattleUIManager battleUIManager;
     Rigidbody2D rigid;
-
+    SpriteRenderer spriteRenderer;
 
     #region 적 정보 클래스 공백
     /*
@@ -80,9 +80,18 @@ public class Sword : MonoBehaviourPunCallbacks
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        //player = transform.root.gameObject;
-        //characterControls = player.GetComponent<CharacterControls>();
         rigid = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (PhotonNetwork.InRoom) 
+        {
+            if (!photonView.IsMine) 
+            {
+                spriteRenderer.color = Color.red;
+                trailRenderer.startColor = Color.red;
+                trailRenderer.endColor = Color.red;
+            }
+        }
     }
 
     private void OnEnable()
@@ -221,8 +230,7 @@ public class Sword : MonoBehaviourPunCallbacks
                 GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
                 Sword tmpSwordComponent = tmpSword.GetComponent<Sword>();
 
-
-                tmpSword.transform.position = player.transform.position;
+                //tmpSword.transform.position = player.transform.position;
                 //칼 활성화
                 tmpSword.SetActive(false);
 
@@ -235,7 +243,12 @@ public class Sword : MonoBehaviourPunCallbacks
         //---------- 죽을 때 오류
         else if (curSwordIndex != 1)
         {
-            transform.position = upperSword.swordQueueInfo.swordPos;
+            if (upperSword.gameObject.activeSelf)//꺼져 있을 시
+            {
+                Debug.Log(curSwordIndex+'/'+level);
+                Debug.Log(upperSword.swordQueueInfo.swordPos);
+                transform.position = upperSword.swordQueueInfo.swordPos;
+            }
         }
     }
     #endregion

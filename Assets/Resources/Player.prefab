@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 2563006982824486334}
   - component: {fileID: 90626107496524562}
   - component: {fileID: 1498103550444001432}
+  - component: {fileID: 1822214940800411375}
   m_Layer: 10
   m_Name: ChildSword_5
   m_TagString: playerSword
@@ -330,6 +331,29 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 5
   battleUIManager: {fileID: 0}
+--- !u!114 &1822214940800411375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283883041438498517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 90626107496524562}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &520556967420459971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1093,7 @@ GameObject:
   - component: {fileID: 8619665800962567154}
   - component: {fileID: 2199063156952049732}
   - component: {fileID: 501831376110509810}
+  - component: {fileID: 2381587850975651875}
   m_Layer: 10
   m_Name: ChildSword_3
   m_TagString: playerSword
@@ -1240,6 +1265,28 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 3
   battleUIManager: {fileID: 0}
+--- !u!114 &2381587850975651875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961907249849268425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2024326811582132873
 GameObject:
   m_ObjectHideFlags: 0
@@ -6557,6 +6604,7 @@ GameObject:
   - component: {fileID: 6368406327049563317}
   - component: {fileID: 2995378296366871059}
   - component: {fileID: 1725857270495661142}
+  - component: {fileID: 6317733242623581196}
   m_Layer: 10
   m_Name: ChildSword_4
   m_TagString: playerSword
@@ -6728,6 +6776,28 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 4
   battleUIManager: {fileID: 0}
+--- !u!114 &6317733242623581196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925482333871758672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4543530305456112733
 GameObject:
   m_ObjectHideFlags: 0
@@ -11773,6 +11843,7 @@ GameObject:
   - component: {fileID: 7417595516749034544}
   - component: {fileID: 2478282772539397729}
   - component: {fileID: 2931984663101574097}
+  - component: {fileID: 3317951420070708183}
   m_Layer: 10
   m_Name: ChildSword_8
   m_TagString: playerSword
@@ -11944,6 +12015,28 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 8
   battleUIManager: {fileID: 0}
+--- !u!114 &3317951420070708183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729382956313458514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5340640509029232375
 GameObject:
   m_ObjectHideFlags: 0
@@ -12103,6 +12196,7 @@ GameObject:
   - component: {fileID: 5788944054886612297}
   - component: {fileID: 6072147024367056189}
   - component: {fileID: 7266633519759043998}
+  - component: {fileID: 3856291898889062028}
   m_Layer: 10
   m_Name: ChildSword_6
   m_TagString: playerSword
@@ -12274,6 +12368,28 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 6
   battleUIManager: {fileID: 0}
+--- !u!114 &3856291898889062028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762922852383065240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &5910255157898511048
 GameObject:
   m_ObjectHideFlags: 0
@@ -17284,6 +17400,7 @@ MonoBehaviour:
   healthMinus: 0
   scorePlus: 0
   battleUIManager: {fileID: 0}
+  gameManager: {fileID: 0}
   jumpForce: 12
   rayRadius: 0.2
   raySize: 0
@@ -17331,13 +17448,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 1454313627835892949}
-  - {fileID: 3434085211725680960}
-  - {fileID: 2199063156952049732}
-  - {fileID: 2995378296366871059}
-  - {fileID: 90626107496524562}
-  - {fileID: 6072147024367056189}
-  - {fileID: 371351148052662827}
-  - {fileID: 2478282772539397729}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -17424,7 +17534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4968095510686775453
 Transform:
   m_ObjectHideFlags: 0
@@ -17482,8 +17592,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300018, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
-  m_Color: {r: 0, g: 0.4891553, b: 1, a: 1}
+  m_Sprite: {fileID: 21300024, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -17889,6 +17999,7 @@ GameObject:
   - component: {fileID: 5662471143545277304}
   - component: {fileID: 371351148052662827}
   - component: {fileID: 6632360085092520154}
+  - component: {fileID: 4077871818435755315}
   m_Layer: 10
   m_Name: ChildSword_7
   m_TagString: playerSword
@@ -18060,6 +18171,28 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 7
   battleUIManager: {fileID: 0}
+--- !u!114 &4077871818435755315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949382106540633811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7562052729628584719
 GameObject:
   m_ObjectHideFlags: 0
@@ -18224,6 +18357,7 @@ GameObject:
   - component: {fileID: 8207147940570771318}
   - component: {fileID: 3434085211725680960}
   - component: {fileID: 8868785095202500396}
+  - component: {fileID: 3559113474980580789}
   m_Layer: 10
   m_Name: ChildSword_2
   m_TagString: playerSword
@@ -18395,6 +18529,28 @@ MonoBehaviour:
   maxSwordIndex: 8
   curSwordIndex: 2
   battleUIManager: {fileID: 0}
+--- !u!114 &3559113474980580789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970127748784201795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &8992492020023199918
 GameObject:
   m_ObjectHideFlags: 0

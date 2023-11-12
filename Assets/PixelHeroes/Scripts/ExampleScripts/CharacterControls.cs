@@ -125,8 +125,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
         {
-            Debug.Log("호출됨");
-
             switch (tmpPlayerStateType) 
             {
                 case PlayerStateType.Dead:
@@ -227,6 +225,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
             {
+                changeStateRPC(PlayerStateType.LeftControl, true);
+                changeStateRPC(PlayerStateType.IsCanJump, true);
+                changeStateRPC(PlayerStateType.RightControl, true);
+                changeStateRPC(PlayerStateType.CanHeal, true);
+
                 //체력 감소율을 0으로
                 healthMinus = 0;
                 //점수 증가율을 0으로

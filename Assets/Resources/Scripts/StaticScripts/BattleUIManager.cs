@@ -213,7 +213,7 @@ public class BattleUIManager : MonoBehaviour
         else if (battleType == BattleType.Multy)//멀티
         {
             //나가기
-            gameManager.LeaveRoom();
+            gameManager.allLeaveRoom();
         }
         else
         {

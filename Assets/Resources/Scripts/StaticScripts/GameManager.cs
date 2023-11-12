@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform[] spawnPositions;
     [Header("멀티에서 플레이어의 리스트")]
     public Transform playerGroup;
-
+    [Header("멀티에서 이미 시작 했는지 확인")]
+    public bool alreadyStart = false;
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
     BattleUIManager battleUIManager;
@@ -101,6 +102,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
+            battleUIManager.bigRankText.gameObject.SetActive(false);
+            battleUIManager.bigScoreText.gameObject.SetActive(false);
             battleUIManager.multyExitBtn.SetActive(true);
             battleUIManager.singleStopBtn.SetActive(false);
         }
@@ -108,6 +111,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
+            battleUIManager.bigRankText.gameObject.SetActive(true);
+            battleUIManager.bigScoreText.gameObject.SetActive(true);
             battleUIManager.curScore = 0;
             battleUIManager.rankType = BattleUIManager.RankType.E;
             battleUIManager.bigRankText.text = "<color=#AA00FF> E </color>";
@@ -219,8 +224,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         return -1;
     }
 
+    public void allLeaveRoom() //모두 방에서 나가기
+    {
+        photonView.RPC("LeaveRoom", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
     public void LeaveRoom()
     {
+        battleUIManager.battleUI.SetActive(false);
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Lobby");
+
+        return;
+
         bool canEnterRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToEnter"];
         bool canExitRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToExit"];
 

@@ -3,6 +3,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PvPManager : MonoBehaviourPunCallbacks
 {
@@ -16,7 +17,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
     //현재 발사 시간
     float curTime;
 
-    bool isFirst = true;
+    
 
     BattleUIManager battleUIManager;
     [Header("게임매니저")]
@@ -32,22 +33,23 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (isMasterCilentLocal && PhotonNetwork.PlayerList.Length >= 2 && gameManager.playerGroup.childCount >= 2)
+        if (isMasterCilentLocal &&
+            PhotonNetwork.PlayerList.Length >= PhotonNetwork.CurrentRoom.MaxPlayers && 
+            gameManager.playerGroup.childCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
         {
-            if (isFirst) 
+            if (!gameManager.alreadyStart)
             {
-                isFirst = false;
+                gameManager.alreadyStart = true;
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                 {
-                    
                     CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                    Debug.Log("gg:+ "+i);
+                    Debug.Log("gg:+ " + i);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.IsCanJump, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
                 }
             }
-            
+
 
             return;
 
@@ -84,6 +86,26 @@ public class PvPManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+        else //현재 대기 중일 때
+        {
+            if (!gameManager.alreadyStart) //맨 처음 시작하고 대기하고 있을 때
+            {
+                string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+                    PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
+                battleUIManager.typingControl(str);
+            }
+            else if (!gameManager.alreadyStart) //시작하고 나서 누구 한명 탈주한 경우
+            {
+                //방 터트리기
+                gameManager.allLeaveRoom();
+            }
+        }
+
+        
+        //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
+        //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
+        //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수
+        //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
     }
 }
 
