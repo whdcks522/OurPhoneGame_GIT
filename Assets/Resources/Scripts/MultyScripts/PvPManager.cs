@@ -39,12 +39,10 @@ public class PvPManager : MonoBehaviourPunCallbacks
         {
             if (!gameManager.alreadyStart)
             {
-                Debug.Log("Activate");
-                gameManager.alreadyStart = true;
+                gameManager.photonView.RPC("alreadyStartControl", RpcTarget.AllBuffered, true);
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                 {
                     CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                    Debug.Log("gg:+ " + i);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.IsCanJump, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);

@@ -230,6 +230,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+    public void alreadyStartControl(bool isAlreadyStart) 
+    {
+        alreadyStart = isAlreadyStart;
+    }
+
+    [PunRPC]
     public void LeaveRoom()
     {
         Debug.Log("Exit");

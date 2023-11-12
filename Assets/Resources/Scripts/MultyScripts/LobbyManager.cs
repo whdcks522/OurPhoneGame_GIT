@@ -156,11 +156,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //if (chapDropdown.value == 0) sceneName = "Chap1 ";
         //else if (chapDropdown.value == 1) sceneName = "Chap2 ";
 
-        string roomName = RoomInput.text == "" ? "PvPRoom" + Random.Range(0, 100) : RoomInput.text;
+        string roomName = RoomInput.text == "" ? "_Room" + Random.Range(0, 100) : RoomInput.text;
 
         RoomOptions roomOptions = new RoomOptions
         {
-            MaxPlayers = 2,
+            MaxPlayers = 1,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
             {
                 { "IsAllowedToEnter", true },
