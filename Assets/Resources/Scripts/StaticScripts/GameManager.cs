@@ -15,9 +15,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject player;
     public CharacterControls characterControl;
 
-    [Header("멀티를 위한 플레이어 정보")]
+    [Header("멀티에서 플레이어가 생성될 위치")]
     public Transform[] spawnPositions;
-    public List<GameObject>list = new List<GameObject>();
+    [Header("멀티에서 플레이어의 리스트")]
+    public List<GameObject>playerList = new List<GameObject>();
 
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
@@ -91,8 +92,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
             var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//혹시 몰라서 나눔
 
-            player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
+            //player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
+            player.transform.position = spawnPosition.position;
             player.transform.parent = transform;
+            playerList.Add(player);
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
@@ -112,7 +115,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             battleUIManager.multyExitBtn.SetActive(false);
             battleUIManager.singleStopBtn.SetActive(true);
         }
-        list.Add(player);
+        
 
         //characterControl = player.GetComponent<CharacterControls>();
 

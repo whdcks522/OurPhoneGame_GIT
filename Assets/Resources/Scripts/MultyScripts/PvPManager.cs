@@ -46,9 +46,9 @@ public class PvPManager : MonoBehaviourPunCallbacks
             if (isFirst) 
             {
                 isFirst = false;
-                for (int i = 0; i < gameManager.list.Count; i++)
+                for (int i = 0; i < gameManager.playerList.Count; i++)
                 {
-                    CharacterControls cc = gameManager.list[i].GetComponent<CharacterControls>();
+                    CharacterControls cc = gameManager.playerList[i].GetComponent<CharacterControls>();
 
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
