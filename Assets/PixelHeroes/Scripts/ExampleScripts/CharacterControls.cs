@@ -222,6 +222,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 changeStateRPC(PlayerStateType.RightControl, true);
                 changeStateRPC(PlayerStateType.CanHeal, true);
             }
+            else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
+            {
+                //체력 감소율을 0으로
+                healthMinus = 0;
+                //점수 증가율을 0으로
+                scorePlus = 0;
+            }
             //자신의 미니 UI 안보이게
             if (PhotonNetwork.InRoom) 
             {
