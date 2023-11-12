@@ -86,7 +86,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public float scorePlus = 0;
 
         public BattleUIManager battleUIManager;
-        GameManager gameManager;
+        public GameManager gameManager;
         Rigidbody2D rigid;
         [Header("Rigidbody 점프력")]
         public int jumpForce;
@@ -152,7 +152,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //칼 비활성화
                         SwordComponent.leaderSwordExitRPC(2);
                         //곧 죽음
-                        Invoke("SoonDie", 1.5f);
+                        if(!PhotonNetwork.InRoom)
+                            Invoke("SoonDie", 1.5f);
                     }
                     else if (!isCheck)
                     {
@@ -264,7 +265,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 //미니 ui 설정
                 miniName.color = Color.green;
             }
-
+            transform.parent = gameManager.playerGroup;
         }
 
         

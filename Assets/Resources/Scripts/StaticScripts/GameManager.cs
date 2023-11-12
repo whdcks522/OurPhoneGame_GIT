@@ -95,6 +95,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//È¤½Ã ¸ô¶ó¼­ ³ª´®
 
             player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
+            characterControl = player.GetComponent<CharacterControls>();
+            characterControl.gameManager = this;
             player.transform.parent = playerGroup;
             Debug.LogError(battleUIManager.battleType);
 
