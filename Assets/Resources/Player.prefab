@@ -155,9 +155,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2418591259056700381}
   - component: {fileID: 1402764812876160967}
-  - component: {fileID: 7182272752900189752}
   - component: {fileID: 3827844265307506156}
   - component: {fileID: 2563006982824486334}
+  - component: {fileID: 90626107496524562}
+  - component: {fileID: 1498103550444001432}
   m_Layer: 10
   m_Name: ChildSword_5
   m_TagString: playerSword
@@ -233,28 +234,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7182272752900189752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283883041438498517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 1738130137570465625}
-  lowerSword: {fileID: 5762922852383065240}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 263677236813503384}
-  maxSwordIndex: 8
-  curSwordIndex: 5
-  battleUIManager: {fileID: 0}
 --- !u!50 &3827844265307506156
 Rigidbody2D:
   serializedVersion: 4
@@ -317,6 +296,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &90626107496524562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283883041438498517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1498103550444001432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283883041438498517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 1725857270495661142}
+  lowerSword: {fileID: 5762922852383065240}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 263677236813503384}
+  maxSwordIndex: 8
+  curSwordIndex: 5
+  battleUIManager: {fileID: 0}
 --- !u!1 &520556967420459971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,9 +1065,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2851304703184957277}
   - component: {fileID: 39826465053875229}
-  - component: {fileID: 6304617991553796765}
   - component: {fileID: 7025989562260735996}
   - component: {fileID: 8619665800962567154}
+  - component: {fileID: 2199063156952049732}
+  - component: {fileID: 501831376110509810}
   m_Layer: 10
   m_Name: ChildSword_3
   m_TagString: playerSword
@@ -1130,28 +1144,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6304617991553796765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961907249849268425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 5584286323736908464}
-  lowerSword: {fileID: 3925482333871758672}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 4457625464112178257}
-  maxSwordIndex: 8
-  curSwordIndex: 3
-  battleUIManager: {fileID: 0}
 --- !u!50 &7025989562260735996
 Rigidbody2D:
   serializedVersion: 4
@@ -1214,6 +1206,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2199063156952049732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961907249849268425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &501831376110509810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961907249849268425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 8868785095202500396}
+  lowerSword: {fileID: 3925482333871758672}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 4457625464112178257}
+  maxSwordIndex: 8
+  curSwordIndex: 3
+  battleUIManager: {fileID: 0}
 --- !u!1 &2024326811582132873
 GameObject:
   m_ObjectHideFlags: 0
@@ -6527,9 +6553,10 @@ GameObject:
   m_Component:
   - component: {fileID: 182321410196101581}
   - component: {fileID: 3447589726843113953}
-  - component: {fileID: 1738130137570465625}
   - component: {fileID: 230142003773902994}
   - component: {fileID: 6368406327049563317}
+  - component: {fileID: 2995378296366871059}
+  - component: {fileID: 1725857270495661142}
   m_Layer: 10
   m_Name: ChildSword_4
   m_TagString: playerSword
@@ -6605,28 +6632,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1738130137570465625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3925482333871758672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 6304617991553796765}
-  lowerSword: {fileID: 283883041438498517}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 4129060967423004733}
-  maxSwordIndex: 8
-  curSwordIndex: 4
-  battleUIManager: {fileID: 0}
 --- !u!50 &230142003773902994
 Rigidbody2D:
   serializedVersion: 4
@@ -6689,6 +6694,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2995378296366871059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925482333871758672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1725857270495661142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925482333871758672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 501831376110509810}
+  lowerSword: {fileID: 283883041438498517}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 4129060967423004733}
+  maxSwordIndex: 8
+  curSwordIndex: 4
+  battleUIManager: {fileID: 0}
 --- !u!1 &4543530305456112733
 GameObject:
   m_ObjectHideFlags: 0
@@ -11730,9 +11769,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2549489215732301547}
   - component: {fileID: 5061754987573259237}
-  - component: {fileID: 7621470609914036758}
   - component: {fileID: 8380206209405730978}
   - component: {fileID: 7417595516749034544}
+  - component: {fileID: 2478282772539397729}
+  - component: {fileID: 2931984663101574097}
   m_Layer: 10
   m_Name: ChildSword_8
   m_TagString: playerSword
@@ -11808,28 +11848,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7621470609914036758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4729382956313458514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 8217557353523059691}
-  lowerSword: {fileID: 0}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 1821614375241386906}
-  maxSwordIndex: 8
-  curSwordIndex: 8
-  battleUIManager: {fileID: 0}
 --- !u!50 &8380206209405730978
 Rigidbody2D:
   serializedVersion: 4
@@ -11892,6 +11910,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2478282772539397729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729382956313458514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2931984663101574097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729382956313458514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 6632360085092520154}
+  lowerSword: {fileID: 0}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 1821614375241386906}
+  maxSwordIndex: 8
+  curSwordIndex: 8
+  battleUIManager: {fileID: 0}
 --- !u!1 &5340640509029232375
 GameObject:
   m_ObjectHideFlags: 0
@@ -12047,9 +12099,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6814862934222756890}
   - component: {fileID: 8946787510704924175}
-  - component: {fileID: 337199477753010080}
   - component: {fileID: 1698808102476226839}
   - component: {fileID: 5788944054886612297}
+  - component: {fileID: 6072147024367056189}
+  - component: {fileID: 7266633519759043998}
   m_Layer: 10
   m_Name: ChildSword_6
   m_TagString: playerSword
@@ -12125,28 +12178,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &337199477753010080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5762922852383065240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 7182272752900189752}
-  lowerSword: {fileID: 6949382106540633811}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 1005886793439678650}
-  maxSwordIndex: 8
-  curSwordIndex: 6
-  battleUIManager: {fileID: 0}
 --- !u!50 &1698808102476226839
 Rigidbody2D:
   serializedVersion: 4
@@ -12209,6 +12240,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6072147024367056189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762922852383065240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7266633519759043998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5762922852383065240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 1498103550444001432}
+  lowerSword: {fileID: 6949382106540633811}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 1005886793439678650}
+  maxSwordIndex: 8
+  curSwordIndex: 6
+  battleUIManager: {fileID: 0}
 --- !u!1 &5910255157898511048
 GameObject:
   m_ObjectHideFlags: 0
@@ -17443,11 +17508,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4968095510686775453}
   - component: {fileID: 7273325550902304218}
-  - component: {fileID: 6296293966424479205}
   - component: {fileID: 5117317708719656753}
   - component: {fileID: 7406846429251221552}
   - component: {fileID: 8569868044344987354}
   - component: {fileID: 782972342569601320}
+  - component: {fileID: 7514636396940425804}
   m_Layer: 10
   m_Name: LeaderSword_1
   m_TagString: playerSword
@@ -17523,28 +17588,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6296293966424479205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6046476537605058143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 0}
-  lowerSword: {fileID: 8970127748784201795}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 6259890221695978630}
-  maxSwordIndex: 8
-  curSwordIndex: 1
-  battleUIManager: {fileID: 0}
 --- !u!114 &5117317708719656753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17642,6 +17685,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &7514636396940425804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6046476537605058143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 0}
+  lowerSword: {fileID: 8970127748784201795}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 6259890221695978630}
+  maxSwordIndex: 8
+  curSwordIndex: 1
+  battleUIManager: {fileID: 0}
 --- !u!1 &6287530597104394198
 GameObject:
   m_ObjectHideFlags: 0
@@ -17915,9 +17980,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6840895279619763182}
   - component: {fileID: 8514128474275185500}
-  - component: {fileID: 8217557353523059691}
   - component: {fileID: 4437695636868184592}
   - component: {fileID: 5662471143545277304}
+  - component: {fileID: 371351148052662827}
+  - component: {fileID: 6632360085092520154}
   m_Layer: 10
   m_Name: ChildSword_7
   m_TagString: playerSword
@@ -17993,28 +18059,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8217557353523059691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949382106540633811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 337199477753010080}
-  lowerSword: {fileID: 4729382956313458514}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 1986923581611249642}
-  maxSwordIndex: 8
-  curSwordIndex: 7
-  battleUIManager: {fileID: 0}
 --- !u!50 &4437695636868184592
 Rigidbody2D:
   serializedVersion: 4
@@ -18077,6 +18121,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &371351148052662827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949382106540633811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6632360085092520154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949382106540633811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 7266633519759043998}
+  lowerSword: {fileID: 4729382956313458514}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 1986923581611249642}
+  maxSwordIndex: 8
+  curSwordIndex: 7
+  battleUIManager: {fileID: 0}
 --- !u!1 &7562052729628584719
 GameObject:
   m_ObjectHideFlags: 0
@@ -18237,9 +18315,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6519428128558236872}
   - component: {fileID: 8311511646335629278}
-  - component: {fileID: 5584286323736908464}
   - component: {fileID: 446531673252103057}
   - component: {fileID: 8207147940570771318}
+  - component: {fileID: 3434085211725680960}
+  - component: {fileID: 8868785095202500396}
   m_Layer: 10
   m_Name: ChildSword_2
   m_TagString: playerSword
@@ -18315,28 +18394,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5584286323736908464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8970127748784201795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464792c0c7a101e429cbaf0a7df0cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upperSword: {fileID: 6296293966424479205}
-  lowerSword: {fileID: 1961907249849268425}
-  player: {fileID: 5974046474224742084}
-  characterControls: {fileID: 1454313627835892949}
-  swordDir: 0
-  saveSwordVec: {x: 0, y: 0}
-  trailRenderer: {fileID: 7964095566423556670}
-  maxSwordIndex: 8
-  curSwordIndex: 2
-  battleUIManager: {fileID: 0}
 --- !u!50 &446531673252103057
 Rigidbody2D:
   serializedVersion: 4
@@ -18399,6 +18456,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3434085211725680960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970127748784201795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8868785095202500396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970127748784201795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0300af4436ffaec48b342b675a59d4b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upperSword: {fileID: 7514636396940425804}
+  lowerSword: {fileID: 1961907249849268425}
+  player: {fileID: 5974046474224742084}
+  characterControls: {fileID: 1454313627835892949}
+  swordDir: 0
+  saveSwordVec: {x: 0, y: 0}
+  trailRenderer: {fileID: 7964095566423556670}
+  maxSwordIndex: 8
+  curSwordIndex: 2
+  battleUIManager: {fileID: 0}
 --- !u!1 &8992492020023199918
 GameObject:
   m_ObjectHideFlags: 0

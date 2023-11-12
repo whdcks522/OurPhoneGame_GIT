@@ -18,34 +18,41 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("멀티를 위한 플레이어 정보")]
     public Transform[] spawnPositions;
     public List<GameObject>list = new List<GameObject>();
+
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
     BattleUIManager battleUIManager;
 
-    //총알 리스트
+
+    //1. 총알 리스트
     string[] bulletNames = { "YellowBullet", "YellowBulletHit",
                                 "PowerUpBullet","PowerUpBulletHit" };
     //총알 주소가 저장될 곳
     List<GameObject>[] bulletPools;
 
-    //폭탄 리스트
+    //2. 폭탄 리스트
     string[] bombNames = {"Broken Phantasm" };
     //폭탄 주소가 저장될 곳
     List<GameObject>[] bombPools;
 
-    //블록 리스트
+    //3. 블록 리스트
     string[] blockNames = { "NormalBlock", "HardBlock", "PowerUpBlock", "CureBlock" };
     //블록 주소가 저장될 곳
     List<GameObject>[] blockPools;
 
-    //이펙트 리스트(2가 강한 폭발, 6이 약한 폭발),3은 안씀
+    //4. 이펙트 리스트(2가 강한 폭발, 6이 약한 폭발),3은 안씀
     string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_Cure", "Explosion 2_PowerUp", "Text 52" };//"congratulation 9"
-    //블록 주소가 저장될 곳
+    //이펙트 주소가 저장될 곳
     List<GameObject>[] effectPools;
+
+    //5. 바람 리스트
+    string[] windNames = { "NormalWind" };
+    //이펙트 주소가 저장될 곳
+    List<GameObject>[] windPools;
 
     public enum PoolTypes
     {
-        BulletType, BombType, BlockType, EffectType //EnemyType, 
+        BulletType, BombType, BlockType, EffectType, WindType //EnemyType, 
     }
 
     private void Awake()
@@ -53,26 +60,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         battleUIManager = BattleUIManager.Instance;
         battleUIManager.gameManager = this;
 
-        //총알 풀 초기화
+        //1. 총알 풀 초기화
         bulletPools = new List<GameObject>[bulletNames.Length];
         for (int index = 0; index < bulletNames.Length; index++)//풀 하나하나 초기화
             bulletPools[index] = new List<GameObject>();
 
-        //폭탄 풀 초기화(4개씩 수정)
+        //2. 폭탄 풀 초기화(4개씩 수정)
         bombPools = new List<GameObject>[bombNames.Length];
         for (int index = 0; index < bombNames.Length; index++)//풀 하나하나 초기화
             bombPools[index] = new List<GameObject>();
 
-        //폭탄 풀 초기화(4개씩 수정)
+        //3. 블록 풀 초기화(4개씩 수정)
         blockPools = new List<GameObject>[blockNames.Length];
         for (int index = 0; index < blockNames.Length; index++)//풀 하나하나 초기화
             blockPools[index] = new List<GameObject>();
 
-        //폭탄 풀 초기화(4개씩 수정)
+        //4. 이펙트 풀 초기화(4개씩 수정)
         effectPools = new List<GameObject>[effectNames.Length];
         for (int index = 0; index < effectNames.Length; index++)//풀 하나하나 초기화
             effectPools[index] = new List<GameObject>();
-        
+
+        //5. 바람 풀 초기화(4개씩 수정)
+        windPools = new List<GameObject>[windNames.Length];
+        for (int index = 0; index < windNames.Length; index++)//풀 하나하나 초기화
+            windPools[index] = new List<GameObject>();
+
+
         if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)//Room에 있는지 물어보면 작동 안하더라
         {
             var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
@@ -137,6 +150,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 tmpPools = effectPools;
                 tmpNames = effectNames;//awake에서 선언햇니
                 break;
+            case PoolTypes.WindType:
+                tmpPools = windPools;
+                tmpNames = windNames;//awake에서 선언햇니
+                break;
         }
 
         int index = NametoIndex(tmpNames, _name);
@@ -182,6 +199,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                     break;
                 case PoolTypes.EffectType:
                     effectPools = tmpPools;
+                    break;
+                case PoolTypes.WindType:
+                    windPools = tmpPools;
                     break;
             }
         }   

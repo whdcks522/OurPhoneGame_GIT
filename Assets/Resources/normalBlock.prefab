@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4152225080337283562}
   - component: {fileID: 5223300001744734597}
   m_Layer: 15
-  m_Name: normalBlock
+  m_Name: NormalBlock
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

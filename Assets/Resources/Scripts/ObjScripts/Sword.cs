@@ -1,19 +1,19 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class FollowSword : MonoBehaviourPunCallbacks
+public class Sword : MonoBehaviourPunCallbacks
 {
     [Serializable]//클래스 정보
-    public class FollowSwordInfo
+    public class SwordInfo
     {
-        public Vector2 swordPos { get; set; }//위치
-        public Vector2 swordVec { get; set; }//속도
+        public Vector2 swordPos;//위치
+        public Vector2 swordVec;//속도
 
-        public FollowSwordInfo(Vector2 tmpPos, Vector2 tmpVec)
+        public SwordInfo(Vector2 tmpPos, Vector2 tmpVec)
         {
             swordPos = tmpPos;
             swordVec = tmpVec;
@@ -21,14 +21,14 @@ public class FollowSword : MonoBehaviourPunCallbacks
     }
 
     //클래스 정보 큐
-    Queue<FollowSwordInfo> swordQueue = new Queue<FollowSwordInfo>();
+    Queue<SwordInfo> swordQueue = new Queue<SwordInfo>();
 
-    public FollowSword upperSword;
+    public Sword upperSword;
     public GameObject lowerSword;//자식 설정
     int followDelay = 5;//따라가는 지연시간
 
     //현재 칼의 정보
-    private FollowSwordInfo swordQueueInfo = new FollowSwordInfo(Vector2.zero, Vector2.zero);
+    private SwordInfo swordQueueInfo = new SwordInfo(Vector2.zero, Vector2.zero);
 
     [Header("플레이어 게임오브젝트(비활성화 시, 죽으면 오류)")]
     public GameObject player;
@@ -80,8 +80,8 @@ public class FollowSword : MonoBehaviourPunCallbacks
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        player = transform.root.gameObject;
-        characterControls = player.GetComponent<CharacterControls>();
+        //player = transform.root.gameObject;
+        //characterControls = player.GetComponent<CharacterControls>();
         rigid = GetComponent<Rigidbody2D>();
     }
 
@@ -89,7 +89,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
     {
         trailRenderer.Clear();
 
-        swordQueueInfo = new FollowSwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
+        swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
     }
 
     void FixedUpdate()
@@ -100,12 +100,12 @@ public class FollowSword : MonoBehaviourPunCallbacks
             Vector2 swordPos = transform.position;
             Vector2 playerPos = player.transform.position;
 
-            swordDir = Vector3.Distance(swordPos, playerPos) / 400;  
+            swordDir = Vector3.Distance(swordPos, playerPos) / 400;
         }
 
 
         //큐에 정보 삽입
-        swordQueue.Enqueue(new FollowSwordInfo(transform.position, saveSwordVec));
+        swordQueue.Enqueue(new SwordInfo(transform.position, saveSwordVec));
 
         //가득 차면, 클래스 정보 뱉기
         if (swordQueue.Count > followDelay)
@@ -115,20 +115,20 @@ public class FollowSword : MonoBehaviourPunCallbacks
             //꺼져 있다면 켜줌 
             if (curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
             {
-                if (!lowerSword.activeSelf) 
+                if (!lowerSword.activeSelf)
                 {
                     lowerSword.SetActive(true);
                     lowerSword.transform.position = swordQueueInfo.swordPos;
 
-                    lowerSword.GetComponent<FollowSword>().trailRenderer.Clear();
-                } 
+                    lowerSword.GetComponent<Sword>().trailRenderer.Clear();
+                }
             }
         }
 
         //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
         rigid.angularVelocity = 0f;
         rigid.velocity = saveSwordVec * 10;
-      
+
         //회전 조작
         transform.rotation = Quaternion.identity;
         float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
@@ -137,11 +137,11 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
         if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
         {
-            lowerSword.GetComponent<FollowSword>().saveSwordVec = swordQueueInfo.swordVec;
+            lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
         }
     }
 
-    
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (PhotonNetwork.InRoom)//멀티 중이라면
@@ -219,7 +219,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
             for (int i = 0; i <= maxSwordIndex - 1; i++)
             {
                 GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
-                FollowSword tmpSwordComponent = tmpSword.GetComponent<FollowSword>();
+                Sword tmpSwordComponent = tmpSword.GetComponent<Sword>();
 
 
                 tmpSword.transform.position = player.transform.position;
@@ -241,9 +241,9 @@ public class FollowSword : MonoBehaviourPunCallbacks
     #endregion
 
     #region 폭탄 생성
-    void createBomb(Vector3 bombPos) 
+    void createBomb(Vector3 bombPos)
     {
-       
+
         //폭탄 생성
         GameObject bomb = null;
 
@@ -274,7 +274,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
             Bomb bombComponent = bomb.GetComponent<Bomb>();
             //폭탄 해당 위치에 활성화
             bombComponent.bombOnRPC(bombPos);
-        }  
+        }
     }
     #endregion
 
@@ -329,7 +329,7 @@ public class FollowSword : MonoBehaviourPunCallbacks
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
             }
         }
-       
+
     }
 
     private void OnCollisionStay2D(Collision2D other)

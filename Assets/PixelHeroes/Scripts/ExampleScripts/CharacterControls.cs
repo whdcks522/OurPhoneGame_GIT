@@ -54,7 +54,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         
         //첫 번재 칼 게임 오브젝트
         GameObject leaderSword;
-        private FollowSword leaderSwordComponent;
+        private Sword SwordComponent;
 
         [Header("현재 칼의 갯수")]
         public int curSwordCount;
@@ -150,7 +150,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
-                        leaderSwordComponent.leaderSwordExitRPC(2);
+                        SwordComponent.leaderSwordExitRPC(2);
                         //곧 죽음
                         Invoke("SoonDie", 1.5f);
                     }
@@ -201,13 +201,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             for (int i = 0; i < swordParent.transform.childCount; i++)
             {
                 GameObject tmpSword = swordParent.transform.GetChild(i).gameObject;
-                tmpSword.GetComponent<FollowSword>().player = gameObject;
-                tmpSword.GetComponent<FollowSword>().characterControls = this;
-                tmpSword.GetComponent<FollowSword>().battleUIManager = battleUIManager;
+                tmpSword.GetComponent<Sword>().player = gameObject;
+                tmpSword.GetComponent<Sword>().characterControls = this;
+                tmpSword.GetComponent<Sword>().battleUIManager = battleUIManager;
             }
 
             leaderSword = swordParent.transform.GetChild(0).gameObject;
-            leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
+            SwordComponent = leaderSword.GetComponent<Sword>();
 
             moveJoy = BattleUIManager.Instance.moveJoy;
             swordJoy = BattleUIManager.Instance.swordJoy;
@@ -684,7 +684,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //칼 부모의 위치 자동 조정
             //swordParent.transform.position = swordParentVec;//0,0,0 고정시킴  //이거 빼니까 고쳐지네 뭐징..
 
-            swordAreaColor = new Color(1,1,1, leaderSwordComponent.swordDir);
+            swordAreaColor = new Color(1,1,1, SwordComponent.swordDir);
             playerSwordArea.color = swordAreaColor;
         }
         #endregion
@@ -730,7 +730,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             swordJoyVec = swordJoyVec.normalized;
 
             //조작이 이전과 같은지
-            bool isSame = (leaderSwordComponent.saveSwordVec == swordJoyVec) ;
+            bool isSame = (SwordComponent.saveSwordVec == swordJoyVec) ;
 
             //검 이동
             if (isMove)
@@ -769,8 +769,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
-            FollowSword followSword = leaderSword.GetComponent<FollowSword>();
-            followSword.saveSwordVec = tmpVec;
+            Sword Sword = leaderSword.GetComponent<Sword>();
+            Sword.saveSwordVec = tmpVec;
         }
         #endregion
 
@@ -1016,9 +1016,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         if (photonView.IsMine) 
                         {
                             photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
-                            //칼 비활성화
-                            //leaderSword.GetComponent<FollowSword>().photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 2);
-                            
                         }
                     }
                     else if (!PhotonNetwork.InRoom)

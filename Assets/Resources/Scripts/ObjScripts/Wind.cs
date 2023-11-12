@@ -34,7 +34,8 @@ public class Wind : MonoBehaviourPunCallbacks
             if (curTime >= maxTime)
             {
                 curTime = 0;
-                
+                //점차 안 보이는 코루틴
+                StartCoroutine(visibleWind(0));
             }
         }
     }
@@ -54,7 +55,7 @@ public class Wind : MonoBehaviourPunCallbacks
         curTime = 0;
         //효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
-        //코루틴
+        //점차 보이는 코루틴
         StartCoroutine(visibleWind(1));
     }
 
@@ -68,7 +69,6 @@ public class Wind : MonoBehaviourPunCallbacks
     {
         bool isVisible = target == 1 ? true : false;
         float start = isVisible ? 0 : 1;
-        //Debug.Log(isVisible+"/"+start);
 
         if (isVisible) // 0 -> 1 
         {

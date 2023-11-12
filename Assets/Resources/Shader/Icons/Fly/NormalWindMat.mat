@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FlyObjMat
+  m_Name: NormalWindMat
   m_Shader: {fileID: -6465566751694194690, guid: b0718ec33187a3b4dadb2184d2ae11f6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -45,10 +45,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaControl: 1
+    - _AlphaControl: 0
     m_Colors:
-    - _AddColor: {r: 0.5411765, g: 0.70293564, b: 1, a: 0}
-    - _BaseColor: {r: 0.7688679, g: 0.8892897, b: 1, a: 0}
+    - _AddColor: {r: 1, g: 0.5411765, b: 0.5777942, a: 0}
+    - _BaseColor: {r: 1, g: 0.8557637, b: 0.76862746, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7731298293033279915
 MonoBehaviour:
