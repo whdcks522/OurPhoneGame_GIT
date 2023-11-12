@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("멀티에서 플레이어가 생성될 위치")]
     public Transform[] spawnPositions;
     [Header("멀티에서 플레이어의 리스트")]
-    public List<GameObject>playerList = new List<GameObject>();
+    public Transform playerGroup;
 
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
@@ -93,9 +93,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//혹시 몰라서 나눔
 
             player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
-            player.transform.position = spawnPosition.position;
-            player.transform.parent = transform;
-            playerList.Add(player);
+            player.transform.parent = playerGroup;
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
@@ -105,7 +103,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else if (battleUIManager.battleType == BattleUIManager.BattleType.Single)//싱글의 경우
         {
             //칼 폭파 미리 생성
-
+            Debug.Log(battleUIManager.battleType);
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
             battleUIManager.curScore = 0;
@@ -115,7 +113,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             battleUIManager.multyExitBtn.SetActive(false);
             battleUIManager.singleStopBtn.SetActive(true);
         }
-        
+        else Debug.Log(battleUIManager.battleType);
 
         //characterControl = player.GetComponent<CharacterControls>();
 
