@@ -55,7 +55,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //첫 번재 칼 게임 오브젝트
         GameObject leaderSword;
         private FollowSword leaderSwordComponent;
-        Rigidbody2D leaderSwordRigid;
 
         [Header("현재 칼의 갯수")]
         public int curSwordCount;
@@ -129,6 +128,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             switch (tmpPlayerStateType) 
             {
                 case PlayerStateType.Dead:
+                    if (PhotonNetwork.InRoom) 
+                    {
+
+                    }
+                    else if(!PhotonNetwork.InRoom)
+                    {
+
+                    }
+
                     if (isCheck)
                     {
                         //사망 처리
@@ -142,7 +150,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
-                        leaderSword.GetComponent<FollowSword>().leaderSwordExitRPC(2);
+                        leaderSwordComponent.leaderSwordExitRPC(2);
                         //곧 죽음
                         Invoke("SoonDie", 1.5f);
                     }
@@ -179,7 +187,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
 
                     Physics2D.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
-                    //Physics.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
                     break;
             }
         }
@@ -200,7 +207,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
 
             leaderSword = swordParent.transform.GetChild(0).gameObject;
-            leaderSwordRigid = leaderSword.GetComponent<Rigidbody2D>();
             leaderSwordComponent = leaderSword.GetComponent<FollowSword>();
 
             moveJoy = BattleUIManager.Instance.moveJoy;
@@ -724,7 +730,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             swordJoyVec = swordJoyVec.normalized;
 
             //조작이 이전과 같은지
-            bool isSame = (leaderSwordRigid.velocity.normalized.x == swordJoyVec.x) && (leaderSwordRigid.velocity.normalized.y == swordJoyVec.y);
+            bool isSame = (leaderSwordComponent.saveSwordVec == swordJoyVec) ;
 
             //검 이동
             if (isMove)

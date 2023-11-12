@@ -38,6 +38,7 @@ public class FlyManager : MonoBehaviour
 
         //플레이어 체력 감소 비율 0으로 설정
         characterControls.healthMinus = 1;
+        characterControls.curHealth = 20;
     }
 
 

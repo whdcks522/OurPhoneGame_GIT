@@ -40,23 +40,21 @@ public class FollowSword : MonoBehaviourPunCallbacks
 
 
     [Header("리더의 속도")]
-    public Vector3 saveSwordVec = Vector3.zero;
+    public Vector2 saveSwordVec = Vector3.zero;
 
 
     //경로
     public TrailRenderer trailRenderer;
     //사용 가능한 전체 칼의 수
-    int maxSwordIndex;
+    public int maxSwordIndex;
     //현재 칼이 몇번째인지
-    int curSwordIndex;
+    public int curSwordIndex;
     //칼의 데미지
     int swordDamage = 5;
 
     //배틀 매니저
     public BattleUIManager battleUIManager;
     Rigidbody2D rigid;
-
-    
 
 
     #region 적 정보 클래스 공백
@@ -84,10 +82,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
         battleUIManager = BattleUIManager.Instance;
         player = transform.root.gameObject;
         characterControls = player.GetComponent<CharacterControls>();
-
-        maxSwordIndex = transform.parent.childCount;
-        curSwordIndex = transform.GetSiblingIndex() + 1;//현재 자신이 몇 번째인지
-
         rigid = GetComponent<Rigidbody2D>();
     }
 
@@ -109,7 +103,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
             swordDir = Vector3.Distance(swordPos, playerPos) / 400;  
         }
 
-        bool isRecentActive = false;
 
         //큐에 정보 삽입
         swordQueue.Enqueue(new FollowSwordInfo(transform.position, saveSwordVec));
@@ -127,7 +120,6 @@ public class FollowSword : MonoBehaviourPunCallbacks
                     lowerSword.SetActive(true);
                     lowerSword.transform.position = swordQueueInfo.swordPos;
 
-                    isRecentActive = true;
                     lowerSword.GetComponent<FollowSword>().trailRenderer.Clear();
                 } 
             }
@@ -143,20 +135,10 @@ public class FollowSword : MonoBehaviourPunCallbacks
         Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
         transform.Rotate(rotVec);
 
-        //if (curSwordIndex >= characterControls.curSwordCount)//맨 끝 칼은 수행 안함
-        //   return;
-
         if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
         {
             lowerSword.GetComponent<FollowSword>().saveSwordVec = swordQueueInfo.swordVec;
         }
-
-            
-
-
-
-        //if (isRecentActive)//awake하기 전에 부를까봐  
-        //    child.GetComponent<FollowSword>().trailRenderer.Clear();
     }
 
     
@@ -239,9 +221,10 @@ public class FollowSword : MonoBehaviourPunCallbacks
                 GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
                 FollowSword tmpSwordComponent = tmpSword.GetComponent<FollowSword>();
 
+
+                tmpSword.transform.position = player.transform.position;
                 //칼 활성화
                 tmpSword.SetActive(false);
-                tmpSword.transform.position = player.transform.position;
 
                 if (tmpSwordComponent != null)
                 {
