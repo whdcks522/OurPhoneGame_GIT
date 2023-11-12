@@ -54,13 +54,14 @@ public class PvPManager : MonoBehaviourPunCallbacks
             for (int i = 0; i < gameManager.playerGroup.childCount; i++)
             {
                 CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                //if (cc.curHealth <= 0) 
+                if (cc.curHealth <= 0) 
                 {
+                    //1.5초 후 플레이어를 통해서
+
                     string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                         PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
                     battleUIManager.typingControl(str);
-                }
-                    
+                } 
             }
 
 

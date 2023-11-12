@@ -225,6 +225,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
             {
+                changeStateRPC(PlayerStateType.LeftControl, true);
+                changeStateRPC(PlayerStateType.IsCanJump, true);
+                changeStateRPC(PlayerStateType.RightControl, true);
+                changeStateRPC(PlayerStateType.CanHeal, true);
 
                 //체력 감소율을 0으로
                 healthMinus = 0;
@@ -969,12 +973,42 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (PhotonNetwork.InRoom) 
                 {
-                    if (!photonView.IsMine) 
+                    if (photonView.IsMine && !collision.gameObject.GetComponent<PhotonView>().IsMine) 
                     {
                         //피격 처리
                         photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1, false);
                     }
+                    
+                    //if (photonView.AmController != collision.gameObject.GetComponent<PhotonView>().AmController) 
+                    {
+                        
+                        
+                    }
+                    
                 }
+            }
+        }
+
+        public enum MultyEndType {Win, Lose, Draw  } 
+
+        [PunRPC]
+        public void multyEndControl(MultyEndType _multyEnd) 
+        {
+
+            if (photonView.IsMine) 
+            {
+                switch (_multyEnd) 
+                {
+                    case MultyEndType.Win:
+                        battleUIManager.typingControl("승리!");
+                        break;
+                    case MultyEndType.Lose:
+                        battleUIManager.typingControl("패배..");
+                        break;
+                    case MultyEndType.Draw:
+                        battleUIManager.typingControl("무승부?");
+                        break;
+                }  
             }
         }
 

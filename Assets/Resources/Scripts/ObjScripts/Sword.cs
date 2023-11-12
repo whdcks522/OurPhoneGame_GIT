@@ -245,8 +245,6 @@ public class Sword : MonoBehaviourPunCallbacks
         {
             if (upperSword.gameObject.activeSelf)//≤®¡Æ ¿÷¿ª Ω√
             {
-                Debug.Log(curSwordIndex+'/'+level);
-                Debug.Log(upperSword.swordQueueInfo.swordPos);
                 transform.position = upperSword.swordQueueInfo.swordPos;
             }
         }
