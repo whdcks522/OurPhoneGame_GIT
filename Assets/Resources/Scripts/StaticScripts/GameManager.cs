@@ -85,8 +85,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         windPools = new List<GameObject>[windNames.Length];
         for (int index = 0; index < windNames.Length; index++)//풀 하나하나 초기화
             windPools[index] = new List<GameObject>();
+    }
 
-
+    private void Start()
+    {
         if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)//Room에 있는지 물어보면 작동 안하더라
         {
             var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
@@ -116,16 +118,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else Debug.LogError(battleUIManager.battleType);
 
-        //characterControl = player.GetComponent<CharacterControls>();
-
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         cinemachineVirtualCamera.Follow = player.transform;
         cinemachineVirtualCamera.LookAt = player.transform;
-
-
     }
-    
+
     public GameObject CreateObj(string _name, PoolTypes poolTypes) //있으면 적 부르고, 없으면 생성
     {
         //반드시 매번 초기화
