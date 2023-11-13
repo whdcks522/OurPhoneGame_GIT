@@ -282,7 +282,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //키 입력
                     KeyInput();
                 }
-                else if((transform.position - rpcPos).sqrMagnitude >= 4)//너무 멀면 순간이동 
+                else if((transform.position - rpcPos).sqrMagnitude >= 5)//너무 멀면 순간이동 
                 {
                     //Debug.Log("PlayerQuickMove");
                     transform.position = rpcPos;

@@ -228,9 +228,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void TypingRPC(TypingType _typingType, string _str = "")//당사자에게 알리는 용
     {
-
+        Debug.Log("도착 1");
         if (photonView.IsMine)
         {
+            Debug.Log("도착 2");
             switch (_typingType)
             {
                 case TypingType.None:

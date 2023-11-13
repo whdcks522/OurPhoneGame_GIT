@@ -323,6 +323,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 1725857270495661142}
   lowerSword: {fileID: 5762922852383065240}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -1257,6 +1260,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 8868785095202500396}
   lowerSword: {fileID: 3925482333871758672}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -6768,6 +6774,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 501831376110509810}
   lowerSword: {fileID: 283883041438498517}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -12007,6 +12016,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 6632360085092520154}
   lowerSword: {fileID: 0}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -12361,6 +12373,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 1498103550444001432}
   lowerSword: {fileID: 6949382106540633811}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -17321,7 +17336,7 @@ Transform:
   - {fileID: 1656695695387416903}
   - {fileID: 5131936622220100939}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1196669799950250002
 MonoBehaviour:
@@ -17393,7 +17408,7 @@ MonoBehaviour:
   miniHealthGauge: {fileID: 500615374362100254}
   miniName: {fileID: 2405757037547769105}
   swordParent: {fileID: 6381797422193437685}
-  curSwordCount: 5
+  curSwordCount: 4
   backSwords: {fileID: 1703996433826785003}
   playerSwordArea: {fileID: 5066992103306789604}
   moveJoy: {fileID: 0}
@@ -17715,6 +17730,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 0}
   lowerSword: {fileID: 8970127748784201795}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -18164,6 +18182,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 7266633519759043998}
   lowerSword: {fileID: 4729382956313458514}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
@@ -18522,6 +18543,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upperSword: {fileID: 7514636396940425804}
   lowerSword: {fileID: 1961907249849268425}
+  swordQueueInfo:
+    swordPos: {x: 0, y: 0}
+    swordVec: {x: 0, y: 0}
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0

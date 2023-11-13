@@ -32,6 +32,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
         battleUIManager = BattleUIManager.Instance;
     }
 
+
     private void Update()
     {
         if (isMasterCilentLocal) 
@@ -117,6 +118,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     }
                 }
             }
+            
             else //현재 대기 중일 때
             {
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
@@ -125,9 +127,15 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
                     CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                    cc.gameManager.TypingRPC(GameManager.TypingType.None, str);
+                    cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.None, str);
+                    //cc.gameManager.TypingRPC(GameManager.TypingType.None, str);
+
+                    //gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>().
+                    //gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Lose, "");
                 }
             }
+            
+
         }//방장 일 때,
         
         //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근

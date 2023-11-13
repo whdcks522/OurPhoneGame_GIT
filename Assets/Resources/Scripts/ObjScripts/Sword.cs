@@ -28,7 +28,7 @@ public class Sword : MonoBehaviourPunCallbacks
     int followDelay = 5;//따라가는 지연시간
 
     //현재 칼의 정보
-    private SwordInfo swordQueueInfo = new SwordInfo(Vector2.zero, Vector2.zero);
+    public SwordInfo swordQueueInfo = new SwordInfo(Vector2.zero, Vector2.zero);
 
     [Header("플레이어 게임오브젝트(비활성화 시, 죽으면 오류)")]
     public GameObject player;
@@ -123,6 +123,8 @@ public class Sword : MonoBehaviourPunCallbacks
             }  
         }
 
+        bool isMulty = photonView.IsMine && PhotonNetwork.InRoom;
+        bool isSingle = !PhotonNetwork.InRoom;
 
         //큐에 정보 삽입
         swordQueue.Enqueue(new SwordInfo(transform.position, saveSwordVec));
@@ -131,14 +133,13 @@ public class Sword : MonoBehaviourPunCallbacks
         if (swordQueue.Count > followDelay)
         {
             swordQueueInfo = swordQueue.Dequeue();
+            Debug.Log("index: "+ curSwordIndex +" / "+ swordQueueInfo);
 
             //꺼져 있다면 켜줌 
             if (curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
             {
                 if (!lowerSword.activeSelf)
                 {
-                    
-
                     lowerSword.SetActive(true);
                     lowerSword.transform.position = swordQueueInfo.swordPos;
 
