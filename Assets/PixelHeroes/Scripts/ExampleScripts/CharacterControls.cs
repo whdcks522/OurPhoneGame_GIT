@@ -54,6 +54,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         
         //첫 번재 칼 게임 오브젝트
         GameObject leaderSword;
+        public GameObject[] playerSwords;
         private Sword SwordComponent;
 
         [Header("현재 칼의 갯수")]

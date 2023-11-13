@@ -20,7 +20,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
     float curTime;
 
     public int loser = -2;
-    
+    public int maxPlayer;
 
     BattleUIManager battleUIManager;
     [Header("게임매니저")]
@@ -31,6 +31,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
         battleUIManager = BattleUIManager.Instance;
     }
 
@@ -39,8 +40,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
     {
         if (isMasterCilentLocal)
         {
-            if (PhotonNetwork.PlayerList.Length >= PhotonNetwork.CurrentRoom.MaxPlayers &&
-                gameManager.playerGroup.childCount >= PhotonNetwork.CurrentRoom.MaxPlayers)//실제로 플레이어도 생성 됐을 때 시작해야함
+            if (PhotonNetwork.PlayerList.Length >= maxPlayer &&
+                gameManager.playerGroup.childCount >= maxPlayer)//실제로 플레이어도 생성 됐을 때 시작해야함
             {
                 //게임 시작
 
@@ -119,27 +120,27 @@ public class PvPManager : MonoBehaviourPunCallbacks
                 }
                 */
             }
-
-            else //현재 대기 중일 때
-            {
-                if (loser == -2)
-                {
-                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-                    {
-                        string str = PhotonNetwork.CurrentRoom.Name + '\n' +
-                            PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
-
-                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                        cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
-                    }
-                }
-                else if (loser != -2)
-                {
-                    gameManager.allLeaveRoomStart();
-                }  
-            }
         }//방장 일 때,
-    }
+
+        //방장이 아니여도
+        if (loser == -2)
+        {
+            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+            {
+                string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+                    PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
+
+                CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
+                cc.TypingRPC(CharacterControls.TypingType.None, str);
+            }
+        }
+        else if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
+        {
+            gameManager.allLeaveRoomStart();
+        }
+
+    }//Update문
     [PunRPC]
     public void alreadyStartRPC() //시작 선언
     {
