@@ -106,11 +106,6 @@ public class BattleUIManager : MonoBehaviour
 
     public void typingControl(string _str) 
     {
-        Debug.LogError("typingControl");
-        //if (descCor != null) 
-        {
-            //StopCoroutine(descCor);
-        }
         if (saveDescText != _str)
         {
             if (descCor != null)
@@ -139,7 +134,6 @@ public class BattleUIManager : MonoBehaviour
 
                 //È¿°úÀ½
                 audioManager.PlaySfx(AudioManager.Sfx.Typing);
-                Debug.LogWarning("TypeDebug");
             }
             yield return wait3_00;
             for (int index = typingLength; index >= 0; index--)

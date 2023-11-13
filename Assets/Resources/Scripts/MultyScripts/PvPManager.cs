@@ -37,7 +37,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (isMasterCilentLocal) 
+        if (isMasterCilentLocal)
         {
             if (PhotonNetwork.PlayerList.Length >= PhotonNetwork.CurrentRoom.MaxPlayers &&
                 gameManager.playerGroup.childCount >= PhotonNetwork.CurrentRoom.MaxPlayers)//실제로 플레이어도 생성 됐을 때 시작해야함
@@ -64,7 +64,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         {
                             if (cc.curHealth <= 0)
                             {
-                                Debug.Log("승자독식");
                                 loser = i;
                             }
                         }
@@ -83,7 +82,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     }
                 }
 
-                return;
+                /*
 
                 curTime += Time.deltaTime;
 
@@ -116,9 +115,11 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
                         bullet.transform.Rotate(rotVec);
                     }
+                
                 }
+                */
             }
-            
+
             else //현재 대기 중일 때
             {
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
@@ -130,25 +131,21 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
                 }
             }
-            
+
 
         }//방장 일 때,
-        
-        //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
-        //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
-        //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수
-        //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
-    }
 
+    }
     [PunRPC]
     public void alreadyStartRPC() //시작 선언
     {
         loser = -1;
     }
 
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        gameManager.allLeaveRoomStart();
-    }
+    //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
+    //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
+    //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수
+    //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
 }
+
 

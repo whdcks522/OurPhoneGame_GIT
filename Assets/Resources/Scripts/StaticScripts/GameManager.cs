@@ -8,6 +8,7 @@ using System;
 using UnityEngine.SceneManagement;
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun.Demo.PunBasics;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -223,6 +224,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         return -1;
     }
 
+    #region 멀티 플레이 모두 퇴장
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        allLeaveRoomStart();
+    }
+
     public void allLeaveRoomStart() //모두 방에서 나가기
     {
         photonView.RPC("LeaveRoomRPC", RpcTarget.AllBuffered);
@@ -263,6 +270,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         */
     }
+    #endregion
+
 
     /*
      //룸 설정
