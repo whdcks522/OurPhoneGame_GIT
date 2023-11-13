@@ -1,8 +1,10 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PvPManager : MonoBehaviourPunCallbacks
@@ -70,13 +72,11 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         {
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
-                                Debug.Log("A");
-                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Lose, "");
+                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Lose, "lose");
                             }
                             else
                             {
-                                Debug.Log("B");
-                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Win, "");
+                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Win, "win");
                             }
 
                         }
@@ -148,6 +148,11 @@ public class PvPManager : MonoBehaviourPunCallbacks
     public void alreadyStartRPC() //시작 선언
     {
         loser = -1;
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        gameManager.allLeaveRoomStart();
     }
 }
 

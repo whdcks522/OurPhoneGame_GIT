@@ -231,19 +231,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("µµÂø 1");
         if (photonView.IsMine)
         {
-            Debug.Log("µµÂø 2");
             switch (_typingType)
             {
                 case TypingType.None:
+                    Debug.Log("µµÂø 2:"+ _str);
                     battleUIManager.typingControl(_str);
                     break;
                 case TypingType.Win:
+                    Debug.Log("µµÂø 3:" + _str);
                     battleUIManager.typingControl("½Â¸®!");
                     break;
                 case TypingType.Lose:
+                    Debug.Log("µµÂø 4:" + _str);
                     battleUIManager.typingControl("ÆÐ¹è..");
                     break;
                 case TypingType.Draw:
+                    Debug.Log("µµÂø 5:" + _str);
                     battleUIManager.typingControl("¹«½ÂºÎ?");
                     break;
             }

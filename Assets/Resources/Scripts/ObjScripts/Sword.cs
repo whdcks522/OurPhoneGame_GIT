@@ -133,7 +133,7 @@ public class Sword : MonoBehaviourPunCallbacks
         if (swordQueue.Count > followDelay)
         {
             swordQueueInfo = swordQueue.Dequeue();
-            Debug.Log("index: "+ curSwordIndex +" / "+ swordQueueInfo);
+            
 
             //꺼져 있다면 켜줌 
             if (curSwordIndex < characterControls.curSwordCount) //현재 칼의 번호 x가 캐릭터의 칼 수보다 
@@ -160,6 +160,7 @@ public class Sword : MonoBehaviourPunCallbacks
 
         if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
         {
+            Debug.Log("index: " + curSwordIndex + " / " + swordQueueInfo.swordVec + " / " + swordQueueInfo.swordPos);
             lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
         }
     }
