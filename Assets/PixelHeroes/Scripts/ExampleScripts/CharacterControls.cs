@@ -100,7 +100,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public Vector3 rayVec = Vector3.zero;
         [Header("현재 바닥인지")]
         public bool isGround = false;
-        //관통하는 건축물을 위함
+        //튜토리얼에서 부양을 보여주기 위함
         int playerLayer;
         int playerSwordLayer; 
 
@@ -128,15 +128,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             switch (tmpPlayerStateType) 
             {
                 case PlayerStateType.Dead:
-                    if (PhotonNetwork.InRoom) 
-                    {
-
-                    }
-                    else if(!PhotonNetwork.InRoom)
-                    {
-
-                    }
-
                     if (isCheck)
                     {
                         //사망 처리
@@ -462,7 +453,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword"))||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")))
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
                         isGround = true;
                         break;

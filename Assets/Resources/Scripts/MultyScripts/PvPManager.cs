@@ -142,6 +142,11 @@ public class PvPManager : MonoBehaviourPunCallbacks
         loser = -1;
     }
 
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        gameManager.allLeaveRoomStart();
+    }
+
     //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
     //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
     //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수

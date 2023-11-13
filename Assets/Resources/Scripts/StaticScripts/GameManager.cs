@@ -225,10 +225,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     #region 멀티 플레이 모두 퇴장
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        allLeaveRoomStart();
-    }
+    
 
     public void allLeaveRoomStart() //모두 방에서 나가기
     {
