@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9208388014896639751}
   - component: {fileID: 1924315502127359073}
   - component: {fileID: 7832943456476000556}
-  m_Layer: 3
+  m_Layer: 22
   m_Name: Egg
   m_TagString: Egg
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4799541804983844376
 SpriteRenderer:
@@ -100,11 +100,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 50
+  m_Mass: 30
   m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 57e5f162eabb52b43bdac554ec04b5ae, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -114,7 +114,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!70 &9208388014896639751
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
