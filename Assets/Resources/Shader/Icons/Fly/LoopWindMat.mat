@@ -45,7 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaControl: 1
+    - _AlphaControl: 2
     m_Colors:
     - _AddColor: {r: 0.5411765, g: 0.5592486, b: 1, a: 0}
     - _BaseColor: {r: 0.76862746, g: 0.90641356, b: 1, a: 0}

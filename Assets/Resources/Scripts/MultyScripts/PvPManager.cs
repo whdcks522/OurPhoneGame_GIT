@@ -17,6 +17,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
     //현재 발사 시간
     float curTime;
 
+    public int loser = -1;
     
 
     BattleUIManager battleUIManager;
@@ -46,22 +47,37 @@ public class PvPManager : MonoBehaviourPunCallbacks
                 {
                     CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
-                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.IsCanJump, true);
+                    //cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.IsCanJump, true);
                     cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
+
+
                 }
             }
 
             for (int i = 0; i < gameManager.playerGroup.childCount; i++)
             {
                 CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                if (cc.curHealth <= 0) 
+                
+                if (loser == -1) //패배자 결정
                 {
-                    //1.5초 후 플레이어를 통해서
-
-                    string str = PhotonNetwork.CurrentRoom.Name + '\n' +
-                        PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
-                    battleUIManager.typingControl(str);
+                    if (cc.curHealth <= 0) 
+                    {
+                        Debug.Log("승자독식");
+                        loser = i;
+                    }
                 } 
+                else if (loser != -1)
+                {
+                    if (i == loser) //패배자한테 패배 메시지 전송
+                    {
+                        cc.gameManager.TypingRPC(GameManager.TypingType.Lose);
+                    }
+                    else 
+                    {
+                        cc.gameManager.TypingRPC(GameManager.TypingType.Win);
+                    }
+                    
+                }
             }
 
 
@@ -104,11 +120,21 @@ public class PvPManager : MonoBehaviourPunCallbacks
         }
         else //현재 대기 중일 때
         {
-            if (!gameManager.alreadyStart) //맨 처음 시작하고 대기하고 있을 때
+            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
             {
                 string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
-                battleUIManager.typingControl(str);
+
+                CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                cc.gameManager.TypingRPC(GameManager.TypingType.None, str);
+            }
+
+            
+            //battleUIManager.typingControl(str);
+
+            if (!gameManager.alreadyStart) //맨 처음 시작하고 대기하고 있을 때
+            {
+                
             }
         }
 

@@ -224,28 +224,51 @@ public class GameManager : MonoBehaviourPunCallbacks
         return -1;
     }
 
-    public void allLeaveRoom() //모두 방에서 나가기
+    public enum TypingType {None, Win, Lose, Draw }
+
+    [PunRPC]
+    public void TypingRPC(TypingType _typingType, string _str = "")//당사자에게 알리는 용
     {
-        photonView.RPC("LeaveRoom", RpcTarget.AllBuffered);
+
+        if (photonView.IsMine)
+        {
+            switch (_typingType)
+            {
+                case TypingType.None:
+                    battleUIManager.typingControl(_str);
+                    break;
+                case TypingType.Win:
+                    battleUIManager.typingControl("승리!");
+                    break;
+                case TypingType.Lose:
+                    battleUIManager.typingControl("패배..");
+                    break;
+                case TypingType.Draw:
+                    battleUIManager.typingControl("무승부?");
+                    break;
+            }
+        }
+    }
+
+    public void allLeaveRoomStart() //모두 방에서 나가기
+    {
+        photonView.RPC("LeaveRoomRPC", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
-    public void alreadyStartControl(bool isAlreadyStart) 
+    public void alreadyStartControl(bool isAlreadyStart) //이미 시작함 선언
     {
         alreadyStart = isAlreadyStart;
     }
 
     [PunRPC]
-    public void LeaveRoom()
+    public void LeaveRoomRPC()
     {
-        Debug.Log("Exit");
-
         battleUIManager.battleUI.SetActive(false);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Lobby");
         
-        return;
-
+        /*
         bool canEnterRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToEnter"];
         bool canExitRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToExit"];
 
@@ -271,13 +294,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("Lobby");
 
         }
+        */
     }
 
     /*
      //룸 설정
-ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable();
-//roomProperties.Add("IsAllowedToEnter", false);//입장은 맨 처음 빼고 더이상 못들어옴
-roomProperties.Add("IsAllowedToExit", true);//대기 중에는 나갈 수 있도록
-PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);//모두에게 적용됨-------
+        ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable();
+        roomProperties.Add("IsAllowedToEnter", false);//입장은 맨 처음 빼고 더이상 못들어옴
+        roomProperties.Add("IsAllowedToExit", true);//대기 중에는 나갈 수 있도록
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);//모두에게 적용됨-------
      */
 }

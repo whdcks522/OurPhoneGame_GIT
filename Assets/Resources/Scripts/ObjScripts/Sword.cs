@@ -103,13 +103,24 @@ public class Sword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (curSwordIndex == 1)
+        if (PhotonNetwork.InRoom && photonView.IsMine) 
         {
             // 두 위치 간의 거리를 계산합니다.
             Vector2 swordPos = transform.position;
             Vector2 playerPos = player.transform.position;
 
             swordDir = Vector3.Distance(swordPos, playerPos) / 400;
+        }
+        else if (!PhotonNetwork.InRoom)
+        {
+            if (curSwordIndex == 1) 
+            {
+                // 두 위치 간의 거리를 계산합니다.
+                Vector2 swordPos = transform.position;
+                Vector2 playerPos = player.transform.position;
+
+                swordDir = Vector3.Distance(swordPos, playerPos) / 400;
+            }  
         }
 
 

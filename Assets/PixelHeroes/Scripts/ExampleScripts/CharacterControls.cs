@@ -107,14 +107,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //플레이어의 상태--------------
         public enum PlayerStateType
         {
-           None, Dead, LeftControl, IsCanJump,RightControl, CanHeal, SwordCount, SwordCollision
+           None, Dead, LeftControl, IsCanJump, RightControl, CanHeal, SwordCount, SwordCollision
         }
         //이미 죽음
         public bool isDead = false;
         //이동이 가능한 상태인지
         bool isLeftControl = false;
         //점프가 가능한 상태인지
-        bool isCanJump = false;
+        bool isCanJump = true;
         //칼을 던질 수 있는 상태인지
         bool isRightControl = false;
         //회복 가능한 상태인지
@@ -219,16 +219,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
             {
                 changeStateRPC(PlayerStateType.LeftControl, true);
-                changeStateRPC(PlayerStateType.IsCanJump, true);
                 changeStateRPC(PlayerStateType.RightControl, true);
                 changeStateRPC(PlayerStateType.CanHeal, true);
             }
             else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
             {
-                changeStateRPC(PlayerStateType.LeftControl, true);
-                changeStateRPC(PlayerStateType.IsCanJump, true);
-                changeStateRPC(PlayerStateType.RightControl, true);
-                changeStateRPC(PlayerStateType.CanHeal, true);
+                //changeStateRPC(PlayerStateType.LeftControl, true);
+                //changeStateRPC(PlayerStateType.RightControl, true);
+                //changeStateRPC(PlayerStateType.CanHeal, true);
 
                 //체력 감소율을 0으로
                 healthMinus = 0;
@@ -947,7 +945,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         if (photonView.IsMine)
                         {
                             //피격 처리
-                            photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg);
+                            photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg, true);
                             //투사체 파괴
                             bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
                         }
@@ -963,7 +961,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
             {
-                curHealth = 0;
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1000, false);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
+                {
+                    //피격 처리
+                    damageControlRPC(1000, false);
+                }
             }
         }
 
@@ -989,28 +999,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
         }
 
-        public enum MultyEndType {Win, Lose, Draw  } 
-
-        [PunRPC]
-        public void multyEndControl(MultyEndType _multyEnd) 
-        {
-
-            if (photonView.IsMine) 
-            {
-                switch (_multyEnd) 
-                {
-                    case MultyEndType.Win:
-                        battleUIManager.typingControl("승리!");
-                        break;
-                    case MultyEndType.Lose:
-                        battleUIManager.typingControl("패배..");
-                        break;
-                    case MultyEndType.Draw:
-                        battleUIManager.typingControl("무승부?");
-                        break;
-                }  
-            }
-        }
+       
 
         #region 피격 처리
         [PunRPC]

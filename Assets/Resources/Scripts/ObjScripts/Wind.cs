@@ -80,7 +80,7 @@ public class Wind : MonoBehaviourPunCallbacks
                 localVec = new Vector2(200, 5 * start);
                 transform.localScale = localVec;
 
-                spriteRenderer.material.SetFloat("_AlphaControl", start);
+                spriteRenderer.material.SetFloat("_AlphaControl", start * 2);
                 
             }
         }
@@ -94,7 +94,7 @@ public class Wind : MonoBehaviourPunCallbacks
                 localVec = new Vector2(200, 5 * start);
                 transform.localScale = localVec;
 
-                spriteRenderer.material.SetFloat("_AlphaControl", start);
+                spriteRenderer.material.SetFloat("_AlphaControl", start * 2);
             }
             windOffRPC();
         }
