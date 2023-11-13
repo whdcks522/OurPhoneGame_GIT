@@ -122,31 +122,33 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
             else //현재 대기 중일 때
             {
-                for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                if (loser == -2)
                 {
-                    string str = PhotonNetwork.CurrentRoom.Name + '\n' +
-                        PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
+                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    {
+                        string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+                            PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
-                    CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                    cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
+                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                        cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
+                    }
                 }
+                else if (loser != -2)
+                {
+                    gameManager.allLeaveRoomStart();
+                }  
             }
-
-
         }//방장 일 때,
-
     }
     [PunRPC]
     public void alreadyStartRPC() //시작 선언
     {
         loser = -1;
     }
-
     public override void OnDisconnected(DisconnectCause cause)
     {
         gameManager.allLeaveRoomStart();
     }
-
     //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
     //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
     //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수

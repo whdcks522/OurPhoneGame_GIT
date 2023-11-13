@@ -22,11 +22,11 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
                 Debug.LogError("QuickMove");
                 transform.position = rpcPos;
             }
-            else
+            //else
             {
-                Debug.LogWarning("SlowMove");
+                //Debug.LogWarning("SlowMove");
 
-                Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
+                //Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
 
                 //transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
             }
@@ -38,7 +38,7 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)//포톤.isMine이랑 같나봄
         {
-            stream.SendNext(transform.position);
+            stream.SendNext((Vector3)transform.position);
         }
         else//남의 거면 받나봄
         {
