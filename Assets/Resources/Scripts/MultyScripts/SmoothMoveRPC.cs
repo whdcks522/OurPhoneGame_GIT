@@ -15,11 +15,13 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
+        //Debug.Log(gameObject.name+" "+transform.position);
+
         if (!photonView.IsMine && isRoom)
         {
             if ((transform.position - rpcPos).sqrMagnitude >= 1.5f)//너무 멀면 순간이동 
             {
-                Debug.LogError("QuickMove");
+                Debug.LogError("현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
                 transform.position = rpcPos;
             }
             //else

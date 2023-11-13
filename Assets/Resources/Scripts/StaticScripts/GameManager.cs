@@ -235,8 +235,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void LeaveRoomRPC()
     {
-        Debug.LogError("모두 나감");
-
         battleUIManager.battleUI.SetActive(false);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Lobby");
