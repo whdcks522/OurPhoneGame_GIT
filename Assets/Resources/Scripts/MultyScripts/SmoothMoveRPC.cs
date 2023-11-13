@@ -15,8 +15,6 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        if (gameObject.name == "Egg") return;
-
         Debug.Log(gameObject.name+" "+transform.position);
 
         if (!photonView.IsMine && isRoom)
@@ -26,13 +24,13 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
                 Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
                 transform.position = rpcPos;
             }
-            //else
+            else
             {
-                //Debug.LogWarning("SlowMove");
+                Debug.LogWarning("SlowMove");
 
                 //Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
 
-                //transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
+                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
             }
         }
     }
