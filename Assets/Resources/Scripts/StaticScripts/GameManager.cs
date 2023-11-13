@@ -19,8 +19,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform[] spawnPositions;
     [Header("멀티에서 플레이어의 리스트")]
     public Transform playerGroup;
-    [Header("멀티에서 이미 시작 했는지 확인")]
-    public bool alreadyStart = false;
+
     //카메라
     CinemachineVirtualCamera cinemachineVirtualCamera;
     BattleUIManager battleUIManager;
@@ -253,12 +252,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void allLeaveRoomStart() //모두 방에서 나가기
     {
         photonView.RPC("LeaveRoomRPC", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void alreadyStartControl(bool isAlreadyStart) //이미 시작함 선언
-    {
-        alreadyStart = isAlreadyStart;
     }
 
     [PunRPC]

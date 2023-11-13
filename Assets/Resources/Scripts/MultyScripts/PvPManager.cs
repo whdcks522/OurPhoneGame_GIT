@@ -17,7 +17,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
     //현재 발사 시간
     float curTime;
 
-    public int loser = -1;
+    public int loser = -2;
     
 
     BattleUIManager battleUIManager;
@@ -34,115 +34,112 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (isMasterCilentLocal &&
-            PhotonNetwork.PlayerList.Length >= PhotonNetwork.CurrentRoom.MaxPlayers && 
-            gameManager.playerGroup.childCount >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        if (isMasterCilentLocal) 
         {
-            //게임 시작
-
-            if (!gameManager.alreadyStart)//막 시작한 경우
+            if (PhotonNetwork.PlayerList.Length >= PhotonNetwork.CurrentRoom.MaxPlayers &&
+                gameManager.playerGroup.childCount >= PhotonNetwork.CurrentRoom.MaxPlayers)//실제로 플레이어도 생성 됐을 때 시작해야함
             {
-                gameManager.photonView.RPC("alreadyStartControl", RpcTarget.AllBuffered, true);
+                //게임 시작
+
+                if (loser == -2)//-2: 게임을 막 시작한 경우
+                {
+                    photonView.RPC("alreadyStartRPC", RpcTarget.AllBuffered);
+                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    {
+                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                        cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
+                        cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
+                    }
+                }
+                else if (loser != -2)
+                {
+                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    {
+                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+
+                        if (loser == -1) //패배자 결정
+                        {
+                            if (cc.curHealth <= 0)
+                            {
+                                Debug.Log("승자독식");
+                                loser = i;
+                            }
+                        }
+                        else if (loser != -1)
+                        {
+                            if (i == loser) //패배자한테 패배 메시지 전송
+                            {
+                                Debug.Log("A");
+                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Lose, "");
+                            }
+                            else
+                            {
+                                Debug.Log("B");
+                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Win, "");
+                            }
+
+                        }
+                    }
+                }
+
+                return;
+
+                curTime += Time.deltaTime;
+
+
+                if (curTime > maxTime)
+                {
+                    sumTime += curTime;
+                    //시간 초기화
+                    curTime = 0f;
+
+                    foreach (Transform tmpTrans in starPoints)
+                    {
+                        GameObject bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
+
+                        //컴포넌트 정의
+                        Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+                        Bullet bulletComponent = bullet.GetComponent<Bullet>();
+
+                        bullet.transform.position = tmpTrans.position;
+
+                        //운석 활성화
+                        bulletComponent.bulletOnRPC();
+
+                        //운석 속도 조정
+                        bulletRigid.velocity = Vector3.down * bulletComponent.bulletSpeed;
+
+                        //운석 회전 조정
+                        bullet.transform.rotation = Quaternion.identity;
+                        float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
+                        Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
+                        bullet.transform.Rotate(rotVec);
+                    }
+                }
+            }
+            else //현재 대기 중일 때
+            {
                 for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                 {
+                    string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+                        PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
+
                     CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
-                    //cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.IsCanJump, true);
-                    cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
-
-
+                    cc.gameManager.TypingRPC(GameManager.TypingType.None, str);
                 }
             }
-
-            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-            {
-                CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                
-                if (loser == -1) //패배자 결정
-                {
-                    if (cc.curHealth <= 0) 
-                    {
-                        Debug.Log("승자독식");
-                        loser = i;
-                    }
-                } 
-                else if (loser != -1)
-                {
-                    if (i == loser) //패배자한테 패배 메시지 전송
-                    {
-                        cc.gameManager.TypingRPC(GameManager.TypingType.Lose);
-                    }
-                    else 
-                    {
-                        cc.gameManager.TypingRPC(GameManager.TypingType.Win);
-                    }
-                    
-                }
-            }
-
-
-
-
-            return;
-
-            curTime += Time.deltaTime;
-
-
-            if (curTime > maxTime)
-            {
-                sumTime += curTime;
-                //시간 초기화
-                curTime = 0f;
-
-                foreach (Transform tmpTrans in starPoints)
-                {
-                    GameObject bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
-
-                    //컴포넌트 정의
-                    Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-                    Bullet bulletComponent = bullet.GetComponent<Bullet>();
-
-                    bullet.transform.position = tmpTrans.position;
-
-                    //운석 활성화
-                    bulletComponent.bulletOnRPC();
-
-                    //운석 속도 조정
-                    bulletRigid.velocity = Vector3.down * bulletComponent.bulletSpeed;
-
-                    //운석 회전 조정
-                    bullet.transform.rotation = Quaternion.identity;
-                    float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-                    Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-                    bullet.transform.Rotate(rotVec);
-                }
-            }
-        }
-        else //현재 대기 중일 때
-        {
-            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-            {
-                string str = PhotonNetwork.CurrentRoom.Name + '\n' +
-                    PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
-
-                CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                cc.gameManager.TypingRPC(GameManager.TypingType.None, str);
-            }
-
-            
-            //battleUIManager.typingControl(str);
-
-            if (!gameManager.alreadyStart) //맨 처음 시작하고 대기하고 있을 때
-            {
-                
-            }
-        }
-
+        }//방장 일 때,
         
         //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
         //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
         //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수
         //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
+    }
+
+    [PunRPC]
+    public void alreadyStartRPC() //시작 선언
+    {
+        loser = -1;
     }
 }
 

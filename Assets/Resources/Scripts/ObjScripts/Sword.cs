@@ -137,6 +137,8 @@ public class Sword : MonoBehaviourPunCallbacks
             {
                 if (!lowerSword.activeSelf)
                 {
+                    
+
                     lowerSword.SetActive(true);
                     lowerSword.transform.position = swordQueueInfo.swordPos;
 
