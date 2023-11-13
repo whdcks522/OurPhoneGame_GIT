@@ -35,17 +35,17 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    #region 플레이어의 위치 정보 동기화
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)//이 안에서 변수 동기화가 이루어짐(IPunObservable)
     {
         if (stream.IsWriting)//포톤.isMine이랑 같나봄
         {
-            stream.SendNext((Vector3)transform.position);
+            stream.SendNext(transform.position);
+            //stream.SendNext(HealthImage.fillAmount);
         }
         else//남의 거면 받나봄
         {
             rpcPos = (Vector3)stream.ReceiveNext();//1번째 줄을 1번째 줄로 받음
+            //HealthImage.fillAmount = (float)stream.ReceiveNext();//2번째 줄을 1번째 줄로 받음
         }
     }
-    #endregion
 }
