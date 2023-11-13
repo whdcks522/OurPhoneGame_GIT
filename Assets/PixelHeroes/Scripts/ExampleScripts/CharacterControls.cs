@@ -55,6 +55,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //첫 번재 칼 게임 오브젝트
         GameObject leaderSword;
         public GameObject[] playerSwords;
+        //속도 공유를 위함
+        Vector3[] swordsRpcPos = new Vector3[8];
         private Sword SwordComponent;
 
         [Header("현재 칼의 갯수")]
@@ -207,6 +209,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //체력 동기화
             maxHealth = curHealth;
 
+            
+
             //멀티의 변수 관리
             if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
             {
@@ -274,17 +278,36 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //키 입력
                     KeyInput();
                 }
-                else if((transform.position - rpcPos).sqrMagnitude >= 5)//너무 멀면 순간이동 
+                else if (!photonView.IsMine) 
                 {
-                    //Debug.Log("PlayerQuickMove");
-                    transform.position = rpcPos;
-                }
-                else
-                {
-                    //Debug.Log("PlayerSlowMove");
-                    Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
+                    //플레이어 위치 관리
+                    if ((transform.position - rpcPos).sqrMagnitude >= 5)//너무 멀면 순간이동 
+                    {
+                        //Debug.Log("PlayerQuickMove");
+                        transform.position = rpcPos;
+                    }
+                    else
+                    {
+                        //Debug.Log("PlayerSlowMove");
+                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
+                    }
 
+                    //칼 위치 조정
+                    for (int i = 0; i < 8; i++) 
+                    {
+                        if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 5)//너무 멀면 순간이동 
+                        {
+                            Debug.Log("칼 고속 이동");
+                            playerSwords[i].transform.position = swordsRpcPos[i];
+                        }
+                        else
+                        {
+                            Debug.Log("칼 그냥 이동");
+                            Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 10);
+                        }
+                    }
                 }
+                
             }
             else if (!PhotonNetwork.InRoom)
             {
@@ -1112,11 +1135,31 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (stream.IsWriting)//포톤.isMine이랑 같나봄
             {
                 stream.SendNext(transform.position);
+
+                stream.SendNext(playerSwords[0].transform.position);
+                stream.SendNext(playerSwords[1].transform.position);
+                stream.SendNext(playerSwords[2].transform.position);
+                stream.SendNext(playerSwords[3].transform.position);
+                stream.SendNext(playerSwords[4].transform.position);
+                stream.SendNext(playerSwords[5].transform.position);
+                stream.SendNext(playerSwords[6].transform.position);
+                stream.SendNext(playerSwords[7].transform.position);
+
+
                 //stream.SendNext(HealthImage.fillAmount);
             }
             else//남의 거면 받나봄
             {
                 rpcPos = (Vector3)stream.ReceiveNext();//1번째 줄을 1번째 줄로 받음
+                swordsRpcPos[0] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[1] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[2] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[3] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[4] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[5] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[6] = (Vector3)stream.ReceiveNext();
+                swordsRpcPos[7] = (Vector3)stream.ReceiveNext();
+
                 //HealthImage.fillAmount = (float)stream.ReceiveNext();//2번째 줄을 1번째 줄로 받음
             }
         }
