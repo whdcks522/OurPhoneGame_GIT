@@ -106,6 +106,7 @@ public class BattleUIManager : MonoBehaviour
 
     public void typingControl(string _str) 
     {
+        Debug.LogError("typingControl");
         //if (descCor != null) 
         {
             //StopCoroutine(descCor);
@@ -114,7 +115,6 @@ public class BattleUIManager : MonoBehaviour
         {
             if (descCor != null)
                 StopCoroutine(descCor);
-            Debug.Log("Stop");
             descCor = StartCoroutine(typingRoutine(_str));
         }
     }
@@ -122,7 +122,7 @@ public class BattleUIManager : MonoBehaviour
     #region 대화
     public IEnumerator typingRoutine(string str)
     {
-        Debug.Log("Start");
+        
 
             saveDescText = str;
             bigDescText.text = "";
@@ -139,6 +139,7 @@ public class BattleUIManager : MonoBehaviour
 
                 //효과음
                 audioManager.PlaySfx(AudioManager.Sfx.Typing);
+                Debug.LogWarning("TypeDebug");
             }
             yield return wait3_00;
             for (int index = typingLength; index >= 0; index--)

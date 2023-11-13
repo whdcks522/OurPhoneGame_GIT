@@ -987,14 +987,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         //피격 처리
                         photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1, false);
-                    }
-                    
-                    //if (photonView.AmController != collision.gameObject.GetComponent<PhotonView>().AmController) 
-                    {
-                        
-                        
-                    }
-                    
+                    }                   
                 }
             }
         }

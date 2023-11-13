@@ -155,16 +155,35 @@ public class Sword : MonoBehaviourPunCallbacks
         Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45;
         transform.Rotate(rotVec);
 
-        if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
-        {
+        if (curSwordIndex < characterControls.curSwordCount)
             lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
+
+        /*
+        if (PhotonNetwork.InRoom) 
+        {
+            if (photonView.IsMine)
+            {
+                if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
+                {
+                    lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
+                }
+            }
         }
+        else if (!PhotonNetwork.InRoom)
+        {
+            if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
+            {
+                saveSwordRPC();
+            }
+        }
+        */
+
     }
 
     [PunRPC]
-    void saveSwordRPC() 
+    void saveSwordRPC(SwordInfo tmpSwordInfo) 
     {
-    
+        lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
     }
 
 
