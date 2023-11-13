@@ -1090,6 +1090,37 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
+        #region 멀티 게임 텍스트 관리
+        public enum TypingType { None, Win, Lose, Draw }
+
+        [PunRPC]
+        public void TypingRPC(TypingType _typingType, string _str = "")//당사자에게 알리는 용
+        {
+            Debug.Log("도착 1");
+            if (photonView.IsMine)
+            {
+                switch (_typingType)
+                {
+                    case TypingType.None:
+                        Debug.Log("도착 2:" + _str);
+                        battleUIManager.typingControl(_str);
+                        break;
+                    case TypingType.Win:
+                        Debug.Log("도착 3:" + _str);
+                        battleUIManager.typingControl("승리!");
+                        break;
+                    case TypingType.Lose:
+                        Debug.Log("도착 4:" + _str);
+                        battleUIManager.typingControl("패배..");
+                        break;
+                    case TypingType.Draw:
+                        Debug.Log("도착 5:" + _str);
+                        battleUIManager.typingControl("무승부?");
+                        break;
+                }
+            }
+        }
+        #endregion
 
         #region 플레이어의 위치 정보 동기화
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)//이 안에서 변수 동기화가 이루어짐(IPunObservable)

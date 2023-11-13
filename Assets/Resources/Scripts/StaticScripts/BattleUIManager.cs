@@ -113,7 +113,8 @@ public class BattleUIManager : MonoBehaviour
         if (saveDescText != _str)
         {
             if (descCor != null)
-                StopCoroutine(descCor);                
+                StopCoroutine(descCor);
+            Debug.Log("Stop");
             descCor = StartCoroutine(typingRoutine(_str));
         }
     }
@@ -121,6 +122,7 @@ public class BattleUIManager : MonoBehaviour
     #region ¥Î»≠
     public IEnumerator typingRoutine(string str)
     {
+        Debug.Log("Start");
 
             saveDescText = str;
             bigDescText.text = "";

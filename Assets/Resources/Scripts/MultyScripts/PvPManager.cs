@@ -72,11 +72,11 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         {
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
-                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Lose, "lose");
+                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
                             }
                             else
                             {
-                                cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Win, "win");
+                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
                             }
 
                         }
@@ -127,11 +127,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
                     CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                    cc.gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.None, str);
-                    //cc.gameManager.TypingRPC(GameManager.TypingType.None, str);
-
-                    //gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>().
-                    //gameManager.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, GameManager.TypingType.Lose, "");
+                    cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
                 }
             }
             

@@ -123,9 +123,6 @@ public class Sword : MonoBehaviourPunCallbacks
             }  
         }
 
-        bool isMulty = photonView.IsMine && PhotonNetwork.InRoom;
-        bool isSingle = !PhotonNetwork.InRoom;
-
         //큐에 정보 삽입
         swordQueue.Enqueue(new SwordInfo(transform.position, saveSwordVec));
 
@@ -160,9 +157,14 @@ public class Sword : MonoBehaviourPunCallbacks
 
         if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
         {
-            Debug.Log("index: " + curSwordIndex + " / " + swordQueueInfo.swordVec + " / " + swordQueueInfo.swordPos);
             lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
         }
+    }
+
+    [PunRPC]
+    void saveSwordRPC() 
+    {
+    
     }
 
 
