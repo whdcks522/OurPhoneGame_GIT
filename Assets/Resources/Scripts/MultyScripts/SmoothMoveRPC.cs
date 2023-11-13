@@ -15,6 +15,8 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
+        if (gameObject.name == "Egg") return;
+
         Debug.Log(gameObject.name+" "+transform.position);
 
         if (!photonView.IsMine && isRoom)
