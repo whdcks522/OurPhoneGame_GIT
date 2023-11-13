@@ -229,12 +229,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void allLeaveRoomStart() //모두 방에서 나가기
     {
-        photonView.RPC("LeaveRoomRPC", RpcTarget.AllBuffered);
+        photonView.RPC("LeaveRoomRPC", RpcTarget.All);
     }
 
     [PunRPC]
-    public void LeaveRoomRPC()
+    void LeaveRoomRPC()
     {
+        Debug.LogError("모두 나감");
+
         battleUIManager.battleUI.SetActive(false);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Lobby");

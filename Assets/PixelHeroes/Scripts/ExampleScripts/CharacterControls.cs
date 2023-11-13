@@ -456,8 +456,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
-                        isGround = true;
-                        break;
+                        if (hitObj.transform.gameObject != this.gameObject) 
+                        {
+                            isGround = true;
+                            break;
+                        }
                     }
                 }
 

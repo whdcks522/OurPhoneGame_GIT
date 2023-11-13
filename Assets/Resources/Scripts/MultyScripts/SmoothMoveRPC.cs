@@ -25,7 +25,10 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 Debug.LogWarning("SlowMove");
-                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
+
+                Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
+
+                //transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
             }
         }
     }
