@@ -52,8 +52,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //칼의 부모 위치 고정
         private Vector3 swordParentVec = new Vector3(0, 0, 0);
         
-        //첫 번재 칼 게임 오브젝트
-        GameObject leaderSword;
+        //칼 게임 오브젝트 배열
         public GameObject[] playerSwords;
         //속도 공유를 위함
         Vector3[] swordsRpcPos = new Vector3[8];
@@ -201,8 +200,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 tmpSword.GetComponent<Sword>().battleUIManager = battleUIManager;
             }
 
-            leaderSword = swordParent.transform.GetChild(0).gameObject;
-            SwordComponent = leaderSword.GetComponent<Sword>();
+            SwordComponent = playerSwords[0].GetComponent<Sword>();
 
             moveJoy = BattleUIManager.Instance.moveJoy;
             swordJoy = BattleUIManager.Instance.swordJoy;
@@ -418,10 +416,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        
-
-
-
+       
         public void FixedUpdate()
         {
             if (isDead) 
@@ -714,7 +709,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //칼 부모의 위치 자동 조정
             //swordParent.transform.position = swordParentVec;//0,0,0 고정시킴  //이거 빼니까 고쳐지네 뭐징..
 
-            swordAreaColor = new Color(1,1,1, SwordComponent.swordDir);
+            swordAreaColor = new Color(0.6f, 0, 0, SwordComponent.swordDir);
             playerSwordArea.color = swordAreaColor;
         }
         #endregion
@@ -772,14 +767,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void SwordMove(bool isSame) 
         {
             //칼이 활성화돼있을 때, 방향 조작시
-            if (leaderSword.activeSelf) // && !isSame
+            if (playerSwords[0].activeSelf) // && !isSame
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                     photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
                 else
                     SwordSpinRPC(swordJoyVec);//1인이라면
             }
-            else if (!leaderSword.activeSelf)//칼이 비활성화 돼있을 시
+            else if (!playerSwords[0].activeSelf)//칼이 비활성화 돼있을 시
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                 {
@@ -799,8 +794,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
-            Sword Sword = leaderSword.GetComponent<Sword>();
-            Sword.saveSwordVec = tmpVec;
+            SwordComponent.saveSwordVec = tmpVec;
         }
         #endregion
 
@@ -808,8 +802,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordActiveRPC() 
         {
-            leaderSword.transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
-            leaderSword.SetActive(true);
+            playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
+            playerSwords[0].SetActive(true);
             backSwords.SetActive(false);
         }
         #endregion
@@ -993,6 +987,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //피격 처리
                     damageControlRPC(1000, false);
                 }
+            }
+            else if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
+            {
+                //바람 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
             }
         }
 

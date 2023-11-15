@@ -97,7 +97,7 @@ public class Sword : MonoBehaviourPunCallbacks
     private void OnEnable()
     {
         trailRenderer.Clear();
-
+        Debug.Log("Enable?");
         swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
     }
 
@@ -109,7 +109,7 @@ public class Sword : MonoBehaviourPunCallbacks
             Vector2 swordPos = transform.position;
             Vector2 playerPos = player.transform.position;
 
-            swordDir = Vector3.Distance(swordPos, playerPos) / 400;
+            swordDir = Vector3.Distance(swordPos, playerPos) / 20;
         }
         else if (!PhotonNetwork.InRoom)
         {
@@ -119,7 +119,7 @@ public class Sword : MonoBehaviourPunCallbacks
                 Vector2 swordPos = transform.position;
                 Vector2 playerPos = player.transform.position;
 
-                swordDir = Vector3.Distance(swordPos, playerPos) / 400;
+                swordDir = Vector3.Distance(swordPos, playerPos) / 20;
             }  
         }
 

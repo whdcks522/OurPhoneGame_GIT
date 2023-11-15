@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1459726214300823888}
   m_Layer: 21
   m_Name: LoopWind
-  m_TagString: Untagged
+  m_TagString: Wind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -4,9 +4,31 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    [Header("Bgm")]
-    public AudioClip[] bgmClips;
+    [Header("Bgm 플레이 여부")]
+    public bool isPlayBgm;
+    [Header("Sfx 플레이 여부")]
+    public bool isPlaySfx;
+
+    //Bgm 플레이어
     AudioSource bgmPlayer;
+
+    [Header("만들 Sfx 채널의 개수")]
+    public int channels;//SFX 플레이어의 갯수
+    int curIndex;//현재 실행 중 인 플레이어 번호
+    AudioSource[] sfxPlayers;//Sfx 플레이어
+
+    public enum BgmStatic { Home }
+    [Header("스태틱 Bgm")]
+    public AudioClip[] staticBgmClips;
+    public enum BgmSingle { SingleSel, Training, StarFall, BlockCrash, Fly }
+    [Header("싱글 Bgm")]
+    public AudioClip[] singleBgmClips;
+    public enum BgmMulty { Lobby, PvP }
+    [Header("멀티 Bgm")]
+    public AudioClip[] multyBgmClips;
+
+
+    public enum Sfx { PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver, Summon, Block, Warn, Typing, Wind }
 
     [Header("파워 업 Sfx")]
     public AudioClip[] powerUpSfxClips;
@@ -32,16 +54,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] warnSfxClips;
     [Header("타이핑 Sfx")]
     public AudioClip[] typingSfxClips;
+    [Header("바람 Sfx")]
+    public AudioClip[] windSfxClips;
 
 
-    [Header("만들 Sfx 채널의 개수")]
-    public int channels;//
+    
 
-    int curIndex;//현재 실행 중 인 플레이어 번호
-    AudioSource[] sfxPlayers;
-
-    public enum Bgm { Auth, Lobby, Entrance, Chapter1, Chapter1_BossA, Chapter2, Chapter2_BossB }//random으로 활용 가능함
-    public enum Sfx {PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver, Summon, Block, Warn, Typing}
+    
 
     private void Awake()
     {
@@ -63,38 +82,31 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayBgm(Bgm bgm)
+    public void PlayBgm(BgmStatic _bgm)
     {
+        if (!isPlaySfx) return;
+
         bgmPlayer.Stop();
-        switch (bgm)
+        switch (_bgm)
         {
-            case Bgm.Auth:
-                bgmPlayer.clip = bgmClips[0];
-                bgmPlayer.volume = 0.5f;
+            case BgmStatic.Home:
+                bgmPlayer.clip = staticBgmClips[0];
+                //bgmPlayer.volume = 0.5f;
                 break;
-            case Bgm.Lobby:
-                bgmPlayer.clip = bgmClips[1];
-                bgmPlayer.volume = 1f;
-                break;
-            case Bgm.Entrance:
-                bgmPlayer.clip = bgmClips[2];
-                bgmPlayer.volume = 0.5f;
-                break;
-            case Bgm.Chapter1:
-                bgmPlayer.clip = bgmClips[3];
-                bgmPlayer.volume = 0.5f;
-                break;
-            case Bgm.Chapter1_BossA:
-                bgmPlayer.clip = bgmClips[4];
-                bgmPlayer.volume = 0.5f;
-                break;
-            case Bgm.Chapter2:
-                bgmPlayer.clip = bgmClips[5];
-                bgmPlayer.volume = 1f;
-                break;
-            case Bgm.Chapter2_BossB:
-                bgmPlayer.clip = bgmClips[6];
-                bgmPlayer.volume = 1f;
+        }
+        bgmPlayer.Play();
+    }
+
+    public void PlayBgm(BgmSingle _bgm)
+    {
+        if (!isPlaySfx) return;
+
+        bgmPlayer.Stop();
+        switch (_bgm)
+        {
+            case BgmSingle.SingleSel:
+                bgmPlayer.clip = singleBgmClips[0];
+                //bgmPlayer.volume = 0.5f;
                 break;
         }
         bgmPlayer.Play();
@@ -103,6 +115,8 @@ public class AudioManager : MonoBehaviour
     //효과음 재생
     public void PlaySfx(Sfx sfx)
     {
+        if (!isPlaySfx) return;
+
         for (int index = 0; index < sfxPlayers.Length; index++)
         {
             int loopIndex = (index + curIndex) % sfxPlayers.Length;//최근에 사용한 인덱스에서 0부터 증가해가며 가능한 것 탐색
@@ -146,6 +160,9 @@ public class AudioManager : MonoBehaviour
                     break;
                 case Sfx.Typing:
                     tmpSfxClips = typingSfxClips;
+                    break;
+                case Sfx.Wind:
+                    tmpSfxClips = windSfxClips;
                     break;
             }
 

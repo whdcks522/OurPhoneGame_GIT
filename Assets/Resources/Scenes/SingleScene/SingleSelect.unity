@@ -245,14 +245,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 15291000caa46664690f8e3d7d24188d, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -311,7 +311,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -25, y: -100}
-  m_SizeDelta: {x: 600, y: -250}
+  m_SizeDelta: {x: 650, y: -250}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &197903820
 MonoBehaviour:
@@ -747,7 +747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 20
-    m_Right: 0
+    m_Right: 20
     m_Top: 20
     m_Bottom: 20
   m_ChildAlignment: 0
@@ -1571,6 +1571,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: a03f5c0b100d1224bb3ccf9c9419ed94, type: 2}
+    - target: {fileID: 433102042010305794, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: BlockCrash0_Btn
+      objectReference: {fileID: 0}
     - target: {fileID: 478480236563466170, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1682,6 +1686,10 @@ PrefabInstance:
     - target: {fileID: 878828185009563435, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 916837926044388723, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: BlockCrash1_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 978117695624504167, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1834,7 +1842,7 @@ PrefabInstance:
     - target: {fileID: 3022545742049218535, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: a07a24fe6f1ac864798e4f5000f9956c, type: 2}
+      objectReference: {fileID: 2100000, guid: 52b1edb1bb66ab44ba22a706c50fec24, type: 2}
     - target: {fileID: 3022545742049218535, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_RaycastTarget
       value: 1
@@ -1961,7 +1969,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 65d4b8e78bf9cd2408c03650f14950a1, type: 3}
     - target: {fileID: 4645970573205681606, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: miniGame_BlockCrash
+      value: BlockCrash_Group
       objectReference: {fileID: 0}
     - target: {fileID: 4811705662078371017, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2039,6 +2047,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5245862326308723908, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: BlockCrash2_Btn
+      objectReference: {fileID: 0}
     - target: {fileID: 5280814576307825095, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -2070,6 +2082,10 @@ PrefabInstance:
     - target: {fileID: 5326376106037903809, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_SortingLayerID
       value: -1876597257
+      objectReference: {fileID: 0}
+    - target: {fileID: 5533510990624316734, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: BlockCrash_Title
       objectReference: {fileID: 0}
     - target: {fileID: 5727658278738391339, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
@@ -2192,7 +2208,7 @@ PrefabInstance:
     - target: {fileID: 7439250217101137441, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: a03f5c0b100d1224bb3ccf9c9419ed94, type: 2}
+      objectReference: {fileID: 2100000, guid: a07a24fe6f1ac864798e4f5000f9956c, type: 2}
     - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
       value: 
@@ -2632,7 +2648,7 @@ PrefabInstance:
     - target: {fileID: 122442875085514989, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 65d4b8e78bf9cd2408c03650f14950a1, type: 3}
+      objectReference: {fileID: 21300000, guid: d73c01c2ee104b24a9a39b643be680c0, type: 3}
     - target: {fileID: 193107138349172013, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2653,6 +2669,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: a03f5c0b100d1224bb3ccf9c9419ed94, type: 2}
+    - target: {fileID: 433102042010305794, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: Fly0_Btn
+      objectReference: {fileID: 0}
     - target: {fileID: 478480236563466170, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2765,6 +2785,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 916837926044388723, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: Fly1_Btn
+      objectReference: {fileID: 0}
     - target: {fileID: 978117695624504167, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
@@ -2848,7 +2872,7 @@ PrefabInstance:
     - target: {fileID: 2542790418748704662, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: 1f5b669cd3d36934a8d0a96f82a96ab4, type: 2}
+      objectReference: {fileID: 2100000, guid: 18fe2db7dde09f648bc8aa6c904e255b, type: 2}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: Sscore
       value: 250
@@ -2877,7 +2901,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: isVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
@@ -3043,7 +3067,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 65d4b8e78bf9cd2408c03650f14950a1, type: 3}
     - target: {fileID: 4645970573205681606, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: miniGame_BlockCrash (1)
+      value: Fly_BtnGroup
       objectReference: {fileID: 0}
     - target: {fileID: 4811705662078371017, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3092,7 +3116,7 @@ PrefabInstance:
     - target: {fileID: 5028068756559559002, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 65d4b8e78bf9cd2408c03650f14950a1, type: 3}
+      objectReference: {fileID: 21300000, guid: d73c01c2ee104b24a9a39b643be680c0, type: 3}
     - target: {fileID: 5135121517551408039, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_SortingOrder
       value: 12
@@ -3120,6 +3144,10 @@ PrefabInstance:
     - target: {fileID: 5223454224101461176, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245862326308723908, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: Fly2_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 5280814576307825095, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
@@ -3152,6 +3180,10 @@ PrefabInstance:
     - target: {fileID: 5326376106037903809, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_SortingLayerID
       value: -1876597257
+      objectReference: {fileID: 0}
+    - target: {fileID: 5533510990624316734, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: Fly_Title
       objectReference: {fileID: 0}
     - target: {fileID: 5727658278738391339, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
@@ -3197,7 +3229,7 @@ PrefabInstance:
       objectReference: {fileID: 770684545}
     - target: {fileID: 6155926699271343636, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Text
-      value: "\uBCBD\uBD80\uC218\uAE30:"
+      value: "\uBE44\uD589:"
       objectReference: {fileID: 0}
     - target: {fileID: 6272085309964316972, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3274,7 +3306,7 @@ PrefabInstance:
     - target: {fileID: 7439250217101137441, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: a03f5c0b100d1224bb3ccf9c9419ed94, type: 2}
+      objectReference: {fileID: 2100000, guid: 062daffeb4e80d94cbf3c041ceca0f0f, type: 2}
     - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
       value: 
@@ -8697,7 +8729,7 @@ PrefabInstance:
     - target: {fileID: 122442875085514989, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b4fd51e4624e1b49a1dc6111cfcf741, type: 3}
+      objectReference: {fileID: 21300000, guid: d35d8e03e9891d241a2d19d723e4601f, type: 3}
     - target: {fileID: 193107138349172013, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -8849,7 +8881,7 @@ PrefabInstance:
     - target: {fileID: 2542790418748704662, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc0f8a64bc72548914dfad602d8562, type: 2}
+      objectReference: {fileID: 2100000, guid: f406147a675c2b245a71365a49b69358, type: 2}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: Ascore
       value: 40
@@ -8888,6 +8920,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 770684545}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: isVisible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
       value: 
       objectReference: {fileID: 0}
@@ -8914,7 +8950,7 @@ PrefabInstance:
     - target: {fileID: 3022545742049218535, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: 012f6cdae7444a544ac8a8b7a566866d, type: 2}
+      objectReference: {fileID: 2100000, guid: 40dc0f8a64bc72548914dfad602d8562, type: 2}
     - target: {fileID: 3260733580247718740, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9005,7 +9041,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
     - target: {fileID: 4645970573205681606, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: miniGame_Train
+      value: Train_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 4811705662078371017, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9050,7 +9086,7 @@ PrefabInstance:
     - target: {fileID: 5028068756559559002, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b4fd51e4624e1b49a1dc6111cfcf741, type: 3}
+      objectReference: {fileID: 21300000, guid: d35d8e03e9891d241a2d19d723e4601f, type: 3}
     - target: {fileID: 5135121517551408039, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_SortingLayerID
       value: -685879579
@@ -9098,7 +9134,7 @@ PrefabInstance:
     - target: {fileID: 5727658278738391339, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9b4fd51e4624e1b49a1dc6111cfcf741, type: 3}
+      objectReference: {fileID: 21300000, guid: d35d8e03e9891d241a2d19d723e4601f, type: 3}
     - target: {fileID: 5727658278738391339, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -9178,7 +9214,11 @@ PrefabInstance:
     - target: {fileID: 7439250217101137441, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: 40dc0f8a64bc72548914dfad602d8562, type: 2}
+      objectReference: {fileID: 2100000, guid: 012f6cdae7444a544ac8a8b7a566866d, type: 2}
+    - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: isVisible
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
       value: 
@@ -10175,7 +10215,7 @@ PrefabInstance:
     - target: {fileID: 2542790418748704662, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: 7a7b5981754d6e74eadf1304644d5e23, type: 2}
+      objectReference: {fileID: 2100000, guid: 817685b79f995a94d8bb1e505aaa851e, type: 2}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: Sscore
       value: 250
@@ -10203,7 +10243,7 @@ PrefabInstance:
     - target: {fileID: 3022545742049218535, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: 7a7b5981754d6e74eadf1304644d5e23, type: 2}
+      objectReference: {fileID: 2100000, guid: f06a3cd4443120a408f3aaf3a1bfc01c, type: 2}
     - target: {fileID: 3260733580247718740, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -10294,7 +10334,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
     - target: {fileID: 4645970573205681606, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: miniGame_StarFall
+      value: StarFall_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 4811705662078371017, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y

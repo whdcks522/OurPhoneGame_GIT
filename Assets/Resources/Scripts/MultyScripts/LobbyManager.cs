@@ -8,20 +8,41 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    [Header("Lobby")]
-    public InputField RoomInput;
-    public Text WelcomeText;
-    public Text LobbyInfoText;
-    public Button[] CellBtn;
-    public Button PreviousBtn;
-    public Button NextBtn;
-    public Text StatusText;
+    [Header("씬 개발자 이름")]
+    public string SceneInnerStr;
+    [Header("씬 사용자 이름 텍스트")]
+    public Text SceneOutterText;
+    [Header("씬 최대 인원 텍스트")]
+    public Text SceneMaxText;
+    [Header("씬 설명 텍스트")]
+    public Text SceneDescText;
+
+    [Header("플레이어 이름 묘사 텍스트")]
+    public Text NameText;
+    [Header("참가자 수 텍스트")]
+    public Text CountText;
+    [Header("연결 상태 텍스트")]
+    public Text NetworkText;
+    [Header("오류 텍스트")]
     public Text ErrorText;
 
+    [Header("방 생성 버튼")]
+    public GameObject CreateRoomBtn;
+    [Header("셀 버튼들")]
+    public Button[] CellBtn;
+    [Header("이전 셀 로드")]
+    public Button PreviousBtn;
+    [Header("다음 셀 로드")]
+    public Button NextBtn;
+
+    [Header("생성할 방의 이름")]
+    public InputField RoomInput;
+    public int maxPlayerNumber;
     List<RoomInfo> myList = new List<RoomInfo>();
+
     int currentPage = 1, maxPage, multiple;
 
-    BattleUIManager BattleUIManager;
+    public BattleUIManager BattleUIManager;
     private readonly string gameVersion = "1";
 
     private void Awake()
@@ -91,9 +112,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     #region 서버연결
     void Update()
     {
-        StatusText.text = PhotonNetwork.NetworkClientState.ToString();
+        //네트워크 연결 상태
+        NetworkText.text = PhotonNetwork.NetworkClientState.ToString();
         //네트워크 전체에서 룸에 있는 인원 빼면 로비에 있는 인원 수 나옴
-        LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "명 로비 / "
+        CountText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "명 로비 / "
             + PhotonNetwork.CountOfPlayersInRooms + "명 방 / "
             + PhotonNetwork.CountOfPlayers + "명 접속 중";
     }
@@ -121,7 +143,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.NickName = "NickName" + Random.Range(0, 10000);//NickNameInput.text
 
 
-        WelcomeText.text = PhotonNetwork.LocalPlayer.NickName + "님 환영합니다";
+        NameText.text = PhotonNetwork.LocalPlayer.NickName;
         //입장 효과음
         BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
         //리스트 조정
@@ -152,15 +174,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });//수정함
 
         //최신 방식
-        string sceneName = "PvP";
-        //if (chapDropdown.value == 0) sceneName = "Chap1 ";
-        //else if (chapDropdown.value == 1) sceneName = "Chap2 ";
+        //string sceneName = "PvP";
+        string sceneName = SceneInnerStr;
 
         string roomName = RoomInput.text == "" ? "_Room" + Random.Range(0, 100) : RoomInput.text;
 
         RoomOptions roomOptions = new RoomOptions
         {
-            MaxPlayers = 2,
+            MaxPlayers = maxPlayerNumber,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
             {
                 { "IsAllowedToEnter", true },
@@ -207,8 +228,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-    public override void OnCreateRoomFailed(short returnCode, string message) { RoomInput.text = ""; CreateRoom(); }//같은 이름의 룸을 만들면 실패
-    public override void OnJoinRandomFailed(short returnCode, string message) { ErrorText.text = "입장 할 방이 없습니다."; }//같은 이름의 룸을 만들면 실패( RoomInput.text = ""; CreateRoom(); )
+    public override void OnCreateRoomFailed(short returnCode, string message) //같은 이름의 룸을 만들면 실패
+    {
+        ErrorText.text = "생성 실패";
+        //RoomInput.text = ""; CreateRoom(); 
+    }
+    public override void OnJoinRandomFailed(short returnCode, string message) //같은 이름의 룸을 만들면 실패
+    {
+        ErrorText.text = "입장 실패";
+        //RoomInput.text = "";
+        //CreateRoom();
+    }
 
     //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
     //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
