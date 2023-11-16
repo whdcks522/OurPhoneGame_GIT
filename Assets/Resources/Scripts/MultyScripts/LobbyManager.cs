@@ -15,6 +15,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Text loadText;
     [Header("씬 로드 게임 오브젝트")]
     public GameObject loadGameObject;
+    WaitForSeconds wait0_25 = new WaitForSeconds(0.25f);
     
 
     [Header("씬 개발자 이름")]
@@ -60,100 +61,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         loadFadeOutImage = loadFadeOut.GetComponent<Image>();
     }
 
-    #region 방리스트 갱신
-    // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
-    public void MyListClick(int num)
-    {
-
-        if (num == -2)//왼쪽 화살표
-        {
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
-            --currentPage;
-        }
-        else if (num == -1)//오른쪽 화살표
-        {
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
-            ++currentPage;
-        }
-        else //입장 버튼
-        {
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
-            PhotonNetwork.JoinRoom(myList[multiple + num].Name);
-        }
-
-        MyListRenewal();
-    }
-    void MyListRenewal()
-    {
-        // 최대 페이지
-        maxPage = (myList.Count % CellBtn.Length == 0) ? myList.Count / CellBtn.Length : myList.Count / CellBtn.Length + 1;
-
-        // 이전, 다음버튼 활성화, 비활성화
-        PreviousBtn.interactable = (currentPage <= 1) ? false : true;
-        NextBtn.interactable = (currentPage >= maxPage) ? false : true;
-
-        // 페이지에 맞는 리스트 대입
-        multiple = (currentPage - 1) * CellBtn.Length;//각 페이지의 첫 번째 방의 인덱스
-        for (int i = 0; i < CellBtn.Length; i++)
-        {
-            CellBtn[i].interactable = (multiple + i < myList.Count) ? true : false;
-            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
-            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
-        }
-    }
-
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)//서버에서 자동으로 룸의 목록을 가져오는 그거인가 봄
-    {
-        //아래에 로비에 접근할 때마다 리스트 초기화해서 괜찮음
-        int roomCount = roomList.Count;
-        for (int i = 0; i < roomCount; i++)
-        {
-            if (!roomList[i].RemovedFromList)//현재 존재하는 방이라면
-            {
-                if (!myList.Contains(roomList[i])) myList.Add(roomList[i]); //근데 포함하고 있지 않다면, 더한다
-                else myList[myList.IndexOf(roomList[i])] = roomList[i];     //받은 것의 인덱스를 추출해 동기화(인원만 바뀐경우 동기화)  
-            }
-            else if (myList.IndexOf(roomList[i]) != -1) myList.RemoveAt(myList.IndexOf(roomList[i]));
-        }
-        MyListRenewal();
-    }
-    #endregion
-
-    #region 서버연결
-    void Update()
-    {
-        //네트워크 연결 상태
-        NetworkText.text = PhotonNetwork.NetworkClientState.ToString();
-        //네트워크 전체에서 룸에 있는 인원 빼면 로비에 있는 인원 수 나옴
-        CountText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "명 로비 / "
-            + PhotonNetwork.CountOfPlayersInRooms + "명 방 / "
-            + PhotonNetwork.CountOfPlayers + "명 접속 중";
-    }
-
-    IEnumerator StartFadeOut()
-    {
-        Color color = loadFadeOutImage.color;
-        float time = 0, maxTime = 1;
-
-        while (time < maxTime)
-        {
-            time += Time.deltaTime;
-            float t = time / maxTime;//대기 시간
-
-            color.a = Mathf.Lerp(0, 1, t);
-            loadFadeOutImage.color = color;
-
-            yield return null;
-        }
-
-        //텍스트와 별 비활성화
-        loadText.gameObject.SetActive(false);
-        loadGameObject.SetActive(false);
-
-        //입장 효과음
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
-    }
-
     private void Start()
     {
         Connect();
@@ -164,27 +71,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         StartCoroutine(loadTextSwap());
     }
 
-    IEnumerator loadTextSwap() 
-    {
-
-        loadText.text = "로비 입장중.";
-        yield return new WaitForSeconds(0.5f);
-
-        loadText.text = "로비 입장중..";
-        yield return new WaitForSeconds(0.5f);
-
-        loadText.text = "로비 입장중...";
-        yield return new WaitForSeconds(0.5f);
-
-        if(loadGameObject.activeSelf)
-            StartCoroutine(loadTextSwap());
-        else
-            StartCoroutine(StartFadeOut());
-    }
-
-
-    
-    public void Connect() 
+    #region 로비에 접속
+    public void Connect()
     {
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
@@ -195,20 +83,73 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()//로비에 들어오면 닉네임 설정
     {
         //if (AuthManager.Instance.User != null)
-           // PhotonNetwork.LocalPlayer.NickName = AuthManager.Instance.playerEmail;
+        // PhotonNetwork.LocalPlayer.NickName = AuthManager.Instance.playerEmail;
         //else
-            PhotonNetwork.LocalPlayer.NickName = "NickName" + Random.Range(0, 10000);//NickNameInput.text
+        PhotonNetwork.LocalPlayer.NickName = "NickName" + Random.Range(0, 10000);//NickNameInput.text
 
 
         NameText.text = PhotonNetwork.LocalPlayer.NickName;
-        
+
         //리스트 조정
         myList.Clear();
+    }
+    #endregion 
 
-        loadGameObject.SetActive(false);
-        Debug.Log("입장");
+    #region 시작시 페이드 아웃
+    IEnumerator loadTextSwap()//로딩중
+    {
+        loadText.text = "로비 입장중.";
+        yield return wait0_25;
+
+        loadText.text = "로비 입장중..";
+        yield return wait0_25;
+
+        loadText.text = "로비 입장중...";
+        yield return wait0_25;
+
+        if (loadGameObject.activeSelf)//로딩 중
+            StartCoroutine(loadTextSwap());
+        else//로딩 완료
+            StartCoroutine(StartFadeOut());
     }
 
+    IEnumerator StartFadeOut()//페이드 아웃
+    {
+        //텍스트와 별 비활성화
+        loadText.gameObject.SetActive(false);
+        loadGameObject.SetActive(false);
+
+        Color color = loadFadeOutImage.color;
+        float time = 1, minTime = 0;
+
+        while (time > minTime)
+        {
+            time -= Time.deltaTime;
+            float t = time / 1;//대기 시간
+
+            color.a = Mathf.Lerp(0, 1, t);
+            loadFadeOutImage.color = color;
+
+            yield return null;
+        }
+
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+    }
+    #endregion 
+
+    
+    void Update()
+    {
+        //네트워크 연결 상태
+        NetworkText.text = PhotonNetwork.NetworkClientState.ToString();
+        //네트워크 전체에서 룸에 있는 인원 빼면 로비에 있는 인원 수 나옴
+        CountText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "명 로비 / "
+            + PhotonNetwork.CountOfPlayersInRooms + "명 방 / "
+            + PhotonNetwork.CountOfPlayers + "명 접속 중";
+    }
+
+    #region 단절됐을 때
     public void Disconnect() //아래도 같이 호출되나봄
     {
         //입장 효과음
@@ -280,6 +221,65 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
         }
     }
+
+    #region 방리스트 갱신
+    // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
+    public void MyListClick(int num)
+    {
+
+        if (num == -2)//왼쪽 화살표
+        {
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+            --currentPage;
+        }
+        else if (num == -1)//오른쪽 화살표
+        {
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+            ++currentPage;
+        }
+        else //입장 버튼
+        {
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+            PhotonNetwork.JoinRoom(myList[multiple + num].Name);
+        }
+
+        MyListRenewal();
+    }
+    void MyListRenewal()
+    {
+        // 최대 페이지
+        maxPage = (myList.Count % CellBtn.Length == 0) ? myList.Count / CellBtn.Length : myList.Count / CellBtn.Length + 1;
+
+        // 이전, 다음버튼 활성화, 비활성화
+        PreviousBtn.interactable = (currentPage <= 1) ? false : true;
+        NextBtn.interactable = (currentPage >= maxPage) ? false : true;
+
+        // 페이지에 맞는 리스트 대입
+        multiple = (currentPage - 1) * CellBtn.Length;//각 페이지의 첫 번째 방의 인덱스
+        for (int i = 0; i < CellBtn.Length; i++)
+        {
+            CellBtn[i].interactable = (multiple + i < myList.Count) ? true : false;
+            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
+            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
+        }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)//서버에서 자동으로 룸의 목록을 가져오는 그거인가 봄
+    {
+        //아래에 로비에 접근할 때마다 리스트 초기화해서 괜찮음
+        int roomCount = roomList.Count;
+        for (int i = 0; i < roomCount; i++)
+        {
+            if (!roomList[i].RemovedFromList)//현재 존재하는 방이라면
+            {
+                if (!myList.Contains(roomList[i])) myList.Add(roomList[i]); //근데 포함하고 있지 않다면, 더한다
+                else myList[myList.IndexOf(roomList[i])] = roomList[i];     //받은 것의 인덱스를 추출해 동기화(인원만 바뀐경우 동기화)  
+            }
+            else if (myList.IndexOf(roomList[i]) != -1) myList.RemoveAt(myList.IndexOf(roomList[i]));
+        }
+        MyListRenewal();
+    }
+    #endregion
 
     public void JoinRandomRoom()//랜덤 방 입장
     {

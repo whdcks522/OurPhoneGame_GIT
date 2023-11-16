@@ -79,7 +79,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBgm(BgmStatic _bgm)
     {
-        if (!isPlaySfx) return;
+        if (!isPlayBgm) return;
 
         bgmPlayer.Stop();
         switch (_bgm)
@@ -94,7 +94,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBgm(BgmSingle _bgm)
     {
-        if (!isPlaySfx) return;
+        if (!isPlayBgm) return;
 
         bgmPlayer.Stop();
         switch (_bgm)
@@ -120,7 +120,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBgm(BgmMulty _bgm)
     {
-        if (!isPlaySfx) return;
+        if (!isPlayBgm) return;
 
         bgmPlayer.Stop();
         switch (_bgm)
