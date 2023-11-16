@@ -19,9 +19,11 @@ public class SingleInfo : MonoBehaviour
     public int sceneLevel;
     [Header("이동 할 씬의 선행 스크립트")]
     public SingleInfo PreInfo;
-    [Header("이동 할 씬 최대 점수")]
+    [Header("이동 할 씬에서 나왔었던 최대 점수")]
     public int Maxscore;
-    
+    [Header("이동 할 씬에서 나왔었던 최대 등급")]
+    public BattleUIManager.RankType MaxRank;
+
     [Header("이동 할 씬 목표 점수들")]
     public int Sscore;
     public int Ascore;

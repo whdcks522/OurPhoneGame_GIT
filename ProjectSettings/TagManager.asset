@@ -15,6 +15,7 @@ TagManager:
   - Construction
   - RedRose
   - Egg
+  - Wind
   layers:
   - Default
   - TransparentFX

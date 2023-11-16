@@ -36,7 +36,7 @@ public class MultyInfo : MonoBehaviour
         lobbyManager.SceneDescText.text = sceneDesc;
 
         //종이 효과음
-        lobbyManager.BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+        lobbyManager.battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
         //시작 버튼 가시화
         lobbyManager.CreateRoomBtn.SetActive(true);
     }

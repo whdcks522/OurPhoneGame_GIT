@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Controls;
 
 public class SingleSelectManager : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class SingleSelectManager : MonoBehaviour
         fadeImage = fadeGameObject.GetComponent<Image>();
         loadText = fadeGameObject.transform.GetChild(0).GetComponent<Text>();
 
-        verticalScrollbar.value = 1;
+        //verticalScrollbar.value = 1;
     }
 
     public void enterSingleScene() 
@@ -44,10 +45,11 @@ public class SingleSelectManager : MonoBehaviour
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
         // 시작할 때 페이드 아웃 효과 실행
-        StartCoroutine(StartFadeOut(singlePanelInnerTitle));
+        StartCoroutine(StartFadeIn(singlePanelInnerTitle));
+        
     }
 
-    IEnumerator StartFadeOut(string _targetScene)
+    IEnumerator StartFadeIn(string _targetScene)
     {
         fadeGameObject.SetActive(true);
         Color color = fadeImage.color;
@@ -64,22 +66,24 @@ public class SingleSelectManager : MonoBehaviour
             yield return null;
         }
 
+        loadText.gameObject.SetActive(true);
         loadGameObject.SetActive(true);
-        StartCoroutine(LoadSceneAsyncCoroutine(_targetScene));
+        //로딩 실행
+
+        StartCoroutine(LoadSceneAsyncCoroutine(singlePanelInnerTitle));
     }
 
     private IEnumerator LoadSceneAsyncCoroutine(string sceneName)//비동기적으로 scene 로드(렉 걸릴때 사용)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false; // 로딩이 끝나도 바로 활성화하지 않음
-        loadText.gameObject.SetActive(true);
 
         // 로딩이 끝날 때까지 대기
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f); // 0.9는 로딩이 끝났을 때의 값
 
-            loadText.text = "로딩 중: " + (progress * 100) + "%";
+            loadText.text = "로딩 중: " + Mathf.Floor(asyncLoad.progress * 100) + "%";
             if (progress >= 1f)
             {
                 asyncLoad.allowSceneActivation = true; // 활성화

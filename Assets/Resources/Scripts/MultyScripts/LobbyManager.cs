@@ -8,6 +8,15 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    [Header("씬 로드 페이드아웃")]
+    public GameObject loadFadeOut;
+    Image loadFadeOutImage;
+    [Header("씬 로드 텍스트")]
+    public Text loadText;
+    [Header("씬 로드 게임 오브젝트")]
+    public GameObject loadGameObject;
+    
+
     [Header("씬 개발자 이름")]
     public string SceneInnerStr;
     [Header("씬 사용자 이름 텍스트")]
@@ -42,12 +51,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     int currentPage = 1, maxPage, multiple;
 
-    public BattleUIManager BattleUIManager;
+    public BattleUIManager battleUIManager;
     private readonly string gameVersion = "1";
 
     private void Awake()
     {
-        BattleUIManager = BattleUIManager.Instance;
+        battleUIManager = BattleUIManager.Instance;
+        loadFadeOutImage = loadFadeOut.GetComponent<Image>();
     }
 
     #region 방리스트 갱신
@@ -57,17 +67,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (num == -2)//왼쪽 화살표
         {
-            BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
             --currentPage;
         }
         else if (num == -1)//오른쪽 화살표
         {
-            BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
             ++currentPage;
         }
         else //입장 버튼
         {
-            BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
             PhotonNetwork.JoinRoom(myList[multiple + num].Name);
         }
 
@@ -120,9 +130,56 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             + PhotonNetwork.CountOfPlayers + "명 접속 중";
     }
 
+    IEnumerator StartFadeOut()
+    {
+        Color color = loadFadeOutImage.color;
+        float time = 0, maxTime = 1;
+
+        while (time < maxTime)
+        {
+            time += Time.deltaTime;
+            float t = time / maxTime;//대기 시간
+
+            color.a = Mathf.Lerp(0, 1, t);
+            loadFadeOutImage.color = color;
+
+            yield return null;
+        }
+
+        //텍스트와 별 비활성화
+        loadText.gameObject.SetActive(false);
+        loadGameObject.SetActive(false);
+
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+    }
+
     private void Start()
     {
         Connect();
+
+        //배경음
+        battleUIManager.audioManager.PlayBgm(AudioManager.BgmMulty.Lobby);
+        //텍스트 자동 변경
+        StartCoroutine(loadTextSwap());
+    }
+
+    IEnumerator loadTextSwap() 
+    {
+
+        loadText.text = "로비 입장중.";
+        yield return new WaitForSeconds(0.5f);
+
+        loadText.text = "로비 입장중..";
+        yield return new WaitForSeconds(0.5f);
+
+        loadText.text = "로비 입장중...";
+        yield return new WaitForSeconds(0.5f);
+
+        if(loadGameObject.activeSelf)
+            StartCoroutine(loadTextSwap());
+        else
+            StartCoroutine(StartFadeOut());
     }
 
 
@@ -144,16 +201,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 
         NameText.text = PhotonNetwork.LocalPlayer.NickName;
-        //입장 효과음
-        BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        
         //리스트 조정
         myList.Clear();
+
+        loadGameObject.SetActive(false);
+        Debug.Log("입장");
     }
 
     public void Disconnect() //아래도 같이 호출되나봄
     {
         //입장 효과음
-        BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
         PhotonNetwork.Disconnect();
 
@@ -198,7 +257,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         //입장 효과음
-        BattleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
         //옛날 방식
         //PhotonNetwork.LoadLevel("Chap1_Scene");

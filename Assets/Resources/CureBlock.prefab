@@ -189,7 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curHealth: 40
   blockPoints: []
-  blockHeal: 10
+  blockHeal: 20
   crackMul: 1
   blockHealthType: 3
   blockEffectType: 2

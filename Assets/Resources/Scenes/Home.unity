@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 211140479}
   - component: {fileID: 211140480}
   - component: {fileID: 211140481}
+  - component: {fileID: 211140482}
   m_Layer: 0
   m_Name: ScoreText
   m_TagString: Untagged
@@ -464,6 +465,21 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 250/250
+--- !u!114 &211140482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211140478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &226397004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,8 +1234,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978758249}
-  - component: {fileID: 978758252}
   - component: {fileID: 978758251}
+  - component: {fileID: 978758252}
   m_Layer: 0
   m_Name: StaticManager
   m_TagString: Untagged
@@ -1255,7 +1271,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f9b37544115164b9e342a7d93427d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmClips: []
+  isPlayBgm: 1
+  isPlaySfx: 1
+  channels: 10
+  staticBgmClips:
+  - {fileID: 8300000, guid: f57ded4dfb59d4513b4af73b7ff4a9af, type: 3}
+  singleBgmClips:
+  - {fileID: 8300000, guid: 77e14a044efb3484995cb7faefc6d63d, type: 3}
+  - {fileID: 8300000, guid: e4c7faa84802d044396b52522ebfa7d7, type: 3}
+  - {fileID: 8300000, guid: 2e90d17ae7725e94bb8a5ab3fffeb5ef, type: 3}
+  - {fileID: 8300000, guid: b70333b47c18e8a4a9fd95b2e85e635d, type: 3}
+  - {fileID: 8300000, guid: b26619f89a4ba08498a58f16f66d1791, type: 3}
+  multyBgmClips:
+  - {fileID: 8300000, guid: 77e14a044efb3484995cb7faefc6d63d, type: 3}
+  - {fileID: 8300000, guid: c68bc9f2c6a37d741aedd0390a7622d0, type: 3}
   powerUpSfxClips:
   - {fileID: 8300000, guid: 1f500a8dc38a6c34eaa24aa1d240d225, type: 3}
   - {fileID: 8300000, guid: 5a177d914c5a7ed4fbc5d2525060bb12, type: 3}
@@ -1317,7 +1346,10 @@ MonoBehaviour:
   typingSfxClips:
   - {fileID: 8300000, guid: b33e8ebdee9a6bf4cbd1ac8d72a84045, type: 3}
   - {fileID: 8300000, guid: 882310b92b7251c4dadf6316c0033d1b, type: 3}
-  channels: 10
+  windSfxClips:
+  - {fileID: 8300000, guid: ffc90d43f46c0b046ad96368ea26f281, type: 3}
+  - {fileID: 8300000, guid: 7d513d6ea8934974ab76b9847e6c5b72, type: 3}
+  - {fileID: 8300000, guid: 59e93a79cdc456c469de114db60d79aa, type: 3}
 --- !u!114 &978758252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3066,6 +3098,7 @@ GameObject:
   - component: {fileID: 1804325309}
   - component: {fileID: 1804325311}
   - component: {fileID: 1804325310}
+  - component: {fileID: 1804325312}
   m_Layer: 0
   m_Name: RankText
   m_TagString: Untagged
@@ -3135,6 +3168,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804325308}
   m_CullTransparentMesh: 1
+--- !u!114 &1804325312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804325308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1858268613
 GameObject:
   m_ObjectHideFlags: 0

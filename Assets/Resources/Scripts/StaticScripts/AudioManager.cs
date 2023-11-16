@@ -57,11 +57,6 @@ public class AudioManager : MonoBehaviour
     [Header("바람 Sfx")]
     public AudioClip[] windSfxClips;
 
-
-    
-
-    
-
     private void Awake()
     {
         //배경음 플레이어 초기화
@@ -106,13 +101,42 @@ public class AudioManager : MonoBehaviour
         {
             case BgmSingle.SingleSel:
                 bgmPlayer.clip = singleBgmClips[0];
-                //bgmPlayer.volume = 0.5f;
+                break;
+            case BgmSingle.Training:
+                bgmPlayer.clip = singleBgmClips[1];
+                break;
+            case BgmSingle.StarFall:
+                bgmPlayer.clip = singleBgmClips[2];
+                break;
+            case BgmSingle.BlockCrash:
+                bgmPlayer.clip = singleBgmClips[3];
+                break;
+            case BgmSingle.Fly:
+                bgmPlayer.clip = singleBgmClips[4];
                 break;
         }
         bgmPlayer.Play();
     }
 
-    //효과음 재생
+    public void PlayBgm(BgmMulty _bgm)
+    {
+        if (!isPlaySfx) return;
+
+        bgmPlayer.Stop();
+        switch (_bgm)
+        {
+            case BgmMulty.Lobby:
+                bgmPlayer.clip = multyBgmClips[0];
+                break;
+            case BgmMulty.PvP:
+                bgmPlayer.clip = multyBgmClips[1];
+                break;
+        }
+        bgmPlayer.Play();
+    }
+
+
+    #region SFX 재생
     public void PlaySfx(Sfx sfx)
     {
         if (!isPlaySfx) return;
@@ -174,4 +198,5 @@ public class AudioManager : MonoBehaviour
             break;
         }
     }
+    #endregion
 }

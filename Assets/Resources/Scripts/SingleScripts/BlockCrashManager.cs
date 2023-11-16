@@ -49,6 +49,9 @@ public class BlockCrashManager : MonoBehaviour
 
         //플레이어 점수 증가 비율 설정
         gameManager.characterControl.scorePlus = 1;
+
+        //배경음
+        battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.BlockCrash);
     }
 
     private void Update()
