@@ -48,6 +48,9 @@ public class FlyManager : MonoBehaviour
         characterControls.scorePlus = 1;
 
         curWindSpeed = windSpeedArr[5];
+
+        //배경음 재생
+        battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
     }
 
 

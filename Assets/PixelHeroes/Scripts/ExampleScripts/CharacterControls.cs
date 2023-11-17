@@ -385,7 +385,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 moveJoyVec.y = moveJoy.Vertical;
                 _inputX = (int)moveJoyVec.x;
 
-                
+
+                _inputY = 0;
                 if (moveJoyVec.y >= 0.7f)
                 {
                     _inputY = 1;
@@ -395,6 +396,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //JumpDust.Play(true);
                     }
                 }
+
+                //Debug.Log("x:" + _inputX);
+
             }//조이스틱
 
             if(!isCanJump)
@@ -460,10 +464,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             if (Character.GetState() == AnimationState.Jumping)
             {
-                isJumpAni = true;
+                isJumpAni = true;//이미 점프 중인지 확인
             }
 
-            //if (rigid.velocity.y <= 4) //jumpForce/4
+            //if (rigid.velocity.y <= 4) 
             {
                 isGround = false;
                 RaycastHit2D[] rayHits = Physics2D.CircleCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
@@ -483,6 +487,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                 }
 
+                //Debug.LogError("x:" + _inputX);
 
                 if (isGround)//바닥에 있을 때 isConst || isBlock
                 {
@@ -498,7 +503,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         }
                     }
 
-                    else if (_inputX != 0)//좌우 방향 전환
+                    else if (_inputX != 0)//걷기
                     {
                         Character.SetState(AnimationState.Running);
                         //런닝 먼지 시작
@@ -507,10 +512,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             MoveDust.Play();
                         }
                     }
-                    else if (_inputX == 0)//좌우 방향 전환
+                    else if (_inputX == 0)//서있기
                     {
                         //런닝 먼지 중지
                         Character.SetState(AnimationState.Idle);
+                        
                         if (MoveDust.isPlaying)
                         {
                             MoveDust.Stop();
@@ -526,6 +532,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             rigid.velocity = new Vector2(_inputX* RunSpeed, rigid.velocity.y);
 
+            /*
             if (PhotonNetwork.InRoom) 
             {
                 if (photonView.IsMine)
@@ -533,7 +540,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (!PhotonNetwork.InRoom)
                 _inputX = _inputY = 0;
-
+            */
 
             //점프인 경우와 아닌 경우로 전환했을 때
             if ((isJumpAni && Character.GetState() != AnimationState.Jumping)|| (!isJumpAni && Character.GetState() == AnimationState.Jumping)) //점프였다가 걷는 경우

@@ -36,10 +36,11 @@ public class SingleSelectManager : MonoBehaviour
         fadeImage = fadeGameObject.GetComponent<Image>();
         loadText = fadeGameObject.transform.GetChild(0).GetComponent<Text>();
 
-        //verticalScrollbar.value = 1;
+        //배경음 재생
+        battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.SingleSel);
     }
 
-    public void enterSingleScene() 
+    public void enterSingleScene()//씬에 입장
     {
         battleUIManager.battleType = BattleUIManager.BattleType.Single;
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);

@@ -19624,9 +19624,9 @@ GameObject:
   - component: {fileID: 3054801496804327231}
   - component: {fileID: 4897143200695521795}
   m_Layer: 13
-  m_Name: YellowBulletHit
+  m_Name: NormalBulletHit
   m_TagString: Effect
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0

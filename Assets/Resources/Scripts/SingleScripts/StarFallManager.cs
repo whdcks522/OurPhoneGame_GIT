@@ -49,6 +49,9 @@ public class StarFallManager : MonoBehaviour
 
         //플레이어 점수 증가 비율 설정
         gameManager.characterControl.scorePlus = 1;
+
+        //배경음 재생
+        battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.StarFall);
     }
 
     private void Update()
@@ -121,7 +124,7 @@ public class StarFallManager : MonoBehaviour
             }
             else //기본 운석
             {
-                bullet = gameManager.CreateObj("YellowBullet", GameManager.PoolTypes.BulletType);
+                bullet = gameManager.CreateObj("NormalBullet", GameManager.PoolTypes.BulletType);
                 curPowerUpIndex++;
             }
 

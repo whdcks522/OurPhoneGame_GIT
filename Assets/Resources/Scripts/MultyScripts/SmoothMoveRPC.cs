@@ -15,8 +15,6 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        Debug.Log(gameObject.name+" "+transform.position);
-
         if (!photonView.IsMine && isRoom)
         {
             if ((transform.position - rpcPos).sqrMagnitude >= 1.5f)//너무 멀면 순간이동 
@@ -27,9 +25,6 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 Debug.LogWarning("SlowMove");
-
-                //Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
-
                 transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//아니면 부드럽게
             }
         }

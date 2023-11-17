@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
     public enum BgmStatic { Home }
     [Header("½ºÅÂÆ½ Bgm")]
     public AudioClip[] staticBgmClips;
-    public enum BgmSingle { SingleSel, Training, StarFall, BlockCrash, Fly }
+    public enum BgmSingle { SingleSel, Train, StarFall, BlockCrash, Fly }
     [Header("½Ì±Û Bgm")]
     public AudioClip[] singleBgmClips;
     public enum BgmMulty { Lobby, PvP }
@@ -102,7 +102,7 @@ public class AudioManager : MonoBehaviour
             case BgmSingle.SingleSel:
                 bgmPlayer.clip = singleBgmClips[0];
                 break;
-            case BgmSingle.Training:
+            case BgmSingle.Train:
                 bgmPlayer.clip = singleBgmClips[1];
                 break;
             case BgmSingle.StarFall:

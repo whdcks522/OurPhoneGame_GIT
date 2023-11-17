@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3705190959694858432}
   - component: {fileID: 5616429877443945748}
   m_Layer: 3
-  m_Name: RedPencil
+  m_Name: BluePencil
   m_TagString: Construction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718486350521625500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -5
-  m_Sprite: {fileID: 21300000, guid: f50fdbeb58e0c12408d27b59c110e584, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3e78e69a3053ac4cb81f5df5e4fab78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -117,6 +117,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.026560789, y: 0.020968564}
-  m_Size: {x: 4.652512, y: 0.24193744}
+  m_Offset: {x: -0.15748267, y: 0.8424715}
+  m_Size: {x: 3.4433758, y: 0.41505724}
   m_Direction: 1

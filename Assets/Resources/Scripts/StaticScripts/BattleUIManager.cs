@@ -25,10 +25,12 @@ public class BattleUIManager : MonoBehaviour
     }
     #endregion
 
+    
     public enum BattleType 
     {
         Rest, Single, Multy
     }
+    [Header("현재 배틀 타입")]
     public BattleType battleType;
 
     [Header("전투 UI 정보")]
@@ -181,7 +183,8 @@ public class BattleUIManager : MonoBehaviour
     public void btnRetry()//재시도 버튼
     {
         //대화 코루틴 종료
-        StopCoroutine(descCor);
+        if (descCor != null)
+            StopCoroutine(descCor);
 
         //이어하기 버튼 다시 보이도록
         btnContinue.SetActive(true);
@@ -197,7 +200,8 @@ public class BattleUIManager : MonoBehaviour
     public void btnExit()//나가기 버튼
     {
         //대화 코루틴 종료
-        StopCoroutine(descCor);
+        if(descCor != null)
+            StopCoroutine(descCor);
 
         //선택창 고르기
         if (battleType == BattleType.Single)//싱글

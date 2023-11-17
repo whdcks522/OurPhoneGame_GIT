@@ -21,7 +21,7 @@ GameObject:
   m_Layer: 9
   m_Name: PowerUpBullet
   m_TagString: EnemyBullet
-  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0

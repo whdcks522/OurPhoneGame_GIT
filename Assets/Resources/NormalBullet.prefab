@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6402088475316710510}
   - component: {fileID: 3247157134479015609}
   m_Layer: 9
-  m_Name: YellowBullet
+  m_Name: NormalBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -5022,7 +5022,7 @@ MonoBehaviour:
   isFlash: 0
   flashStr: 
   isHit: 1
-  hitStr: YellowBulletHit
+  hitStr: NormalBulletHit
 --- !u!114 &2146903461172564057
 MonoBehaviour:
   m_ObjectHideFlags: 0

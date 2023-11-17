@@ -50,7 +50,7 @@ public class Sword : MonoBehaviourPunCallbacks
     //현재 칼이 몇번째인지
     public int curSwordIndex;
     //칼의 데미지
-    int swordDamage = 5;
+    int swordDamage = 10;
 
     //배틀 매니저
     public BattleUIManager battleUIManager;
