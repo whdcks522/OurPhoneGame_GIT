@@ -225,6 +225,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.509434
       objectReference: {fileID: 0}
+    - target: {fileID: 3451872281685382691, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
+      propertyPath: m_ForceMagnitude
+      value: 450
+      objectReference: {fileID: 0}
     - target: {fileID: 4172971550200181216, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_Size.x
       value: 2
@@ -345,7 +349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3451872281685382691, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_ForceMagnitude
-      value: -600
+      value: -450
       objectReference: {fileID: 0}
     - target: {fileID: 4172971550200181216, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_Size.x
@@ -851,7 +855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3451872281685382691, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_ForceMagnitude
-      value: -600
+      value: -450
       objectReference: {fileID: 0}
     - target: {fileID: 4172971550200181216, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_Size.x

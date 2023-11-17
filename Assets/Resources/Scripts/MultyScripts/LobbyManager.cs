@@ -15,7 +15,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Text loadText;
     [Header("씬 로드 게임 오브젝트")]
     public GameObject loadGameObject;
-    WaitForSeconds wait0_25 = new WaitForSeconds(0.25f);
+    WaitForSeconds wait0_35 = new WaitForSeconds(0.35f);
+    //로비에 입장함
+    bool isJoinedLobby = false;
     
 
     [Header("씬 개발자 이름")]
@@ -92,6 +94,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         //리스트 조정
         myList.Clear();
+
+        isJoinedLobby = true;
     }
     #endregion 
 
@@ -99,18 +103,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     IEnumerator loadTextSwap()//로딩중
     {
         loadText.text = "로비 입장중.";
-        yield return wait0_25;
+        yield return wait0_35;
 
         loadText.text = "로비 입장중..";
-        yield return wait0_25;
+        yield return wait0_35;
 
         loadText.text = "로비 입장중...";
-        yield return wait0_25;
+        yield return wait0_35;
 
-        if (loadGameObject.activeSelf)//로딩 중
-            StartCoroutine(loadTextSwap());
-        else//로딩 완료
+        if (isJoinedLobby)//로딩 완료
             StartCoroutine(StartFadeOut());
+        else//로딩 중
+            StartCoroutine(loadTextSwap());
     }
 
     IEnumerator StartFadeOut()//페이드 아웃
@@ -135,6 +139,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         //입장 효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        loadFadeOut.SetActive(false);
     }
     #endregion 
 
@@ -165,64 +170,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    #region 방
-
-    public void CreateRoom() //방 생성
-    {
-
-        //옛날 방식
-        //PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });//수정함
-
-        //최신 방식
-        //string sceneName = "PvP";
-        string sceneName = SceneInnerStr;
-
-        string roomName = RoomInput.text == "" ? "_Room" + Random.Range(0, 100) : RoomInput.text;
-
-        RoomOptions roomOptions = new RoomOptions
-        {
-            MaxPlayers = maxPlayerNumber,
-            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
-            {
-                { "IsAllowedToEnter", true },
-                { "IsAllowedToExit", true },
-                { "SceneName", sceneName } // 이동하고자 하는 Scene의 이름 저장
-            },
-            CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName" } // 로비에서도 이 속성을 보여주기 위해 추가
-        };
-
-
-        PhotonNetwork.CreateRoom(sceneName + roomName, roomOptions);
-    }
-
-    public override void OnJoinedRoom()
-    {
-        //입장 효과음
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
-
-        //옛날 방식
-        //PhotonNetwork.LoadLevel("Chap1_Scene");
-
-        // 룸 입장 전에 RoomOptions에서 설정한 bool 변수를 체크하여 조건에 따라 입장 허용 여부를 확인
-        bool canEnterRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToEnter"];
-        if (canEnterRoom)
-        {
-            //들어갈 룸의 Scene 이름 확인
-            string sceneName = (string)PhotonNetwork.CurrentRoom.CustomProperties["SceneName"];
-            //좌표 설정
-            //if (sceneName == "Chap1 ") sceneName = "Chap1_Scene";
-            //else if (sceneName == "Chap2 ") sceneName = "Chap2_Scene";
-            //실제로 입장
-            PhotonNetwork.LoadLevel(sceneName);
-        }
-        else
-        {
-            ErrorText.text = "이미 게임이 진행 중이므로, 룸에 입장 할 수 없습니다.";
-            PhotonNetwork.LeaveRoom();
-        }
-    }
-
-    #region 방리스트 갱신
+    #region 방 리스트 갱신
     // ◀버튼 -2 , ▶버튼 -1 , 셀 숫자
     public void MyListClick(int num)
     {
@@ -281,6 +229,65 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+
+    #region 방
+
+    public void CreateRoom() //방 생성
+    {
+
+        //옛날 방식
+        //PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });//수정함
+
+        //최신 방식
+        //string sceneName = "PvP";
+        string sceneName = SceneInnerStr;
+
+        string roomName = RoomInput.text == "" ? "_Room" + Random.Range(0, 100) : RoomInput.text;
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = maxPlayerNumber,
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            {
+                { "IsAllowedToEnter", true },
+                { "IsAllowedToExit", true },
+                { "SceneName", sceneName } // 이동하고자 하는 Scene의 이름 저장
+            },
+            CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName" } // 로비에서도 이 속성을 보여주기 위해 추가
+        };
+
+
+        PhotonNetwork.CreateRoom(sceneName + roomName, roomOptions);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+
+        //옛날 방식
+        //PhotonNetwork.LoadLevel("Chap1_Scene");
+
+        // 룸 입장 전에 RoomOptions에서 설정한 bool 변수를 체크하여 조건에 따라 입장 허용 여부를 확인
+        bool canEnterRoom = (bool)PhotonNetwork.CurrentRoom.CustomProperties["IsAllowedToEnter"];
+        if (canEnterRoom)
+        {
+            //들어갈 룸의 Scene 이름 확인
+            string sceneName = (string)PhotonNetwork.CurrentRoom.CustomProperties["SceneName"];
+            //좌표 설정
+            //if (sceneName == "Chap1 ") sceneName = "Chap1_Scene";
+            //else if (sceneName == "Chap2 ") sceneName = "Chap2_Scene";
+            //실제로 입장
+            PhotonNetwork.LoadLevel(sceneName);
+        }
+        else
+        {
+            ErrorText.text = "이미 게임이 진행 중이므로, 룸에 입장 할 수 없습니다.";
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
+    
     public void JoinRandomRoom()//랜덤 방 입장
     {
         //AuthManager.Instance.audioManager.PlaySfx(AudioManager.Sfx.DoorOpen, true);
@@ -304,5 +311,4 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수
     //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
     #endregion
-    //----------
 }

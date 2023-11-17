@@ -36,6 +36,9 @@ public class TrainManager : MonoBehaviour
     [Header("게임 매니저")]
     public GameManager gameManager;
 
+    [Header("블록 배열")]
+    public Block[] blockArr;
+
 
     private void Start()
     {
@@ -56,7 +59,15 @@ public class TrainManager : MonoBehaviour
 
         battleUIManager.typingControl("훈련장에 어서오세요!");
         StartCoroutine(moveBoxRoutine());
+
+        //블록 피해주기
+        foreach(Block block in blockArr)
+        {
+            block.healthControl(35);
+        }
     }
+
+
 
     private void Update()
     {

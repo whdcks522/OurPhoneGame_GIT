@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4152225080337283562}
   - component: {fileID: 5223300001744734597}
   m_Layer: 15
-  m_Name: NormalBlock
+  m_Name: normalBlock
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,9 +155,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &2621338511716314143
 BoxCollider2D:

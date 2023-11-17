@@ -1015,7 +1015,7 @@ AreaEffector2D:
     m_Bits: 1081664
   m_UseGlobalAngle: 1
   m_ForceAngle: 0
-  m_ForceMagnitude: 150
+  m_ForceMagnitude: 450
   m_ForceVariation: 0
   m_ForceTarget: 0
   m_Drag: 0
@@ -1040,7 +1040,7 @@ AreaEffector2D:
     m_Bits: 1081664
   m_UseGlobalAngle: 1
   m_ForceAngle: 0
-  m_ForceMagnitude: 150
+  m_ForceMagnitude: 450
   m_ForceVariation: 0
   m_ForceTarget: 0
   m_Drag: 0
@@ -1191,9 +1191,33 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1822214940800411375, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2381587850975651875, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2394127353045944079, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_Mass
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3317951420070708183, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559113474980580789, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3856291898889062028, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4077871818435755315, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4567551690595120229, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_RootOrder
@@ -1254,6 +1278,10 @@ PrefabInstance:
     - target: {fileID: 5974046474224742084, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6317733242623581196, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
+      propertyPath: sceneViewId
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7406846429251221552, guid: f9aaa4998e92a984aa4872b5a2c196a0, type: 3}
       propertyPath: sceneViewId
@@ -1636,11 +1664,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3049968198842785164, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.4871178
+      value: 0.0000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 3049968198842785164, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.834032
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3566685834123836942, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_LocalScale.x
@@ -1992,7 +2020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3451872281685382691, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_ForceMagnitude
-      value: 150
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 3768875019467908993, guid: 4b99dacd8ab49134aa609f08ca6cc1a0, type: 3}
       propertyPath: m_Material

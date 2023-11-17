@@ -147,7 +147,7 @@ public class Sword : MonoBehaviourPunCallbacks
 
         //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
         rigid.angularVelocity = 0f;
-        rigid.velocity = saveSwordVec * 10;
+        rigid.velocity = saveSwordVec * 7;
 
         //회전 조작
         transform.rotation = Quaternion.identity;
@@ -157,27 +157,6 @@ public class Sword : MonoBehaviourPunCallbacks
 
         if (curSwordIndex < characterControls.curSwordCount)
             lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
-
-        /*
-        if (PhotonNetwork.InRoom) 
-        {
-            if (photonView.IsMine)
-            {
-                if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
-                {
-                    lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
-                }
-            }
-        }
-        else if (!PhotonNetwork.InRoom)
-        {
-            if (curSwordIndex < characterControls.curSwordCount)//맨 끝 칼은 수행 안함
-            {
-                saveSwordRPC();
-            }
-        }
-        */
-
     }
 
     [PunRPC]

@@ -23,8 +23,6 @@ public class Box : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
     BattleUIManager battleUIManager;
-    
-    //훈련소에 어서오세요!
 
     private void Awake()
     {
