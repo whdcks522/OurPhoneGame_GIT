@@ -169,6 +169,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (isCheck) 
                     {
                         swordCountRPC(9);
+                        backSwords.SetActive(true);
                     }
                     else if (!isCheck)
                     {

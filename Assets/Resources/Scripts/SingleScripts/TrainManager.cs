@@ -56,7 +56,7 @@ public class TrainManager : MonoBehaviour
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, false);
         //칼과 충돌 무시
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.SwordCollision, false);
-        characterControls.backSwords.SetActive(true);
+        characterControls.backSwords.SetActive(false);
 
         battleUIManager.typingControl("훈련장에 어서오세요!");
         StartCoroutine(moveBoxRoutine());

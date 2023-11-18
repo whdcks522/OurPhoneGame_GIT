@@ -84,7 +84,7 @@ public class SingleSelectManager : MonoBehaviour
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f); // 0.9는 로딩이 끝났을 때의 값
 
-            loadText.text = "로딩 중: " + Mathf.Floor(asyncLoad.progress * 100) + "%";
+            loadText.text = "로딩 중: " + Mathf.Floor(progress * 100) + "%";
             if (progress >= 1f)
             {
                 asyncLoad.allowSceneActivation = true; // 활성화

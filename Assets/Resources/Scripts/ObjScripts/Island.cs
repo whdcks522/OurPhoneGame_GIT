@@ -15,6 +15,6 @@ public class Island : MonoBehaviour
     private void Awake()
     {
         areaEffector2D = GetComponent<AreaEffector2D>();
-        areaEffector2D.forceMagnitude *= 400;
+        areaEffector2D.forceMagnitude *= 300;
     }
 }

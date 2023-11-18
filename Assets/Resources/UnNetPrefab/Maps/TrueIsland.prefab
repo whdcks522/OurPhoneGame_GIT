@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1718486350521625500, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_Name
-      value: TruePencil
+      value: TrueIsland
       objectReference: {fileID: 0}
     - target: {fileID: 1718486350521625500, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_Layer
