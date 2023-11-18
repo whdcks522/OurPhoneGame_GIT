@@ -149,21 +149,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba8dff423327bb49a34322f33ed46d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleSelectManager: {fileID: 0}
+  isInVisible: 0
+  singleType: 0
   sceneInnerTitle: StarFall_0
   sceneOutterTitle: "\uD61C\uC131 0"
   sceneDesc: "<color=#87CEEB>\uD558\uB298</color>\uC5D0\uC11C \uB5A8\uC5B4\uC9C0\uB294
     <color=yellow>\uB178\uB780</color> \uBCC4\uC744 \uD53C\uD558\uBA70 \uC0DD\uC874\uD574\uB77C!\n"
-  isVisible: 1
-  sceneLevel: 0
-  PreInfo: {fileID: 0}
-  Maxscore: 0
   Sscore: 250
   Ascore: 150
   Bscore: 100
   Cscore: 50
   Dscore: 20
   Escore: 0
+  sceneLevel: 0
+  maxRank: 5
+  PreInfo: {fileID: 0}
+  singleSelectManager: {fileID: 0}
 --- !u!1 &3047226304495274590
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +252,7 @@ GameObject:
   - component: {fileID: 4081284543154357843}
   - component: {fileID: 2487472212328044044}
   - component: {fileID: 8273721099628368572}
+  - component: {fileID: 5303064943199862685}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -319,10 +321,22 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'E 0
-
-
-'
+  m_Text: 
+--- !u!114 &5303064943199862685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6260008054835029835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 7, y: 7}
+  m_UseGraphicAlpha: 1
 --- !u!1 &9118757026084428597
 GameObject:
   m_ObjectHideFlags: 0

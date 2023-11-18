@@ -50,9 +50,14 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     photonView.RPC("alreadyStartRPC", RpcTarget.AllBuffered);
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
+                        //조작 활성화
                         CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
+                        //무기 갯수 1개로
+                        cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
+                        //텍스트
+                        cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
                     }
                 }
                 else if (loser != -2)
@@ -82,43 +87,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         }
                     }
                 }
-
-                /*
-
-                curTime += Time.deltaTime;
-
-
-                if (curTime > maxTime)
-                {
-                    sumTime += curTime;
-                    //시간 초기화
-                    curTime = 0f;
-
-                    foreach (Transform tmpTrans in starPoints)
-                    {
-                        GameObject bullet = gameManager.CreateObj("YellowStarBullet", GameManager.PoolTypes.BulletType);
-
-                        //컴포넌트 정의
-                        Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-                        Bullet bulletComponent = bullet.GetComponent<Bullet>();
-
-                        bullet.transform.position = tmpTrans.position;
-
-                        //운석 활성화
-                        bulletComponent.bulletOnRPC();
-
-                        //운석 속도 조정
-                        bulletRigid.velocity = Vector3.down * bulletComponent.bulletSpeed;
-
-                        //운석 회전 조정
-                        bullet.transform.rotation = Quaternion.identity;
-                        float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-                        Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-                        bullet.transform.Rotate(rotVec);
-                    }
-                
-                }
-                */
             }
         }//방장 일 때,
 
@@ -131,10 +99,10 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
                 CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, str);
                 cc.TypingRPC(CharacterControls.TypingType.None, str);
             }
         }
+        //시작하고 나서 탈주하는 경우
         else if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
         {
             gameManager.allLeaveRoomStart();

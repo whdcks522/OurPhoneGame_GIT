@@ -42,6 +42,8 @@ public class Sword : MonoBehaviourPunCallbacks
     [Header("리더의 속도")]
     public Vector2 saveSwordVec = Vector3.zero;
 
+    //터져도 되는지
+    bool isReadyExplode;
 
     //경로
     public TrailRenderer trailRenderer;
@@ -97,8 +99,8 @@ public class Sword : MonoBehaviourPunCallbacks
     private void OnEnable()
     {
         trailRenderer.Clear();
-        Debug.Log("Enable?");
         swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
+        isReadyExplode = true;
     }
 
     void FixedUpdate()
@@ -147,7 +149,7 @@ public class Sword : MonoBehaviourPunCallbacks
 
         //밟을 수 있을 때, 플레이어 점프 초기화도 필요함
         rigid.angularVelocity = 0f;
-        rigid.velocity = saveSwordVec * 7;
+        rigid.velocity = saveSwordVec * 8.5f;
 
         //회전 조작
         transform.rotation = Quaternion.identity;
@@ -247,6 +249,7 @@ public class Sword : MonoBehaviourPunCallbacks
 
                 //tmpSword.transform.position = player.transform.position;
                 //칼 활성화
+                tmpSwordComponent.isReadyExplode = false;
                 tmpSword.SetActive(false);
 
                 if (tmpSwordComponent != null)
@@ -269,6 +272,8 @@ public class Sword : MonoBehaviourPunCallbacks
     #region 폭탄 생성
     void createBomb(Vector3 bombPos)
     {
+        if (!isReadyExplode) 
+            return;
 
         //폭탄 생성
         GameObject bomb = null;
@@ -355,7 +360,6 @@ public class Sword : MonoBehaviourPunCallbacks
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
             }
         }
-
     }
 
     private void OnCollisionStay2D(Collision2D other)

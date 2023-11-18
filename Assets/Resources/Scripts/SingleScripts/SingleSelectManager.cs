@@ -14,8 +14,6 @@ public class SingleSelectManager : MonoBehaviour
     [Header("로딩중 보여주는 이미지")]
     public GameObject loadGameObject;
     Text loadText;
-    [Header("스크롤바 0으로 초기화를 위함")]
-    public Scrollbar verticalScrollbar;
 
     [Header("현재 선택한 게임의 코드(개발자) 상 이름")]
     public string singlePanelInnerTitle;
@@ -92,5 +90,13 @@ public class SingleSelectManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void goHome() 
+    {
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        //입장
+        SceneManager.LoadScene("Home");
     }
 }

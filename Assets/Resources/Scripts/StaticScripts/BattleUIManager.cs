@@ -33,6 +33,12 @@ public class BattleUIManager : MonoBehaviour
     [Header("현재 배틀 타입")]
     public BattleType battleType;
 
+
+    [Header("현재 싱글 씬 타입")]//데이터 JSON 저장에 사용됨
+    public SingleInfo.SingleType singleType = SingleInfo.SingleType.Train;
+    [Header("현재 싱글 씬 번호")]
+    public int singleIndex = 0;
+
     [Header("전투 UI 정보")]
     public GameObject battleUI;
 
@@ -74,6 +80,7 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("다른 컴포넌트 정보")]
     public AudioManager audioManager;
+    public JSONManager jsonManager;
 
     [Header("목표 점수들")]
     public int Sscore;
@@ -84,19 +91,18 @@ public class BattleUIManager : MonoBehaviour
     public int Escore;
     [Header("현재 생존 점수")]
     public float curScore;
-
+    [Header("현재 씬의 레벨")]
+    public int curLevel;
     //채팅용 대기시간 0.025초
     WaitForSeconds wait0_025 = new WaitForSeconds(0.025f);
     //채팅용 대기시간 3초
     WaitForSeconds wait3_00 = new WaitForSeconds(3);
 
-    
-
     public enum RankType
     {
         S, A, B, C, D, E
     }
-    [Header("현재 생존 랭크")]
+    [Header("현재 생존 랭크")]//싱글 게임의 난이도 조절에 사용됨
     public RankType rankType;
 
     private void Start()
@@ -106,6 +112,7 @@ public class BattleUIManager : MonoBehaviour
         battleUI.SetActive(false);
     }
 
+    #region 대화
     public void typingControl(string _str) 
     {
         if (saveDescText != _str)
@@ -116,7 +123,7 @@ public class BattleUIManager : MonoBehaviour
         }
     }
 
-    #region 대화
+    
     public IEnumerator typingRoutine(string str)
     {
             saveDescText = str;
@@ -183,8 +190,7 @@ public class BattleUIManager : MonoBehaviour
     public void btnRetry()//재시도 버튼
     {
         //대화 코루틴 종료
-        if (descCor != null)
-            StopCoroutine(descCor);
+        typingControl("");
 
         //이어하기 버튼 다시 보이도록
         btnContinue.SetActive(true);
@@ -199,13 +205,17 @@ public class BattleUIManager : MonoBehaviour
     
     public void btnExit()//나가기 버튼
     {
+        
         //대화 코루틴 종료
-        if(descCor != null)
-            StopCoroutine(descCor);
+        typingControl("");
 
         //선택창 고르기
         if (battleType == BattleType.Single)//싱글
         {
+            Debug.Log("AA");
+            //데이터 저장
+            jsonManager.SaveData(singleType, curLevel, Mathf.FloorToInt(curScore));
+
             //이어하기 버튼 다시 보이도록
             btnContinue.SetActive(true);
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,7 @@ public class HomeManager : MonoBehaviour
         battleUIManager.battleType = BattleUIManager.BattleType.Rest;
     }
 
-    public void loadSingleSel()
+    public void loadSingleSel()//싱글 씬으로 이동
     {
         //종이 효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
@@ -21,7 +22,7 @@ public class HomeManager : MonoBehaviour
         SceneManager.LoadScene("SingleSelect");
     }
 
-    public void loadSingleMul()
+    public void loadSingleMul()//멀티 씬으로 이동
     {
         //종이 효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
@@ -30,8 +31,19 @@ public class HomeManager : MonoBehaviour
         SceneManager.LoadScene("Lobby");
     }
 
-    public void tmp()
+    public void loadSettings()//세팅 씬으로 이동
     {
-        SceneManager.LoadScene("Train_0");
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        //씬 변환
+        SceneManager.LoadScene("Settings");
+    }
+
+    public void JsonControl(int _value)
+    {
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+        //씬 변환
+        battleUIManager.jsonManager.DataClear(_value);
     }
 }

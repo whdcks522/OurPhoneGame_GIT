@@ -41,12 +41,15 @@ public class Box : MonoBehaviour
             {
                 //점수 증가
                 battleUIManager.curScore += 10;
+                //battleUIManager.bigScoreText.text = battleUIManager.curScore.ToString()+"/"+battleUIManager.Sscore;
                 //채팅 이미지 비활성화
                 boxChat.SetActive(false);
                 //박스 이미지 변화
                 spriteRenderer.sprite = openBoxImage;
                 //플레이어 능력 해금
                 characterControls.changeStateRPC(boxAbility, true);
+
+                //등짝의 칼 활성화
                 if (boxAbility == CharacterControls.PlayerStateType.RightControl) 
                 {
                     characterControls.backSwords.SetActive(true);

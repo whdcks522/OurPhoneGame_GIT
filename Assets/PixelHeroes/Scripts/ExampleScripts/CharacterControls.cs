@@ -109,7 +109,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //플레이어의 상태--------------
         public enum PlayerStateType
         {
-           None, Dead, LeftControl, IsCanJump, RightControl, CanHeal, SwordCount, SwordCollision
+           None, Dead, LeftControl, IsCanJump, RightControl, CanHeal, SwordCount, SwordCollision, SwordFight
         }
         //이미 죽음
         public bool isDead = false;
@@ -121,6 +121,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isRightControl = false;
         //회복 가능한 상태인지
         bool isCanHeal = false;
+        //칼로 전투할 것인지
+        bool isSwordFight = false;
         //PC로 진행중인지 확인
         bool isPC;
 
@@ -132,6 +134,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.Dead:
                     if (isCheck)
                     {
+                        //점수 증가하자 죽으면 처리 안되므로
+                        lateUpdate();
                         //사망 처리
                         isDead = true;
                         //애니메이션
@@ -182,6 +186,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     playerSwordLayer = LayerMask.NameToLayer("PlayerSword");
 
                     Physics2D.IgnoreLayerCollision(playerLayer, playerSwordLayer, !isCheck);
+                    break;
+                case PlayerStateType.SwordFight:
+                    isSwordFight = isCheck;
                     break;
             }
         }
@@ -752,7 +759,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (tmpX != 0 || tmpY != 0) isMove = true;
             }
 
-            else if (!isPC) 
+            else if (!isPC) //모바일의 경우
             {
                 swordJoyVec.x = swordJoy.Horizontal;
                 swordJoyVec.y = swordJoy.Vertical;
@@ -760,14 +767,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (swordJoyVec.x != 0 || swordJoyVec.y != 0) isMove = true;
             }
             //길이 감소
-            swordJoyVec = swordJoyVec.normalized;
-
-            //조작이 이전과 같은지
-            bool isSame = (SwordComponent.saveSwordVec == swordJoyVec) ;
+            swordJoyVec = swordJoyVec.normalized;  
 
             //검 이동
-            if (isMove)
-                SwordMove(isSame);
+            //if (isMove)
+                SwordMove(SwordComponent.saveSwordVec == swordJoyVec);//조작이 이전과 같은지
         }
         #endregion
 
@@ -775,14 +779,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void SwordMove(bool isSame) 
         {
             //칼이 활성화돼있을 때, 방향 조작시
-            if (playerSwords[0].activeSelf) // && !isSame
+            if (playerSwords[0].activeSelf && !isSame) // 
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                     photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
                 else
                     SwordSpinRPC(swordJoyVec);//1인이라면
             }
-            else if (!playerSwords[0].activeSelf)//칼이 비활성화 돼있을 시
+            else if (!playerSwords[0].activeSelf && !isSame)//칼이 비활성화 돼있을 시
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                 {
@@ -802,6 +806,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
+            if (tmpVec.x == 0 && tmpVec.y == 0)//사용 안할 시, 다시 수납
+            {
+                SwordComponent.leaderSwordExitRPC(0);
+            }
+
             SwordComponent.saveSwordVec = tmpVec;
         }
         #endregion
@@ -816,8 +825,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-
-        private void LateUpdate()
+        void lateUpdate() 
         {
             if (isDead)
                 return;
@@ -859,13 +867,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
 
             //시간에 따라 점수 증가
-            battleUIManager.curScore +=  Time.deltaTime * scorePlus;
+            battleUIManager.curScore += Time.deltaTime * scorePlus;
 
             //랭크와 점수 텍스트 적용
             battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + "/";
             if (battleUIManager.curScore >= battleUIManager.Sscore) //S급 이상의 경우
             {
-                if (!isSRank) 
+                if (!isSRank)
                 {
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
                     battleUIManager.rankType = BattleUIManager.RankType.S;
@@ -923,7 +931,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 battleUIManager.bigRankText.text = "<color=#FFFFFF> E </color>";
                 battleUIManager.bigScoreText.text += battleUIManager.Dscore;
-            }   
+            }
+        }
+
+        private void LateUpdate()
+        {
+            lateUpdate();
         }
 
         #region 무기 변화 동기화
@@ -980,45 +993,36 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                 }
             }
-            else if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
+            if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
             {
                 if (PhotonNetwork.InRoom)
                 {
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1000, false);
+                        photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
-                    //피격 처리
-                    damageControlRPC(1000, false);
+                    changeStateRPC(PlayerStateType.Dead, true);
                 }
             }
-            else if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
+            if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
             {
                 //바람 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
             }
-        }
-
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("playerSword")) 
+            if (PhotonNetwork.InRoom)
             {
-                if (PhotonNetwork.InRoom) 
+                //플레이어는 내꺼면서, 칼은 내 것이 아니여야 함
+                if (photonView.IsMine && !other.gameObject.GetComponent<PhotonView>().IsMine)
                 {
-                    if (photonView.IsMine && !collision.gameObject.GetComponent<PhotonView>().IsMine) 
-                    {
-                        //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1, false);
-                    }                   
+                    //피격 처리
+                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 20, false);
                 }
             }
         }
-
-       
 
         #region 피격 처리
         [PunRPC]
