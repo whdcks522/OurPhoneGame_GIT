@@ -136,7 +136,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         Debug.Log("fsfsafd"+count);
                         //점수 증가하자 죽으면 처리 안되므로
-                        lateUpdate();
+                        if(!PhotonNetwork.InRoom)
+                            lateUpdate();
                         //사망 처리
                         isDead = true;
                         //애니메이션
