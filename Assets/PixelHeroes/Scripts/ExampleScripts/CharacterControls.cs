@@ -300,7 +300,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!photonView.IsMine) 
                 {
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 8)//너무 멀면 순간이동 ,5
+                    if ((transform.position - rpcPos).sqrMagnitude >= 12)//너무 멀면 순간이동, 8
                     {
                         Debug.LogError("PlayerQuickMove");
                         transform.position = rpcPos;

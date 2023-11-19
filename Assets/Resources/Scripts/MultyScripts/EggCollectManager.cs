@@ -8,7 +8,7 @@ using UnityEngine;
 public class EggCollectManager : MonoBehaviourPunCallbacks
 {
     [Header("계란 발생 지점")]
-    public Transform eggPoint;
+    public Transform[] eggPoints;
 
     int LeftScore = 0;
     int RightScore = 0;
@@ -19,12 +19,14 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     [Header("게임매니저")]
     public GameManager gameManager;
 
-    public bool isMasterCilentLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
+    bool isMasterCilentLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
     //->현재 이 컴퓨터가 호스트면서, 이 게임오브젝트가 호스트 측에서 생성됨
+
+    BattleUIManager battleUIManager;
 
     private void Awake()
     {
-
+        battleUIManager = BattleUIManager.Instance;
         
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
@@ -35,23 +37,23 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         }
     }
 
+    int count = 0;
     IEnumerator CreateEgg() //계란 생성
     {
         yield return null;
 
-        Debug.Log("AA");
-        float curTime = 0, maxTime = 3f;
+        float curTime = 0, maxTime = 2.5f;
         while (curTime <= maxTime) 
         {
-            //Debug.Log("BB: " +curTime);
             curTime += Time.deltaTime;
+            yield return null;
         }
-        Debug.Log("CC");
+        count++;
 
         //계란 생성
         GameObject egg = gameManager.CreateObj("Egg", GameManager.PoolTypes.ObjType);
         egg.GetComponent<PhotonView>().RPC("eggOnRPC", RpcTarget.AllBuffered);
-        egg.transform.position = eggPoint.position;
+        egg.transform.position = eggPoints[0].position;
     }
 
 
@@ -150,27 +152,39 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                 if (collision.gameObject.transform.position.x < 0) 
                 {
                     LeftScore += 1;
+                    //골 이펙트
+                    photonView.RPC("createEffect", RpcTarget.AllBuffered, true);
                 }
                 else if (collision.gameObject.transform.position.x > 0)
                 {
                     RightScore += 1;
+                    //골 이펙트
+                    photonView.RPC("createEffect", RpcTarget.AllBuffered, false);
                 }
-                //파괴 이펙트
-                //GameObject effect = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
-                //effect.SetActive(true);
-                //effect.transform.position = collision.gameObject.transform.position;
+                
 
                 //계란 비활성화
                 collision.gameObject.GetComponent<PhotonView>().RPC("eggOffRPC", RpcTarget.AllBuffered);
 
                 //계란 생성
                 StartCoroutine(CreateEgg());
-
-                //텍스트
-                //CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
-                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, LeftScore+ " : " +RightScore);
             }
         }
+    }
+
+    [PunRPC]
+    public void createEffect(bool isLeft) 
+    {
+        //효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+
+        //골 이펙트
+        GameObject effect = gameManager.CreateObj("congratulation 9", GameManager.PoolTypes.EffectType);//"Explosion 2"
+        effect.SetActive(true);
+        if(isLeft)
+            effect.transform.position = eggPoints[1].position;
+        if (!isLeft)
+            effect.transform.position = eggPoints[2].position;
     }
 
 
