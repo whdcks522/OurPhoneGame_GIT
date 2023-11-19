@@ -134,10 +134,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.Dead:
                     if (isCheck)
                     {
-                        Debug.Log("hh: "+count++);
-
                         //점수 증가하자 죽으면 처리 안되므로
-                        lateUpdate();
+                        //lateUpdate();
                         //사망 처리
                         isDead = true;
                         //애니메이션
@@ -1089,7 +1087,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (!isDead)//Character.GetState() != AnimationState.Dead 
                 {
-                    
                     if (PhotonNetwork.InRoom)
                     {
                         if (photonView.IsMine) 
