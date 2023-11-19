@@ -52,9 +52,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     //이펙트 주소가 저장될 곳
     List<GameObject>[] windPools;
 
+    //6. 오브젝트 리스트
+    string[] objNames = { "Egg" };
+    //이펙트 주소가 저장될 곳
+    List<GameObject>[] objPools;
+
     public enum PoolTypes
     {
-        BulletType, BombType, BlockType, EffectType, WindType //EnemyType, 
+        BulletType, BombType, BlockType, EffectType, WindType, ObjType //EnemyType, 
     }
 
     private void Awake()
@@ -86,6 +91,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         windPools = new List<GameObject>[windNames.Length];
         for (int index = 0; index < windNames.Length; index++)//풀 하나하나 초기화
             windPools[index] = new List<GameObject>();
+
+        //6. 오브젝트 풀 초기화(4개씩 수정)
+        objPools = new List<GameObject>[objNames.Length];
+        for (int index = 0; index < objNames.Length; index++)//풀 하나하나 초기화
+            objPools[index] = new List<GameObject>();
     }
 
     private void Start()
@@ -157,6 +167,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 tmpPools = windPools;
                 tmpNames = windNames;//awake에서 선언햇니
                 break;
+            case PoolTypes.ObjType:
+                tmpPools = objPools;
+                tmpNames = objNames;//awake에서 선언햇니
+                break;
         }
 
         int index = NametoIndex(tmpNames, _name);
@@ -205,6 +219,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                     break;
                 case PoolTypes.WindType:
                     windPools = tmpPools;
+                    break;
+                case PoolTypes.ObjType:
+                    objPools = tmpPools;
                     break;
             }
         }   

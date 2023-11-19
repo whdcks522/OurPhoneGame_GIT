@@ -487,7 +487,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
-                        if (hitObj.transform.gameObject != gameObject) 
+                        if (hitObj.transform.gameObject != gameObject && !hitObj.transform.CompareTag("PlayerSwordArea")) 
                         {
                             Debug.LogWarning(hitObj.transform.gameObject.name);
                             Debug.LogError(gameObject.name);
@@ -1015,13 +1015,26 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 //바람 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
             }
+            /*
             if (PhotonNetwork.InRoom)
             {
                 //플레이어는 내꺼면서, 칼은 내 것이 아니여야 함
                 if (photonView.IsMine && !other.gameObject.GetComponent<PhotonView>().IsMine)
                 {
                     //피격 처리
-                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 20, false);
+                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 10, false);
+                }
+            }
+            */
+            if (other.gameObject.CompareTag("playerSword"))
+            {
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine && !other.gameObject.GetComponent<PhotonView>().IsMine)
+                    {
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 10, false);
+                    }
                 }
             }
         }
