@@ -134,7 +134,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.Dead:
                     if (isCheck)
                     {
-                        Debug.Log("fsfsafd"+count);
                         //점수 증가하자 죽으면 처리 안되므로
                         if(!PhotonNetwork.InRoom)
                             lateUpdate();
@@ -295,12 +294,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //플레이어 위치 관리
                     if ((transform.position - rpcPos).sqrMagnitude >= 5)//너무 멀면 순간이동 
                     {
-                        //Debug.Log("PlayerQuickMove");
+                        Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
                     }
                     else
                     {
-                        //Debug.Log("PlayerSlowMove");
+                        Debug.Log("PlayerSlowMove");
                         Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
                     }
 
@@ -309,7 +308,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 5)//너무 멀면 순간이동 
                         {
-                            //Debug.Log("칼 고속 이동");
+                            //Debug.LogWarning("칼 고속 이동");
                             playerSwords[i].transform.position = swordsRpcPos[i];
                         }
                         else
@@ -1093,7 +1092,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if (photonView.IsMine) 
                         {
-                            Debug.Log(count++);
                             photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                         }
                     }
@@ -1104,7 +1102,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }    
             } 
         }
-        int count = 0;
 
         //죽었고 조금 뒤, 죽음에 대한 처리
         void SoonDie() 
