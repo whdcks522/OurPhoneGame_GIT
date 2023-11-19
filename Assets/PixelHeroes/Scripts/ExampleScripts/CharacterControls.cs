@@ -242,7 +242,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (photonView.IsMine)//자신의 것은
                     miniUI.SetActive(false);//미니 UI 비활성화
-                else if (photonView.IsMine)//남의 것은
+                else if (!photonView.IsMine)//남의 것은
                     playerSwordArea.gameObject.SetActive(false);//칼 영역 비활성화
             }
             else if (!PhotonNetwork.InRoom)
