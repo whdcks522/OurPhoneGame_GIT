@@ -100,7 +100,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     #endregion 
 
     #region 시작시 페이드 아웃
-    IEnumerator loadTextSwap()//로딩중
+    IEnumerator loadTextSwap()//로딩 중 텍스트
     {
         loadText.text = "로비 입장중.";
         yield return wait0_35;
@@ -155,17 +155,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     #region 단절됐을 때
-    public void Disconnect() //아래도 같이 호출되나봄
+    public void Disconnect() 
     {
-        //입장 효과음
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
-
         PhotonNetwork.Disconnect();
-
-        //AuthManager.Instance.Destroy();
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
+        //입장 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+        //씬 전환
         SceneManager.LoadScene("AuthScene");
     }
     #endregion
@@ -231,7 +229,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
 
     #region 방
-
     public void CreateRoom() //방 생성
     {
 
