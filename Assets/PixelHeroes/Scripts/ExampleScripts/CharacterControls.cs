@@ -127,6 +127,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isPC;
 
         [PunRPC]
+        void changeVelocity(Vector2 _tmpVec) 
+        {
+            rigid.velocity = _tmpVec;
+        }
+
+        [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
         {
             switch (tmpPlayerStateType) 
@@ -149,10 +155,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
                         SwordComponent.leaderSwordExitRPC(2);
-                        //속도 초기화
-                        rigid.velocity = Vector2.zero;
+                        //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
+                        if (PhotonNetwork.InRoom)
+                            photonView.RPC("changeVelocity", RpcTarget.AllBuffered, rigid.velocity);
+
                         //곧 죽음
-                        if(!PhotonNetwork.InRoom)
+                        if (!PhotonNetwork.InRoom)
                             Invoke("SoonDie", 1.5f);
                     }
                     else if (!isCheck)
@@ -231,7 +239,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 changeStateRPC(PlayerStateType.LeftControl, true);
                 changeStateRPC(PlayerStateType.RightControl, true);
-                //changeStateRPC(PlayerStateType.CanHeal, true);
+
 
                 //체력 감소율을 0으로
                 healthMinus = 0;
