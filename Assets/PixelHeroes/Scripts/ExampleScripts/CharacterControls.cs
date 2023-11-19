@@ -240,8 +240,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //자신의 미니 UI 안보이게
             if (PhotonNetwork.InRoom) 
             {
-                if (photonView.IsMine)
-                    miniUI.SetActive(false);
+                if (photonView.IsMine)//자신의 것은
+                    miniUI.SetActive(false);//미니 UI 비활성화
+                else if (photonView.IsMine)//남의 것은
+                    playerSwordArea.gameObject.SetActive(false);//칼 영역 비활성화
             }
             else if (!PhotonNetwork.InRoom)
             {
@@ -305,12 +307,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 5)//너무 멀면 순간이동 
                         {
-                            Debug.Log("칼 고속 이동");
+                            //Debug.Log("칼 고속 이동");
                             playerSwords[i].transform.position = swordsRpcPos[i];
                         }
                         else
                         {
-                            Debug.Log("칼 그냥 이동");
+                            //Debug.Log("칼 그냥 이동");
                             Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 10);
                         }
                     }
