@@ -134,6 +134,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.Dead:
                     if (isCheck)
                     {
+                        Debug.Log("fsfsafd"+count);
                         //점수 증가하자 죽으면 처리 안되므로
                         //lateUpdate();
                         //사망 처리
