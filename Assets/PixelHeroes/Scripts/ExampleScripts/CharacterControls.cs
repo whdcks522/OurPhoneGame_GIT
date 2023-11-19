@@ -206,6 +206,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Awake()
         {
+            PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 30;
+
             rigid = GetComponent<Rigidbody2D>();
             
             battleUIManager = BattleUIManager.Instance;
@@ -506,7 +509,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                 }
 
-                if (isGround)//바닥에 있을 때 isConst || isBlock
+                if (isGround)//바닥에 있을 때
                 {
                     if (_inputY > 0)//점프
                     {
@@ -700,6 +703,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         private void Turn(int direction)
         {
+            Debug.Log("Turn");
+
             var scale = Character.transform.localScale;
 
             scale.x = Mathf.Sign(direction) * Mathf.Abs(scale.x);
@@ -776,18 +781,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (swordJoyVec.x != 0 || swordJoyVec.y != 0) isMove = true;
             }
             //길이 감소
-            swordJoyVec = swordJoyVec.normalized;  
+            swordJoyVec = swordJoyVec.normalized; PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 30;
 
             //검 이동
             //if (isMove)
-                SwordMove(SwordComponent.saveSwordVec == swordJoyVec);//조작이 이전과 같은지
+            SwordMove(SwordComponent.saveSwordVec == swordJoyVec);//조작이 이전과 같은지
         }
         #endregion
 
         #region 이전과 조작이 다르면 칼을 움직임
         void SwordMove(bool isSame) 
         {
-            Debug.Log("isHere?");
+            
 
             //칼이 활성화돼있을 때, 방향 조작시
             if (playerSwords[0].activeSelf && !isSame) // 
