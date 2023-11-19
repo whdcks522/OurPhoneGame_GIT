@@ -27,8 +27,8 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         //아래 2개는 동기화에 도움 준다는데 맞는지 몰루
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.SendRate = 240;
+        PhotonNetwork.SerializationRate = 120;
 
         battleUIManager = BattleUIManager.Instance;
         
@@ -41,7 +41,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         }
     }
 
-    int count = 0;
     IEnumerator CreateEgg() //계란 생성
     {
         yield return null;
@@ -52,7 +51,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
             curTime += Time.deltaTime;
             yield return null;
         }
-        count++;
 
         //계란 생성
         GameObject egg = gameManager.CreateObj("Egg", GameManager.PoolTypes.ObjType);
@@ -131,7 +129,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
             }
         }
         //시작하고 나서 탈주하는 경우
-        else if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
+        if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
         {
             gameManager.allLeaveRoomStart();
         }
