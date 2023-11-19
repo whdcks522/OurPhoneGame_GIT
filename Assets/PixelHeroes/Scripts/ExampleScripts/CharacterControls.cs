@@ -301,7 +301,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!photonView.IsMine) 
                 {
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 12)//너무 멀면 순간이동, 8
+                    if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동, 12
                     {
                         Debug.LogError("PlayerQuickMove");
                         transform.position = rpcPos;
@@ -309,7 +309,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     else
                     {
                         Debug.LogWarning("PlayerSlowMove");
-                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
+                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);//10
                     }
 
                     //칼 위치 조정

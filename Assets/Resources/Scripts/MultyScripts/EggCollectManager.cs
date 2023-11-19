@@ -103,39 +103,35 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                 }
                 else if (loser != -2)
                 {
-                    if (LeftScore >= 2) 
+                    if (loser == -1)
                     {
-                        loser = 1;
-                    }
-                    else if (RightScore >= 2)
-                    {
-                        loser = 0;
-                    }
-
-                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-                    {
-                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                        typingControl(cc, LeftScore + " : " + RightScore);
-                    }
-
-                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-                    {
-                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-
-                        if (loser != -1) 
+                        if (LeftScore >= 2)
                         {
+                            loser = 1;
+                        }
+                        else if (RightScore >= 2)
+                        {
+                            loser = 0;
+                        }
+                    }
+                    else if (loser != -1) 
+                    {
+                        for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                        {
+                            CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
-                                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose");
-                                typingControl(cc, "Lose");
+                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose");
+                                //typingControl(cc, "Lose");
                             }
                             else
                             {
-                                typingControl(cc, "Win");
-                                ///cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
+                                //typingControl(cc, "Win");
+                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "Win");
                             }
                         }
-                        
+                        loser = 2;
                     }
                 }
             }
@@ -148,11 +144,18 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
             string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
+
+            CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
+            cc.TypingRPC(CharacterControls.TypingType.None, str);
+
+            /*
             for (int i = 0; i < gameManager.playerGroup.childCount; i++)
             {
                 CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                 typingControl(cc, LeftScore + " : " + RightScore);
             }
+            */
+
         }
         
         //시작하고 나서 탈주하는 경우
@@ -220,8 +223,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void createEffect(bool isLeft) 
     {
-        
-
         //효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
 
