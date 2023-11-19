@@ -1,4 +1,5 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
+using KoreanTyper;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -23,22 +24,23 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     //->현재 이 컴퓨터가 호스트면서, 이 게임오브젝트가 호스트 측에서 생성됨
 
     BattleUIManager battleUIManager;
+    //설명하는 코루틴
+    Coroutine textCor;
 
     private void Awake()
     {
-        //아래 2개는 동기화에 도움 준다는데 맞는지 몰루
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
 
         battleUIManager = BattleUIManager.Instance;
         
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+
+        //StartCoroutine(CreateEgg());
     }
 
     IEnumerator CreateEgg() //계란 생성
     {
-        yield return null;
-
         float curTime = 0, maxTime = 2.5f;
         while (curTime <= maxTime) 
         {
@@ -52,6 +54,23 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         egg.transform.position = eggPoints[0].position;
     }
 
+    void typingControl(CharacterControls _cc, string _str)
+    {
+        if (textCor != null)
+            StopCoroutine(textCor);
+
+        textCor = StartCoroutine(typingRoutine(_cc, _str));
+    }
+
+
+    public IEnumerator typingRoutine(CharacterControls _cc, string _str)
+    {
+        _cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, _str);
+        yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);
+        textCor = StartCoroutine(typingRoutine(_cc, _str));
+
+        Debug.Log("Typing");
+    }
 
     private void Update()
     {
@@ -96,36 +115,46 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
                         CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                        typingControl(cc, LeftScore + " : " + RightScore);
+                    }
 
-                        if (loser == -1)//경쟁중이면 점수 출력
+                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    {
+                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+
+                        if (loser != -1) 
                         {
-                            //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                            if (i == loser) //패배자한테 패배 메시지 전송
+                            {
+                                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose");
+                                typingControl(cc, "Lose");
+                            }
+                            else
+                            {
+                                typingControl(cc, "Win");
+                                ///cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
+                            }
                         }
-                        else if (i == loser) //패배자한테 패배 메시지 전송
-                        {
-                            //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
-                        }
-                        else
-                        {
-                            //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
-                        }
+                        
                     }
                 }
             }
         }//방장 일 때,
 
         //방장이 아니여도
+        
         if (loser == -2)
         {
-            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-            {
-                string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+            string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
+            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+            {
                 CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                cc.TypingRPC(CharacterControls.TypingType.None, str);
+                typingControl(cc, LeftScore + " : " + RightScore);
             }
         }
+        
         //시작하고 나서 탈주하는 경우
         if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
         {
@@ -151,13 +180,29 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
             {
                 if (collision.gameObject.transform.position.x < 0) 
                 {
+                    //좌측 점수 증가
                     LeftScore += 1;
+                    //타이핑 작동
+                    for(int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    {
+                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                        typingControl(cc, LeftScore + " : " + RightScore);
+                    }
+
                     //골 이펙트
                     photonView.RPC("createEffect", RpcTarget.AllBuffered, true);
                 }
                 else if (collision.gameObject.transform.position.x > 0)
                 {
+                    //우측점수 증가
                     RightScore += 1;
+                    //타이핑 작동
+                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    {
+                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                        typingControl(cc, LeftScore + " : " + RightScore);
+                    }
+
                     //골 이펙트
                     photonView.RPC("createEffect", RpcTarget.AllBuffered, false);
                 }
@@ -175,6 +220,8 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void createEffect(bool isLeft) 
     {
+        
+
         //효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
 
