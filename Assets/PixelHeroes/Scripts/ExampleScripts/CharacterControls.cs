@@ -226,8 +226,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
             {
-                //changeStateRPC(PlayerStateType.LeftControl, true);
-                //changeStateRPC(PlayerStateType.RightControl, true);
+                changeStateRPC(PlayerStateType.LeftControl, true);
+                changeStateRPC(PlayerStateType.RightControl, true);
                 //changeStateRPC(PlayerStateType.CanHeal, true);
 
                 //체력 감소율을 0으로
@@ -487,8 +487,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
-                        if (hitObj.transform.gameObject != this.gameObject) 
+                        if (hitObj.transform.gameObject != gameObject) 
                         {
+                            Debug.LogWarning(hitObj.transform.gameObject.name);
+                            Debug.LogError(gameObject.name);
                             isGround = true;
                             break;
                         }

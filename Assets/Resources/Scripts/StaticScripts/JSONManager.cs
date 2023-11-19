@@ -10,11 +10,13 @@ public class JSONManager : MonoBehaviour
     [System.Serializable]
     public class SingleScore
     {
+
         public int[] TrainMaxScore = new int[3];
         public int[] StarFallMaxScore = new int[3];
         public int[] BlockCrashMaxScore = new int[3];
         public int[] FlyMaxScore = new int[3];
 
+        //싱글 점수 불러오기
         public int LoadScore(SingleInfo.SingleType _singleType, int _index) 
         {
             int value = 0;
@@ -36,6 +38,8 @@ public class JSONManager : MonoBehaviour
 
             return value;
         }
+
+        //싱글 점수 갱신하기
         public void UpdateScore(SingleInfo.SingleType _singleType, int _index, int _score)
         {
             switch (_singleType)//3곳씩 수정
