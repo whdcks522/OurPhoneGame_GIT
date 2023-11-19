@@ -9,20 +9,9 @@ using UnityEngine.UI;
 
 public class PvPManager : MonoBehaviourPunCallbacks
 {
-    [Header("운석 발생 지점")]
-    public Transform[] starPoints;
-
-    //총 합친 발사 시간
-    float sumTime;
-    //최대 발사 시간
-    public float maxTime;
-    //현재 발사 시간
-    float curTime;
-
     public int loser = -2;
     public int maxPlayer;
 
-    BattleUIManager battleUIManager;
     [Header("게임매니저")]
     public GameManager gameManager;
 
@@ -32,7 +21,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
-        battleUIManager = BattleUIManager.Instance;
     }
 
 
@@ -56,6 +44,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
                         //무기 갯수 1개로
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
+                        //전투 허가
+                        cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordFight, true);
                         //텍스트
                         cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
                     }

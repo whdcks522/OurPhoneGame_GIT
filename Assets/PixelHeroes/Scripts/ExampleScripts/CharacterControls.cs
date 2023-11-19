@@ -292,7 +292,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!photonView.IsMine) 
                 {
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 5)//너무 멀면 순간이동 
+                    if ((transform.position - rpcPos).sqrMagnitude >= 8)//너무 멀면 순간이동 ,5
                     {
                         Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
@@ -308,12 +308,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 5)//너무 멀면 순간이동 
                         {
-                            //Debug.LogWarning("칼 고속 이동");
                             playerSwords[i].transform.position = swordsRpcPos[i];
                         }
                         else
                         {
-                            //Debug.Log("칼 그냥 이동");
                             Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 10);
                         }
                     }
@@ -822,8 +820,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordActiveRPC() 
         {
+
             playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
             playerSwords[0].SetActive(true);
+            SwordComponent.trailRenderer.Clear();
+            //등의 검 비활성화
             backSwords.SetActive(false);
         }
         #endregion
@@ -1017,19 +1018,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 //바람 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
-            }
-            /*
-            if (PhotonNetwork.InRoom)
-            {
-                //플레이어는 내꺼면서, 칼은 내 것이 아니여야 함
-                if (photonView.IsMine && !other.gameObject.GetComponent<PhotonView>().IsMine)
-                {
-                    //피격 처리
-                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 10, false);
-                }
-            }
-            */
-            
+            }          
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -1038,10 +1027,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (PhotonNetwork.InRoom)
                 {
-                    if (photonView.IsMine && !collision.gameObject.GetComponent<PhotonView>().IsMine)
+                    //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
+                    if (photonView.IsMine && !collision.gameObject.GetComponent<PhotonView>().IsMine && isSwordFight)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 10, false);
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 20, true);
                     }
                 }
             }
@@ -1086,7 +1076,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             if (curHealth <= 0)
             {
-                if (!isDead)//Character.GetState() != AnimationState.Dead 
+                if (!isDead)
                 {
                     if (PhotonNetwork.InRoom)
                     {

@@ -213,7 +213,6 @@ public class BattleUIManager : MonoBehaviour
         //선택창 고르기
         if (battleType == BattleType.Single)//싱글
         {
-            Debug.Log("AA");
             //데이터 저장
             jsonManager.SaveData(singleType, curLevel, Mathf.FloorToInt(curScore));
 
