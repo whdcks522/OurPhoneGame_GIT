@@ -148,6 +148,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
                         SwordComponent.leaderSwordExitRPC(2);
+                        //속도 초기화
+                        rigid.velocity = Vector2.zero;
                         //곧 죽음
                         if(!PhotonNetwork.InRoom)
                             Invoke("SoonDie", 1.5f);
@@ -492,7 +494,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             !hitObj.transform.GetComponent<Collider2D>().isTrigger) 
                         {
                             Debug.LogWarning(hitObj.transform.gameObject.name);
-                            Debug.LogError(gameObject.name);
+                            //Debug.LogError(gameObject.name);
                             isGround = true;
                             break;
                         }

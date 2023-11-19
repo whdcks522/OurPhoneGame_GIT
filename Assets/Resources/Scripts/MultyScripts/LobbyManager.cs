@@ -164,7 +164,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //입장 효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
         //씬 전환
-        SceneManager.LoadScene("AuthScene");
+        SceneManager.LoadScene("Home");
     }
     #endregion
 
