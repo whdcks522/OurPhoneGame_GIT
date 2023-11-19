@@ -26,6 +26,10 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        //아래 2개는 동기화에 도움 준다는데 맞는지 몰루
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
+
         battleUIManager = BattleUIManager.Instance;
         
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
