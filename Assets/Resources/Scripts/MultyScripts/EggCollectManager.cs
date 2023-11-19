@@ -33,12 +33,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         battleUIManager = BattleUIManager.Instance;
         
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
-
-        if(isMasterCilentLocal)
-        {
-            //계란 생성
-            StartCoroutine(CreateEgg());
-        }
     }
 
     IEnumerator CreateEgg() //계란 생성
@@ -70,6 +64,8 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                 if (loser == -2)//-2: 게임을 막 시작한 경우
                 {
+                    StartCoroutine(CreateEgg());
+
                     photonView.RPC("alreadyStartRPC", RpcTarget.AllBuffered);
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
@@ -83,6 +79,8 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                         //텍스트
                         cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Egg!");
                     }
+
+
                 }
                 else if (loser != -2)
                 {
@@ -101,15 +99,15 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                         if (loser == -1)//경쟁중이면 점수 출력
                         {
-                            cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                            //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
                         }
                         else if (i == loser) //패배자한테 패배 메시지 전송
                         {
-                            cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
+                            //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
                         }
                         else
                         {
-                            cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
+                            //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
                         }
                     }
                 }
