@@ -263,8 +263,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
         }
 
-        
-
         void Start()
         {
             gameManager = battleUIManager.gameManager;
@@ -364,6 +362,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             */
             #endregion
 
+            int tmpX = 0, tmpY = 0;
+
             if (isPC)
             {
                 /*
@@ -380,55 +380,44 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
                 */
 
-                _inputX = 0;
                 if (Input.GetKey(KeyCode.Z))
                 {
-                    _inputX = -1;
+                    tmpX = -1;
                 }
                 else if (Input.GetKey(KeyCode.C))
                 {
-                    _inputX = 1;
+                    tmpX = 1;
                 }
-
-                _inputY = 0;
                 if (Input.GetKey(KeyCode.S))//Down 지워버림
                 {
-                    _inputY = 1;
-
-                    //if (Controller.isGrounded)
-                    {
-                        //JumpDust.Play(true);
-                    }
+                    tmpY = 1;
                 }
             }//PC
             else if (!isPC)//조이스틱
             {
                 moveJoyVec.x = moveJoy.Horizontal;
                 moveJoyVec.y = moveJoy.Vertical;
-                _inputX = (int)moveJoyVec.x;
+                tmpX = (int)moveJoyVec.x;
 
-
-                _inputY = 0;
                 if (moveJoyVec.y >= 0.65f)
                 {
-                    _inputY = 1;
-
-                    //if (Controller.isGrounded)
-                    {
-                        //JumpDust.Play(true);
-                    }
+                    tmpY = 1;
                 }
-
-                //Debug.Log("x:" + _inputX);
 
             }//조이스틱
 
             if(!isCanJump)
-                _inputY = 0;
+                tmpY = 0;
 
-            if (PhotonNetwork.InRoom)
+            if (PhotonNetwork.InRoom)//여기까진 애초에 본인만 올 수 있음
             {
-                photonView.RPC("xyRPC", RpcTarget.AllBuffered, _inputX, _inputY);
+                if(tmpX != _inputX || tmpY != _inputY)
+                    photonView.RPC("xyRPC", RpcTarget.AllBuffered, tmpX, tmpY);
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                if (tmpX != _inputX || tmpY != _inputY)
+                    xyRPC(tmpX, tmpY);
             }
         }
         #endregion
@@ -437,6 +426,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void xyRPC(int x, int y)
         {
+            Debug.LogWarning("이동 방향 조작");
             _inputX = x;
             _inputY = y;
         }
@@ -700,11 +690,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #endregion
 
         #region Scale을 돌려서 좌우 반전 적용
-        [PunRPC]
-        private void Turn(int direction)
+        void Turn(int direction)
         {
-            Debug.Log("Turn");
-
             var scale = Character.transform.localScale;
 
             scale.x = Mathf.Sign(direction) * Mathf.Abs(scale.x);
@@ -746,7 +733,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region PC, 조이스틱에 따른 칼의 벡터 입력
         private void SwordInput()
         {
-            bool isMove = false;
             if (isPC)
             {
                 int tmpX = 0, tmpY = 0;
@@ -769,23 +755,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
                 swordJoyVec.x = tmpX;
                 swordJoyVec.y = tmpY;
-
-                if (tmpX != 0 || tmpY != 0) isMove = true;
             }
-
             else if (!isPC) //모바일의 경우
             {
                 swordJoyVec.x = swordJoy.Horizontal;
                 swordJoyVec.y = swordJoy.Vertical;
-
-                if (swordJoyVec.x != 0 || swordJoyVec.y != 0) isMove = true;
             }
             //길이 감소
-            swordJoyVec = swordJoyVec.normalized; PhotonNetwork.SendRate = 60;
-            PhotonNetwork.SerializationRate = 30;
+            swordJoyVec = swordJoyVec.normalized; 
 
             //검 이동
-            //if (isMove)
             SwordMove(SwordComponent.saveSwordVec == swordJoyVec);//조작이 이전과 같은지
         }
         #endregion
@@ -793,8 +772,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 이전과 조작이 다르면 칼을 움직임
         void SwordMove(bool isSame) 
         {
-            
-
             //칼이 활성화돼있을 때, 방향 조작시
             if (playerSwords[0].activeSelf && !isSame) // 
             {
@@ -823,6 +800,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
+            Debug.LogWarning("칼 방향 조작");
+
             if (tmpVec.x == 0 && tmpVec.y == 0)//사용 안할 시, 다시 수납
             {
                 SwordComponent.leaderSwordExitRPC(0);
@@ -836,6 +815,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordActiveRPC() 
         {
+            Debug.LogWarning("칼 활성화");
 
             playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
             playerSwords[0].SetActive(true);
