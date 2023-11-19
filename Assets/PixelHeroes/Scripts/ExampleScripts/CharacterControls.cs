@@ -294,12 +294,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //플레이어 위치 관리
                     if ((transform.position - rpcPos).sqrMagnitude >= 8)//너무 멀면 순간이동 ,5
                     {
-                        Debug.LogWarning("PlayerQuickMove");
+                        Debug.LogError("PlayerQuickMove");
                         transform.position = rpcPos;
                     }
                     else
                     {
-                        Debug.Log("PlayerSlowMove");
+                        Debug.LogWarning("PlayerSlowMove");
                         Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);
                     }
 
