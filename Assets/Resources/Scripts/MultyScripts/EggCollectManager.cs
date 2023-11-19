@@ -24,10 +24,15 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+
+        
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
-        //域空 持失
-        StartCoroutine(CreateEgg());
+        if(isMasterCilentLocal)
+        {
+            //域空 持失
+            StartCoroutine(CreateEgg());
+        }
     }
 
     IEnumerator CreateEgg() //域空 持失
