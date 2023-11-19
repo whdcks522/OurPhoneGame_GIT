@@ -830,111 +830,111 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void lateUpdate() 
         {
-            if (isDead)
-                return;
-
-            //자연 체력 감소
-            curHealth -= healthMinus * Time.deltaTime;
-
-            //생존 파악
-            if (PhotonNetwork.InRoom)
+            if (!isDead)
             {
-                if (photonView.IsMine)
+                //자연 체력 감소
+                curHealth -= healthMinus * Time.deltaTime;
+
+                //생존 파악
+                if (PhotonNetwork.InRoom)
                 {
-                    //피격 처리
-                    photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0, false);
+                    if (photonView.IsMine)
+                    {
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0, false);
+                    }
                 }
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                damageControlRPC(0, false);
-            }
-            //UI 관리-------------------------------------------------------
+                else if (!PhotonNetwork.InRoom)
+                {
+                    damageControlRPC(0, false);
+                }
+                //UI 관리-------------------------------------------------------
 
-            //미니 체력 바 적용
-            miniHealthGauge.fillAmount = curHealth / maxHealth;
+                //미니 체력 바 적용
+                miniHealthGauge.fillAmount = curHealth / maxHealth;
 
-            //큰 체력바 적용
-            if (PhotonNetwork.InRoom)
-            {
-                if (photonView.IsMine)
+                //큰 체력바 적용
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        float firstValue = battleUIManager.bigHealthBar.value;
+                        battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
                 {
                     float firstValue = battleUIManager.bigHealthBar.value;
                     battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
                 }
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                float firstValue = battleUIManager.bigHealthBar.value;
-                battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
-            }
 
-            //시간에 따라 점수 증가
-            battleUIManager.curScore += Time.deltaTime * scorePlus;
+                //시간에 따라 점수 증가
+                battleUIManager.curScore += Time.deltaTime * scorePlus;
 
-            //랭크와 점수 텍스트 적용
-            battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + "/";
-            if (battleUIManager.curScore >= battleUIManager.Sscore) //S급 이상의 경우
-            {
-                if (!isSRank)
+                //랭크와 점수 텍스트 적용
+                battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + "/";
+                if (battleUIManager.curScore >= battleUIManager.Sscore) //S급 이상의 경우
                 {
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                    battleUIManager.rankType = BattleUIManager.RankType.S;
-                    isSRank = true;
+                    if (!isSRank)
+                    {
+                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                        battleUIManager.rankType = BattleUIManager.RankType.S;
+                        isSRank = true;
 
+                    }
+                    battleUIManager.bigRankText.text = "<color=#AA00FF> S </color>";
+                    battleUIManager.bigScoreText.text += '-';
                 }
-                battleUIManager.bigRankText.text = "<color=#AA00FF> S </color>";
-                battleUIManager.bigScoreText.text += '-';
-            }
-            else if (battleUIManager.curScore >= battleUIManager.Ascore) //A급 이상의 경우
-            {
-                if (!isARank)
+                else if (battleUIManager.curScore >= battleUIManager.Ascore) //A급 이상의 경우
                 {
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                    battleUIManager.rankType = BattleUIManager.RankType.A;
-                    isARank = true;
+                    if (!isARank)
+                    {
+                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                        battleUIManager.rankType = BattleUIManager.RankType.A;
+                        isARank = true;
+                    }
+                    battleUIManager.bigRankText.text = "<color=#0000FF> A </color>";
+                    battleUIManager.bigScoreText.text += battleUIManager.Sscore;
                 }
-                battleUIManager.bigRankText.text = "<color=#0000FF> A </color>";
-                battleUIManager.bigScoreText.text += battleUIManager.Sscore;
-            }
-            else if (battleUIManager.curScore >= battleUIManager.Bscore) //B급 이상의 경우
-            {
-                if (!isBRank)
+                else if (battleUIManager.curScore >= battleUIManager.Bscore) //B급 이상의 경우
                 {
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                    battleUIManager.rankType = BattleUIManager.RankType.B;
-                    isBRank = true;
+                    if (!isBRank)
+                    {
+                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                        battleUIManager.rankType = BattleUIManager.RankType.B;
+                        isBRank = true;
+                    }
+                    battleUIManager.bigRankText.text = "<color=#00AA00> B </color>";
+                    battleUIManager.bigScoreText.text += battleUIManager.Ascore;
                 }
-                battleUIManager.bigRankText.text = "<color=#00AA00> B </color>";
-                battleUIManager.bigScoreText.text += battleUIManager.Ascore;
-            }
-            else if (battleUIManager.curScore >= battleUIManager.Cscore) //C급 이상의 경우
-            {
-                if (!isCRank)
+                else if (battleUIManager.curScore >= battleUIManager.Cscore) //C급 이상의 경우
                 {
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                    battleUIManager.rankType = BattleUIManager.RankType.C;
-                    isCRank = true;
+                    if (!isCRank)
+                    {
+                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                        battleUIManager.rankType = BattleUIManager.RankType.C;
+                        isCRank = true;
+                    }
+                    battleUIManager.bigRankText.text = "<color=#FF0000> C </color>";
+                    battleUIManager.bigScoreText.text += battleUIManager.Bscore;
                 }
-                battleUIManager.bigRankText.text = "<color=#FF0000> C </color>";
-                battleUIManager.bigScoreText.text += battleUIManager.Bscore;
-            }
-            else if (battleUIManager.curScore >= battleUIManager.Dscore) //D급 이상의 경우
-            {
-                if (!isDRank)
+                else if (battleUIManager.curScore >= battleUIManager.Dscore) //D급 이상의 경우
                 {
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                    battleUIManager.rankType = BattleUIManager.RankType.D;
-                    isDRank = true;
+                    if (!isDRank)
+                    {
+                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
+                        battleUIManager.rankType = BattleUIManager.RankType.D;
+                        isDRank = true;
+                    }
+                    battleUIManager.bigRankText.text = "<color=#FFFF00> D </color>";
+                    battleUIManager.bigScoreText.text += battleUIManager.Cscore;
                 }
-                battleUIManager.bigRankText.text = "<color=#FFFF00> D </color>";
-                battleUIManager.bigScoreText.text += battleUIManager.Cscore;
-            }
-            else if (battleUIManager.curScore >= battleUIManager.Escore) //E급 이상의 경우
-            {
-                battleUIManager.bigRankText.text = "<color=#FFFFFF> E </color>";
-                battleUIManager.bigScoreText.text += battleUIManager.Dscore;
-            }
+                else if (battleUIManager.curScore >= battleUIManager.Escore) //E급 이상의 경우
+                {
+                    battleUIManager.bigRankText.text = "<color=#FFFFFF> E </color>";
+                    battleUIManager.bigScoreText.text += battleUIManager.Dscore;
+                }
+            }    
         }
 
         private void LateUpdate()
