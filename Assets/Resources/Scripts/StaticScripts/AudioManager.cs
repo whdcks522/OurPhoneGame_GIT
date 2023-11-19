@@ -83,7 +83,6 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Start");
         isPlayBgm = battleUIManager.jsonManager.singleScore.isPlayBgm;
         isPlaySfx = battleUIManager.jsonManager.singleScore.isPlaySfx;
     }

@@ -157,7 +157,6 @@ GameObject:
   - component: {fileID: 1402764812876160967}
   - component: {fileID: 3827844265307506156}
   - component: {fileID: 2563006982824486334}
-  - component: {fileID: 90626107496524562}
   - component: {fileID: 1498103550444001432}
   - component: {fileID: 1822214940800411375}
   m_Layer: 10
@@ -297,18 +296,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &90626107496524562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283883041438498517}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1498103550444001432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,8 +339,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 90626107496524562}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1094,7 +1080,6 @@ GameObject:
   - component: {fileID: 39826465053875229}
   - component: {fileID: 7025989562260735996}
   - component: {fileID: 8619665800962567154}
-  - component: {fileID: 2199063156952049732}
   - component: {fileID: 501831376110509810}
   - component: {fileID: 2381587850975651875}
   m_Layer: 10
@@ -1234,18 +1219,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2199063156952049732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961907249849268425}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &501831376110509810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6225,7 +6198,7 @@ RectTransform:
   m_GameObject: {fileID: 2387320225430607986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8349683056711447243}
@@ -6233,7 +6206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 15}
+  m_AnchoredPosition: {x: 0, y: 19.2}
   m_SizeDelta: {x: 100, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3096175575959398508
@@ -6608,7 +6581,6 @@ GameObject:
   - component: {fileID: 3447589726843113953}
   - component: {fileID: 230142003773902994}
   - component: {fileID: 6368406327049563317}
-  - component: {fileID: 2995378296366871059}
   - component: {fileID: 1725857270495661142}
   - component: {fileID: 6317733242623581196}
   m_Layer: 10
@@ -6748,18 +6720,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2995378296366871059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3925482333871758672}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1725857270495661142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11850,7 +11810,6 @@ GameObject:
   - component: {fileID: 5061754987573259237}
   - component: {fileID: 8380206209405730978}
   - component: {fileID: 7417595516749034544}
-  - component: {fileID: 2478282772539397729}
   - component: {fileID: 2931984663101574097}
   - component: {fileID: 3317951420070708183}
   m_Layer: 10
@@ -11990,18 +11949,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2478282772539397729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4729382956313458514}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2931984663101574097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12045,8 +11992,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 2478282772539397729}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -12207,7 +12153,6 @@ GameObject:
   - component: {fileID: 8946787510704924175}
   - component: {fileID: 1698808102476226839}
   - component: {fileID: 5788944054886612297}
-  - component: {fileID: 6072147024367056189}
   - component: {fileID: 7266633519759043998}
   - component: {fileID: 3856291898889062028}
   m_Layer: 10
@@ -12347,18 +12292,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &6072147024367056189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5762922852383065240}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7266633519759043998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17548,7 +17481,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4968095510686775453}
   - component: {fileID: 7273325550902304218}
-  - component: {fileID: 5117317708719656753}
   - component: {fileID: 7406846429251221552}
   - component: {fileID: 8569868044344987354}
   - component: {fileID: 782972342569601320}
@@ -17628,18 +17560,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5117317708719656753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6046476537605058143}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7406846429251221552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17658,8 +17578,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 5117317708719656753}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -17777,7 +17696,7 @@ RectTransform:
   m_GameObject: {fileID: 6287530597104394198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.030000001, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.06, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8897822117716592134}
@@ -17788,7 +17707,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 12}
+  m_AnchoredPosition: {x: 0, y: 13.2}
   m_SizeDelta: {x: 100, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4197808814192301137
@@ -18025,7 +17944,6 @@ GameObject:
   - component: {fileID: 8514128474275185500}
   - component: {fileID: 4437695636868184592}
   - component: {fileID: 5662471143545277304}
-  - component: {fileID: 371351148052662827}
   - component: {fileID: 6632360085092520154}
   - component: {fileID: 4077871818435755315}
   m_Layer: 10
@@ -18165,18 +18083,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &371351148052662827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949382106540633811}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6632360085092520154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18386,7 +18292,6 @@ GameObject:
   - component: {fileID: 8311511646335629278}
   - component: {fileID: 446531673252103057}
   - component: {fileID: 8207147940570771318}
-  - component: {fileID: 3434085211725680960}
   - component: {fileID: 8868785095202500396}
   - component: {fileID: 3559113474980580789}
   m_Layer: 10
@@ -18526,18 +18431,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &3434085211725680960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8970127748784201795}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8868785095202500396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18581,8 +18474,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 3434085211725680960}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

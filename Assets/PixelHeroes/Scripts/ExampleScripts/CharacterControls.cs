@@ -134,6 +134,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.Dead:
                     if (isCheck)
                     {
+                        Debug.Log("hh: "+count++);
+
                         //점수 증가하자 죽으면 처리 안되므로
                         lateUpdate();
                         //사망 처리
@@ -1085,13 +1087,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             if (curHealth <= 0)
             {
-                if (Character.GetState() != AnimationState.Dead) 
+                if (!isDead)//Character.GetState() != AnimationState.Dead 
                 {
                     
                     if (PhotonNetwork.InRoom)
                     {
                         if (photonView.IsMine) 
                         {
+                            Debug.Log(count++);
                             photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                         }
                     }
@@ -1102,7 +1105,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }    
             } 
         }
- 
+        int count = 0;
 
         //죽었고 조금 뒤, 죽음에 대한 처리
         void SoonDie() 
