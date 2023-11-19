@@ -17,12 +17,12 @@ public class SettingsManager : MonoBehaviour
     {
         battleUIManager = BattleUIManager.Instance;
 
-        if (!battleUIManager.audioManager.isPlayBgm) 
+        if (!battleUIManager.jsonManager.singleScore.isPlayBgm) 
         {
             BgmToggle.isOn = false;
             BgmIcon.sprite = SoundIcon[1];
         }
-        if (!battleUIManager.audioManager.isPlaySfx)
+        if (!battleUIManager.jsonManager.singleScore.isPlaySfx)
         {
             SfxToggle.isOn = false;
             SfxIcon.sprite = SoundIcon[1];
@@ -31,10 +31,10 @@ public class SettingsManager : MonoBehaviour
 
     public void BgmControl()
     {
-        //수정 효과음
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
         //상태 변화
+        battleUIManager.jsonManager.singleScore.isPlayBgm = BgmToggle.isOn;
         battleUIManager.audioManager.isPlayBgm = BgmToggle.isOn;
+
         //활성화 시킨 경우
         if (BgmToggle.isOn)
         {
@@ -44,13 +44,18 @@ public class SettingsManager : MonoBehaviour
         {
             BgmIcon.sprite = SoundIcon[1];
         }
+        //JSON 저장
+        battleUIManager.jsonManager.SaveData();
+
+        //수정 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
     }
 
     public void SfxControl() 
     {
-        //수정 효과음
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+        
         //상태 변화
+        battleUIManager.jsonManager.singleScore.isPlaySfx = SfxToggle.isOn;
         battleUIManager.audioManager.isPlaySfx = SfxToggle.isOn;
         //활성화 시킨 경우
         if (BgmToggle.isOn)
@@ -61,6 +66,11 @@ public class SettingsManager : MonoBehaviour
         {
             SfxIcon.sprite = SoundIcon[1];
         }
+        //JSON 저장
+        battleUIManager.jsonManager.SaveData();
+
+        //수정 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
     }
 
     public void goHome()

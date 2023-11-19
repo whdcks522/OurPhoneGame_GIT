@@ -26,6 +26,7 @@ public class BattleUIManager : MonoBehaviour
     #endregion
 
     
+
     public enum BattleType 
     {
         Rest, Single, Multy

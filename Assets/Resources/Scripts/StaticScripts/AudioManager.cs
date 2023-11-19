@@ -5,9 +5,9 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [Header("Bgm 플레이 여부")]
-    public bool isPlayBgm;
+    public bool isPlayBgm = true;
     [Header("Sfx 플레이 여부")]
-    public bool isPlaySfx;
+    public bool isPlaySfx = true;
 
     //Bgm 플레이어
     AudioSource bgmPlayer;
@@ -57,8 +57,12 @@ public class AudioManager : MonoBehaviour
     [Header("바람 Sfx")]
     public AudioClip[] windSfxClips;
 
+
+    BattleUIManager battleUIManager;
     private void Awake()
     {
+        battleUIManager = BattleUIManager.Instance;
+
         //배경음 플레이어 초기화
         GameObject bgmObject = new GameObject("BgmPlayer");
         bgmObject.transform.parent = transform;
@@ -75,6 +79,13 @@ public class AudioManager : MonoBehaviour
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();
             sfxPlayers[index].playOnAwake = false;
         }
+    }
+
+    private void Start()
+    {
+        Debug.Log("Start");
+        isPlayBgm = battleUIManager.jsonManager.singleScore.isPlayBgm;
+        isPlaySfx = battleUIManager.jsonManager.singleScore.isPlaySfx;
     }
 
     public void PlayBgm(BgmStatic _bgm)

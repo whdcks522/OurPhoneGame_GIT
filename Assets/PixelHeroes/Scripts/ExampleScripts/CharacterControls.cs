@@ -487,7 +487,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
-                        if (hitObj.transform.gameObject != gameObject && !hitObj.transform.CompareTag("PlayerSwordArea")) 
+                        if (hitObj.transform.gameObject != gameObject &&
+                            !hitObj.transform.CompareTag("PlayerSwordArea") &&
+                            !hitObj.transform.GetComponent<Collider2D>().isTrigger) 
                         {
                             Debug.LogWarning(hitObj.transform.gameObject.name);
                             Debug.LogError(gameObject.name);
@@ -496,8 +498,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         }
                     }
                 }
-
-                //Debug.LogError("x:" + _inputX);
 
                 if (isGround)//바닥에 있을 때 isConst || isBlock
                 {
@@ -1026,11 +1026,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
             }
             */
-            if (other.gameObject.CompareTag("playerSword"))
+            
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("playerSword"))
             {
                 if (PhotonNetwork.InRoom)
                 {
-                    if (photonView.IsMine && !other.gameObject.GetComponent<PhotonView>().IsMine)
+                    if (photonView.IsMine && !collision.gameObject.GetComponent<PhotonView>().IsMine)
                     {
                         //피격 처리
                         photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 10, false);
