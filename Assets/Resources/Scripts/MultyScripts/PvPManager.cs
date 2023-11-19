@@ -83,7 +83,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
                             {
                                 cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
                             }
-
                         }
                     }
                 }

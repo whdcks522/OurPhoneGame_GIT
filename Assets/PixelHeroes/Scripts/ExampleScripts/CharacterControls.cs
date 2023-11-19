@@ -226,8 +226,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
             {
-                changeStateRPC(PlayerStateType.LeftControl, true);
-                changeStateRPC(PlayerStateType.RightControl, true);
+                //changeStateRPC(PlayerStateType.LeftControl, true);
+                //changeStateRPC(PlayerStateType.RightControl, true);
                 //changeStateRPC(PlayerStateType.CanHeal, true);
 
                 //체력 감소율을 0으로
