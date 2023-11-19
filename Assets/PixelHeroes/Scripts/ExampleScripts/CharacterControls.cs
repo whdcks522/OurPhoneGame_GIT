@@ -406,7 +406,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
 
                 _inputY = 0;
-                if (moveJoyVec.y >= 0.7f)
+                if (moveJoyVec.y >= 0.65f)
                 {
                     _inputY = 1;
 
@@ -787,6 +787,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 이전과 조작이 다르면 칼을 움직임
         void SwordMove(bool isSame) 
         {
+            Debug.Log("isHere?");
+
             //칼이 활성화돼있을 때, 방향 조작시
             if (playerSwords[0].activeSelf && !isSame) // 
             {
@@ -820,7 +822,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 SwordComponent.leaderSwordExitRPC(0);
             }
 
-            SwordComponent.saveSwordVec = tmpVec;
+            SwordComponent.saveSwordVec = tmpVec;//방향 조정
         }
         #endregion
 
@@ -850,7 +852,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0, false);
+                        //photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0, false);
+                        damageControlRPC(0, false);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
@@ -1012,9 +1015,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        //photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
-                        //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1000, false);
+                        photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
