@@ -491,12 +491,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
-                        if (hitObj.transform.gameObject != gameObject &&
-                            !hitObj.transform.CompareTag("PlayerSwordArea") &&
-                            !hitObj.transform.GetComponent<Collider2D>().isTrigger) 
+                        if (hitObj.transform.gameObject != gameObject) 
                         {
-                            Debug.LogWarning(hitObj.transform.gameObject.name);
-                            //Debug.LogError(gameObject.name);
                             isGround = true;
                             break;
                         }
@@ -1006,7 +1002,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
+                        //photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 1000, false);
                     }
                 }
                 else if (!PhotonNetwork.InRoom)
