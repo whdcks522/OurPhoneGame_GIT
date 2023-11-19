@@ -41,7 +41,6 @@ public class Box : MonoBehaviour
             {
                 //점수 증가
                 battleUIManager.curScore += 10;
-                //battleUIManager.bigScoreText.text = battleUIManager.curScore.ToString()+"/"+battleUIManager.Sscore;
                 //채팅 이미지 비활성화
                 boxChat.SetActive(false);
                 //박스 이미지 변화

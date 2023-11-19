@@ -10,11 +10,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     [Header("계란 발생 지점")]
     public Transform eggPoint;
 
-    //최대 발사 시간
-    float maxTime;
-    //현재 발사 시간
-    float curTime;
-
     int LeftScore = 0;
     int RightScore = 0;
 
@@ -31,16 +26,27 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     {
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
-        Invoke("CreateEgg", 1.5f);
+        //계란 생성
+        StartCoroutine(CreateEgg());
     }
 
-    void CreateEgg() //계란 생성
+    IEnumerator CreateEgg() //계란 생성
     {
+        yield return null;
+
+        Debug.Log("AA");
+        float curTime = 0, maxTime = 3f;
+        while (curTime <= maxTime) 
+        {
+            //Debug.Log("BB: " +curTime);
+            curTime += Time.deltaTime;
+        }
+        Debug.Log("CC");
+
         //계란 생성
         GameObject egg = gameManager.CreateObj("Egg", GameManager.PoolTypes.ObjType);
+        egg.GetComponent<PhotonView>().RPC("eggOnRPC", RpcTarget.AllBuffered);
         egg.transform.position = eggPoint.position;
-
-        Debug.Log("Create");
     }
 
 
@@ -71,27 +77,30 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                 }
                 else if (loser != -2)
                 {
+                    if (LeftScore >= 2) 
+                    {
+                        loser = 1;
+                    }
+                    else if (RightScore >= 2)
+                    {
+                        loser = 0;
+                    }
+
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
                         CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
 
-                        if (loser == -1) //패배자 결정
+                        if (loser == -1)//경쟁중이면 점수 출력
                         {
-                            if (cc.curHealth <= 0)
-                            {
-                                loser = i;
-                            }
+                            cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
                         }
-                        else if (loser != -1)
+                        else if (i == loser) //패배자한테 패배 메시지 전송
                         {
-                            if (i == loser) //패배자한테 패배 메시지 전송
-                            {
-                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
-                            }
-                            else
-                            {
-                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
-                            }
+                            cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
+                        }
+                        else
+                        {
+                            cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
                         }
                     }
                 }
@@ -118,11 +127,11 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
     }//Update문
     [PunRPC]
-    public void alreadyStartRPC() //시작 선언
+    void alreadyStartRPC() //시작 선언
     {
         loser = -1;
     }
-    public override void OnDisconnected(DisconnectCause cause)
+    public override void OnDisconnected(DisconnectCause cause)//모두 나가도록
     {
         gameManager.allLeaveRoomStart();
     }
@@ -133,19 +142,31 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         {
             if (collision.gameObject.CompareTag("Egg")) 
             {
-                Debug.Log(gameObject.name);
+                if (collision.gameObject.transform.position.x < 0) 
+                {
+                    LeftScore += 1;
+                }
+                else if (collision.gameObject.transform.position.x > 0)
+                {
+                    RightScore += 1;
+                }
+                //파괴 이펙트
+                //GameObject effect = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
+                //effect.SetActive(true);
+                //effect.transform.position = collision.gameObject.transform.position;
+
+                //계란 비활성화
+                collision.gameObject.GetComponent<PhotonView>().RPC("eggOffRPC", RpcTarget.AllBuffered);
+
+                //계란 생성
+                StartCoroutine(CreateEgg());
+
+                //텍스트
+                //CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
+                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, LeftScore+ " : " +RightScore);
             }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (isMasterCilentLocal) //계란 삽입
-        {
-            if (collision.gameObject.CompareTag("Egg"))
-            {
-                Debug.Log(gameObject.name);
-            }
-        }
-    }
+
 }

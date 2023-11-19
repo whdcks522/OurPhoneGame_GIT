@@ -487,7 +487,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword"))||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Box")) ||
+                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Obj")) ||
                        hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                     {
                         if (hitObj.transform.gameObject != gameObject) 

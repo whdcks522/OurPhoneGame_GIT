@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4423221636602454488}
   - component: {fileID: 4214772614203036613}
   - component: {fileID: 2645265187791975793}
-  m_Layer: 20
+  m_Layer: 7
   m_Name: boxChat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 4949800084070286107}
   - component: {fileID: 8256534373651620004}
   - component: {fileID: 6915938542951112982}
-  m_Layer: 20
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 2427882467310203391}
   - component: {fileID: 2038486900424066359}
   - component: {fileID: 5263940232658421802}
-  m_Layer: 20
+  m_Layer: 7
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
