@@ -316,13 +316,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //칼 위치 조정
                     for (int i = 0; i < 8; i++) 
                     {
-                        if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 5)//너무 멀면 순간이동 
+                        if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 3)//너무 멀면 순간이동 
                         {
-                            playerSwords[i].transform.position = swordsRpcPos[i];
+                            //playerSwords[i].transform.position = swordsRpcPos[i];
                         }
                         else
                         {
-                            Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 10);
+                            //Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 10);
                         }
                     }
                 }
@@ -731,6 +731,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region PC, 조이스틱에 따른 칼의 벡터 입력
         private void SwordInput()
         {
+
             if (isPC)
             {
                 int tmpX = 0, tmpY = 0;
@@ -1179,10 +1180,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 stream.SendNext(transform.position);
 
-                stream.SendNext(playerSwords[0].transform.position);
-                stream.SendNext(playerSwords[1].transform.position);
-                stream.SendNext(playerSwords[2].transform.position);
-                stream.SendNext(playerSwords[3].transform.position);
+                stream.SendNext(playerSwords[0].transform.localPosition);
+                stream.SendNext(playerSwords[1].transform.localPosition);
+                stream.SendNext(playerSwords[2].transform.localPosition);
+                stream.SendNext(playerSwords[3].transform.localPosition);
                 stream.SendNext(playerSwords[4].transform.position);
                 stream.SendNext(playerSwords[5].transform.position);
                 stream.SendNext(playerSwords[6].transform.position);

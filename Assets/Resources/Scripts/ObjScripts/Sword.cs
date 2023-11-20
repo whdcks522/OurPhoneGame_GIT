@@ -10,7 +10,7 @@ public class Sword : MonoBehaviourPunCallbacks
     [Serializable]//클래스 정보
     public class SwordInfo
     {
-        public Vector2 swordPos;//위치
+        public Vector2 swordPos;//위치, 떨어지면 초기화용
         public Vector2 swordVec;//속도
 
         public SwordInfo(Vector2 tmpPos, Vector2 tmpVec)
@@ -218,7 +218,6 @@ public class Sword : MonoBehaviourPunCallbacks
             //2: 본인과 무기 폭파
             else if (level == 2)
             {
-                Debug.Log("B");
                 if (PhotonNetwork.InRoom)
                 {
                     if (photonView.IsMine)
@@ -232,8 +231,6 @@ public class Sword : MonoBehaviourPunCallbacks
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
-                    Debug.Log("A");
-
                     //플레이어 폭파
                     createBomb(player.transform.position);
                     //무기 폭파
@@ -292,7 +289,7 @@ public class Sword : MonoBehaviourPunCallbacks
                 //여기 없는 경우 오류 날 수도 있음
                 Bomb bombComponent = bomb.GetComponent<Bomb>();
                 //폭탄 해당 위치에 활성화
-                bombComponent.bombOnRPC(bombPos);
+                //bombComponent.bombOnRPC(bombPos);
                 bombComponent.photonView.RPC("bombOnRPC", RpcTarget.AllBuffered, bombPos);
             }
         }
