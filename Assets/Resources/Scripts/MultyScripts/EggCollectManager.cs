@@ -5,6 +5,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EggCollectManager : MonoBehaviourPunCallbacks
 {
@@ -17,8 +18,9 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     int loser = -2;
     int maxPlayer;
 
-    bool isEnd = false;
     bool isStart = false;
+
+    public Image whiteEgg;
 
 
     [Header("게임매니저")]
@@ -39,22 +41,36 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
-        StartCoroutine(CreateEgg());
+        //계란 생성
+        photonView.RPC("createEgg", RpcTarget.AllBuffered);
     }
 
-    IEnumerator CreateEgg() //계란 생성
+    #region 계란 생성
+    [PunRPC]
+    public void createEgg()
+    {
+        StartCoroutine(createEggCor());
+    }
+    #endregion
+
+    IEnumerator createEggCor() //계란 생성
     {
         float curTime = 0, maxTime = 2.5f;
         while (curTime <= maxTime) 
         {
+            whiteEgg.fillAmount = curTime / maxTime;
             curTime += Time.deltaTime;
             yield return null;
         }
+        whiteEgg.fillAmount = 0;
 
         //계란 생성
-        GameObject egg = gameManager.CreateObj("Egg", GameManager.PoolTypes.ObjType);
-        egg.GetComponent<PhotonView>().RPC("eggOnRPC", RpcTarget.AllBuffered);
-        egg.transform.position = eggPoints[0].position;
+        if (isMasterCilentLocal) 
+        {
+            GameObject egg = gameManager.CreateObj("Egg", GameManager.PoolTypes.ObjType);
+            egg.GetComponent<PhotonView>().RPC("eggOnRPC", RpcTarget.AllBuffered);
+            egg.transform.position = eggPoints[0].position;
+        }
     }
 
     private void Update()
@@ -68,8 +84,10 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                 if (loser == -2)//-2: 게임을 막 시작한 경우
                 {
-                    StartCoroutine(CreateEgg());
+                    //계란 생성
+                    photonView.RPC("createEgg", RpcTarget.AllBuffered);
 
+                    //시작 선언
                     photonView.RPC("alreadyStartRPC", RpcTarget.AllBuffered);
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
@@ -105,14 +123,12 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
+                                Debug.Log("UP");
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,CharacterControls.TypingType.Lose, "Lose");
-                                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose");
-                                //typingControl(cc, "Lose");
                             }
                             else
                             {
-                                //typingControl(cc, "Win");
-                                //cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "Win");
+                                Debug.Log("DOWN");
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN");
                             }
                         }
@@ -133,7 +149,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
 
             CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
-            cc.loopTypingRPC(CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+            cc.loopTypingRPC(CharacterControls.TypingType.None, str);
         }
         
         //시작하고 나서 탈주하는 경우
@@ -157,35 +173,42 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     {
         if (isMasterCilentLocal) //계란 삽입
         {
-            if (collision.gameObject.CompareTag("Egg") && loser < 0) 
+            if (collision.gameObject.CompareTag("Egg")) 
             {
                 if (collision.gameObject.transform.position.x < 0) //왼쪽 골인
                 {
-                    //좌측 점수 증가
-                    LeftScore += 1;
-                    //타이핑 작동
-                    for(int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    if (loser < 0) 
                     {
-                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                        cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,
-                            CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                        //좌측 점수 증가
+                        LeftScore += 1;
+                        //타이핑 작동
+                        for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                        {
+                            CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                            cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,
+                                CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                        }
                     }
+
+                    
 
                     //골 이펙트
                     photonView.RPC("createEffect", RpcTarget.AllBuffered, true);
                 }
                 else if (collision.gameObject.transform.position.x > 0)//오른쪽 골인
                 {
-                    //우측점수 증가
-                    RightScore += 1;
-                    //타이핑 작동
-                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    if (loser < 0)
                     {
-                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                        cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, 
-                            CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                        //우측점수 증가
+                        RightScore += 1;
+                        //타이핑 작동
+                        for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                        {
+                            CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
+                            cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,
+                                CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                        }
                     }
-
                     //골 이펙트
                     photonView.RPC("createEffect", RpcTarget.AllBuffered, false);
                 }
@@ -195,11 +218,12 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                 collision.gameObject.GetComponent<PhotonView>().RPC("eggOffRPC", RpcTarget.AllBuffered);
 
                 //계란 생성
-                StartCoroutine(CreateEgg());
+                photonView.RPC("createEgg", RpcTarget.AllBuffered);
             }
         }
     }
 
+    //이펙트 생성
     [PunRPC]
     public void createEffect(bool isLeft) 
     {
@@ -215,5 +239,5 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
             effect.transform.position = eggPoints[2].position;
     }
 
-
+    
 }

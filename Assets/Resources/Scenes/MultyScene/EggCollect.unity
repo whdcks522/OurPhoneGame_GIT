@@ -1741,6 +1741,7 @@ MonoBehaviour:
   - {fileID: 1258896715}
   - {fileID: 1946471391}
   - {fileID: 984170401}
+  whiteEgg: {fileID: 518831271}
   gameManager: {fileID: 1701117493}
 --- !u!61 &1696806361
 BoxCollider2D:
@@ -2153,13 +2154,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300036, guid: 03dd1ef6fb163214c9e1ac0242dab3ba, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1806237241
