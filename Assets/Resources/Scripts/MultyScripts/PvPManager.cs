@@ -91,7 +91,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
                 CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                cc.TypingRPC(CharacterControls.TypingType.None, str);
+                //cc.TypingRPC(CharacterControls.TypingType.None, str);
             }
         }
         //시작하고 나서 탈주하는 경우

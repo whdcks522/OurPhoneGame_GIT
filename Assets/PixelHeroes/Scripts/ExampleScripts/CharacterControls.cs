@@ -4,6 +4,8 @@ using Photon.Pun;
 using Photon.Pun.Demo.Asteroids;
 using Photon.Pun.Demo.PunBasics;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -125,6 +127,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isSwordFight = false;
         //PC로 진행중인지 확인
         bool isPC;
+        //텍스트를 위한 반복하는 문장 코루틴
+        Coroutine loopTypingCor;
 
         [PunRPC]
         void changeVelocity(Vector2 _tmpVec) 
@@ -1123,26 +1127,43 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public enum TypingType { None, Win, Lose, Draw }
 
         [PunRPC]
-        public void TypingRPC(TypingType _typingType, string _str = "")//당사자에게 알리는 용
+        public void loopTypingRPC(TypingType _typingType, string _str = "")//당사자에게 알리는 용
         {
             if (photonView.IsMine)
             {
+                //실행하고 있다면 중지
+                if (loopTypingCor != null)
+                    StopCoroutine(loopTypingCor);
+
+                string str = _str;
+
                 switch (_typingType)
                 {
-                    case TypingType.None:
-                        battleUIManager.typingControl(_str);
-                        break;
                     case TypingType.Win:
-                        battleUIManager.typingControl("승리!");
+                        str = "Win!";
                         break;
                     case TypingType.Lose:
-                        battleUIManager.typingControl("패배..");
+                        str = "Lose..";
                         break;
                     case TypingType.Draw:
-                        battleUIManager.typingControl("무승부?");
+                        str = "Draw?";
                         break;
                 }
+                loopTypingCor = StartCoroutine(loopTyping(str));
             }
+        }
+
+        
+
+        IEnumerator loopTyping(string _str)
+        {
+            battleUIManager.typingControl(_str);
+
+            yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);
+
+            loopTypingCor = StartCoroutine(loopTyping(_str));
+
+            Debug.Log("Typing");
         }
         #endregion
 
