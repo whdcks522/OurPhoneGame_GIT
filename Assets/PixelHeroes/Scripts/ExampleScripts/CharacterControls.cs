@@ -156,6 +156,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         SwordComponent.leaderSwordExitRPC(2);
                         miniUI.SetActive(false);
                         //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
+                        rigid.velocity = Vector2.zero;
+
                         if (PhotonNetwork.InRoom)
                             photonView.RPC("changeVelocity", RpcTarget.AllBuffered, rigid.velocity);
 
