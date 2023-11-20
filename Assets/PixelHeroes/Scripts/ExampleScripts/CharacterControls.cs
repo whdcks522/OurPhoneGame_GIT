@@ -142,9 +142,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 case PlayerStateType.Dead:
                     if (isCheck)
                     {
-                        //점수 증가하자 죽으면 처리 안되므로
-                        //if(!PhotonNetwork.InRoom)
-                        //    lateUpdate();
                         //사망 처리
                         isDead = true;
                         //애니메이션
@@ -310,7 +307,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                     else
                     {
-                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 400);
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);
                     }
 
                     //칼 위치 조정

@@ -230,6 +230,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Image mImage = cellBtns[i].transform.GetChild(1).GetComponent<Image>();
             if (multiple + i < myList.Count && myList[multiple + i].CustomProperties.ContainsKey("RoomMaterial"))
             {
+
+
                 string materialPath = (string)myList[multiple + i].CustomProperties["RoomMaterial"];
 
                 // imagePath를 사용하여 이미지를 로드하거나 다른 방법을 사용하여 이미지를 설정하세요.
@@ -316,6 +318,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         string sceneName = SceneInnerStr;
         string roomName = "_Room_" + PhotonNetwork.LocalPlayer.NickName;
 
+        Debug.Log(cellMaterial.name);
+
         RoomOptions roomOptions = new RoomOptions
         {
             MaxPlayers = maxPlayerNumber,
@@ -327,7 +331,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 { "RoomMaterial", cellMaterial.name },     // 선택한 매터리얼의 경로를 저장
                 { "RoomImage", cellSprite.name }        // 선택한 이미지의 경로를 저장
             },
-            CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName", "RoomImage" } // 로비에서도 이 속성을 보여주기 위해 추가
+            CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName", "RoomMaterial", "RoomImage" } // 로비에서도 이 속성을 보여주기 위해 추가
         };
 
 
