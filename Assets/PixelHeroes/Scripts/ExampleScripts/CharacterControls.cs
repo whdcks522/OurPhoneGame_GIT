@@ -823,8 +823,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordActiveRPC() 
         {
-            Debug.LogWarning("칼 활성화");
-
             playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
             playerSwords[0].SetActive(true);
             SwordComponent.trailRenderer.Clear();
