@@ -18,6 +18,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     WaitForSeconds wait0_35 = new WaitForSeconds(0.35f);
     //로비에 입장함
     bool isJoinedLobby = false;
+
+    public Sprite cellImage;
+
     
 
     [Header("씬 개발자 이름")]
@@ -205,11 +208,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < CellBtn.Length; i++)
         {
             CellBtn[i].interactable = (multiple + i < myList.Count) ? true : false;
+            //방 이름
             CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = 
                 (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
+            //플레이어 수
             CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = 
                 (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
- 
+            //이미지
+            //CellBtn[i].transform.GetChild(2).GetComponent<Image>().sprite =
+             //   (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
         }
     }
 
@@ -249,9 +256,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             {
                 { "IsAllowedToEnter", true },
                 { "IsAllowedToExit", true },
-                { "SceneName", sceneName } // 이동하고자 하는 Scene의 이름 저장
+                { "SceneName", sceneName },
+                { "RoomImage", cellImage.name } // 선택한 이미지의 경로를 저장
             },
-            CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName" } // 로비에서도 이 속성을 보여주기 위해 추가
+            CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName", "RoomImage" } // 로비에서도 이 속성을 보여주기 위해 추가
         };
 
 
@@ -272,9 +280,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             //들어갈 룸의 Scene 이름 확인
             string sceneName = (string)PhotonNetwork.CurrentRoom.CustomProperties["SceneName"];
-            //좌표 설정
-            //if (sceneName == "Chap1 ") sceneName = "Chap1_Scene";
-            //else if (sceneName == "Chap2 ") sceneName = "Chap2_Scene";
             //실제로 입장
             PhotonNetwork.LoadLevel(sceneName);
         }

@@ -312,7 +312,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                     else
                     {
-                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 300);
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 400);
                     }
 
                     //칼 위치 조정
@@ -802,8 +802,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
-            Debug.LogWarning("칼 방향 조작");
-
             if (tmpVec.x == 0 && tmpVec.y == 0)//사용 안할 시, 다시 수납
             {
                 SwordComponent.leaderSwordExitRPC(0);
