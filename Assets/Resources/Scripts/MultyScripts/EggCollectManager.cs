@@ -124,12 +124,10 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
-                                Debug.Log("UP");
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,CharacterControls.TypingType.Lose, "Lose");
                             }
                             else
                             {
-                                Debug.Log("DOWN");
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN");
                             }
                         }
@@ -213,8 +211,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                     //골 이펙트
                     photonView.RPC("createEffect", RpcTarget.AllBuffered, false);
                 }
-                
-
+               
                 //계란 비활성화
                 collision.gameObject.GetComponent<PhotonView>().RPC("eggOffRPC", RpcTarget.AllBuffered);
 
@@ -239,6 +236,4 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         if (!isLeft)
             effect.transform.position = eggPoints[2].position;
     }
-
-    
 }

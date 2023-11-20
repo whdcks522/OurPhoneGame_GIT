@@ -3,19 +3,20 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PvPManager : MonoBehaviourPunCallbacks
 {
-    public int loser = -2;
-    public int maxPlayer;
-
+    int loser = -2;
+    int maxPlayer;
+    bool isStart = false;
     [Header("게임매니저")]
     public GameManager gameManager;
 
-    public bool isMasterCilentLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
+    bool isMasterCilentLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
                          //->현재 이 컴퓨터가 호스트면서, 이 게임오브젝트가 호스트 측에서 생성됨
 
     private void Awake()
@@ -49,11 +50,13 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
                         //전투 허가
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordFight, true);
+
                         //텍스트
-                        cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
+                        cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
+
                     }
                 }
-                else if (loser != -2)
+                else if (loser != -2 && loser != 2)
                 {
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
@@ -68,14 +71,18 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         }
                         else if (loser != -1)
                         {
+                            
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
-                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "lose");
+                                //텍스트
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose");
                             }
                             else
                             {
-                                cc.photonView.RPC("TypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "win");
+                                //텍스트
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN");
                             }
+                            loser = 2;
                         }
                     }
                 }
@@ -83,19 +90,20 @@ public class PvPManager : MonoBehaviourPunCallbacks
         }//방장 일 때,
 
         //방장이 아니여도
-        if (loser == -2)
+        if (loser == -2 && !isStart)
         {
-            for (int i = 0; i < gameManager.playerGroup.childCount; i++)
-            {
-                string str = PhotonNetwork.CurrentRoom.Name + '\n' +
+            isStart = true;
+
+            string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
 
-                CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-                //cc.TypingRPC(CharacterControls.TypingType.None, str);
-            }
+
+            CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
+            cc.loopTypingRPC(CharacterControls.TypingType.None, str);
         }
+
         //시작하고 나서 탈주하는 경우
-        else if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
+        if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
         {
             gameManager.allLeaveRoomStart();
         }
@@ -110,10 +118,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
     {
         gameManager.allLeaveRoomStart();
     }
-    //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
-    //PhotonNetwork.CurrentRoom.Name: 현재 방 이름
-    //PhotonNetwork.CurrentRoom.PlayerCount: 방에 있는 사람 수
-    //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
 }
 
 

@@ -313,7 +313,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     else
                     {
                         Debug.LogWarning("PlayerSlowMove");
-                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 50);//10
+                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 100);//10
                     }
 
                     //칼 위치 조정
@@ -1141,15 +1141,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     case TypingType.Win:
                         str = "Win!";
-                        Debug.Log("A");
                         break;
                     case TypingType.Lose:
                         str = "Lose..";
-                        Debug.Log("B");
                         break;
                     case TypingType.Draw:
                         str = "Draw?";
-                        Debug.Log("C");
                         break;
                 }
                 loopTypingCor = StartCoroutine(loopTyping(str));
