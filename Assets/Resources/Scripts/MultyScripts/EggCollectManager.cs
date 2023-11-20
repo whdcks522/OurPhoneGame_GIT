@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Assets.PixelHeroes.Scripts.ExampleScripts.CharacterControls;
 
 public class EggCollectManager : MonoBehaviourPunCallbacks
 {
@@ -34,8 +35,8 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.SendRate = 10;
+        PhotonNetwork.SerializationRate = 5;
 
         battleUIManager = BattleUIManager.Instance;
         
@@ -43,6 +44,12 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
         //계란 생성
         //photonView.RPC("createEgg", RpcTarget.AllBuffered);
+
+        if (!isMasterCilentLocal) 
+        {
+            CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
+            cc.photonView.RPC("TurnRPC", RpcTarget.AllBuffered, -1);
+        }
     }
 
     #region 계란 생성
@@ -125,6 +132,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,CharacterControls.TypingType.Lose, "Lose");
+                                cc.GetComponent<PhotonView>().RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                             }
                             else
                             {

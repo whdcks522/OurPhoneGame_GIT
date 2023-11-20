@@ -469,7 +469,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             if (_inputX != 0)//좌우 방향 전환
             {
-                Turn(_inputX);
+                TurnRPC(_inputX);
             }
 
             bool isJumpAni = false;
@@ -690,7 +690,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #endregion
 
         #region Scale을 돌려서 좌우 반전 적용
-        void Turn(int direction)
+        [PunRPC]
+        void TurnRPC(int direction)
         {
             var scale = Character.transform.localScale;
 

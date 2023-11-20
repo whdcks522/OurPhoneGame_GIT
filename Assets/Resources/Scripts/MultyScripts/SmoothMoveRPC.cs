@@ -10,8 +10,12 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
     bool isRoom;
     void Awake() 
     {
+        PhotonNetwork.SendRate = 80;
+        PhotonNetwork.SerializationRate = 40;
+
         isRoom = PhotonNetwork.InRoom;
     }
+
 
     private void Update()
     {
