@@ -305,7 +305,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!photonView.IsMine) 
                 {
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동, 12
+                    if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동, 12
                     {
                         Debug.LogError("PlayerQuickMove");
                         transform.position = rpcPos;
@@ -1160,6 +1160,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         IEnumerator loopTyping(string _str)
         {
+            Debug.Log("타이핑");
+
             battleUIManager.typingControl(_str);
 
             yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);

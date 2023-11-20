@@ -116,7 +116,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                             loser = 0;
                         }
                     }
-                    else if (loser != -1) 
+                    else if (loser == 0 || loser == 1) 
                     {
                         for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                         {
@@ -133,7 +133,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN");
                             }
                         }
-                        loser = 2;
+                        loser = 2;//update문 관여 안함
                     }
                 }
             }
