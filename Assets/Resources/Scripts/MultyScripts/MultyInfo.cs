@@ -23,12 +23,15 @@ public class MultyInfo : MonoBehaviour
     [Header("이동 할 씬의 참가자 수")]
     public int sceneMax;
 
-    [Header("현재 버튼의 이미지")]
-    public Sprite btnImage;
+    //현재 버튼의 이미지
+    Sprite btnSprite;
+    //현재 버튼의 매터리얼
+    Material btnMat;
 
     private void Awake()
     {
-        btnImage = transform.GetChild(1).GetComponent<Image>().sprite;
+        btnMat = transform.GetChild(0).GetComponent<Image>().material;
+        btnSprite = transform.GetChild(1).GetComponent<Image>().sprite;
     }
 
     public void Onclick()
@@ -43,7 +46,7 @@ public class MultyInfo : MonoBehaviour
         //실제 사용자에게 보여지는 전장 설명
         lobbyManager.SceneDescText.text = sceneDesc;
         //이미지 전달
-        lobbyManager.cellSprite = btnImage;
+        lobbyManager.cellSprite = btnSprite;
         //종이 효과음
         lobbyManager.battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
         //시작 버튼 가시화

@@ -43,8 +43,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("방 생성 버튼")]
     public GameObject CreateRoomBtn;
-    [Header("셀 버튼들")]
-    public Button[] CellBtn;
+    
+    [Header("셀 버튼 부모")]
+    public Transform cellParent;
+    //셀 버튼들
+    Button[] cellBtns;
     [Header("이전 셀 로드")]
     public Button PreviousBtn;
     [Header("다음 셀 로드")]
@@ -64,6 +67,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         battleUIManager = BattleUIManager.Instance;
         loadFadeOutImage = loadFadeOut.GetComponent<Image>();
+
+        // 배열 크기를 자식 오브젝트의 개수로 설정합니다.
+        cellBtns = new Button[cellParent.childCount];
+
+        // 각 자식을 배열에 추가합니다.
+        for (int i = 0; i < cellParent.childCount; i++)
+        {
+            cellBtns[i] = cellParent.transform.GetChild(i).GetComponent<Button>();
+        }
     }
 
     private void Start()
@@ -197,32 +209,33 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     void MyListRenewal()
     {
         // 최대 페이지
-        maxPage = (myList.Count % CellBtn.Length == 0) ? myList.Count / CellBtn.Length : myList.Count / CellBtn.Length + 1;
+        maxPage = (myList.Count % cellBtns.Length == 0) ? myList.Count / cellBtns.Length : myList.Count / cellBtns.Length + 1;
 
         // 이전, 다음버튼 활성화, 비활성화
         PreviousBtn.interactable = (currentPage <= 1) ? false : true;
         NextBtn.interactable = (currentPage >= maxPage) ? false : true;
 
         // 페이지에 맞는 리스트 대입
-        multiple = (currentPage - 1) * CellBtn.Length;//각 페이지의 첫 번째 방의 인덱스
-        for (int i = 0; i < CellBtn.Length; i++)
+        multiple = (currentPage - 1) * cellBtns.Length;//각 페이지의 첫 번째 방의 인덱스
+        for (int i = 0; i < cellBtns.Length; i++)
         {
-            CellBtn[i].interactable = (multiple + i < myList.Count) ? true : false;
+            cellBtns[i].interactable = (multiple + i < myList.Count) ? true : false;
             //방 이름
-            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text =
+            cellBtns[i].transform.GetChild(3).GetComponent<Text>().text =
                 (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
             //플레이어 수
-            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text =
+            cellBtns[i].transform.GetChild(4).GetComponent<Text>().text =
                 (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
             //이미지
-            Image cImage = CellBtn[i].transform.GetChild(3).GetComponent<Image>();
+            Image cImage = cellBtns[i].transform.GetChild(2).GetComponent<Image>();
             if (multiple + i < myList.Count && myList[multiple + i].CustomProperties.ContainsKey("RoomImage"))
             {
                 string imagePath = (string)myList[multiple + i].CustomProperties["RoomImage"];
 
                 // imagePath를 사용하여 이미지를 로드하거나 다른 방법을 사용하여 이미지를 설정하세요.
                 // 예를 들어 Resources.Load를 사용할 수 있습니다.
-                Sprite roomSprite = Resources.Load<Sprite>(imagePath);
+
+                Sprite roomSprite = Resources.Load<Sprite>("Sprites/miniGameIcon/Multy/" + imagePath);
 
                 if (roomSprite != null)
                 {
