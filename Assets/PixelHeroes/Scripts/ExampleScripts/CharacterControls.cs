@@ -206,8 +206,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Awake()
         {
-            PhotonNetwork.SendRate = 120;
-            PhotonNetwork.SerializationRate = 60;
+            PhotonNetwork.SendRate = 240;
+            PhotonNetwork.SerializationRate = 120;
 
             rigid = GetComponent<Rigidbody2D>();
             
@@ -1040,21 +1040,27 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //충격 초기화
             if (_dmg != 0)//피해가 있을 때
             {
-                //이동 억제
-                _motion = Vector3.zero;
-
                 if (isEffect) 
                 {
-                    //피격 텍스트 이펙트
-                    GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
-                    Effect textEffectComponent = textEffect.GetComponent<Effect>();
+                    
                     if (PhotonNetwork.InRoom) 
                     {
-                        textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.AllBuffered, _dmg.ToString());
-                        textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform);
+                        if (photonView.IsMine) 
+                        {
+                            //피격 텍스트 이펙트
+                            GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                            Effect textEffectComponent = textEffect.GetComponent<Effect>();
+
+                            textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.AllBuffered, _dmg.ToString());
+                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform);
+                        } 
                     }
                     else if (!PhotonNetwork.InRoom)
                     {
+                        //피격 텍스트 이펙트
+                        GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                        Effect textEffectComponent = textEffect.GetComponent<Effect>();
+
                         textEffectComponent.effectNameRPC(_dmg.ToString());
                         textEffectComponent.effectOnRPC(transform);
                     }
@@ -1066,8 +1072,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     //효과음
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
-                    //애니메이션 처리
-                    Character.SetState(AnimationState.Jumping);
                 }
             }
 
