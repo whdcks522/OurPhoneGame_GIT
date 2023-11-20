@@ -43,7 +43,7 @@ public class Sword : MonoBehaviourPunCallbacks
     public Vector2 saveSwordVec = Vector3.zero;
 
     //터져도 되는지
-    bool isReadyExplode;
+    //bool isReadyExplode  = true;
 
     //경로
     public TrailRenderer trailRenderer;
@@ -100,7 +100,7 @@ public class Sword : MonoBehaviourPunCallbacks
     {
         trailRenderer.Clear();
         swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
-        isReadyExplode = true;
+        //isReadyExplode = true;
     }
 
     void FixedUpdate()
@@ -218,6 +218,7 @@ public class Sword : MonoBehaviourPunCallbacks
             //2: 본인과 무기 폭파
             else if (level == 2)
             {
+                Debug.Log("B");
                 if (PhotonNetwork.InRoom)
                 {
                     if (photonView.IsMine)
@@ -231,6 +232,8 @@ public class Sword : MonoBehaviourPunCallbacks
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
+                    Debug.Log("A");
+
                     //플레이어 폭파
                     createBomb(player.transform.position);
                     //무기 폭파
@@ -247,9 +250,8 @@ public class Sword : MonoBehaviourPunCallbacks
                 GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
                 Sword tmpSwordComponent = tmpSword.GetComponent<Sword>();
 
-                //tmpSword.transform.position = player.transform.position;
                 //칼 활성화
-                tmpSwordComponent.isReadyExplode = false;
+                //tmpSwordComponent.isReadyExplode = false;
                 tmpSword.SetActive(false);
 
                 if (tmpSwordComponent != null)
@@ -272,8 +274,8 @@ public class Sword : MonoBehaviourPunCallbacks
     #region 폭탄 생성
     void createBomb(Vector3 bombPos)
     {
-        if (!isReadyExplode) 
-            return;
+        //if (!isReadyExplode) 
+        //    return;
 
         //폭탄 생성
         GameObject bomb = null;

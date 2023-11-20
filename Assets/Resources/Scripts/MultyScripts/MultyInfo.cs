@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MultyInfo : MonoBehaviour
 {
-
+    public Sprite icon;
 
     public LobbyManager lobbyManager;
 

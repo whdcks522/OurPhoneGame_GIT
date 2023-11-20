@@ -312,7 +312,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                     else
                     {
-                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 300);//10
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 300);
                     }
 
                     //칼 위치 조정
@@ -429,7 +429,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void xyRPC(int x, int y)
         {
-            Debug.LogWarning("이동 방향 조작");
             _inputX = x;
             _inputY = y;
         }

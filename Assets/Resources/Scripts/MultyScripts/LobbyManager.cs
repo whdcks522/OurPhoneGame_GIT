@@ -78,7 +78,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
-    } //AuthManager에서 이미 써서 필요 없음
+    }
 
     public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();//AuthManager에서 이미 써서 필요 없음
 
@@ -234,15 +234,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     #region 방
     public void CreateRoom() //방 생성
     {
-
         //옛날 방식
         //PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });//수정함
 
-        //최신 방식
-        //string sceneName = "PvP";
         string sceneName = SceneInnerStr;
-
-        string roomName = RoomInput.text == "" ? "_Room" + Random.Range(0, 100) : RoomInput.text;
+        string str = PhotonNetwork.LocalPlayer.NickName;
+        //string roomName = RoomInput.text == "" ? "_Room" + PhotonNetwork.LocalPlayer.NickName;
+        string roomName = "_Room" + PhotonNetwork.LocalPlayer.NickName;
 
         RoomOptions roomOptions = new RoomOptions
         {
