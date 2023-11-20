@@ -145,8 +145,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (isCheck)
                     {
                         //점수 증가하자 죽으면 처리 안되므로
-                        if(!PhotonNetwork.InRoom)
-                            lateUpdate();
+                        //if(!PhotonNetwork.InRoom)
+                        //    lateUpdate();
                         //사망 처리
                         isDead = true;
                         //애니메이션
@@ -307,13 +307,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //플레이어 위치 관리
                     if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동, 12
                     {
-                        Debug.LogError("PlayerQuickMove");
+                        Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
                     }
                     else
                     {
-                        Debug.LogWarning("PlayerSlowMove");
-                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 100);//10
+                        Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 300);//10
                     }
 
                     //칼 위치 조정
@@ -831,47 +830,50 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void lateUpdate() 
         {
-            if (!isDead)
+            if (battleUIManager.btnContinue.activeSelf)//죽고 1.5초 후에 비활성화 됨
             {
-                //자연 체력 감소
-                curHealth -= healthMinus * Time.deltaTime;
-
-                //생존 파악
-                if (PhotonNetwork.InRoom)
+                if (!isDead) //죽자 마자 정지
                 {
-                    if (photonView.IsMine)
+                    //자연 체력 감소
+                    curHealth -= healthMinus * Time.deltaTime;
+
+                    //생존 파악
+                    if (PhotonNetwork.InRoom)
                     {
-                        //피격 처리
-                        //photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 0, false);
+                        if (photonView.IsMine)
+                        {
+                            //피격 처리
+                            damageControlRPC(0, false);
+                        }
+                    }
+                    else if (!PhotonNetwork.InRoom)
+                    {
                         damageControlRPC(0, false);
                     }
-                }
-                else if (!PhotonNetwork.InRoom)
-                {
-                    damageControlRPC(0, false);
-                }
-                //UI 관리-------------------------------------------------------
+                    //UI 관리-------------------------------------------------------
 
-                //미니 체력 바 적용
-                miniHealthGauge.fillAmount = curHealth / maxHealth;
+                    //미니 체력 바 적용
+                    miniHealthGauge.fillAmount = curHealth / maxHealth;
 
-                //큰 체력바 적용
-                if (PhotonNetwork.InRoom)
-                {
-                    if (photonView.IsMine)
+                    //큰 체력바 적용
+                    if (PhotonNetwork.InRoom)
+                    {
+                        if (photonView.IsMine)
+                        {
+                            float firstValue = battleUIManager.bigHealthBar.value;
+                            battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
+                        }
+                    }
+                    else if (!PhotonNetwork.InRoom)
                     {
                         float firstValue = battleUIManager.bigHealthBar.value;
                         battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
                     }
-                }
-                else if (!PhotonNetwork.InRoom)
-                {
-                    float firstValue = battleUIManager.bigHealthBar.value;
-                    battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
-                }
 
-                //시간에 따라 점수 증가
-                battleUIManager.curScore += Time.deltaTime * scorePlus;
+                    //시간에 따라 점수 증가
+                    battleUIManager.curScore += Time.deltaTime * scorePlus;
+                
+                }//죽자 마자 정지
 
                 //랭크와 점수 텍스트 적용
                 battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + "/";
@@ -1055,11 +1057,17 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     //피격 텍스트 이펙트
                     GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
-                    //이름으로 설정
-                    textEffect.name = _dmg.ToString();
-
-                    textEffect.SetActive(true);
-                    textEffect.transform.position = transform.position;
+                    Effect textEffectComponent = textEffect.GetComponent<Effect>();
+                    if (PhotonNetwork.InRoom) 
+                    {
+                        textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.AllBuffered, _dmg.ToString());
+                        textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform);
+                    }
+                    else if (!PhotonNetwork.InRoom)
+                    {
+                        textEffectComponent.effectNameRPC(_dmg.ToString());
+                        textEffectComponent.effectOnRPC(transform);
+                    }
                 }
                 
 

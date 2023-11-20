@@ -27,16 +27,22 @@ public class Effect : MonoBehaviourPunCallbacks
         }
     } 
 
-    #region 총알 활성 동기화
+    #region 이펙트 활성 동기화
     [PunRPC]
-    public void effectOnRPC()
+    public void effectOnRPC(Transform _Pos)
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
+        gameObject.transform.position = _Pos.position;
+
+        //회전 조정
+        gameObject.transform.forward = gameObject.transform.forward;
+        //회전 조정
+        //gameObject.transform.rotation = transform.rotation;
     }
     #endregion
 
-    #region 총알 비활성 동기화
+    #region 이펙트 비활성 동기화
     [PunRPC]
     public void effectOffRPC()
     {
@@ -44,6 +50,14 @@ public class Effect : MonoBehaviourPunCallbacks
         curTime = 0f;
         //게임오브젝트 비활성화
         gameObject.SetActive(false);
+    }
+    #endregion
+
+    #region 이펙트 이름 동기화
+    [PunRPC]
+    public void effectNameRPC(string _str)
+    {
+        gameObject.name = _str;
     }
     #endregion
 }

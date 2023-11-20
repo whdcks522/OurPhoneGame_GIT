@@ -46,6 +46,7 @@ public class Bullet : MonoBehaviourPunCallbacks
     public string flashStr;
     [Header("종료 시 히트")]
     public bool isHit;
+    [Header("히트 시, 생성하는 오브젝트")]
     public string hitStr;
 
     private void Awake()
@@ -143,21 +144,14 @@ public class Bullet : MonoBehaviourPunCallbacks
             GameObject hit = gameManager.CreateObj(hitStr, GameManager.PoolTypes.BulletType);
             Effect hitEffect = hit.GetComponent<Effect>();
 
-            //위치 조정
-            hit.transform.position = transform.position;
-            hit.transform.forward = gameObject.transform.forward;
-            hit.transform.parent = transform.parent;
-            //회전 조정
-            hit.transform.rotation = transform.rotation;
-
             if (PhotonNetwork.InRoom)
             {
                 if (PhotonNetwork.IsMasterClient)
-                    hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered);
+                    hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform);
             }
             else if (!PhotonNetwork.InRoom)
             {
-                hitEffect.effectOnRPC();
+                hitEffect.effectOnRPC(transform);
             }
         }
     }

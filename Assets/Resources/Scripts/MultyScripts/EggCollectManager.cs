@@ -42,19 +42,21 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
         //域空 持失
-        //photonView.RPC("createEgg", RpcTarget.AllBuffered);
+        photonView.RPC("createEgg", RpcTarget.AllBuffered);
     }
 
     #region 域空 持失
     [PunRPC]
     public void createEgg()
     {
+        Debug.Log("A");
         StartCoroutine(createEggCor());
     }
     #endregion
 
     IEnumerator createEggCor() //域空 持失
     {
+        Debug.Log("B");
         float curTime = 0, maxTime = 2.5f;
         while (curTime <= maxTime) 
         {

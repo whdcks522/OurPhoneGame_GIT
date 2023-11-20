@@ -205,8 +205,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < CellBtn.Length; i++)
         {
             CellBtn[i].interactable = (multiple + i < myList.Count) ? true : false;
-            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
-            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
+            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = 
+                (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
+            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = 
+                (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
+ 
         }
     }
 
@@ -301,6 +304,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         ErrorText.text = "입장 실패";
         //RoomInput.text = "";
         //CreateRoom();
+
+
     }
 
     //PhotonNetwork.PlayerList[]:배열로 하나 하나 접근
@@ -309,3 +314,4 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //PhotonNetwork.CurrentRoom.MaxPlayers: 방 최대 사람 수
     #endregion
 }
+

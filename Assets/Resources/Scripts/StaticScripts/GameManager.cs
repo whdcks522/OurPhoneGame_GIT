@@ -191,13 +191,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.InRoom)
             {
                 tmpGameObject = PhotonNetwork.Instantiate(tmpNames[index], Vector3.zero, Quaternion.identity);
-                tmpGameObject.name = _name;
+                
             }
             //싱글 플레이라면
             else
             {
                 tmpGameObject = Instantiate(Resources.Load<GameObject>(tmpNames[index]), Vector3.zero, Quaternion.identity);
-                tmpGameObject.name = _name;
+                
             }
             //임시 리스트에 더하기
             tmpPools[index].Add(tmpGameObject);
@@ -228,7 +228,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         return tmpGameObject;
     }
 
-    int NametoIndex(string[] tmpNames, string _name) //오브젝트풀링에서 생성하는 문자열을 순서로 변환
+    #region 오브젝트 풀링에서 순서 출력
+    int NametoIndex(string[] tmpNames, string _name) 
     {
         for (int i = 0; i < tmpNames.Length; i++)
         {
@@ -240,9 +241,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("Error: -1");
         return -1;
     }
+    #endregion
 
     #region 멀티 플레이 모두 퇴장
-    
+
 
     public void allLeaveRoomStart() //모두 방에서 나가기
     {
