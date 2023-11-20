@@ -311,8 +311,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         string sceneName = SceneInnerStr;
         string roomName = "_Room_" + PhotonNetwork.LocalPlayer.NickName;
 
-        Debug.Log(cellMaterial.name);
-
         RoomOptions roomOptions = new RoomOptions
         {
             MaxPlayers = maxPlayerNumber,

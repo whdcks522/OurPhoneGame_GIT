@@ -19,14 +19,22 @@ public class PvPManager : MonoBehaviourPunCallbacks
     bool isMasterCilentLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
                          //->현재 이 컴퓨터가 호스트면서, 이 게임오브젝트가 호스트 측에서 생성됨
 
+    BattleUIManager battleUIManager;
     private void Awake()
     {
         PhotonNetwork.SendRate = 10;
         PhotonNetwork.SerializationRate = 5;
 
+        battleUIManager = BattleUIManager.Instance;
+
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
     }
 
+    [PunRPC]
+    void FightRPC() 
+    {
+        battleUIManager.typingControl("Fight");
+    }
 
     private void Update()
     {
@@ -52,7 +60,9 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordFight, true);
 
                         //텍스트
-                        cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
+                        //cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
+                        photonView.RPC("FightRPC", RpcTarget.AllBuffered, "Fight!");
+
 
                     }
                 }
@@ -69,7 +79,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
                                 loser = i;
                             }
                         }
-                        else if (loser != -1)
+                        else if (loser != -1 && loser != 2)
                         {
                             
                             if (i == loser) //패배자한테 패배 메시지 전송
