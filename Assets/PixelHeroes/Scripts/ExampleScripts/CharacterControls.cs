@@ -312,14 +312,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 40);
                     }
-
+                    //칼 이동
                     if ((playerSwords[0].transform.position - swordsRpcPos[0]).sqrMagnitude >= 1)//너무 멀면 순간이동 
                     {
-                        playerSwords[0].transform.position = swordsRpcPos[0];
+                        SwordComponent.GetComponent<Rigidbody2D>().position = swordsRpcPos[0];
                     }
                     else
                     {
-                        Vector3.Lerp(playerSwords[0].transform.position, swordsRpcPos[0], Time.deltaTime * 10);
+                        SwordComponent.GetComponent<Rigidbody2D>().position = 
+                            Vector3.Lerp(playerSwords[0].transform.position, swordsRpcPos[0], Time.deltaTime * 10);
                     }
 
                     /*

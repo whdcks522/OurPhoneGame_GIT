@@ -105,8 +105,6 @@ public class Sword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        Debug.Log(gameObject.name+" : "+rigid.velocity.magnitude + " : " +rigid.velocity);
-
         if (PhotonNetwork.InRoom && photonView.IsMine) 
         {
             // 두 위치 간의 거리를 계산합니다.
