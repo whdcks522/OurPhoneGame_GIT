@@ -21,8 +21,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.SendRate = 10;
+        PhotonNetwork.SerializationRate = 5;
 
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
     }

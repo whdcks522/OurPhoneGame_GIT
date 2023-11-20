@@ -208,8 +208,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Awake()
         {
-            PhotonNetwork.SendRate = 240;
-            PhotonNetwork.SerializationRate = 120;
+            PhotonNetwork.SendRate = 80;
+            PhotonNetwork.SerializationRate = 40;
 
             rigid = GetComponent<Rigidbody2D>();
             
