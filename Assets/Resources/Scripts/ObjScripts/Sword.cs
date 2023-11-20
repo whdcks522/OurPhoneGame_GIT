@@ -42,8 +42,8 @@ public class Sword : MonoBehaviourPunCallbacks
     [Header("리더의 속도")]
     public Vector2 saveSwordVec = Vector3.zero;
 
-    //터져도 되는지
-    //bool isReadyExplode  = true;
+    //터져도 되는지(영역 안에서 수납시 터지는 경우가 있음)
+    bool isReadyExplode  = true;
 
     //경로
     public TrailRenderer trailRenderer;
@@ -100,11 +100,13 @@ public class Sword : MonoBehaviourPunCallbacks
     {
         trailRenderer.Clear();
         swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
-        //isReadyExplode = true;
+        isReadyExplode = true;
     }
 
     void FixedUpdate()
     {
+        Debug.Log(gameObject.name+" : "+rigid.velocity.magnitude + " : " +rigid.velocity);
+
         if (PhotonNetwork.InRoom && photonView.IsMine) 
         {
             // 두 위치 간의 거리를 계산합니다.
@@ -248,7 +250,7 @@ public class Sword : MonoBehaviourPunCallbacks
                 Sword tmpSwordComponent = tmpSword.GetComponent<Sword>();
 
                 //칼 활성화
-                //tmpSwordComponent.isReadyExplode = false;
+                tmpSwordComponent.isReadyExplode = false;
                 tmpSword.SetActive(false);
 
                 if (tmpSwordComponent != null)
@@ -271,8 +273,8 @@ public class Sword : MonoBehaviourPunCallbacks
     #region 폭탄 생성
     void createBomb(Vector3 bombPos)
     {
-        //if (!isReadyExplode) 
-        //    return;
+        if (!isReadyExplode) 
+            return;
 
         //폭탄 생성
         GameObject bomb = null;

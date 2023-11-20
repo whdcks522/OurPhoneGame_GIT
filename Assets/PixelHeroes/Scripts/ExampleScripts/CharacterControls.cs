@@ -313,6 +313,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 40);
                     }
 
+                    if ((playerSwords[0].transform.position - swordsRpcPos[0]).sqrMagnitude >= 1)//너무 멀면 순간이동 
+                    {
+                        playerSwords[0].transform.position = swordsRpcPos[0];
+                    }
+                    else
+                    {
+                        Vector3.Lerp(playerSwords[0].transform.position, swordsRpcPos[0], Time.deltaTime * 10);
+                    }
+
+                    /*
                     //칼 위치 조정
                     for (int i = 0; i < 8; i++) 
                     {
@@ -325,6 +335,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             //Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 40);
                         }
                     }
+                    */
                 }
                 
             }
@@ -1180,22 +1191,22 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 stream.SendNext(transform.position);
 
-                stream.SendNext(playerSwords[0].transform.localPosition);
-                stream.SendNext(playerSwords[1].transform.localPosition);
-                stream.SendNext(playerSwords[2].transform.localPosition);
-                stream.SendNext(playerSwords[3].transform.localPosition);
+                stream.SendNext(playerSwords[0].transform.position);
+                /*
+                stream.SendNext(playerSwords[1].transform.position);
+                stream.SendNext(playerSwords[2].transform.position);
+                stream.SendNext(playerSwords[3].transform.position);
                 stream.SendNext(playerSwords[4].transform.position);
                 stream.SendNext(playerSwords[5].transform.position);
                 stream.SendNext(playerSwords[6].transform.position);
                 stream.SendNext(playerSwords[7].transform.position);
-
-
-                //stream.SendNext(HealthImage.fillAmount);
+                */
             }
             else//남의 거면 받나봄
             {
                 rpcPos = (Vector3)stream.ReceiveNext();//1번째 줄을 1번째 줄로 받음
                 swordsRpcPos[0] = (Vector3)stream.ReceiveNext();
+                /*
                 swordsRpcPos[1] = (Vector3)stream.ReceiveNext();
                 swordsRpcPos[2] = (Vector3)stream.ReceiveNext();
                 swordsRpcPos[3] = (Vector3)stream.ReceiveNext();
@@ -1203,8 +1214,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 swordsRpcPos[5] = (Vector3)stream.ReceiveNext();
                 swordsRpcPos[6] = (Vector3)stream.ReceiveNext();
                 swordsRpcPos[7] = (Vector3)stream.ReceiveNext();
-
-                //HealthImage.fillAmount = (float)stream.ReceiveNext();//2번째 줄을 1번째 줄로 받음
+                */
             }
         }
         #endregion
