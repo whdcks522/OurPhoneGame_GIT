@@ -251,6 +251,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 // 이미지가 없을 경우 기본 이미지를 설정하거나 아무 작업을 하지 않습니다.
                 //mImage.material = null;
                 Debug.LogError("ffasdf");
+                mImage.material = null;
             }
 
             //2. 이미지
