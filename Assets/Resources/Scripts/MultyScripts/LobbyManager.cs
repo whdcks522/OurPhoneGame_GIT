@@ -215,7 +215,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             CellBtn[i].transform.GetChild(1).GetComponent<Text>().text =
                 (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
             //ÀÌ¹ÌÁö
-            Image cImage = CellBtn[i].transform.GetChild(2).GetComponent<Image>();
+            Image cImage = CellBtn[i].transform.GetChild(3).GetComponent<Image>();
             if (multiple + i < myList.Count && myList[multiple + i].CustomProperties.ContainsKey("RoomImage"))
             {
                 string imagePath = (string)myList[multiple + i].CustomProperties["RoomImage"];
