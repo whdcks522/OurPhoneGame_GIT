@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class MultyInfo : MonoBehaviour
 {
@@ -24,6 +26,11 @@ public class MultyInfo : MonoBehaviour
     [Header("현재 버튼의 이미지")]
     public Sprite btnImage;
 
+    private void Awake()
+    {
+        btnImage = transform.GetChild(1).GetComponent<Image>().sprite;
+    }
+
     public void Onclick()
     {
         //개발자에게 보여지는 전장 이름
@@ -36,7 +43,7 @@ public class MultyInfo : MonoBehaviour
         //실제 사용자에게 보여지는 전장 설명
         lobbyManager.SceneDescText.text = sceneDesc;
         //이미지 전달
-        lobbyManager.cellImage = btnImage;
+        lobbyManager.cellSprite = btnImage;
         //종이 효과음
         lobbyManager.battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
         //시작 버튼 가시화

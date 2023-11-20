@@ -19,7 +19,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //로비에 입장함
     bool isJoinedLobby = false;
 
-    public Sprite cellImage;
+    public Sprite cellSprite;
 
     
 
@@ -209,14 +209,35 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             CellBtn[i].interactable = (multiple + i < myList.Count) ? true : false;
             //방 이름
-            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text = 
+            CellBtn[i].transform.GetChild(0).GetComponent<Text>().text =
                 (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
             //플레이어 수
-            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text = 
+            CellBtn[i].transform.GetChild(1).GetComponent<Text>().text =
                 (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
             //이미지
-            //CellBtn[i].transform.GetChild(2).GetComponent<Image>().sprite =
-             //   (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
+            Image cImage = CellBtn[i].transform.GetChild(2).GetComponent<Image>();
+            if (multiple + i < myList.Count && myList[multiple + i].CustomProperties.ContainsKey("RoomImage"))
+            {
+                string imagePath = (string)myList[multiple + i].CustomProperties["RoomImage"];
+
+                // imagePath를 사용하여 이미지를 로드하거나 다른 방법을 사용하여 이미지를 설정하세요.
+                // 예를 들어 Resources.Load를 사용할 수 있습니다.
+                Sprite roomSprite = Resources.Load<Sprite>(imagePath);
+
+                if (roomSprite != null)
+                {
+                    cImage.sprite = roomSprite;
+                }
+                else
+                {
+                    Debug.LogError("Failed to load image: " + imagePath);
+                }
+            }
+            else
+            {
+                // 이미지가 없을 경우 기본 이미지를 설정하거나 아무 작업을 하지 않습니다.
+                cImage.sprite = null;
+            }
         }
     }
 
@@ -245,9 +266,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 100) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });//수정함
 
         string sceneName = SceneInnerStr;
-        string str = PhotonNetwork.LocalPlayer.NickName;
-        //string roomName = RoomInput.text == "" ? "_Room" + PhotonNetwork.LocalPlayer.NickName;
-        string roomName = "_Room" + PhotonNetwork.LocalPlayer.NickName;
+        string roomName = "_Room_" + PhotonNetwork.LocalPlayer.NickName;
 
         RoomOptions roomOptions = new RoomOptions
         {
@@ -257,7 +276,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 { "IsAllowedToEnter", true },
                 { "IsAllowedToExit", true },
                 { "SceneName", sceneName },
-                { "RoomImage", cellImage.name } // 선택한 이미지의 경로를 저장
+                { "RoomImage", cellSprite.name } // 선택한 이미지의 경로를 저장
             },
             CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName", "RoomImage" } // 로비에서도 이 속성을 보여주기 위해 추가
         };

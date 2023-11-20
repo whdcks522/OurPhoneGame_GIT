@@ -51,8 +51,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         [Header("칼의 부모 게임오브젝트")]
         public GameObject swordParent;
-        //칼의 부모 위치 고정
-        private Vector3 swordParentVec = new Vector3(0, 0, 0);
         
         //칼 게임 오브젝트 배열
         public GameObject[] playerSwords;
@@ -724,9 +722,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 칼 부모 위치 초기화와 검 사거리 표시
         void SwordDirCheck()
         {
-            //칼 부모의 위치 자동 조정
-            //swordParent.transform.position = swordParentVec;//0,0,0 고정시킴  //이거 빼니까 고쳐지네 뭐징..
-
             swordAreaColor = new Color(0.6f, 0, 0, SwordComponent.swordDir);
             playerSwordArea.color = swordAreaColor;
         }
