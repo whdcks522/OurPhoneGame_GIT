@@ -26,11 +26,11 @@ public class MultyInfo : MonoBehaviour
     //현재 버튼의 이미지
     Sprite btnSprite;
     //현재 버튼의 매터리얼
-    Material btnMat;
+    Material btnMaterial;
 
     private void Awake()
     {
-        btnMat = transform.GetChild(0).GetComponent<Image>().material;
+        btnMaterial = transform.GetChild(0).GetComponent<Image>().material;
         btnSprite = transform.GetChild(1).GetComponent<Image>().sprite;
     }
 
@@ -45,6 +45,9 @@ public class MultyInfo : MonoBehaviour
         lobbyManager.maxPlayerNumber = sceneMax;
         //실제 사용자에게 보여지는 전장 설명
         lobbyManager.SceneDescText.text = sceneDesc;
+
+        //매터리얼 전달
+        lobbyManager.cellMaterial = btnMaterial;
         //이미지 전달
         lobbyManager.cellSprite = btnSprite;
         //종이 효과음

@@ -19,9 +19,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //로비에 입장함
     bool isJoinedLobby = false;
 
+    [Header("현재 방장이 선택한 씬의 스프라이트")]
     public Sprite cellSprite;
+    [Header("현재 방장이 선택한 씬의 매터리얼")]
+    public Material cellMaterial;
 
-    
 
     [Header("씬 개발자 이름")]
     public string SceneInnerStr;
@@ -220,13 +222,38 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < cellBtns.Length; i++)
         {
             cellBtns[i].interactable = (multiple + i < myList.Count) ? true : false;
-            //방 이름
-            cellBtns[i].transform.GetChild(3).GetComponent<Text>().text =
-                (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
-            //플레이어 수
-            cellBtns[i].transform.GetChild(4).GetComponent<Text>().text =
-                (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
-            //이미지
+            //Assets/Resources/Shader/MultyIcons/PvPMat.mat
+
+            //,
+
+            //1. 매터리얼
+            Image mImage = cellBtns[i].transform.GetChild(1).GetComponent<Image>();
+            if (multiple + i < myList.Count && myList[multiple + i].CustomProperties.ContainsKey("RoomMaterial"))
+            {
+                string materialPath = (string)myList[multiple + i].CustomProperties["RoomMaterial"];
+
+                // imagePath를 사용하여 이미지를 로드하거나 다른 방법을 사용하여 이미지를 설정하세요.
+                // 예를 들어 Resources.Load를 사용할 수 있습니다.
+
+                Material roomMat = Resources.Load<Material>("Shader/MultyIcons/" + materialPath);
+
+                if (roomMat != null)
+                {
+                    mImage.material = roomMat;
+                }
+                else
+                {
+                    Debug.LogError("Failed to load material: " + materialPath);
+                }
+            }
+            else
+            {
+                // 이미지가 없을 경우 기본 이미지를 설정하거나 아무 작업을 하지 않습니다.
+                //mImage.material = null;
+                Debug.LogError("ffasdf");
+            }
+
+            //2. 이미지
             Image cImage = cellBtns[i].transform.GetChild(2).GetComponent<Image>();
             if (multiple + i < myList.Count && myList[multiple + i].CustomProperties.ContainsKey("RoomImage"))
             {
@@ -251,6 +278,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 // 이미지가 없을 경우 기본 이미지를 설정하거나 아무 작업을 하지 않습니다.
                 cImage.sprite = null;
             }
+            //3. 방 이름
+            cellBtns[i].transform.GetChild(3).GetComponent<Text>().text =
+                (multiple + i < myList.Count) ? myList[multiple + i].Name : "";
+            //4. 플레이어 수
+            cellBtns[i].transform.GetChild(4).GetComponent<Text>().text =
+                (multiple + i < myList.Count) ? myList[multiple + i].PlayerCount + "/" + myList[multiple + i].MaxPlayers : "";
+            
         }
     }
 
@@ -289,7 +323,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 { "IsAllowedToEnter", true },
                 { "IsAllowedToExit", true },
                 { "SceneName", sceneName },
-                { "RoomImage", cellSprite.name } // 선택한 이미지의 경로를 저장
+                { "RoomMaterial", cellMaterial.name },     // 선택한 매터리얼의 경로를 저장
+                { "RoomImage", cellSprite.name }        // 선택한 이미지의 경로를 저장
             },
             CustomRoomPropertiesForLobby = new string[] { "IsAllowedToEnter", "IsAllowedToExit", "SceneName", "RoomImage" } // 로비에서도 이 속성을 보여주기 위해 추가
         };
