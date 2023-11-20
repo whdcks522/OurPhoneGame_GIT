@@ -42,7 +42,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
         //계란 생성
-        photonView.RPC("createEgg", RpcTarget.AllBuffered);
+        //photonView.RPC("createEgg", RpcTarget.AllBuffered);
     }
 
     #region 계란 생성
@@ -89,6 +89,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                     //시작 선언
                     photonView.RPC("alreadyStartRPC", RpcTarget.AllBuffered);
+
                     for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                     {
                         //조작 활성화
