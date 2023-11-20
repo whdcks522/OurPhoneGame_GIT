@@ -318,11 +318,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 1)//너무 멀면 순간이동 
                         {
-                            playerSwords[i].transform.position = swordsRpcPos[i];
+                            //playerSwords[i].transform.position = swordsRpcPos[i];
                         }
                         else
                         {
-                            Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 40);
+                            //Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 40);
                         }
                     }
                 }
