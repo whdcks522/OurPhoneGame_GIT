@@ -154,6 +154,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
                         SwordComponent.leaderSwordExitRPC(2);
+                        miniUI.SetActive(false);
                         //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
                         if (PhotonNetwork.InRoom)
                             photonView.RPC("changeVelocity", RpcTarget.AllBuffered, rigid.velocity);
@@ -205,8 +206,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Awake()
         {
-            PhotonNetwork.SendRate = 60;
-            PhotonNetwork.SerializationRate = 30;
+            PhotonNetwork.SendRate = 120;
+            PhotonNetwork.SerializationRate = 60;
 
             rigid = GetComponent<Rigidbody2D>();
             
@@ -307,7 +308,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                     else
                     {
-                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 20);
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 40);
                     }
 
                     //칼 위치 조정
