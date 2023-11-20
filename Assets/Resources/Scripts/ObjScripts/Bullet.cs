@@ -147,11 +147,11 @@ public class Bullet : MonoBehaviourPunCallbacks
             if (PhotonNetwork.InRoom)
             {
                 if (PhotonNetwork.IsMasterClient)
-                    hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform);
+                    hitEffect.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform.position);
             }
             else if (!PhotonNetwork.InRoom)
             {
-                hitEffect.effectOnRPC(transform);
+                hitEffect.effectOnRPC(transform.position);
             }
         }
     }

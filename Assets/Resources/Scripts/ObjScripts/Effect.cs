@@ -29,11 +29,11 @@ public class Effect : MonoBehaviourPunCallbacks
 
     #region 이펙트 활성 동기화
     [PunRPC]
-    public void effectOnRPC(Transform _Pos)
+    public void effectOnRPC(Vector2 _Pos)
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
-        gameObject.transform.position = _Pos.position;
+        gameObject.transform.position = _Pos;
 
         //회전 조정
         gameObject.transform.forward = gameObject.transform.forward;

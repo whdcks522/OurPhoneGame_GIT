@@ -1054,7 +1054,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
                             textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.AllBuffered, _dmg.ToString());
-                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform);
+                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform.position);
                         } 
                     }
                     else if (!PhotonNetwork.InRoom)
@@ -1064,7 +1064,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
                         textEffectComponent.effectNameRPC(_dmg.ToString());
-                        textEffectComponent.effectOnRPC(transform);
+                        textEffectComponent.effectOnRPC(transform.position);
                     }
                 }
                 
