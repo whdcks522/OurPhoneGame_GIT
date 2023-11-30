@@ -31,7 +31,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void FightRPC() 
+    void textRPC() 
     {
         battleUIManager.typingControl("Fight");
     }
@@ -61,7 +61,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
                         //≈ÿΩ∫∆Æ
                         //cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
-                        photonView.RPC("FightRPC", RpcTarget.AllBuffered, "Fight!");
+                        photonView.RPC("textRPC", RpcTarget.AllBuffered);
 
 
                     }
@@ -106,7 +106,6 @@ public class PvPManager : MonoBehaviourPunCallbacks
 
             string str = PhotonNetwork.CurrentRoom.Name + '\n' +
                     PhotonNetwork.CurrentRoom.PlayerCount + '/' + PhotonNetwork.CurrentRoom.MaxPlayers;
-
 
             CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
             cc.loopTypingRPC(CharacterControls.TypingType.None, str);
