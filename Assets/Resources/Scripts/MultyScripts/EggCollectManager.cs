@@ -107,7 +107,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
 
                         //텍스트
-                        cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Egg!");
+                        cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Egg!", false);
                     }
                 }
                 else if (loser != -2)
@@ -131,12 +131,12 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
-                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,CharacterControls.TypingType.Lose, "Lose");
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,CharacterControls.TypingType.Lose, "Lose", true);
                                 cc.GetComponent<PhotonView>().RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                             }
                             else
                             {
-                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN");
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN", true);
                             }
                         }
                         loser = 2;//update문 관여 안함
@@ -156,11 +156,17 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
 
             CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
-            cc.loopTypingRPC(CharacterControls.TypingType.None, str);
+            cc.loopTypingRPC(CharacterControls.TypingType.None, str, true);
         }
         
         //시작하고 나서 탈주하는 경우
-        if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
+        //if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
+        {
+            //gameManager.allLeaveRoomStart();
+        }
+
+        //시작하고 나서 탈주하는 경우
+        if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer))
         {
             gameManager.allLeaveRoomStart();
         }
@@ -193,7 +199,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                         {
                             CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                             cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,
-                                CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                                CharacterControls.TypingType.None, LeftScore + " : " + RightScore, true);
                         }
                     }
 
@@ -213,7 +219,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                         {
                             CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                             cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered,
-                                CharacterControls.TypingType.None, LeftScore + " : " + RightScore);
+                                CharacterControls.TypingType.None, LeftScore + " : " + RightScore, true);
                         }
                     }
                     //골 이펙트

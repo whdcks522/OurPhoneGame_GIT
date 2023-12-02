@@ -1143,7 +1143,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public enum TypingType { None, Win, Lose, Draw }
 
         [PunRPC]
-        public void loopTypingRPC(TypingType _typingType, string _str = "")//당사자에게 알리는 용
+        public void loopTypingRPC(TypingType _typingType, string _str = "", bool isLoop = true)//당사자에게 알리는 용
         {
             if (photonView.IsMine)
             {
@@ -1165,21 +1165,22 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         str = "Draw?";
                         break;
                 }
-                loopTypingCor = StartCoroutine(loopTyping(str));
+                loopTypingCor = StartCoroutine(loopTyping(str, isLoop));
             }
         }
 
         
 
-        IEnumerator loopTyping(string _str)
+        IEnumerator loopTyping(string _str, bool isLoop)
         {
-            Debug.Log("타이핑");
+            //Debug.Log("타이핑");
 
             battleUIManager.typingControl(_str);
 
             yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);
 
-            loopTypingCor = StartCoroutine(loopTyping(_str));
+            if(isLoop)
+                loopTypingCor = StartCoroutine(loopTyping(_str, isLoop));
         }
         #endregion
 
