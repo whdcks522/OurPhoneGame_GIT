@@ -85,7 +85,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
                                 //텍스트
-                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose", true);
+                                //cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose", true);
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN", true);
                             }
                             else
                             {

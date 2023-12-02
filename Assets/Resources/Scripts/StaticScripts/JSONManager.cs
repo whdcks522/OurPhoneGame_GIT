@@ -115,7 +115,7 @@ public class JSONManager : MonoBehaviour
 
     public void DataClear(int _value)//의도적으로 클리어
     {
-        if (_value == 0)//초기화
+        if (_value == 0)//완전 초기화
         {
             singleScore = new SingleScore();
         }
@@ -123,7 +123,6 @@ public class JSONManager : MonoBehaviour
         {
             foreach (SingleType _type in System.Enum.GetValues(typeof(SingleType)))
             {
-
                 for (int i = 0; i <= 2; i++)
                 {
                     singleScore.UpdateScore(_type, i, _value);

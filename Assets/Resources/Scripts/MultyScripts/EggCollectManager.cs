@@ -158,12 +158,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
             CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
             cc.loopTypingRPC(CharacterControls.TypingType.None, str, true);
         }
-        
-        //시작하고 나서 탈주하는 경우
-        //if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer && gameManager.playerGroup.childCount >= maxPlayer))
-        {
-            //gameManager.allLeaveRoomStart();
-        }
 
         //시작하고 나서 탈주하는 경우
         if (loser != -2 && !(PhotonNetwork.PlayerList.Length >= maxPlayer))

@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/Start.unity
     guid: bd7973a2186290f489528069f72b8982
   - enabled: 1
-    path: Assets/Resources/Scenes/SingleScene/Home.unity
+    path: Assets/Resources/Scenes/StaticScene/Home.unity
     guid: 4c4aca6b29196a841aa91e7f689875cc
   - enabled: 1
-    path: Assets/Resources/Scenes/SingleScene/Settings.unity
+    path: Assets/Resources/Scenes/StaticScene/Settings.unity
     guid: 441a6e7b0cd5eb74c95e7f770b6ec46d
   - enabled: 1
     path: Assets/Resources/Scenes/SingleScene/SingleSelect.unity

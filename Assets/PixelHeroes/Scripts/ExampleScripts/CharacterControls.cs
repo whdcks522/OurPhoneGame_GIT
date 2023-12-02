@@ -312,6 +312,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 40);
                     }
+
                     //칼 이동
                     if ((playerSwords[0].transform.position - swordsRpcPos[0]).sqrMagnitude >= 1)//너무 멀면 순간이동 
                     {
@@ -320,23 +321,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     else
                     {
                         SwordComponent.GetComponent<Rigidbody2D>().position = 
-                            Vector3.Lerp(playerSwords[0].transform.position, swordsRpcPos[0], Time.deltaTime * 10);
+                            Vector3.Lerp(playerSwords[0].transform.position, swordsRpcPos[0], Time.deltaTime * 10);//1이 넘으면 의미가 없음
                     }
-
-                    /*
-                    //칼 위치 조정
-                    for (int i = 0; i < 8; i++) 
-                    {
-                        if ((playerSwords[i].transform.position - swordsRpcPos[i]).sqrMagnitude >= 1)//너무 멀면 순간이동 
-                        {
-                            //playerSwords[i].transform.position = swordsRpcPos[i];
-                        }
-                        else
-                        {
-                            //Vector3.Lerp(playerSwords[i].transform.position, swordsRpcPos[i], Time.deltaTime * 40);
-                        }
-                    }
-                    */
                 }
                 
             }
@@ -795,12 +781,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                 {
-                    photonView.RPC("SwordActiveRPC", RpcTarget.AllBuffered);
+                    photonView.RPC("SwordActiveRPC", RpcTarget.AllBuffered, (Vector3)swordJoyVec);
                     photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
                 }
                 else//1인이라면
                 {
-                    SwordActiveRPC();
+                    SwordActiveRPC((Vector3)swordJoyVec);
                     SwordSpinRPC(swordJoyVec);
                 }
             }
@@ -822,9 +808,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region 칼 활성 동기화
         [PunRPC]
-        void SwordActiveRPC() 
+        void SwordActiveRPC(Vector3 tmpVec ) 
         {
-            playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + (Vector3)swordJoyVec ;
+            playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + tmpVec;
             playerSwords[0].SetActive(true);
             SwordComponent.trailRenderer.Clear();
             //등의 검 비활성화

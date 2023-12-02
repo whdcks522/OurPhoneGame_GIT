@@ -107,8 +107,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
             characterControl = player.GetComponent<CharacterControls>();
+            //방향 전환
+            characterControl.GetComponent<PhotonView>().RPC("TurnRPC", RpcTarget.AllBuffered, (int)spawnPosition.localScale.x);
             characterControl.gameManager = this;
             player.transform.parent = playerGroup;
+            
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);

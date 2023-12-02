@@ -901,6 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd72587afd49a1446af27fabc608d024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multyEnterBtn: {fileID: 1270360721}
 --- !u!4 &1222974762
 Transform:
   m_ObjectHideFlags: 0
