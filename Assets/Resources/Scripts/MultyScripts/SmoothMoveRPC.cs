@@ -23,7 +23,7 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
         {
             if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
             {
-                Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
+                //Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
                 transform.position = rpcPos;
             }
             else
@@ -38,12 +38,10 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)//포톤.isMine이랑 같나봄
         {
             stream.SendNext(transform.position);
-            //stream.SendNext(HealthImage.fillAmount);
         }
         else//남의 거면 받나봄
         {
             rpcPos = (Vector3)stream.ReceiveNext();//1번째 줄을 1번째 줄로 받음
-            //HealthImage.fillAmount = (float)stream.ReceiveNext();//2번째 줄을 1번째 줄로 받음
         }
     }
 }

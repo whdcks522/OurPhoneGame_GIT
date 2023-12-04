@@ -100,8 +100,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public float raySize;
         [Header("레이의 시작점")]
         public Vector3 rayVec = Vector3.zero;
-        [Header("현재 바닥인지")]
-        public bool isGround = false;
+        //[Header("현재 바닥인지")]
+        bool isGround = false;
+        Collider2D hitCol = null;
         //튜토리얼에서 부양을 보여주기 위함
         int playerLayer;
         int playerSwordLayer; 
@@ -128,7 +129,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //텍스트를 위한 반복하는 문장 코루틴
         Coroutine loopTypingCor;
 
-        [PunRPC]
+        [PunRPC]//죽었을 때 가속도 동기화를 위함
         void changeVelocity(Vector2 _tmpVec) 
         {
             rigid.velocity = _tmpVec;
@@ -208,8 +209,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Awake()
         {
-            PhotonNetwork.SendRate = 80;
-            PhotonNetwork.SerializationRate = 40;
+            PhotonNetwork.SendRate = 60;
+            PhotonNetwork.SerializationRate = 30;
 
             rigid = GetComponent<Rigidbody2D>();
             
@@ -242,8 +243,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)
             {
-                changeStateRPC(PlayerStateType.LeftControl, true);
-                changeStateRPC(PlayerStateType.RightControl, true);
+                //changeStateRPC(PlayerStateType.LeftControl, false);
+                //changeStateRPC(PlayerStateType.RightControl, false);
 
 
                 //체력 감소율을 0으로
@@ -305,7 +306,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //플레이어 위치 관리
                     if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동, 12
                     {
-                        Debug.LogWarning("PlayerQuickMove");
+                        //Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
                     }
                     else
@@ -477,7 +478,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 isJumpAni = true;//이미 점프 중인지 확인
             }
 
-            Collider2D hitCol = null;
+            
             isGround = false;
             RaycastHit2D[] rayHits = Physics2D.CircleCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
             foreach (RaycastHit2D hitObj in rayHits)

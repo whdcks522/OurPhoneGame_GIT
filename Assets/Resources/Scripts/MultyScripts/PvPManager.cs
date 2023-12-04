@@ -22,8 +22,8 @@ public class PvPManager : MonoBehaviourPunCallbacks
     BattleUIManager battleUIManager;
     private void Awake()
     {
-        PhotonNetwork.SendRate = 10;
-        PhotonNetwork.SerializationRate = 5;
+        PhotonNetwork.SendRate = 4;
+        PhotonNetwork.SerializationRate = 2;
 
         battleUIManager = BattleUIManager.Instance;
 
@@ -59,43 +59,44 @@ public class PvPManager : MonoBehaviourPunCallbacks
                         //전투 허가
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordFight, true);
 
-                        //텍스트
-                        //cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!");
-                        //photonView.RPC("textRPC", RpcTarget.AllBuffered);
+                        //텍스트로 시작 알림
                         cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Fight!", false);
 
                     }
                 }
                 else if (loser != -2 && loser != 2)
                 {
-                    for (int i = 0; i < gameManager.playerGroup.childCount; i++)
+                    if (loser == -1) //패배자 결정
                     {
-                        CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
-
-                        if (loser == -1) //패배자 결정
+                        for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                         {
+                            CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                             if (cc.curHealth <= 0)
                             {
                                 loser = i;
                             }
                         }
-                        else if (loser != -1 && loser != 2)
+                    }
+                    else if (loser != -1 && loser != 2)
+                    {
+                        for (int i = 0; i < gameManager.playerGroup.childCount; i++)
                         {
-                            
+                            CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                             if (i == loser) //패배자한테 패배 메시지 전송
                             {
                                 //텍스트
-                                //cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose", true);
-                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN", true);
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Lose, "Lose", true);
                             }
                             else
                             {
                                 //텍스트
-                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN", true);
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "Win", true);
                             }
                             loser = 2;
                         }
                     }
+
+
                 }
             }
         }//방장 일 때,
@@ -119,6 +120,7 @@ public class PvPManager : MonoBehaviourPunCallbacks
         }
 
     }//Update문
+
     [PunRPC]
     public void alreadyStartRPC() //시작 선언
     {

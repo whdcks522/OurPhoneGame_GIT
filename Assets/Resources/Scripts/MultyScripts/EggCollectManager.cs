@@ -35,8 +35,8 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        PhotonNetwork.SendRate = 10;
-        PhotonNetwork.SerializationRate = 5;
+        PhotonNetwork.SendRate = 6;
+        PhotonNetwork.SerializationRate = 3;
 
         battleUIManager = BattleUIManager.Instance;
         
@@ -102,9 +102,9 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                         //조작 활성화
                         CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
-                        cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
+                        //cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
                         //무기 갯수 1개로
-                        cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
+                        //cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
 
                         //텍스트
                         cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Egg!", false);
@@ -136,7 +136,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                             }
                             else
                             {
-                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "WIN", true);
+                                cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "Win", true);
                             }
                         }
                         loser = 2;//update문 관여 안함
