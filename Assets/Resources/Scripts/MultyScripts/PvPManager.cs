@@ -91,12 +91,10 @@ public class PvPManager : MonoBehaviourPunCallbacks
                             {
                                 //텍스트
                                 cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.Win, "Win", true);
-                            }
-                            loser = 2;
+                            } 
                         }
+                        loser = 2;
                     }
-
-
                 }
             }
         }//방장 일 때,
