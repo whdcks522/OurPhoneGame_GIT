@@ -101,10 +101,11 @@ public class JSONManager : MonoBehaviour
 
     public void SaveData(SingleInfo.SingleType _singleType, int _index, int _score) //점수 저장하기
     {
+        //최대 기록을 넘는 경우 초기화
         singleScore.UpdateScore(_singleType, _index, _score);
 
-        string data = JsonUtility.ToJson(singleScore);//데이터 -> JSON 변환
-        File.WriteAllText(path, data);//path/save의 형식으로 data 저장
+        //저장
+        SaveData();
     }
 
     public void SaveData() //그냥 저장하기

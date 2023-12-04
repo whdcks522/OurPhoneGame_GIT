@@ -22,7 +22,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
     bool isStart = false;
 
     public Image whiteEgg;
-
+    int targetScore = 7;
 
     [Header("게임매니저")]
     public GameManager gameManager;
@@ -41,15 +41,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         battleUIManager = BattleUIManager.Instance;
         
         maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
-
-        //계란 생성
-        //photonView.RPC("createEgg", RpcTarget.AllBuffered);
-
-        if (!isMasterCilentLocal) 
-        {
-            CharacterControls cc = gameManager.playerGroup.GetChild(0).GetComponent<CharacterControls>();
-            cc.photonView.RPC("TurnRPC", RpcTarget.AllBuffered, -1);
-        }
     }
 
     #region 계란 생성
@@ -114,11 +105,11 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                 {
                     if (loser == -1)
                     {
-                        if (LeftScore >= 2)
+                        if (LeftScore >= targetScore)
                         {
                             loser = 1;
                         }
-                        else if (RightScore >= 2)
+                        else if (RightScore >= targetScore)
                         {
                             loser = 0;
                         }
