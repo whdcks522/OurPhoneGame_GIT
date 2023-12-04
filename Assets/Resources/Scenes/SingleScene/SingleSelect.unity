@@ -2937,9 +2937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneDesc
-      value: "<color=black>\uAC80\uC740 \uBCBD</color>\uC744 \uCD5C\uB300\uD55C \uB9CE\uC774
-        \uD30C\uAD34\uD558\uBA70 \uC0DD\uC874\uD574\uB77C! <color=white>\uD558\uC580
-        \uBCBD</color>\uC740 \uACAC\uACE0\uD558\uB2E4.\n"
+      value: "<color=#87CEEB>\uD558\uB298</color> \uB192\uC774 \uC62C\uB77C\uAC00\uB77C!\n"
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: singleType
@@ -2947,15 +2945,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: isInVisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
-      value: BlockCrash_1
+      value: Fly_1
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneOutterTitle
-      value: "\uBCBD\uBD80\uC218\uAE30 1"
+      value: "\uBE44\uD589 1"
       objectReference: {fileID: 0}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: singleSelectManager

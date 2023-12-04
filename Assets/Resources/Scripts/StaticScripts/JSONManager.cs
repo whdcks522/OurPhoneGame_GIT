@@ -7,7 +7,7 @@ using static SingleInfo;
 
 public class JSONManager : MonoBehaviour
 {
-    [System.Serializable]
+    [System.Serializable]//밖에서 식별 가능하도록, public 필요 없음
     public class SingleScore
     {
         public enum SettingType {Bgm, Sfx }
@@ -39,7 +39,6 @@ public class JSONManager : MonoBehaviour
                     value = FlyMaxScore[_index];
                     break;
             }
-
             return value;
         }
         #endregion
@@ -68,7 +67,7 @@ public class JSONManager : MonoBehaviour
         #region 나머지 갱신
         public void UpdateOther(SettingType _settingType, int _index)
         {
-            switch (_settingType)//3곳씩 수정
+            switch (_settingType)
             {
                 case SettingType.Bgm:
                     isPlayBgm = _index == 1 ? true : false;
@@ -122,7 +121,7 @@ public class JSONManager : MonoBehaviour
         }
         else //갱신
         {
-            foreach (SingleType _type in System.Enum.GetValues(typeof(SingleType)))
+            foreach (SingleType _type in System.Enum.GetValues(typeof(SingleType)))//모든 것들의 점수를 수정
             {
                 for (int i = 0; i <= 2; i++)
                 {

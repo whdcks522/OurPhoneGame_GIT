@@ -193,6 +193,9 @@ public class BattleUIManager : MonoBehaviour
         //대화 코루틴 종료
         typingControl("");
 
+        //데이터 저장
+        jsonManager.SaveData(singleType, curLevel, Mathf.FloorToInt(curScore));
+
         //이어하기 버튼 다시 보이도록
         btnContinue.SetActive(true);
 

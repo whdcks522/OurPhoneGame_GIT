@@ -2208,12 +2208,12 @@ MonoBehaviour:
   - {fileID: 636360941}
   scenelevel: 0
   windSpeedArr:
-  - 1
-  - 1.2
-  - 1.4
-  - 1.6
-  - 1.8
   - 2
+  - 1.8
+  - 1.6
+  - 1.4
+  - 1.2
+  - 1
   maxPowerUpIndex: 5
   characterControls: {fileID: 1184215559}
   gameManager: {fileID: 1701117493}
@@ -2587,7 +2587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5326585186242922979, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: orthographic size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5535252387881952518, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_Name

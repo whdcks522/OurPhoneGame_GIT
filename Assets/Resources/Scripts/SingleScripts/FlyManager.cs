@@ -7,7 +7,7 @@ using UnityEngine;
 public class FlyManager : MonoBehaviour
 {
     //최대 발사 시간
-    float maxTime = 3f;
+    public float maxTime = 3f;
     //현재 발사 시간
     float curTime = 0;
 
@@ -38,6 +38,13 @@ public class FlyManager : MonoBehaviour
     public GameManager gameManager;
     public GameObject player;
 
+    [Header("카메라 경계 설정에 사용됨")]
+    public int[] xArr = { 28, -28, -28, 28 };
+    public int[] yArr = { 25, 25, -10, -10};
+    Vector2[] vecArr = {Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero};//new Vector2(-28, -10), new Vector2(28, -10), new Vector2(-28, 25), new Vector2(28, 25)
+    //카메라 경계를 위함
+    public PolygonCollider2D polyCol;
+
     private void Start()
     {
         battleUIManager = BattleUIManager.Instance;
@@ -53,10 +60,21 @@ public class FlyManager : MonoBehaviour
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
     }
 
-
+    Vector2 maxHighVec = Vector2.zero;
+    public float maxHigh = 0f;
     private void Update()
     {
-        curTime += Time.deltaTime * curWindSpeed;
+        //curTime += Time.deltaTime * curWindSpeed;
+        maxHigh = Mathf.Max(maxHigh, player.transform.position.y);
+        if (scenelevel == 1) 
+        {
+            for(int i = 0; i < vecArr.Length; i++) 
+            {
+                maxHighVec = new Vector2(xArr[i], yArr[i] + maxHigh);
+                vecArr[i] = maxHighVec;
+            }
+            polyCol.points = vecArr;
+        }
 
         if (curTime > maxTime)
         {
@@ -81,7 +99,6 @@ public class FlyManager : MonoBehaviour
                 case BattleUIManager.RankType.E:
                     curWindSpeed = windSpeedArr[5];
                     break;
-
             }
 
             //시간 초기화
@@ -111,7 +128,7 @@ public class FlyManager : MonoBehaviour
             windComponent.windOnRPC();
 
             //회전 조정
-            int isTrue = Random.Range(0, 2);
+            int isTrue = Random.Range(0, 2);//방향을 섞기 위해서
 
             if (isTrue == 0) 
             {
@@ -128,39 +145,41 @@ public class FlyManager : MonoBehaviour
                 wind.transform.eulerAngles = new Vector3(0, 0, angle + Random.Range(-15, 16));
             }
 
-
-
-            if (curPowerUpIndex >= maxPowerUpIndex) 
+            if (scenelevel == 0) 
             {
-                curPowerUpIndex = 0;
+                if (curPowerUpIndex >= maxPowerUpIndex)
+                {
+                    curPowerUpIndex = 0;
 
-                GameObject bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
+                    GameObject bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
 
-                //컴포넌트 정의
-                Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-                Bullet bulletComponent = bullet.GetComponent<Bullet>();
+                    //컴포넌트 정의
+                    Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
+                    Bullet bulletComponent = bullet.GetComponent<Bullet>();
 
 
-                //운석 발싸
+                    //가운데에서 내리도록 운석 발사
+                    bullet.transform.parent = this.transform;
+                    bullet.transform.position = windPoints[0].position;
 
-                bullet.transform.parent = this.transform;
-                bullet.transform.position = windPoints[0].position;
+                    //운석 활성화
+                    bulletComponent.bulletOnRPC();
 
-                //운석 활성화
-                bulletComponent.bulletOnRPC();
+                    //속도 조정
+                    Vector2 bulletVec = Vector2.down;
 
-                //속도 조정
-                Vector2 bulletVec = Vector2.down;
+                    //최종 속도 조정
+                    bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
 
-                //최종 속도 조정
-                bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
-
-                //회전 조정
-                bullet.transform.rotation = Quaternion.identity;
-                float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-                bullet.transform.Rotate(rotVec);
+                    //회전 조정
+                    bullet.transform.rotation = Quaternion.identity;
+                    float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
+                    Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
+                    bullet.transform.Rotate(rotVec);
+                }
             }
+
+            
         }
     }
 }
