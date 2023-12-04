@@ -477,66 +477,68 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 isJumpAni = true;//이미 점프 중인지 확인
             }
 
-            //if (rigid.velocity.y <= 4) 
+            Collider2D hitCol = null;
+            isGround = false;
+            RaycastHit2D[] rayHits = Physics2D.CircleCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
+            foreach (RaycastHit2D hitObj in rayHits)
             {
-                isGround = false;
-                RaycastHit2D[] rayHits = Physics2D.CircleCastAll(transform.position + rayVec, rayRadius, Vector3.down, raySize);
-                foreach (RaycastHit2D hitObj in rayHits) 
+                if (hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block")) ||
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword")) ||
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Obj")) ||
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
                 {
-                    if(hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Construction")) ||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block"))||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword"))||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Obj")) ||
-                       hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
-                    {
-                        if (hitObj.transform.gameObject != gameObject) 
-                        {
-                            isGround = true;
-                            break;
-                        }
-                    }
-                }
+                    hitCol = hitObj.collider;
 
-                if (isGround)//바닥에 있을 때
-                {
-                    if (_inputY > 0)//점프
+                    if (!hitCol.isTrigger && hitObj.transform.gameObject != gameObject)//자신은 무시해야됨 
                     {
-                        Character.SetState(AnimationState.Jumping);
-                        rigid.velocity = new Vector3(rigid.velocity.x, jumpForce);
-
-                        //런닝 먼지 중지
-                        if (MoveDust.isPlaying)
-                        {
-                            MoveDust.Stop();
-                        }
+                        isGround = true;
+                        break;
                     }
-
-                    else if (_inputX != 0)//걷기
-                    {
-                        Character.SetState(AnimationState.Running);
-                        //런닝 먼지 시작
-                        if (!MoveDust.isPlaying && Character.GetState() == AnimationState.Running)
-                        {
-                            MoveDust.Play();
-                        }
-                    }
-                    else if (_inputX == 0)//서있기
-                    {
-                        //런닝 먼지 중지
-                        Character.SetState(AnimationState.Idle);
-                        
-                        if (MoveDust.isPlaying)
-                        {
-                            MoveDust.Stop();
-                        }
-                    }
-                }
-                else if (!isGround) //공중에 있을 때
-                {
-                    if(Character.GetState() != AnimationState.Jumping)
-                        Character.SetState(AnimationState.Jumping);
                 }
             }
+
+            if (isGround)//바닥에 있을 때
+            {
+                if (_inputY > 0)//점프
+                {
+                    Character.SetState(AnimationState.Jumping);
+                    rigid.velocity = new Vector3(rigid.velocity.x, jumpForce);
+
+                    //런닝 먼지 중지
+                    if (MoveDust.isPlaying)
+                    {
+                        MoveDust.Stop();
+                    }
+                }
+
+                else if (_inputX != 0)//걷기
+                {
+                    Character.SetState(AnimationState.Running);
+                    //런닝 먼지 시작
+                    if (!MoveDust.isPlaying && Character.GetState() == AnimationState.Running)
+                    {
+                        MoveDust.Play();
+                    }
+                }
+                else if (_inputX == 0)//서있기
+                {
+                    //런닝 먼지 중지
+                    Character.SetState(AnimationState.Idle);
+
+                    if (MoveDust.isPlaying)
+                    {
+                        MoveDust.Stop();
+                    }
+                }
+            }
+            else if (!isGround) //공중에 있을 때
+            {
+                if (Character.GetState() != AnimationState.Jumping)
+                    Character.SetState(AnimationState.Jumping);
+            }
+
+
 
             rigid.velocity = new Vector2(_inputX* RunSpeed, rigid.velocity.y);
 
