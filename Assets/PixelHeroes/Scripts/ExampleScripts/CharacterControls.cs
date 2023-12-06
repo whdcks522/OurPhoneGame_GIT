@@ -997,13 +997,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (PhotonNetwork.InRoom)
                 {
-                    if (photonView.IsMine)
+                    if (photonView.IsMine && !isDead)
                     {
                         //피격 처리
                         photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
                     }
                 }
-                else if (!PhotonNetwork.InRoom)
+                else if (!PhotonNetwork.InRoom && !isDead)
                 {
                     changeStateRPC(PlayerStateType.Dead, true);
                 }

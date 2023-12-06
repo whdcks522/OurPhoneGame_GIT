@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterMat
-  m_Shader: {fileID: -6465566751694194690, guid: 1b6b29f912fbdc845a71827507f91dd5,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1b6b29f912fbdc845a71827507f91dd5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -40,12 +39,13 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RippleEensity: 5
-    - _RippleSlimness: 2
+    - _RippleEensity: 5.44
+    - _RipplePosition: 0.124
+    - _RippleSlimness: 3.31
     - _RippleSpeed: 2
     m_Colors:
-    - _AddColor: {r: 0.7505785, g: 0.9152692, b: 0.95283014, a: 0}
-    - _RippleColor: {r: 0.7989498, g: 0.8703219, b: 0.8867924, a: 0}
+    - _AddColor: {r: 0.19987537, g: 0.47276273, b: 0.5377358, a: 0}
+    - _RippleColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5502194372825356347
 MonoBehaviour:

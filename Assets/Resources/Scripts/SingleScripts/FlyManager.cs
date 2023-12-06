@@ -15,7 +15,8 @@ public class FlyManager : MonoBehaviour
     int recentPos;
 
     [Header("바람 발생 지점")]
-    public Transform[] windPoints;
+    public Transform windPointsParent;
+    Transform[] windPoints;
 
     [Header("씬의 레벨")]
     public int scenelevel;
@@ -38,12 +39,17 @@ public class FlyManager : MonoBehaviour
     public GameManager gameManager;
     public GameObject player;
 
-    [Header("카메라 경계 설정에 사용됨")]
-    public int[] xArr = { 28, -28, -28, 28 };
-    public int[] yArr = { 25, 25, -10, -10};
-    Vector2[] vecArr = {Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero};//new Vector2(-28, -10), new Vector2(28, -10), new Vector2(-28, 25), new Vector2(28, 25)
-    //카메라 경계를 위함
+    [Header("아래는 레벨 1부터 (카메라 경계 설정에 사용됨)")]
+    public int[] xArr;
+    public int[] yArr;
+    Vector2[] vecArr = new Vector2[4];
+
+    [Header("카메라 경계를 위함")]
     public PolygonCollider2D polyCol;
+    [Header("움직이는 경계를 위함")]
+    public GameObject redRoses;
+    [Header("움직이는 배경을 위함")]
+    public GameObject backGround;
 
     private void Start()
     {
@@ -54,6 +60,11 @@ public class FlyManager : MonoBehaviour
         characterControls.curHealth = 100;
         characterControls.scorePlus = 1;
 
+        windPoints = new Transform[windPointsParent.childCount];
+        for (int i = 0; i < windPointsParent.childCount; i++) 
+        {
+            windPoints[i] = windPointsParent.GetChild(i);
+        }
         curWindSpeed = windSpeedArr[5];
 
         //배경음 재생
@@ -61,19 +72,33 @@ public class FlyManager : MonoBehaviour
     }
 
     Vector2 maxHighVec = Vector2.zero;
-    public float maxHigh = 0f;
+    float maxHigh = 0f;
     private void Update()
     {
         //curTime += Time.deltaTime * curWindSpeed;
-        maxHigh = Mathf.Max(maxHigh, player.transform.position.y);
+        
         if (scenelevel == 1) 
         {
+            maxHigh += Time.deltaTime;
+            //바람 위치 최대값 갱신
+            maxHigh = Mathf.Max(maxHigh, player.transform.position.y);
+            //바람 생성 위치 조절
+            windPointsParent.transform.position = player.transform.position;
+
+            //시각 콜라이더 조정
             for(int i = 0; i < vecArr.Length; i++) 
             {
                 maxHighVec = new Vector2(xArr[i], yArr[i] + maxHigh);
                 vecArr[i] = maxHighVec;
             }
             polyCol.points = vecArr;
+            //배경 위치 조정
+            maxHighVec = new Vector2(0, maxHigh + yArr[2] / 2);
+            backGround.transform.position = maxHighVec;
+            //아래 아웃라인 조정
+            maxHighVec = new Vector2(0, maxHigh + yArr[2] / 2);
+            redRoses.transform.position = maxHighVec;
+            
         }
 
         if (curTime > maxTime)

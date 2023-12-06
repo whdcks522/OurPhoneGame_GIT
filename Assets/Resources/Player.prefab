@@ -17363,7 +17363,6 @@ MonoBehaviour:
   rayRadius: 0.2
   raySize: 0
   rayVec: {x: 0, y: -0.2, z: 0}
-  isGround: 0
   isDead: 0
 --- !u!95 &5498480976259529555
 Animator:
