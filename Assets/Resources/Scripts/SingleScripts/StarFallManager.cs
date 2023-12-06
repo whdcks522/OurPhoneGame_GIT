@@ -139,7 +139,7 @@ public class StarFallManager : MonoBehaviour
             //운석 활성화
             bulletComponent.bulletOnRPC();
 
-            //속도 조정
+            //방향 조정
             Vector2 bulletVec = (player.transform.position - bullet.transform.position).normalized;
 
             //약간의 궤도 변화

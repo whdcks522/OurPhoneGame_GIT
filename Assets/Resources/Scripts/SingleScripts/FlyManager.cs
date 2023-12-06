@@ -23,6 +23,7 @@ public class FlyManager : MonoBehaviour
 
     [Header("바람 최대 주기")]
     public float[] windSpeedArr;
+    //재생산 주기
     float curWindSpeed;
 
     //최대 파워업 유성 
@@ -39,17 +40,20 @@ public class FlyManager : MonoBehaviour
     public GameManager gameManager;
     public GameObject player;
 
-    [Header("아래는 레벨 1부터 (카메라 경계 설정에 사용됨)")]
-    public int[] xArr;
-    public int[] yArr;
-    Vector2[] vecArr = new Vector2[4];
 
-    [Header("카메라 경계를 위함")]
-    public PolygonCollider2D polyCol;
-    [Header("움직이는 경계를 위함")]
+
+    [Header("배경과 카메라의 오차 줄이는 용(아래는 레벨 1부터)")]
+    public float errorDir;
+    public float upSpeed;
+    [Header("경계를 비활성화하기 위함")]
+    public GameObject outLines;
+    [Header("움직이는 카메라를 위함")]
+    public GameObject cmRange;
+    [Header("움직이는 장미들을 위함")]
     public GameObject redRoses;
     [Header("움직이는 배경을 위함")]
     public GameObject backGround;
+
 
     private void Start()
     {
@@ -66,37 +70,39 @@ public class FlyManager : MonoBehaviour
             windPoints[i] = windPointsParent.GetChild(i);
         }
         curWindSpeed = windSpeedArr[5];
+        
 
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
+
+        if (scenelevel == 1)
+        {
+            outLines.SetActive(false);
+        }
     }
 
     Vector2 maxHighVec = Vector2.zero;
     float maxHigh = 0f;
     private void Update()
     {
-        //curTime += Time.deltaTime * curWindSpeed;
+        curTime += Time.deltaTime * curWindSpeed;
         
         if (scenelevel == 1) 
         {
-            maxHigh += Time.deltaTime;
+            //아무것도 안해도 증가하도록
+            maxHigh += Time.deltaTime * upSpeed;
             //바람 위치 최대값 갱신
             maxHigh = Mathf.Max(maxHigh, player.transform.position.y);
             //바람 생성 위치 조절
             windPointsParent.transform.position = player.transform.position;
 
-            //시각 콜라이더 조정
-            for(int i = 0; i < vecArr.Length; i++) 
-            {
-                maxHighVec = new Vector2(xArr[i], yArr[i] + maxHigh);
-                vecArr[i] = maxHighVec;
-            }
-            polyCol.points = vecArr;
             //배경 위치 조정
-            maxHighVec = new Vector2(0, maxHigh + yArr[2] / 2);
+            maxHighVec = new Vector2(0, maxHigh);
+            cmRange.transform.position = maxHighVec;
+            //배경 위치 조정
+            maxHighVec = new Vector2(0, maxHigh + errorDir);
             backGround.transform.position = maxHighVec;
             //아래 아웃라인 조정
-            maxHighVec = new Vector2(0, maxHigh + yArr[2] / 2);
             redRoses.transform.position = maxHighVec;
             
         }
@@ -117,7 +123,6 @@ public class FlyManager : MonoBehaviour
                 case BattleUIManager.RankType.C:
                     curWindSpeed = windSpeedArr[3];
                     break;
-
                 case BattleUIManager.RankType.D:
                     curWindSpeed = windSpeedArr[4];
                     break;
@@ -170,41 +175,39 @@ public class FlyManager : MonoBehaviour
                 wind.transform.eulerAngles = new Vector3(0, 0, angle + Random.Range(-15, 16));
             }
 
-            if (scenelevel == 0) 
+            if (curPowerUpIndex >= maxPowerUpIndex)
             {
-                if (curPowerUpIndex >= maxPowerUpIndex)
-                {
-                    curPowerUpIndex = 0;
+                curPowerUpIndex = 0;
 
-                    GameObject bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
+                GameObject bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
 
-                    //컴포넌트 정의
-                    Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-                    Bullet bulletComponent = bullet.GetComponent<Bullet>();
+                //컴포넌트 정의
+                Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
+                Bullet bulletComponent = bullet.GetComponent<Bullet>();
 
 
-                    //가운데에서 내리도록 운석 발사
-                    bullet.transform.parent = this.transform;
-                    bullet.transform.position = windPoints[0].position;
+                //가운데에서 내리도록 운석 발사
+                int ran = Random.Range(0, windPoints.Length);
+                bullet.transform.parent = this.transform;
+                bullet.transform.position = windPoints[ran].position;
 
-                    //운석 활성화
-                    bulletComponent.bulletOnRPC();
+                //총알 활성화
+                bulletComponent.bulletOnRPC();
 
-                    //속도 조정
-                    Vector2 bulletVec = Vector2.down;
+                //총알 속도 조정
+                Vector2 bulletVec = (player.transform.position - bullet.transform.position).normalized;
 
-                    //최종 속도 조정
-                    bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
+                //총알 최종 속도 조정
+                bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
 
-                    //회전 조정
-                    bullet.transform.rotation = Quaternion.identity;
-                    float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-                    Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-                    bullet.transform.Rotate(rotVec);
-                }
+                //총알 회전 조정
+                bullet.transform.rotation = Quaternion.identity;
+                float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
+                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
+                bullet.transform.Rotate(rotVec);
             }
 
-            
+
         }
     }
 }
