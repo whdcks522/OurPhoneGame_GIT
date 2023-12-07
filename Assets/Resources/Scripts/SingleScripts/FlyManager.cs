@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class FlyManager : MonoBehaviour
 {
-    //최대 발사 시간
-    public float maxTime = 3f;
+    [Header("최대 발사 시간")]
+    public float maxTime;
     //현재 발사 시간
     float curTime = 0;
 
@@ -16,7 +16,7 @@ public class FlyManager : MonoBehaviour
 
     [Header("바람 발생 지점")]
     public Transform windPointsParent;
-    Transform[] windPoints;
+    GameObject[] windPoints;
 
     [Header("씬의 레벨")]
     public int scenelevel;
@@ -26,10 +26,10 @@ public class FlyManager : MonoBehaviour
     //재생산 주기
     float curWindSpeed;
 
-    //최대 파워업 유성 
-    public int maxPowerUpIndex;
-    //현재 파워업 유성 
-    int curPowerUpIndex = 0;
+    //최대 바람 
+    public int maxWindIndex;
+    //현재 바람 
+    int curWindIndex = 0;
 
 
     [Header("플레이어 스크립트")]
@@ -44,7 +44,6 @@ public class FlyManager : MonoBehaviour
 
     [Header("배경과 카메라의 오차 줄이는 용(아래는 레벨 1부터)")]
     public float errorDir;
-    public float upSpeed;
     [Header("경계를 비활성화하기 위함")]
     public GameObject outLines;
     [Header("움직이는 카메라를 위함")]
@@ -64,10 +63,10 @@ public class FlyManager : MonoBehaviour
         characterControls.curHealth = 100;
         characterControls.scorePlus = 1;
 
-        windPoints = new Transform[windPointsParent.childCount];
+        windPoints = new GameObject[windPointsParent.childCount];
         for (int i = 0; i < windPointsParent.childCount; i++) 
         {
-            windPoints[i] = windPointsParent.GetChild(i);
+            windPoints[i] = windPointsParent.GetChild(i).gameObject;
         }
         curWindSpeed = windSpeedArr[5];
         
@@ -82,7 +81,7 @@ public class FlyManager : MonoBehaviour
     }
 
     Vector2 maxHighVec = Vector2.zero;
-    float maxHigh = 0f;
+    float maxHigh = 10f;//10
     private void Update()
     {
         curTime += Time.deltaTime * curWindSpeed;
@@ -90,7 +89,7 @@ public class FlyManager : MonoBehaviour
         if (scenelevel == 1) 
         {
             //아무것도 안해도 증가하도록
-            maxHigh += Time.deltaTime * upSpeed;
+            maxHigh += Time.deltaTime * curWindSpeed;
             //바람 위치 최대값 갱신
             maxHigh = Mathf.Max(maxHigh, player.transform.position.y);
             //바람 생성 위치 조절
@@ -133,81 +132,70 @@ public class FlyManager : MonoBehaviour
 
             //시간 초기화
             curTime = 0f;
-            curPowerUpIndex++;
+            curWindIndex++;
 
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
 
+
             //사출 위치 정하기
-            int ranPos = Random.Range(0, windPoints.Length);
+            int ran = Random.Range(0, windPoints.Length);
             //같은 곳 연속으로 안되도록 설정
-            if (ranPos == recentPos)
-                ranPos = (ranPos + 1) / windPoints.Length;
-            recentPos = ranPos;
+            if (ran == recentPos)
+                ran = (ran + 1) / windPoints.Length;
+            recentPos = ran;
 
+            //총알 생성
+            BulletShotter bulletShotter = windPoints[ran].GetComponent<BulletShotter>();
+            bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                    windPoints[ran], player, 1);
 
-            GameObject wind = gameManager.CreateObj("NormalWind", GameManager.PoolTypes.WindType);
-
-            //컴포넌트 정의
-            Wind windComponent = wind.GetComponent<Wind>();
-
-            wind.transform.parent = this.transform;
-            wind.transform.position = windPoints[ranPos].position;
-
-            //운석 활성화
-            windComponent.windOnRPC();
-
-            //회전 조정
-            int isTrue = Random.Range(0, 2);//방향을 섞기 위해서
-
-            if (isTrue == 0) 
+            if (curWindIndex >= maxWindIndex)
             {
-                Vector3 direction = (player.transform.position - wind.transform.position).normalized;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-                wind.transform.eulerAngles = new Vector3(0, 0, angle + Random.Range(-15, 16));
+                curWindIndex = 0;
+                createWind(); 
             }
-            else if (isTrue == 1)
-            {
-                Vector3 direction = (wind.transform.position - player.transform.position).normalized;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-                wind.transform.eulerAngles = new Vector3(0, 0, angle + Random.Range(-15, 16));
-            }
-
-            if (curPowerUpIndex >= maxPowerUpIndex)
-            {
-                curPowerUpIndex = 0;
-
-                GameObject bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
-
-                //컴포넌트 정의
-                Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-                Bullet bulletComponent = bullet.GetComponent<Bullet>();
-
-
-                //가운데에서 내리도록 운석 발사
-                int ran = Random.Range(0, windPoints.Length);
-                bullet.transform.parent = this.transform;
-                bullet.transform.position = windPoints[ran].position;
-
-                //총알 활성화
-                bulletComponent.bulletOnRPC();
-
-                //총알 속도 조정
-                Vector2 bulletVec = (player.transform.position - bullet.transform.position).normalized;
-
-                //총알 최종 속도 조정
-                bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
-
-                //총알 회전 조정
-                bullet.transform.rotation = Quaternion.identity;
-                float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-                Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-                bullet.transform.Rotate(rotVec);
-            }
-
-
         }
     }
+
+
+    #region 바람 생성
+    void createWind() 
+    {
+        //사출 위치 정하기
+        int ranPos = Random.Range(0, windPoints.Length);
+        //같은 곳 연속으로 안되도록 설정
+        if (ranPos == recentPos)
+            ranPos = (ranPos + 1) / windPoints.Length;
+        recentPos = ranPos;
+
+
+        GameObject wind = gameManager.CreateObj("NormalWind", GameManager.PoolTypes.WindType);
+
+        //컴포넌트 정의
+        Wind windComponent = wind.GetComponent<Wind>();
+        wind.transform.position = windPoints[ranPos].transform.position;
+
+        //운석 활성화
+        windComponent.windOnRPC();
+
+        //회전 조정
+        int isTrue = Random.Range(0, 2);//방향을 섞기 위해서
+
+        if (isTrue == 0)
+        {
+            Vector3 direction = (player.transform.position - wind.transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            wind.transform.eulerAngles = new Vector3(0, 0, angle + Random.Range(-15, 16));
+        }
+        else if (isTrue == 1)
+        {
+            Vector3 direction = (wind.transform.position - player.transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            wind.transform.eulerAngles = new Vector3(0, 0, angle + Random.Range(-15, 16));
+        }
+    }
+    #endregion
 }

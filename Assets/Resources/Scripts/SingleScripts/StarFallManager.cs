@@ -9,7 +9,7 @@ public class StarFallManager : MonoBehaviour
     
 
     [Header("운석 발생 지점")]
-    public Transform[] starFallPoints;
+    public GameObject[] starFallPoints;
     //운석 발생 지점의 갯수
     int starFallPointsSize;
 
@@ -114,46 +114,20 @@ public class StarFallManager : MonoBehaviour
                 ranPos = (ranPos + 1) / starFallPointsSize;
             recentPos = ranPos;
 
+            BulletShotter bulletShotter = starFallPoints[ranPos].GetComponent<BulletShotter>();
 
-            GameObject bullet = null;
-            //운석 오브젝트 생성
             if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
             {
-                bullet = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
+                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                    starFallPoints[ranPos], player, 1);
                 curPowerUpIndex = 0;
             }
             else //기본 운석
             {
-                bullet = gameManager.CreateObj("NormalBullet", GameManager.PoolTypes.BulletType);
+                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                    starFallPoints[ranPos], player, 1);
                 curPowerUpIndex++;
             }
-
-            //컴포넌트 정의
-            Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-            Bullet bulletComponent = bullet.GetComponent<Bullet>();
-
-            //위치 조정
-            bullet.transform.parent = this.transform;
-            bullet.transform.position = starFallPoints[ranPos].position;
-
-            //운석 활성화
-            bulletComponent.bulletOnRPC();
-
-            //방향 조정
-            Vector2 bulletVec = (player.transform.position - bullet.transform.position).normalized;
-
-            //약간의 궤도 변화
-            bulletVec += 0.1f * Random.insideUnitCircle;//반지름이 1인 원 안에서 랜덤 벡터2 좌표 찍어줌
-            bulletVec = bulletVec.normalized;
-
-            //최종 속도 조정
-            bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
-
-            //회전 조정
-            bullet.transform.rotation = Quaternion.identity;
-            float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-            bullet.transform.Rotate(rotVec); 
         }
     }
 }

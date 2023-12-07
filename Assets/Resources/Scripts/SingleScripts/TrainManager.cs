@@ -11,12 +11,12 @@ using Photon.Realtime;
 public class TrainManager : MonoBehaviour
 {
     //최대 발사 시간
-    float maxTime = 0.25f;
+    float maxTime = 0.5f;
     //현재 발사 시간
     float curTime = 0f;
 
     [Header("발생 지점")]
-    public Transform[] trainPoints;
+    public GameObject[] trainPoints;
 
     [Header("씬의 레벨")]
     public int scenelevel;
@@ -64,7 +64,7 @@ public class TrainManager : MonoBehaviour
         //블록 피해주기
         foreach(Block block in blockArr)
         {
-            block.healthControl(35);
+            block.healthControl(80);
         }
     }
 
@@ -77,62 +77,16 @@ public class TrainManager : MonoBehaviour
 
         if (curTime > maxTime)
         {
-            //파워 업 스타
-
             //시간 초기화
             curTime = 0f;
-            GameObject bullet  = gameManager.CreateObj("PowerUpBullet", GameManager.PoolTypes.BulletType);
 
-            //컴포넌트 정의
-            Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-            Bullet bulletComponent = bullet.GetComponent<Bullet>();
+            BulletShotter powerUpBulletShotter = trainPoints[1].GetComponent<BulletShotter>();
+            powerUpBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                    trainPoints[1], trainPoints[2], 0);
 
-            //운석 발사
-            bullet.transform.parent = this.transform;
-            bullet.transform.position = trainPoints[1].position;
-
-            //운석 활성화
-            bulletComponent.bulletOnRPC();
-
-            //속도 조정
-            Vector2 bulletVec = Vector2.down;
-
-            //최종 속도 조정
-            bulletRigid.velocity = bulletVec * bulletComponent.bulletSpeed;
-
-            //회전 조정
-            bullet.transform.rotation = Quaternion.identity;
-            float zValue = Mathf.Atan2(bulletRigid.velocity.x, bulletRigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-            bullet.transform.Rotate(rotVec);
-
-            //파워 업 스타
-
-            //시간 초기화
-            GameObject bullet2 = gameManager.CreateObj("NormalBullet", GameManager.PoolTypes.BulletType);
-
-            //컴포넌트 정의
-            Rigidbody2D bullet2Rigid = bullet2.GetComponent<Rigidbody2D>();
-            Bullet bullet2Component = bullet2.GetComponent<Bullet>();
-
-            //운석 발사
-            bullet2.transform.parent = this.transform;
-            bullet2.transform.position = trainPoints[2].position;
-
-            //운석 활성화
-            bullet2Component.bulletOnRPC();
-
-            //속도 조정
-            Vector2 bullet2Vec = Vector2.down;
-
-            //최종 속도 조정
-            bullet2Rigid.velocity = bullet2Vec * bullet2Component.bulletSpeed;
-
-            //회전 조정
-            bullet2.transform.rotation = Quaternion.identity;
-            float zValue2 = Mathf.Atan2(bullet2Rigid.velocity.x, bullet2Rigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec2 = Vector3.back * zValue2 + Vector3.back * 45.0f;
-            bullet2.transform.Rotate(rotVec2);
+            BulletShotter normalBulletShotter = trainPoints[2].GetComponent<BulletShotter>();
+            powerUpBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                    trainPoints[3], trainPoints[4], 0);
         }
     }
 
@@ -142,7 +96,7 @@ public class TrainManager : MonoBehaviour
         yield return wait3_00;
         yield return wait3_00;
 
-        moveBox.transform.position = trainPoints[0].position;
+        moveBox.transform.position = trainPoints[0].transform.position;
         
     }
     #endregion
