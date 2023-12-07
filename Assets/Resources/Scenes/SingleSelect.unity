@@ -1794,6 +1794,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: ff5bb211870b05e45af4ffdd98f5b164, type: 2}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
       value: BlockCrash_0
       objectReference: {fileID: 0}
@@ -1823,6 +1827,10 @@ PrefabInstance:
       propertyPath: singleType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f3aa55003b7e2a408451c4d22d19016, type: 2}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
       value: BlockCrash_1
@@ -2916,6 +2924,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5024ecbde4d9a504f9925e92d9f7a74e, type: 2}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
       value: Fly_0
       objectReference: {fileID: 0}
@@ -2947,6 +2959,10 @@ PrefabInstance:
       propertyPath: isInVisible
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: 346c6940116af5a45a722c38759e71e0, type: 2}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
       value: Fly_1
@@ -8970,6 +8986,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: a874fcc32a0e70b42ac9e25eccf575f5, type: 2}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: sceneInnerTitle
       value: Train_0
       objectReference: {fileID: 0}
@@ -9064,6 +9084,10 @@ PrefabInstance:
     - target: {fileID: 3883325112270796227, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
       value: Icon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3883325112270796227, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4020790900853748460, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
@@ -9325,6 +9349,10 @@ PrefabInstance:
       propertyPath: singleSelectManager
       value: 
       objectReference: {fileID: 770684545}
+    - target: {fileID: 7890185814413094177, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8277464269033287316, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
@@ -10475,6 +10503,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: b236d8a29d1385340ad68a55729b2f71, type: 2}
+    - target: {fileID: 2590811924923200852, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: singleSelectManager
       value: 
       objectReference: {fileID: 770684545}
@@ -10486,6 +10518,10 @@ PrefabInstance:
       propertyPath: isInVisible
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: fc91dc8247522fb4b83875225ea66ff5, type: 2}
     - target: {fileID: 2976767784787819813, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: singleSelectManager
       value: 

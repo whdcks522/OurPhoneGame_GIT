@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9becc101794f8af4980f135db465e9f4, type: 3}
+  m_Name: Block_0
+  m_EditorClassIdentifier: 
+  singleType: 2
+  shader: {fileID: 2100000, guid: 52b1edb1bb66ab44ba22a706c50fec24, type: 2}
+  icon: {fileID: 21300000, guid: 65d4b8e78bf9cd2408c03650f14950a1, type: 3}
+  sceneInnerTitle: BlockCrash_0
+  sceneOutterTitle: "\uBCBD\uBD80\uC218\uAE30 0"
+  sceneDesc: "<color=black>\uAC80\uC740 \uBCBD</color>\uC744 \uCD5C\uB300\uD55C \uB9CE\uC774
+    \uD30C\uAD34\uD558\uBA70 \uC0DD\uC874\uD574\uB77C! <color=#87CEEB>\uD558\uC580
+    \uBCBD</color>\uC740 \uACAC\uACE0\uD558\uB2E4.\n"
+  Sscore: 250
+  Ascore: 150
+  Bscore: 100
+  Cscore: 50
+  Dscore: 20
+  Escore: 0
+  sceneLevel: 0

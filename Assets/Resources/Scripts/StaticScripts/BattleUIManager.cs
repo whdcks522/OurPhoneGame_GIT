@@ -36,7 +36,7 @@ public class BattleUIManager : MonoBehaviour
 
 
     [Header("현재 싱글 씬 타입")]//데이터 JSON 저장에 사용됨
-    public SingleInfo.SingleType singleType = SingleInfo.SingleType.Train;
+    public SingleInfoData.SingleInfoType singleInfoType = SingleInfoData.SingleInfoType.Train;
     [Header("현재 싱글 씬 번호")]
     public int singleIndex = 0;
 
@@ -194,7 +194,7 @@ public class BattleUIManager : MonoBehaviour
         typingControl("");
 
         //데이터 저장
-        jsonManager.SaveData(singleType, curLevel, Mathf.FloorToInt(curScore));
+        jsonManager.SaveData(singleInfoType, curLevel, Mathf.FloorToInt(curScore));
 
         //이어하기 버튼 다시 보이도록
         btnContinue.SetActive(true);
@@ -217,7 +217,7 @@ public class BattleUIManager : MonoBehaviour
         if (battleType == BattleType.Single)//싱글
         {
             //데이터 저장
-            jsonManager.SaveData(singleType, curLevel, Mathf.FloorToInt(curScore));
+            jsonManager.SaveData(singleInfoType, curLevel, Mathf.FloorToInt(curScore));
 
             //이어하기 버튼 다시 보이도록
             btnContinue.SetActive(true);

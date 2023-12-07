@@ -149,19 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba8dff423327bb49a34322f33ed46d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInVisible: 0
-  singleType: 0
-  sceneInnerTitle: StarFall_0
-  sceneOutterTitle: "\uD61C\uC131 0"
-  sceneDesc: "<color=#87CEEB>\uD558\uB298</color>\uC5D0\uC11C \uB5A8\uC5B4\uC9C0\uB294
-    <color=yellow>\uB178\uB780</color> \uBCC4\uC744 \uD53C\uD558\uBA70 \uC0DD\uC874\uD574\uB77C!\n"
-  Sscore: 250
-  Ascore: 150
-  Bscore: 100
-  Cscore: 50
-  Dscore: 20
-  Escore: 0
-  sceneLevel: 0
+  singleInfoData: {fileID: 0}
   maxRank: 5
   PreInfo: {fileID: 0}
   singleSelectManager: {fileID: 0}
@@ -269,7 +257,7 @@ RectTransform:
   m_GameObject: {fileID: 6260008054835029835}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6327790854878475045}
@@ -277,7 +265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 150, y: 124}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2487472212328044044
@@ -309,17 +297,17 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e715fcabbb6163e48b780b3b92979f8e, type: 3}
-    m_FontSize: 100
+    m_Font: {fileID: 12800000, guid: 185d9884bb8d7784c916fbda3fdd744b, type: 3}
+    m_FontSize: 130
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
-    m_MaxSize: 100
+    m_MaxSize: 150
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!114 &5303064943199862685

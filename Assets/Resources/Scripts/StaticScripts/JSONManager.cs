@@ -17,25 +17,25 @@ public class JSONManager : MonoBehaviour
 
         public int[] TrainMaxScore = new int[3];
         public int[] StarFallMaxScore = new int[3];
-        public int[] BlockCrashMaxScore = new int[3];
+        public int[] BlockMaxScore = new int[3];
         public int[] FlyMaxScore = new int[3];
 
         #region 싱글 점수 불러오기
-        public int LoadScore(SingleInfo.SingleType _singleType, int _index) 
+        public int LoadScore(SingleInfoData.SingleInfoType _singleInfoType, int _index) 
         {
             int value = 0;
-            switch (_singleType) 
+            switch (_singleInfoType) 
             {
-                case SingleInfo.SingleType.Train:
+                case SingleInfoData.SingleInfoType.Train:
                     value = TrainMaxScore[_index];
                     break;
-                case SingleInfo.SingleType.StarFall:
+                case SingleInfoData.SingleInfoType.StarFall:
                     value = StarFallMaxScore[_index];
                     break;
-                case SingleInfo.SingleType.BlockCrash:
-                    value = BlockCrashMaxScore[_index];
+                case SingleInfoData.SingleInfoType.Block:
+                    value = BlockMaxScore[_index];
                     break;
-                case SingleInfo.SingleType.Fly:
+                case SingleInfoData.SingleInfoType.Fly:
                     value = FlyMaxScore[_index];
                     break;
             }
@@ -44,20 +44,20 @@ public class JSONManager : MonoBehaviour
         #endregion
 
         #region 싱글 점수 갱신하기 
-        public void UpdateScore(SingleInfo.SingleType _singleType, int _index, int _score)
+        public void UpdateScore(SingleInfoData.SingleInfoType _singleType, int _index, int _score)
         {
             switch (_singleType)//3곳씩 수정
             {
-                case SingleInfo.SingleType.Train:
+                case SingleInfoData.SingleInfoType.Train:
                     TrainMaxScore[_index] = Mathf.Max(_score, TrainMaxScore[_index]);
                     break;
-                case SingleInfo.SingleType.StarFall:
+                case SingleInfoData.SingleInfoType.StarFall:
                     StarFallMaxScore[_index] = Mathf.Max(_score, StarFallMaxScore[_index]);
                     break;
-                case SingleInfo.SingleType.BlockCrash:
-                    BlockCrashMaxScore[_index] = Mathf.Max(_score, BlockCrashMaxScore[_index]);
+                case SingleInfoData.SingleInfoType.Block:
+                    BlockMaxScore[_index] = Mathf.Max(_score, BlockMaxScore[_index]);
                     break;
-                case SingleInfo.SingleType.Fly:
+                case SingleInfoData.SingleInfoType.Fly:
                     FlyMaxScore[_index] = Mathf.Max(_score, FlyMaxScore[_index]);
                     break;
             }
@@ -81,7 +81,7 @@ public class JSONManager : MonoBehaviour
     }
 
     public SingleScore singleScore = new SingleScore();
-    public string path;
+    string path;
 
     private void Awake()
     {
@@ -98,10 +98,10 @@ public class JSONManager : MonoBehaviour
         singleScore = JsonUtility.FromJson<SingleScore>(data);//삽입
     }
 
-    public void SaveData(SingleInfo.SingleType _singleType, int _index, int _score) //점수 저장하기
+    public void SaveData(SingleInfoData.SingleInfoType _singleInfoType, int _index, int _score) //점수 저장하기
     {
         //최대 기록을 넘는 경우 초기화
-        singleScore.UpdateScore(_singleType, _index, _score);
+        singleScore.UpdateScore(_singleInfoType, _index, _score);
 
         //저장
         SaveData();
@@ -121,7 +121,7 @@ public class JSONManager : MonoBehaviour
         }
         else //갱신
         {
-            foreach (SingleType _type in System.Enum.GetValues(typeof(SingleType)))//모든 것들의 점수를 수정
+            foreach (SingleInfoData.SingleInfoType _type in System.Enum.GetValues(typeof(SingleInfoData.SingleInfoType)))//모든 것들의 점수를 수정
             {
                 for (int i = 0; i <= 2; i++)
                 {

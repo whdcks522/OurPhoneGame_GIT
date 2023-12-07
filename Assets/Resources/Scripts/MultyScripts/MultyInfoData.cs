@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultyInfoObj : MonoBehaviour
+public class MultyInfoData : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
