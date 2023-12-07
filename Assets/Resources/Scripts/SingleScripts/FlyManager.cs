@@ -44,6 +44,9 @@ public class FlyManager : MonoBehaviour
 
     [Header("배경과 카메라의 오차 줄이는 용(아래는 레벨 1부터)")]
     float errorDir = -35;
+    Vector2 maxHighVec = Vector2.zero;
+    float maxHigh = 10f;
+
     [Header("경계를 비활성화하기 위함")]
     public GameObject outLines;
     [Header("움직이는 카메라를 위함")]
@@ -53,6 +56,7 @@ public class FlyManager : MonoBehaviour
     [Header("움직이는 배경을 위함")]
     public GameObject backGround;
 
+    
 
     private void Start()
     {
@@ -83,8 +87,7 @@ public class FlyManager : MonoBehaviour
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
     }
 
-    Vector2 maxHighVec = Vector2.zero;
-    float maxHigh = 10f;
+    
     private void Update()
     {
         curTime += Time.deltaTime * curWindSpeed;
@@ -95,11 +98,8 @@ public class FlyManager : MonoBehaviour
             battleUIManager.curScore  = Mathf.Max(battleUIManager.curScore, player.transform.position.y);
             maxHigh = Mathf.Max(maxHigh, battleUIManager.curScore);
 
-            //바람 생성 위치 조절
-            windPointsParent.transform.position = player.transform.position;
-
-            //배경 위치 조정
-            maxHighVec = new Vector2(0, maxHigh);
+            //카메라 위치 조정
+            maxHighVec = new Vector2(0, maxHigh + 10);
             cmRange.transform.position = maxHighVec;
 
             //배경 위치 조정
@@ -148,6 +148,10 @@ public class FlyManager : MonoBehaviour
                 ran = (ran + 1) / windPoints.Length;
             recentPos = ran;
 
+            //바람 생성 위치를 가끔 동기화
+            if (scenelevel == 1)
+                windPointsParent.transform.position = player.transform.position;
+
             //총알 생성
             BulletShotter bulletShotter = windPoints[ran].GetComponent<BulletShotter>();
             bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
@@ -156,7 +160,9 @@ public class FlyManager : MonoBehaviour
             if (curWindIndex >= maxWindIndex)
             {
                 curWindIndex = 0;
-                //바람 생성
+                //바람 생성 위치 조절
+
+                
                 createWind(); 
             }
         }

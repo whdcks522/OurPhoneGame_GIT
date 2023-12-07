@@ -11,7 +11,6 @@ public class SingleInfo : MonoBehaviour
     [Header("사용 불가능한 씬인가")]
     public bool isInVisible;
 
-
     public enum SingleType
     {
         Train, StarFall, BlockCrash, Fly
