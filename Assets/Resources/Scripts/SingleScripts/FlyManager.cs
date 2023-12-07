@@ -43,7 +43,7 @@ public class FlyManager : MonoBehaviour
 
 
     [Header("배경과 카메라의 오차 줄이는 용(아래는 레벨 1부터)")]
-    public float errorDir;
+    float errorDir = -35;
     [Header("경계를 비활성화하기 위함")]
     public GameObject outLines;
     [Header("움직이는 카메라를 위함")]
@@ -61,49 +61,53 @@ public class FlyManager : MonoBehaviour
         //플레이어 체력 감소 비율 0으로 설정
         characterControls.healthMinus = 0;
         characterControls.curHealth = 100;
-        characterControls.scorePlus = 1;
 
+        if (scenelevel == 0)
+            characterControls.scorePlus = 1;
+        else if (scenelevel == 1)
+        {
+            characterControls.scorePlus = 0;
+            outLines.SetActive(false);
+        }
+
+        //바람 발생지 배열 적용
         windPoints = new GameObject[windPointsParent.childCount];
         for (int i = 0; i < windPointsParent.childCount; i++) 
         {
             windPoints[i] = windPointsParent.GetChild(i).gameObject;
         }
+        //게임 시작 시,  재생산 속도 목록
         curWindSpeed = windSpeedArr[5];
         
-
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
-
-        if (scenelevel == 1)
-        {
-            outLines.SetActive(false);
-        }
     }
 
     Vector2 maxHighVec = Vector2.zero;
-    float maxHigh = 10f;//10
+    float maxHigh = 10f;
     private void Update()
     {
         curTime += Time.deltaTime * curWindSpeed;
         
         if (scenelevel == 1) 
         {
-            //아무것도 안해도 증가하도록
-            maxHigh += Time.deltaTime * curWindSpeed;
             //바람 위치 최대값 갱신
-            maxHigh = Mathf.Max(maxHigh, player.transform.position.y);
+            battleUIManager.curScore  = Mathf.Max(battleUIManager.curScore, player.transform.position.y);
+            maxHigh = Mathf.Max(maxHigh, battleUIManager.curScore);
+
             //바람 생성 위치 조절
             windPointsParent.transform.position = player.transform.position;
 
             //배경 위치 조정
             maxHighVec = new Vector2(0, maxHigh);
             cmRange.transform.position = maxHighVec;
+
             //배경 위치 조정
             maxHighVec = new Vector2(0, maxHigh + errorDir);
             backGround.transform.position = maxHighVec;
+
             //아래 아웃라인 조정
             redRoses.transform.position = maxHighVec;
-            
         }
 
         if (curTime > maxTime)
@@ -137,7 +141,6 @@ public class FlyManager : MonoBehaviour
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
 
-
             //사출 위치 정하기
             int ran = Random.Range(0, windPoints.Length);
             //같은 곳 연속으로 안되도록 설정
@@ -153,6 +156,7 @@ public class FlyManager : MonoBehaviour
             if (curWindIndex >= maxWindIndex)
             {
                 curWindIndex = 0;
+                //바람 생성
                 createWind(); 
             }
         }
