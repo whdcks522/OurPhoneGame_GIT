@@ -17,12 +17,12 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
   sceneInnerTitle: StarFall_1
   sceneOutterTitle: "\uD61C\uC131 1"
-  sceneDesc: "<color=#87CEEB>\uD558\uB298</color>\uC5D0\uC11C \uB5A8\uC5B4\uC9C0\uB294
-    <color=yellow>\uB178\uB780</color> \uBCC4\uC744 \uD53C\uD558\uBA70 \uC0DD\uC874\uD574\uB77C!\n"
+  sceneDesc: "<color=red>\uBE68\uAC04</color> \uBCC4\uC740 \uD30C\uAD34\uD560 \uC218
+    \uC5C6\uB2E4! \uB2E4\uC591\uD55C \uD61C\uC131\uC5D0 \uC8FC\uC758\uD558\uC790.\n"
   Sscore: 250
   Ascore: 150
   Bscore: 100
   Cscore: 50
   Dscore: 20
   Escore: 0
-  sceneLevel: 0
+  sceneLevel: 1

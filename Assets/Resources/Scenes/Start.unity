@@ -907,7 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPC: 1
   battleType: 0
-  singleType: 0
+  singleInfoType: 0
   singleIndex: 0
   battleUI: {fileID: 2050799073}
   moveJoy: {fileID: 1411701723}
@@ -951,9 +951,8 @@ MonoBehaviour:
     isPlaySfx: 1
     TrainMaxScore: 000000000000000000000000
     StarFallMaxScore: 000000000000000000000000
-    BlockCrashMaxScore: 000000000000000000000000
+    BlockMaxScore: 000000000000000000000000
     FlyMaxScore: 000000000000000000000000
-  path: 
 --- !u!1001 &993478293
 PrefabInstance:
   m_ObjectHideFlags: 0

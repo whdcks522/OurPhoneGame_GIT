@@ -43,7 +43,6 @@ public class FlyManager : MonoBehaviour
 
 
     [Header("배경과 카메라의 오차 줄이는 용(아래는 레벨 1부터)")]
-    float errorDir = -35;
     Vector2 maxHighVec = Vector2.zero;
     float maxHigh = 10f;
 
@@ -99,11 +98,11 @@ public class FlyManager : MonoBehaviour
             maxHigh = Mathf.Max(maxHigh, battleUIManager.curScore);
 
             //카메라 위치 조정
-            maxHighVec = new Vector2(0, maxHigh + 10);
+            maxHighVec = new Vector2(0, maxHigh + 2);
             cmRange.transform.position = maxHighVec;
 
             //배경 위치 조정
-            maxHighVec = new Vector2(0, maxHigh + errorDir);
+            maxHighVec = new Vector2(0, maxHigh - 35);
             backGround.transform.position = maxHighVec;
 
             //아래 아웃라인 조정

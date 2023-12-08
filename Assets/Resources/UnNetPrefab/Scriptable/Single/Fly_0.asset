@@ -17,8 +17,8 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d73c01c2ee104b24a9a39b643be680c0, type: 3}
   sceneInnerTitle: Fly_0
   sceneOutterTitle: "\uBE44\uD589 0"
-  sceneDesc: "\uC601\uAD6C\uC801\uC778 <color=#87CEEB>\uD30C\uB780 \uBC14\uB78C</color>\uC744
-    \uD0C0\uBA70 \uC624\uB798 \uB0A0\uC544\uB2E4\uB140\uB77C! <color=#CE8787>\uBD89\uC740
+  sceneDesc: "\uC601\uAD6C\uC801\uC778 <color=#CE8787>\uBD89\uC740 \uBC14\uB78C</color>\uC744
+    \uD0C0\uBA70 \uC624\uB798 \uB0A0\uC544\uB2E4\uB140\uB77C! <color=#87CEEB>\uD478\uB978
     \uBC14\uB78C</color>\uC740 \uC77C\uC2DC\uC801\uC774\uB2E4.\n"
   Sscore: 250
   Ascore: 150

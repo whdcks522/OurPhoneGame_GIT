@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: blackStarMat
+  m_Name: UnBreakableMat
   m_Shader: {fileID: -6465566751694194690, guid: fd42847feb7e352439f0ceed3532b186, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -66,9 +66,9 @@ Material:
     - _Usesmoothcorners: 0
     m_Colors:
     - _BackFacesColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BackFresnelColor: {r: 0.35686275, g: 0.08627451, b: 0.08627451, a: 1}
-    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FrontFacesColor: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
+    - _BackFresnelColor: {r: 0.254717, g: 0.04181202, b: 0.04181202, a: 1}
+    - _FresnelColor: {r: 1, g: 0.04150939, b: 0.04150939, a: 1}
+    - _FrontFacesColor: {r: 0.7924528, g: 0.41416872, b: 0.41416872, a: 1}
     - _MainTexTiling: {r: 1, g: 1, b: 0, a: 0}
     - _NoiseTiling: {r: 1, g: 1, b: 0, a: 0}
     - _SpeedMainTexUVNoiseZW: {r: 0, g: 0, b: 0, a: 0}

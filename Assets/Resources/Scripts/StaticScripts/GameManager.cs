@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     //1. 총알 리스트
-    string[] bulletNames = { "NormalBullet", "NormalBulletHit",
-                                "PowerUpBullet","PowerUpBulletHit" };
+    string[] bulletNames = { "NormalBullet", "NormalBulletHit","PowerUpBullet","PowerUpBulletHit",
+                                "UnBreakableBullet", "UnBreakableBulletHit"};
     //총알 주소가 저장될 곳
     List<GameObject>[] bulletPools;
 

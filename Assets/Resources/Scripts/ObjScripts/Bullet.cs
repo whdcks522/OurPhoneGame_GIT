@@ -31,7 +31,6 @@ public class Bullet : MonoBehaviourPunCallbacks
     BattleUIManager battleUIManager;
     GameManager gameManager;
     Rigidbody2D rigid;
-    ParticleSystem particleSystem;
 
     
     public enum BulletEffectType
@@ -41,12 +40,11 @@ public class Bullet : MonoBehaviourPunCallbacks
     [Header("총알의 특수효과")]
     public BulletEffectType bulletEffectType;
 
-    [Header("시작 시 플래시")]
+    [Header("시작 시, 플래시 이펙트 사용 여부")]
     public bool isFlash;
     public string flashStr;
-    [Header("종료 시 히트")]
+    [Header("종료 시, 히트 이펙트 사용 여부")]
     public bool isHit;
-    [Header("히트 시, 생성하는 오브젝트")]
     public string hitStr;
 
     private void Awake()
@@ -54,7 +52,6 @@ public class Bullet : MonoBehaviourPunCallbacks
         battleUIManager = BattleUIManager.Instance;
         gameManager = battleUIManager.gameManager;
         rigid = GetComponent<Rigidbody2D>();
-        particleSystem = GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -80,12 +77,6 @@ public class Bullet : MonoBehaviourPunCallbacks
 
             //최종 속도 조정
             rigid.velocity = bulletVec * bulletSpeed;
-
-            //회전 조정
-            transform.rotation = Quaternion.identity;
-            float zValue = Mathf.Atan2(rigid.velocity.x, rigid.velocity.y) * 180 / Mathf.PI;
-            Vector3 rotVec = Vector3.back * zValue + Vector3.back * 45.0f;
-            transform.Rotate(rotVec);
         }
     }
 
@@ -95,6 +86,9 @@ public class Bullet : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
+        //회전 초기화
+        transform.rotation = Quaternion.identity;
+        //연속 피격 처리 될 때가 있음
         isAlreadyHit = false;
 
         if (isFlash)

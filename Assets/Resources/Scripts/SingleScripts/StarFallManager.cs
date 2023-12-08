@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using static BulletShotter;
 
 public class StarFallManager : MonoBehaviour
 {
@@ -57,7 +58,6 @@ public class StarFallManager : MonoBehaviour
     private void Update()
     {
         curTime += Time.deltaTime * rankSpeed;
-
 
         if (curTime > maxTime)
         {
@@ -116,18 +116,70 @@ public class StarFallManager : MonoBehaviour
 
             BulletShotter bulletShotter = starFallPoints[ranPos].GetComponent<BulletShotter>();
 
-            if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
+            if (scenelevel == 0) 
             {
-                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
-                    starFallPoints[ranPos], player, 1);
-                curPowerUpIndex = 0;
+                if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
+                {
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                        starFallPoints[ranPos], player, 0);
+                    curPowerUpIndex = 0;
+                }
+                else //기본 운석
+                {
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                        starFallPoints[ranPos], player, 1);
+                    curPowerUpIndex++;
+                }
             }
-            else //기본 운석
+            else if (scenelevel == 1)
             {
-                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
-                    starFallPoints[ranPos], player, 1);
-                curPowerUpIndex++;
+
+                if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석을 쏴야하는 경우
+                {
+                    curPowerUpIndex = 0;
+
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                        starFallPoints[ranPos], player, 0);  
+                }
+                else //그냥 사격의 경우
+                {
+                    //쏘는 형태
+                    //BulletShotter.BulletShotType bulletShotType = BulletShotter.BulletShotType.Direction;
+                    //투사체 종류
+                    Bullet.BulletEffectType bulletEffectType = Bullet.BulletEffectType.Normal;//기본 투사체
+                    if (curPowerUpIndex == 0)
+                        bulletEffectType = Bullet.BulletEffectType.UnBreakable;//깨지지 않는 투사체
+
+                    //공격 패턴
+                    int ranPattern = 2;
+                    switch (ranPattern)
+                    {
+                        case 0://일괄 발사
+                            for (int i = 0; i < starFallPoints.Length; i++) 
+                            {
+                                BulletShotter allBulletShotter = starFallPoints[i].GetComponent<BulletShotter>();
+
+                                allBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, bulletEffectType,
+                                starFallPoints[i], player, 0);
+                            }
+                            break;
+                        case 1://산탄
+                            bulletShotter.sortShot(BulletShotter.BulletShotType.Big, bulletEffectType,
+                            starFallPoints[ranPos], player, 0);
+                            break;
+                        case 2://흩뿌리기
+                            bulletShotter.sortShot(BulletShotter.BulletShotType.Scatter, bulletEffectType,
+                            starFallPoints[ranPos], player, 1);
+                            break;
+                    }
+
+                    
+
+                    curPowerUpIndex++;
+                }
             }
+
+
         }
     }
 }

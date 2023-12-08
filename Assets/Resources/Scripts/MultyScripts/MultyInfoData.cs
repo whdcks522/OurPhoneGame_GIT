@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultyInfoData : MonoBehaviour
+[CreateAssetMenu(fileName = "MultyInfoData", menuName = "Scriptable Ojbect/MultyInfo")]
+public class MultyInfoData : ScriptableObject
 {
     // Start is called before the first frame update
     void Start()

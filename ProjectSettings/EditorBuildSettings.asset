@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/StaticScene/Settings.unity
     guid: 441a6e7b0cd5eb74c95e7f770b6ec46d
   - enabled: 1
-    path: Assets/Resources/Scenes/SingleSelect.unity
+    path: Assets/Resources/Scenes/SingleScene/SingleSelect.unity
     guid: 6f207ecffbed0e8428bf0a776e5c62f1
   - enabled: 1
     path: Assets/Resources/Scenes/SingleScene/Train_0.unity

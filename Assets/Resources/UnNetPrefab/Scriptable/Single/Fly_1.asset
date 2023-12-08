@@ -17,7 +17,8 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d73c01c2ee104b24a9a39b643be680c0, type: 3}
   sceneInnerTitle: Fly_1
   sceneOutterTitle: "\uBE44\uD589 1"
-  sceneDesc: "<color=#87CEEB>\uD558\uB298</color> \uB192\uC774 \uC62C\uB77C\uAC00\uB77C!\n"
+  sceneDesc: "<color=#87CEEB>\uD558\uB298</color> \uB192\uC774 \uC62C\uB77C\uAC00\uB77C!
+    \uB192\uC774\uAC00 \uACE7 \uC810\uC218\uAC00 \uB41C\uB2E4!\n"
   Sscore: 250
   Ascore: 150
   Bscore: 100
