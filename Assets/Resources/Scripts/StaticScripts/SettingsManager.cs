@@ -40,13 +40,15 @@ public class SettingsManager : MonoBehaviour
         {
             BgmIcon.sprite = SoundIcon[0];
         }
-        else 
+        else //종료 시킨 경우
         {
             BgmIcon.sprite = SoundIcon[1];
         }
         //JSON 저장
         battleUIManager.jsonManager.SaveData();
 
+        //브금 정지
+        battleUIManager.audioManager.StopBgm();
         //수정 효과음
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
     }

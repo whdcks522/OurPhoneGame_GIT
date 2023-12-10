@@ -171,7 +171,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CountText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "명 로비 / "
             + PhotonNetwork.CountOfPlayersInRooms + "명 방 / "
             + PhotonNetwork.CountOfPlayers + "명 접속 중";
-        PageText.text = currentPage + " / " + Mathf.Max(maxPage, 1);
+        PageText.text = currentPage + " / " + Mathf.Max(maxPage, 1) + "페이지";
     }
 
     #region 단절됐을 때

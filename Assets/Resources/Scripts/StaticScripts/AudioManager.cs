@@ -87,7 +87,12 @@ public class AudioManager : MonoBehaviour
         isPlaySfx = battleUIManager.jsonManager.singleScore.isPlaySfx;
     }
 
-    public void PlayBgm(BgmStatic _bgm)
+    public void StopBgm() //¹è°æ À½¾Ç ¸ØÃß±â
+    {
+        bgmPlayer.Stop();
+    }
+
+    public void PlayBgm(BgmStatic _bgm)//½ºÅÂÆ½ BGM Àç»ý
     {
         if (!isPlayBgm) return;
 
