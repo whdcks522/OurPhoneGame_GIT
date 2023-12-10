@@ -54,6 +54,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Button PreviousBtn;
     [Header("다음 셀 로드")]
     public Button NextBtn;
+    [Header("현재 몇 번째 페이지인지 나타냄")]
+    public Text PageText;
 
     [Header("생성할 방의 이름")]
     public InputField RoomInput;
@@ -169,6 +171,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CountText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "명 로비 / "
             + PhotonNetwork.CountOfPlayersInRooms + "명 방 / "
             + PhotonNetwork.CountOfPlayers + "명 접속 중";
+        PageText.text = currentPage + " / " + Mathf.Max(maxPage, 1);
     }
 
     #region 단절됐을 때
@@ -210,7 +213,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     void MyListRenewal()
     {
-        // 최대 페이지
+        // 최대 페이지(방이 더 많은 경우 = )
         maxPage = (myList.Count % cellBtns.Length == 0) ? myList.Count / cellBtns.Length : myList.Count / cellBtns.Length + 1;
 
         // 이전, 다음버튼 활성화, 비활성화
@@ -218,7 +221,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         NextBtn.interactable = (currentPage >= maxPage) ? false : true;
 
         // 페이지에 맞는 리스트 대입
-        multiple = (currentPage - 1) * cellBtns.Length;//각 페이지의 첫 번째 방의 인덱스
+        multiple = (currentPage - 1) * cellBtns.Length;//각 페이지의 첫 번째 방의 인덱스(0, 5, 10)
         for (int i = 0; i < cellBtns.Length; i++)
         {
             cellBtns[i].interactable = (multiple + i < myList.Count) ? true : false;
