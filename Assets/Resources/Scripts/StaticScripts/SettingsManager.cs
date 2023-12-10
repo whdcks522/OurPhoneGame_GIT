@@ -31,7 +31,7 @@ public class SettingsManager : MonoBehaviour
 
     public void BgmControl()
     {
-        //상태 변화
+        //불값 변화
         battleUIManager.jsonManager.singleScore.isPlayBgm = BgmToggle.isOn;
         battleUIManager.audioManager.isPlayBgm = BgmToggle.isOn;
 
@@ -55,8 +55,7 @@ public class SettingsManager : MonoBehaviour
 
     public void SfxControl() 
     {
-        
-        //상태 변화
+        //불값 변화
         battleUIManager.jsonManager.singleScore.isPlaySfx = SfxToggle.isOn;
         battleUIManager.audioManager.isPlaySfx = SfxToggle.isOn;
         //활성화 시킨 경우

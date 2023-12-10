@@ -905,7 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34204dcabf7d4c745b1220f2534b3687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPC: 1
+  isPC: 0
   battleType: 0
   singleInfoType: 0
   singleIndex: 0
