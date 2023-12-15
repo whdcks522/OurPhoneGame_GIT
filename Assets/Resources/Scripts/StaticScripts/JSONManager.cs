@@ -19,6 +19,7 @@ public class JSONManager : MonoBehaviour
         public int[] StarFallMaxScore = new int[3];
         public int[] BlockMaxScore = new int[3];
         public int[] FlyMaxScore = new int[3];
+        public int[] DogMaxScore = new int[3];
 
         #region 싱글 점수 불러오기
         public int LoadScore(SingleInfoData.SingleInfoType _singleInfoType, int _index) 
@@ -37,6 +38,9 @@ public class JSONManager : MonoBehaviour
                     break;
                 case SingleInfoData.SingleInfoType.Fly:
                     value = FlyMaxScore[_index];
+                    break;
+                case SingleInfoData.SingleInfoType.Dog:
+                    value = DogMaxScore[_index];
                     break;
             }
             return value;
@@ -59,6 +63,9 @@ public class JSONManager : MonoBehaviour
                     break;
                 case SingleInfoData.SingleInfoType.Fly:
                     FlyMaxScore[_index] = Mathf.Max(_score, FlyMaxScore[_index]);
+                    break;
+                case SingleInfoData.SingleInfoType.Dog:
+                    DogMaxScore[_index] = Mathf.Max(_score, DogMaxScore[_index]);
                     break;
             }
         }

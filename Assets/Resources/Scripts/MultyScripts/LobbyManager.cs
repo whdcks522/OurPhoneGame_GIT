@@ -84,6 +84,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        //UI 가림판 작동
+        loadFadeOut.SetActive(true);
+
         Connect();
 
         //배경음

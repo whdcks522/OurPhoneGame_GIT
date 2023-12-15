@@ -7,7 +7,7 @@ public class SingleInfoData : ScriptableObject//스크립타블 오브젝트 상속
 {
     public enum SingleInfoType 
     {
-        Train, StarFall, Block, Fly
+        Train, StarFall, Block, Fly, Dog
     }
 
     [Header("싱글 게임 타입")]
