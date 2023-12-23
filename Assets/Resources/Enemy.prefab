@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8897822117716592134}
   - component: {fileID: 6738275156804236443}
   - component: {fileID: 4624134104645745602}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 5867539376383281820}
   - component: {fileID: 7151349210050009987}
   - component: {fileID: 3429977383597402815}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 2904594084704872769}
   - component: {fileID: 5948203406801924846}
   - component: {fileID: 1957908078332855235}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 6251233114225539390}
   - component: {fileID: 2496694227946979061}
   - component: {fileID: 1896532319599539616}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MoveDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5134,7 +5134,7 @@ GameObject:
   - component: {fileID: 7122648776649239500}
   - component: {fileID: 1252547046873214557}
   - component: {fileID: 500615374362100254}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: miniHealthGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5211,7 +5211,7 @@ GameObject:
   - component: {fileID: 3096175575959398508}
   - component: {fileID: 2405757037547769105}
   - component: {fileID: 1451139560585588072}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: miniName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5306,7 +5306,7 @@ GameObject:
   - component: {fileID: 9034295465876074827}
   - component: {fileID: 8205781399984857314}
   - component: {fileID: 8474433981630686815}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5382,7 +5382,7 @@ GameObject:
   - component: {fileID: 7271555156869015282}
   - component: {fileID: 5878314755590100527}
   - component: {fileID: 9105379688747743413}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 'JumpDust '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10268,7 +10268,7 @@ GameObject:
   - component: {fileID: 8229682630656034452}
   - component: {fileID: 2465723098712406413}
   - component: {fileID: 8988042977281029105}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: JumpDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15155,15 +15155,15 @@ GameObject:
   - component: {fileID: 4567551690595120229}
   - component: {fileID: 1196669799950250002}
   - component: {fileID: 7105501179868493938}
-  - component: {fileID: 1454313627835892949}
+  - component: {fileID: 4817277029382731046}
   - component: {fileID: 5498480976259529555}
   - component: {fileID: 161898016194952143}
   - component: {fileID: 2394127353045944079}
   - component: {fileID: 1440809349441706330}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Enemy
-  m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_TagString: Enemy
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -15228,7 +15228,7 @@ MonoBehaviour:
   Mask: 
   Horns: 
   SpriteLibrary: {fileID: 7151349210050009987}
---- !u!114 &1454313627835892949
+--- !u!114 &4817277029382731046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15237,7 +15237,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5974046474224742084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfde90b8808cf934384558d7214db716, type: 3}
+  m_Script: {fileID: 11500000, guid: 80120c4165a35f74cb4603dff222481a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Character: {fileID: 1196669799950250002}
@@ -15253,33 +15253,14 @@ MonoBehaviour:
   _inputY: 0
   curHealth: 100
   miniUI: {fileID: 8573224532436761051}
-  miniHealthGauge: {fileID: 500615374362100254}
+  miniHealthGauge: {fileID: 1977183514319839708}
   miniName: {fileID: 2405757037547769105}
-  swordParent: {fileID: 0}
-  playerSwords:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  curSwordCount: 4
-  backSwords: {fileID: 0}
-  playerSwordArea: {fileID: 0}
-  moveJoy: {fileID: 0}
-  swordJoy: {fileID: 0}
-  healthMinus: 0
-  scorePlus: 0
   battleUIManager: {fileID: 0}
   gameManager: {fileID: 0}
   jumpForce: 12
   rayRadius: 0.2
   raySize: 0
   rayVec: {x: 0, y: -0.2, z: 0}
-  isGround: 0
-  isDead: 0
 --- !u!95 &5498480976259529555
 Animator:
   serializedVersion: 5
@@ -15319,8 +15300,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 1454313627835892949}
+  ObservedComponents: []
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -15397,7 +15377,7 @@ GameObject:
   - component: {fileID: 5444453719637183632}
   - component: {fileID: 4197808814192301137}
   - component: {fileID: 1977183514319839708}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: miniHealthUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15474,7 +15454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8349683056711447243}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: miniUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}

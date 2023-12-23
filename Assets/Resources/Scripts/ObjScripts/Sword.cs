@@ -379,4 +379,23 @@ public class Sword : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.transform.CompareTag("Enemy"))
+        {
+            Enemy enemyScript = other.gameObject.GetComponent<Enemy>();
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    enemyScript.photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, swordDamage, true);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                enemyScript.damageControlRPC(swordDamage, true);
+            }
+        }
+    }
 }

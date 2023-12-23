@@ -41,11 +41,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public Image miniHealthGauge;
         public Text miniName;
 
-        //닉네임 색
-        private Color redColor = new Color(197, 44, 28);
-        private Color greenColor = new Color(1F, 98, 21, 255);
-        private Color blueColor = new Color(37, 97, 192, 255);
-
         //좌우 반전을 위해 필요함
         private Vector3 dirVec = new Vector3(1,1,1);
 
