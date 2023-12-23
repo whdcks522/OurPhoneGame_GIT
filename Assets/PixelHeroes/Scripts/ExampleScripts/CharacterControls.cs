@@ -156,7 +156,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         rigid.velocity = Vector2.zero;
 
                         if (PhotonNetwork.InRoom)
-                            photonView.RPC("changeVelocity", RpcTarget.AllBuffered, rigid.velocity);
+                            photonView.RPC("changeVelocity", RpcTarget.All, rigid.velocity);
 
                         //곧 죽음
                         if (!PhotonNetwork.InRoom)
@@ -275,10 +275,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //기존에 있던 것
             Character.SetState(AnimationState.Idle);
 
-            
-
-
-            
             
             if (PhotonNetwork.InRoom)//멀티 일 때
             {
@@ -448,7 +444,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (PhotonNetwork.InRoom)//여기까진 애초에 본인만 올 수 있음
             {
                 if(tmpX != _inputX || tmpY != _inputY)
-                    photonView.RPC("xyRPC", RpcTarget.AllBuffered, tmpX, tmpY);
+                    photonView.RPC("xyRPC", RpcTarget.All, tmpX, tmpY);
             }
             else if (!PhotonNetwork.InRoom)
             {
@@ -812,7 +808,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             if (playerSwords[0].activeSelf && !isSame) // 
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
-                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
+                    photonView.RPC("SwordSpinRPC", RpcTarget.All, swordJoyVec);
                 else
                     SwordSpinRPC(swordJoyVec);//1인이라면
             }
@@ -820,8 +816,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (PhotonNetwork.InRoom) //2인 이상이라면
                 {
-                    photonView.RPC("SwordActiveRPC", RpcTarget.AllBuffered, (Vector3)swordJoyVec);
-                    photonView.RPC("SwordSpinRPC", RpcTarget.AllBuffered, swordJoyVec);
+                    photonView.RPC("SwordActiveRPC", RpcTarget.All, (Vector3)swordJoyVec);
+                    photonView.RPC("SwordSpinRPC", RpcTarget.All, swordJoyVec);
                 }
                 else//1인이라면
                 {
@@ -1017,9 +1013,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         if (photonView.IsMine)
                         {
                             //피격 처리
-                            photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, dmg, true);
+                            photonView.RPC("damageControlRPC", RpcTarget.All, dmg, true);
                             //투사체 파괴
-                            bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                            bullet.photonView.RPC("bulletOffRPC", RpcTarget.All);
                         }
                     }
                     else if (!PhotonNetwork.InRoom)
@@ -1038,7 +1034,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine && !isDead)
                     {
                         //피격 처리
-                        photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
+                        photonView.RPC("changeStateRPC", RpcTarget.All, PlayerStateType.Dead, true);
                     }
                 }
                 else if (!PhotonNetwork.InRoom && !isDead)
@@ -1063,7 +1059,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine && !collision.gameObject.GetComponent<PhotonView>().IsMine && isSwordFight)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, 20, true);
+                        photonView.RPC("damageControlRPC", RpcTarget.All, 20, true);
                     }
                 }
             }
@@ -1092,8 +1088,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
                             Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
-                            textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.AllBuffered, _dmg.ToString());
-                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform.position);
+                            textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.All, _dmg.ToString());
+                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.All, transform.position);
                         } 
                     }
                     else if (!PhotonNetwork.InRoom)
@@ -1124,7 +1120,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if (photonView.IsMine) 
                         {
-                            photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, PlayerStateType.Dead, true);
+                            photonView.RPC("changeStateRPC", RpcTarget.All, PlayerStateType.Dead, true);
                         }
                     }
                     else if (!PhotonNetwork.InRoom)
