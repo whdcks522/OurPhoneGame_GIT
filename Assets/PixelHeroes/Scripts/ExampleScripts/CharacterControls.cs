@@ -795,6 +795,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
+            Debug.Log("AA");
+
             if (tmpVec.x == 0 && tmpVec.y == 0)//사용 안할 시, 다시 수납
             {
                 SwordComponent.leaderSwordExitRPC(0);
@@ -808,6 +810,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordActiveRPC(Vector3 tmpVec ) 
         {
+            Debug.Log("BB");
+
             playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + tmpVec;
             playerSwords[0].SetActive(true);
             SwordComponent.trailRenderer.Clear();

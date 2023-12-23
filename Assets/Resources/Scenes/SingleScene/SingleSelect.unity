@@ -2602,7 +2602,7 @@ PrefabInstance:
     - target: {fileID: 122442875085514989, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
+      objectReference: {fileID: 21300000, guid: 4fcc8ec004f86fd45b728c5f5905823b, type: 3}
     - target: {fileID: 193107138349172013, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2621,7 +2621,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 433102042010305794, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: Dogs0_Btn
+      value: Dog0_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 478480236563466170, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
@@ -2717,7 +2717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 916837926044388723, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: Dogs1_Btn
+      value: Dogs_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 981606703558791286, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_SortingLayerID
@@ -2851,6 +2851,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3453791962963836270, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: shader
+      objectReference: {fileID: 0}
     - target: {fileID: 3875528814734999326, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2909,7 +2913,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
     - target: {fileID: 4645970573205681606, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: Dogs_Group
+      value: Dog_Group
       objectReference: {fileID: 0}
     - target: {fileID: 4811705662078371017, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2954,7 +2958,7 @@ PrefabInstance:
     - target: {fileID: 5028068756559559002, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
+      objectReference: {fileID: 21300000, guid: 4fcc8ec004f86fd45b728c5f5905823b, type: 3}
     - target: {fileID: 5135121517551408039, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_SortingLayerID
       value: -685879579
@@ -2977,7 +2981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5245862326308723908, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: Dogs2_Btn
+      value: Dog2_Btn
       objectReference: {fileID: 0}
     - target: {fileID: 5280814576307825095, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
@@ -3005,12 +3009,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5533510990624316734, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Name
-      value: Dogs_Title
+      value: Dog_Title
       objectReference: {fileID: 0}
     - target: {fileID: 5727658278738391339, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d268c7dc17f46e741b16034c239706c5, type: 3}
+      objectReference: {fileID: 21300000, guid: 4fcc8ec004f86fd45b728c5f5905823b, type: 3}
     - target: {fileID: 5727658278738391339, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -3091,6 +3095,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: 7a7b5981754d6e74eadf1304644d5e23, type: 2}
+    - target: {fileID: 7753542403084643545, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: m_Name
+      value: shader
+      objectReference: {fileID: 0}
     - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: singleType
       value: 2
@@ -10774,7 +10782,7 @@ RectTransform:
   m_GameObject: {fileID: 2034237979}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.009259259, y: 0.009259259, z: 0.009259259}
+  m_LocalScale: {x: 1, y: 1, z: 0.009259259}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1288507419}
