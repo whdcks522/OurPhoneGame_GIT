@@ -66,7 +66,7 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
         if (isMasterCilentLocal) 
         {
             GameObject egg = gameManager.CreateObj("Egg", GameManager.PoolTypes.ObjType);
-            egg.GetComponent<PhotonView>().RPC("eggOnRPC", RpcTarget.AllBuffered);
+            egg.GetComponent<PhotonView>().RPC("eggOnRPC", RpcTarget.All);
             egg.transform.position = eggPoints[0].position;
         }
     }
@@ -93,9 +93,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                         //조작 활성화
                         CharacterControls cc = gameManager.playerGroup.GetChild(i).GetComponent<CharacterControls>();
                         cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.LeftControl, true);
-                        //cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.RightControl, true);
-                        //무기 갯수 1개로
-                        //cc.photonView.RPC("changeStateRPC", RpcTarget.AllBuffered, CharacterControls.PlayerStateType.SwordCount, false);
 
                         //텍스트
                         cc.GetComponent<PhotonView>().RPC("loopTypingRPC", RpcTarget.AllBuffered, CharacterControls.TypingType.None, "Egg!", false);
@@ -187,8 +184,6 @@ public class EggCollectManager : MonoBehaviourPunCallbacks
                                 CharacterControls.TypingType.None, LeftScore + " : " + RightScore, true);
                         }
                     }
-
-                    
 
                     //골 이펙트
                     photonView.RPC("createEffect", RpcTarget.AllBuffered, true);
