@@ -151,12 +151,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
                         SwordComponent.leaderSwordExitRPC(2);
-                        miniUI.SetActive(false);
+                        miniUI.SetActive(false);//동기화 개귀찮자너...
                         //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
                         rigid.velocity = Vector2.zero;
 
-                        if (PhotonNetwork.InRoom)
-                            photonView.RPC("changeVelocity", RpcTarget.All, rigid.velocity);
+                        //if (PhotonNetwork.InRoom)
+                            //photonView.RPC("changeVelocity", RpcTarget.All, rigid.velocity);
 
                         //곧 죽음
                         if (!PhotonNetwork.InRoom)
