@@ -21,7 +21,8 @@ public class Paper : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void changeClothes() //버튼 클릭
+    #region 의상 전환
+    public void changeClothes() 
     {
         //박스 창 나가기
         hostBox.ControlAdavancedBox(false);
@@ -46,4 +47,5 @@ public class Paper : MonoBehaviour
 
         JsonManager.SaveData();
     }
+    #endregion
 }

@@ -125,12 +125,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //텍스트를 위한 반복하는 문장 코루틴
         Coroutine loopTypingCor;
 
-        [PunRPC]//죽었을 때 가속도 동기화를 위함
-        void changeVelocity(Vector2 _tmpVec)
-        {
-            rigid.velocity = _tmpVec;
-        }
-
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
         {
@@ -144,19 +138,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //애니메이션
                         Character.SetState(AnimationState.Dead);
                         //체력 처리
-                        curHealth = 0;
-                        miniHealthGauge.fillAmount = 0;
                         battleUIManager.bigHealthBar.value = 0;
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화
                         SwordComponent.leaderSwordExitRPC(2);
-                        miniUI.SetActive(false);//동기화 개귀찮자너...
+                        //미니 UI 닫기
+                        miniUI.SetActive(false);
+                        //먼지 종료
+                        MoveDust.Stop();
+                        JumpDust.Stop();
+                        //동기화 개귀찮자너...
                         //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
                         rigid.velocity = Vector2.zero;
-
-                        //if (PhotonNetwork.InRoom)
-                            //photonView.RPC("changeVelocity", RpcTarget.All, rigid.velocity);
 
                         //곧 죽음
                         if (!PhotonNetwork.InRoom)
@@ -271,10 +265,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             gameManager = battleUIManager.gameManager;
 
-            //기존에 있던 것
             Character.SetState(AnimationState.Idle);
+            Character.Blink();
 
-            
             if (PhotonNetwork.InRoom)//멀티 일 때
             {
                 //나라면 내이름, 다른 사람이면 다른 사람 이름
@@ -1077,7 +1070,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (isEffect) 
                 {
-                    
                     if (PhotonNetwork.InRoom) 
                     {
                         if (photonView.IsMine) 
@@ -1103,10 +1095,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 
 
 
-                if (curHealth > 0)//피격
+                if (curHealth > 0)//피격(자연사했을 때, 알람 안울리도록)
                 {
                     //효과음
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
+                    //번쩍
+                    Character.Blink();
                 }
             }
 

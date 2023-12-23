@@ -24,8 +24,6 @@ public class Box : MonoBehaviour
     [Header("플레이어의 해금할 능력")]
     public CharacterControls.PlayerStateType boxAbility;
 
-
-
     SpriteRenderer spriteRenderer;
     BattleUIManager battleUIManager;
     public GameManager gameManager;
@@ -36,6 +34,12 @@ public class Box : MonoBehaviour
 
     public enum BoxType { Train, Paper }
     public BoxType boxType;
+
+    //헤드: Hair2#FFFFFF/0:0:0
+    //눈: Human#FFFFFF/0:0:0
+    //몸: Human#FFFFFF/0:0:0
+    //머리카락: Hair2#FFFFFF/0:0:0
+    //아머: PirateCostume#FFFFFF/0:0:0
 
 
     private void Awake()
@@ -52,8 +56,10 @@ public class Box : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            if (boxType == BoxType.Train)
+            if (boxType == BoxType.Train)//훈련용 상자
             {
+                #region 훈련용 상자 작동
+
                 battleUIManager.typingControl(boxDesc);
 
                 if (boxChat.activeSelf)
@@ -78,14 +84,16 @@ public class Box : MonoBehaviour
                     effect.SetActive(true);
                     effect.transform.position = transform.position;
                 }
+                #endregion
             }
-            else if (boxType == BoxType.Paper)//종이 사용 
+            else if (boxType == BoxType.Paper)//종이 상자 
             {
                 ControlAdavancedBox(true);
             }
         }
     }
 
+    #region 향상된 박스 컨트롤
     public void ControlAdavancedBox(bool isOpen) 
     {
         //효과음 출력
@@ -102,14 +110,10 @@ public class Box : MonoBehaviour
 
         battleUIManager.JoySizeControl(!isOpen);
     }
+    #endregion
+ 
 
-    //헤드: Hair2#FFFFFF/0:0:0
-    //눈: Human#FFFFFF/0:0:0
-    //몸: Human#FFFFFF/0:0:0
-    //머리카락: Hair2#FFFFFF/0:0:0
-    //아머: PirateCostume#FFFFFF/0:0:0
-
-
+    #region 박스 이미지 전환
     public void changeForm(bool isOpen)
     {
         //채팅 이미지 비활성화
@@ -124,8 +128,8 @@ public class Box : MonoBehaviour
             //박스 이미지 변화
             spriteRenderer.sprite = closeBoxImage;
         }
-
     }
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D other)
     {

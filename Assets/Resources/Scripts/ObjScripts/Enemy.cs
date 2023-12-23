@@ -38,9 +38,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         float maxHealth;
 
         [Header("캐릭터 위의 미니 UI")]
-        public GameObject miniUI;
-        public Image miniHealthGauge;
-        public Text miniName;
+        public Image miniUI;
 
         //좌우 반전을 위해 필요함
         private Vector3 dirVec = new Vector3(1, 1, 1);
@@ -86,11 +84,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             //기존에 있던 것
             Character.SetState(AnimationState.Idle);
-
-            //복장 커스텀
-
-            miniUI.SetActive(false);
-            miniName.color = Color.red;
         }
 
         void Update()
@@ -279,17 +272,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             isDead = true;
             //애니메이션
             Character.SetState(AnimationState.Dead);
-            //체력 처리
-            curHealth = 0;
-            //miniHealthGauge.fillAmount = 0;
             //효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-            miniUI.SetActive(false);
+            //미니 UI 닫기
+            miniUI.fillAmount = 0;
+            //먼지 종료
+            MoveDust.Stop();
+            JumpDust.Stop();
             //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
             rigid.velocity = Vector2.zero;
 
-            if (isRoom)
-                photonView.RPC("changeVelocity", RpcTarget.All, rigid.velocity);
 
             //곧 죽음
             if (!isRoom)
@@ -313,7 +305,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void LateUpdate()
         {
-            miniHealthGauge.fillAmount = curHealth / maxHealth;
+            miniUI.fillAmount = curHealth / maxHealth;
         }
         
 
@@ -331,6 +323,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (isEffect) 
                 {
+                    
+
                     if (PhotonNetwork.InRoom)
                     {
                         if (photonView.IsMine)
@@ -359,8 +353,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 //효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                //번쩍
+                Character.Blink();
             }
-            if (curHealth <= 0)
+            else if (curHealth <= 0)
             {
                 if (!isDead)
                 {
