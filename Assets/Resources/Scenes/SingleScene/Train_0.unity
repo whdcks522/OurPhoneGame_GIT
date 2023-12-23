@@ -309,6 +309,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
@@ -2607,6 +2611,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
@@ -3633,6 +3641,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
@@ -4277,7 +4289,7 @@ Transform:
   m_LocalScale: {x: 6, y: 4, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 959598360}
+  m_Father: {fileID: 865554128}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &770785359
@@ -4712,7 +4724,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 959598360}
+  - {fileID: 770785358}
   - {fileID: 285078590}
   - {fileID: 551277347}
   - {fileID: 1146966675}
@@ -5269,38 +5281,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &959598359
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 959598360}
-  m_Layer: 0
-  m_Name: backGrounds
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &959598360
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 959598359}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 770785358}
-  m_Father: {fileID: 865554128}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &980794375 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4890423948865773262, guid: bfabbfc36df3a1e43a504c40fc487ddc, type: 3}
@@ -6466,6 +6446,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
@@ -6628,6 +6612,10 @@ PrefabInstance:
       propertyPath: boxAbility
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
@@ -7808,6 +7796,10 @@ PrefabInstance:
       propertyPath: boxAbility
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
@@ -10069,6 +10061,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
@@ -10580,19 +10576,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: boxDesc
-      value: "\uC5C5\uC801\uC6A9 \uBC15\uC2A4"
+      value: "100\uC810?"
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: boxAbility
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
     - target: {fileID: 7728597737573043116, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: m_Name
-      value: NeedWeaponBox (1)
+      value: HiddenBox
       objectReference: {fileID: 0}
     - target: {fileID: 8056149792438009870, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: m_RootOrder
@@ -11596,6 +11596,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 
       objectReference: {fileID: 1672712182}
@@ -11683,6 +11687,10 @@ PrefabInstance:
       propertyPath: boxAbility
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1701117493}
     - target: {fileID: 2427882467310203391, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: characterControls
       value: 

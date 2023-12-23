@@ -7,6 +7,7 @@ using Assets.PixelHeroes.Scripts.ExampleScripts;
 using KoreanTyper;
 using Photon.Pun.Demo.PunBasics;
 using Photon.Realtime;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class TrainManager : MonoBehaviour
 {
@@ -45,48 +46,63 @@ public class TrainManager : MonoBehaviour
 
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Train);
+        //칼 갯수 조정
+        characterControls.curSwordCount = 1;
+        
 
-        //플레이어 체력 감소 비율 0으로 설정
-        characterControls.healthMinus = 0;
-        //플레이어 체력 설정
-        characterControls.curHealth = 20;
-
-        characterControls.changeStateRPC(CharacterControls.PlayerStateType.LeftControl, false);
-        characterControls.changeStateRPC(CharacterControls.PlayerStateType.IsCanJump, false);
-        characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, false);
-        //칼과 충돌 무시
-        characterControls.changeStateRPC(CharacterControls.PlayerStateType.SwordCollision, false);
-        characterControls.backSwords.SetActive(false);
-
-        battleUIManager.typingControl("훈련장에 어서오세요!");
-        StartCoroutine(moveBoxRoutine());
-
-        //블록 피해주기
-        foreach(Block block in blockArr)
+        if (scenelevel == 0) 
         {
-            block.healthControl(80);
+            //플레이어 체력 설정
+            characterControls.curHealth = 20;
+
+            characterControls.changeStateRPC(CharacterControls.PlayerStateType.LeftControl, false);
+            characterControls.changeStateRPC(CharacterControls.PlayerStateType.IsCanJump, false);
+            characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, false);
+            //칼과 충돌 무시
+            characterControls.changeStateRPC(CharacterControls.PlayerStateType.SwordCollision, false);
+            characterControls.backSwords.SetActive(false);
+
+            battleUIManager.typingControl("훈련장에 어서오세요!");
+            StartCoroutine(moveBoxRoutine());
+
+            //블록 피해주기
+            foreach (Block block in blockArr)
+            {
+                block.healthControl(80);
+            }
         }
     }
 
+    private void OnDisable()
+    {
+        if (scenelevel == 1) 
+        {
+            battleUIManager.JoySizeControl(true);
 
+            Debug.Log("크기 초기화");
+        }
+    }
 
     private void Update()
     {
-        curTime += Time.deltaTime;
-        
-
-        if (curTime > maxTime)
+        if (scenelevel == 0) 
         {
-            //시간 초기화
-            curTime = 0f;
+            curTime += Time.deltaTime;
 
-            BulletShotter powerUpBulletShotter = trainPoints[1].GetComponent<BulletShotter>();
-            powerUpBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
-                    trainPoints[1], trainPoints[2], 0);
 
-            BulletShotter normalBulletShotter = trainPoints[2].GetComponent<BulletShotter>();
-            powerUpBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
-                    trainPoints[3], trainPoints[4], 0);
+            if (curTime > maxTime)
+            {
+                //시간 초기화
+                curTime = 0f;
+
+                BulletShotter powerUpBulletShotter = trainPoints[1].GetComponent<BulletShotter>();
+                powerUpBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                        trainPoints[1], trainPoints[2], 0);
+
+                BulletShotter normalBulletShotter = trainPoints[2].GetComponent<BulletShotter>();
+                powerUpBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                        trainPoints[3], trainPoints[4], 0);
+            }
         }
     }
 

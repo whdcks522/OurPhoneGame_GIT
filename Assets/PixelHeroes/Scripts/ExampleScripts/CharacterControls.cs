@@ -110,14 +110,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //이미 죽음
         public bool isDead = false;
         //이동이 가능한 상태인지
-        bool isLeftControl = false;
+        bool isLeftControl = false;//플레이어 스크립트에서 true로 초기화함
         //점프가 가능한 상태인지
         bool isCanJump = true;
         //칼을 던질 수 있는 상태인지
-        bool isRightControl = false;
+        bool isRightControl = false;//플레이어 스크립트에서 true로 초기화함
         //회복 가능한 상태인지
-        bool isCanHeal = false;
-        //칼로 전투할 것인지
+        bool isCanHeal = false;//플레이어 스크립트에서 true로 초기화함
+        //칼로 플레이어끼리 전투할 것인지
         bool isSwordFight = false;
         //PC로 진행중인지 확인
         bool isPC;
@@ -173,7 +173,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     isCanJump = isCheck;
                     break;
                 case PlayerStateType.RightControl:
+                    if(!isCheck)//비활성화 하는 경우
+                        SwordComponent.leaderSwordExitRPC(0);//칼 수납
                     isRightControl = isCheck;
+                    swordJoy.gameObject.SetActive(isCheck);
                     break;
                 case PlayerStateType.CanHeal:
                     isCanHeal = isCheck;
@@ -270,7 +273,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             
             //복장 커스텀
             //CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
-            //CharacterBuilder.Rebuild();
+            CharacterBuilder.Rebuild();
             
             if (PhotonNetwork.InRoom)
             {
@@ -419,7 +422,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region xy 동기화
         [PunRPC]
-        void xyRPC(int x, int y)
+        public void xyRPC(int x, int y)
         {
             _inputX = x;
             _inputY = y;
@@ -795,7 +798,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void SwordSpinRPC(Vector2 tmpVec)
         {
-            Debug.Log("AA");
 
             if (tmpVec.x == 0 && tmpVec.y == 0)//사용 안할 시, 다시 수납
             {
@@ -808,9 +810,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region 칼 활성 동기화
         [PunRPC]
-        void SwordActiveRPC(Vector3 tmpVec ) 
+        void SwordActiveRPC(Vector3 tmpVec) 
         {
-            Debug.Log("BB");
 
             playerSwords[0].transform.position = transform.position + Vector3.up * 0.5f + tmpVec;
             playerSwords[0].SetActive(true);

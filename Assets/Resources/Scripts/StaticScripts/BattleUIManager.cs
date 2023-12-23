@@ -43,9 +43,9 @@ public class BattleUIManager : MonoBehaviour
     [Header("전투 UI 정보")]
     public GameObject battleUI;
 
-    [Header("플레이어 이동")]
+    [Header("이동 조이스틱")]
     public VariableJoystick moveJoy;
-    [Header("플레이어 칼")]
+    [Header("칼 조이스틱")]
     public VariableJoystick swordJoy;
 
     [Header("게임 매니저")]
@@ -239,8 +239,17 @@ public class BattleUIManager : MonoBehaviour
         }
         
     }
-
-   
-
-    void destroyBattleUiManager() { }
+    public void JoySizeControl(bool isLarge)//조이버튼 비활성화 대용
+    {
+        if (isLarge)
+        {
+            moveJoy.GetComponent<Image>().rectTransform.localScale = Vector3.one;
+            swordJoy.GetComponent<Image>().rectTransform.localScale = Vector3.one;
+        }
+        else if (!isLarge)
+        {
+            moveJoy.GetComponent<Image>().rectTransform.localScale = Vector3.zero;
+            swordJoy.GetComponent<Image>().rectTransform.localScale = Vector3.zero;
+        }
+    }
 }

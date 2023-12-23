@@ -159,7 +159,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_TargetDisplay: 0
 --- !u!114 &8256534373651620004
 MonoBehaviour:
@@ -277,7 +277,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -303,11 +303,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxChat: {fileID: 337734822004446800}
   openBoxImage: {fileID: 1777749549, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  closeBoxImage: {fileID: -155058199, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   boxDesc: '
 
 '
   characterControls: {fileID: 0}
   boxAbility: 0
+  gameManager: {fileID: 0}
+  customPaper: {fileID: 0}
 --- !u!61 &2038486900424066359
 BoxCollider2D:
   m_ObjectHideFlags: 0
