@@ -17,12 +17,12 @@ public class SettingsManager : MonoBehaviour
     {
         battleUIManager = BattleUIManager.Instance;
 
-        if (!battleUIManager.jsonManager.singleScore.isPlayBgm) 
+        if (!battleUIManager.jsonManager.customJSON.isPlayBgm) 
         {
             BgmToggle.isOn = false;
             BgmIcon.sprite = SoundIcon[1];
         }
-        if (!battleUIManager.jsonManager.singleScore.isPlaySfx)
+        if (!battleUIManager.jsonManager.customJSON.isPlaySfx)
         {
             SfxToggle.isOn = false;
             SfxIcon.sprite = SoundIcon[1];
@@ -32,7 +32,7 @@ public class SettingsManager : MonoBehaviour
     public void BgmControl()
     {
         //불값 변화
-        battleUIManager.jsonManager.singleScore.isPlayBgm = BgmToggle.isOn;
+        battleUIManager.jsonManager.customJSON.isPlayBgm = BgmToggle.isOn;
         battleUIManager.audioManager.isPlayBgm = BgmToggle.isOn;
 
         //활성화 시킨 경우
@@ -56,7 +56,7 @@ public class SettingsManager : MonoBehaviour
     public void SfxControl() 
     {
         //불값 변화
-        battleUIManager.jsonManager.singleScore.isPlaySfx = SfxToggle.isOn;
+        battleUIManager.jsonManager.customJSON.isPlaySfx = SfxToggle.isOn;
         battleUIManager.audioManager.isPlaySfx = SfxToggle.isOn;
         //활성화 시킨 경우
         if (BgmToggle.isOn)

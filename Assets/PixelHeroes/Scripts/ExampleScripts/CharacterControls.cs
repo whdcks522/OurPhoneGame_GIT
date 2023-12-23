@@ -30,8 +30,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         private Vector3 _motion = Vector3.zero;
         public int _inputX, _inputY;
         private float _activityTime;
-        
-        
+
+
         [Header("----새로 추가----")]
         public float curHealth;
         private float maxHealth;
@@ -42,11 +42,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public Text miniName;
 
         //좌우 반전을 위해 필요함
-        private Vector3 dirVec = new Vector3(1,1,1);
+        private Vector3 dirVec = new Vector3(1, 1, 1);
 
         [Header("칼의 부모 게임오브젝트")]
         public GameObject swordParent;
-        
+
         //칼 게임 오브젝트 배열
         public GameObject[] playerSwords;
         //속도 공유를 위함
@@ -62,7 +62,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("칼 영역 표시 게임오브젝트")]
         public SpriteRenderer playerSwordArea;
         Color swordAreaColor;
-        
+
         [Header("조이스틱의 정보를 받아들임")]
         //플레이어 이동
         public VariableJoystick moveJoy;
@@ -76,13 +76,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         //랭크 업 효과음을 위한 bool
         bool isSRank, isARank, isBRank, isCRank, isDRank;
-        
+
         [Header("체력 감소율")]
         public float healthMinus = 0;
         [Header("점수 증가율")]
         public float scorePlus = 0;
 
         public BattleUIManager battleUIManager;
+        JSONManager jSONManager;
         public GameManager gameManager;
         Rigidbody2D rigid;
         [Header("Rigidbody 점프력")]
@@ -100,12 +101,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         Collider2D hitCol = null;
         //튜토리얼에서 부양을 보여주기 위함
         int playerLayer;
-        int playerSwordLayer; 
+        int playerSwordLayer;
 
         //플레이어의 상태--------------
         public enum PlayerStateType
         {
-           None, Dead, LeftControl, IsCanJump, RightControl, CanHeal, SwordCount, SwordCollision, SwordFight
+            None, Dead, LeftControl, IsCanJump, RightControl, CanHeal, SwordCount, SwordCollision, SwordFight
         }
         //이미 죽음
         public bool isDead = false;
@@ -125,7 +126,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         Coroutine loopTypingCor;
 
         [PunRPC]//죽었을 때 가속도 동기화를 위함
-        void changeVelocity(Vector2 _tmpVec) 
+        void changeVelocity(Vector2 _tmpVec)
         {
             rigid.velocity = _tmpVec;
         }
@@ -133,7 +134,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
         {
-            switch (tmpPlayerStateType) 
+            switch (tmpPlayerStateType)
             {
                 case PlayerStateType.Dead:
                     if (isCheck)
@@ -173,7 +174,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     isCanJump = isCheck;
                     break;
                 case PlayerStateType.RightControl:
-                    if(!isCheck)//비활성화 하는 경우
+                    if (!isCheck)//비활성화 하는 경우
                         SwordComponent.leaderSwordExitRPC(0);//칼 수납
                     isRightControl = isCheck;
                     swordJoy.gameObject.SetActive(isCheck);
@@ -182,7 +183,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     isCanHeal = isCheck;
                     break;
                 case PlayerStateType.SwordCount://true면 무기 꽉 채우기, false면 1로 만들기
-                    if (isCheck) 
+                    if (isCheck)
                     {
                         swordCountRPC(9);
                         backSwords.SetActive(true);
@@ -205,14 +206,17 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
         }
 
+
+
         private void Awake()
         {
             PhotonNetwork.SendRate = 60;
             PhotonNetwork.SerializationRate = 30;
 
             rigid = GetComponent<Rigidbody2D>();
-            
+
             battleUIManager = BattleUIManager.Instance;
+            jSONManager = battleUIManager.jsonManager;
             isPC = battleUIManager.isPC;
             //칼 관리
             for (int i = 0; i < swordParent.transform.childCount; i++)
@@ -230,7 +234,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //체력 동기화
             maxHealth = curHealth;
 
-            
+
 
             //멀티의 변수 관리
             if (battleUIManager.battleType == BattleUIManager.BattleType.Single)
@@ -251,7 +255,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 scorePlus = 0;
             }
             //자신의 미니 UI 안보이게
-            if (PhotonNetwork.InRoom) 
+            if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)//자신의 것은
                     miniUI.SetActive(false);//미니 UI 비활성화
@@ -260,7 +264,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (!PhotonNetwork.InRoom)
             {
-                    miniUI.SetActive(false);
+                miniUI.SetActive(false);
             }
         }
 
@@ -270,25 +274,59 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             //기존에 있던 것
             Character.SetState(AnimationState.Idle);
+
             
-            //복장 커스텀
-            //CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
-            CharacterBuilder.Rebuild();
+
+
             
-            if (PhotonNetwork.InRoom)
+            
+            if (PhotonNetwork.InRoom)//멀티 일 때
             {
-                miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;//나라면 내이름, 다른 사람이면 다른 사람 이름
+                //나라면 내이름, 다른 사람이면 다른 사람 이름
+                miniName.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;
+                //이름 색
                 miniName.color = photonView.IsMine ? Color.green : Color.red;
+
+                //복장 커스텀
+                if (photonView.IsMine)
+                {
+                    photonView.RPC("changeClothRPC", RpcTarget.AllBuffered, jSONManager.customJSON.clothesArr);
+                }
             }
-            else if (!PhotonNetwork.InRoom)
+            else if (!PhotonNetwork.InRoom)//싱글일 때
             {
                 //미니 ui 설정
                 miniName.color = Color.green;
+                //복장 커스텀
+                changeClothRPC(jSONManager.customJSON.clothesArr);
             }
             transform.parent = gameManager.playerGroup;
         }
 
-        
+        [PunRPC]
+        void changeClothRPC(string[] arr = null)
+        {
+            CharacterBuilder.Head = arr[0];//헤드
+            CharacterBuilder.Ears = arr[1];//귀
+            CharacterBuilder.Eyes = arr[2];//눈
+            CharacterBuilder.Body = arr[3];//눈
+            CharacterBuilder.Hair = arr[4];//머리카락
+
+            CharacterBuilder.Armor = arr[5];//갑옷
+            CharacterBuilder.Helmet = arr[6];//모자
+            CharacterBuilder.Weapon = arr[7];//무기
+            CharacterBuilder.Shield = arr[8];//방패
+
+            CharacterBuilder.Cape = arr[9];//망토
+            CharacterBuilder.Back = arr[10];//등
+            CharacterBuilder.Mask = arr[11];//마스크
+            CharacterBuilder.Horns = arr[12];//뿔
+
+            CharacterBuilder.Rebuild();
+
+        }
+
+
 
         void Update()
         {

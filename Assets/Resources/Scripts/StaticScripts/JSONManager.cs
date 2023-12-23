@@ -8,8 +8,12 @@ using static SingleInfo;
 public class JSONManager : MonoBehaviour
 {
     [System.Serializable]//밖에서 식별 가능하도록, public 필요 없음
-    public class SingleScore
+    public class CustomJSON
     {
+        public string[] clothesArr = new string[13] { "HumanShadow#FFFFFF/0:0:0", "", "Human#FFFFFF/0:0:0", "Human#FFFFFF/0:0:",
+                                                        "Hair2#FFFFFF/0:0:0", "PirateCostume#FFFFFF/0:0:0", "", "", "", "", "", "", "" };
+
+
         public enum SettingType {Bgm, Sfx }
 
         public bool isPlayBgm = true;
@@ -87,7 +91,7 @@ public class JSONManager : MonoBehaviour
         #endregion
     }
 
-    public SingleScore singleScore = new SingleScore();
+    public CustomJSON customJSON = new CustomJSON();
     string path;
 
     private void Awake()
@@ -102,13 +106,13 @@ public class JSONManager : MonoBehaviour
     public void LoadData()//불러오기
     {
         string data = File.ReadAllText(path);//JSON -> 데이터 변환
-        singleScore = JsonUtility.FromJson<SingleScore>(data);//삽입
+        customJSON = JsonUtility.FromJson<CustomJSON>(data);//삽입
     }
 
     public void SaveData(SingleInfoData.SingleInfoType _singleInfoType, int _index, int _score) //점수 저장하기
     {
         //최대 기록을 넘는 경우 초기화
-        singleScore.UpdateScore(_singleInfoType, _index, _score);
+        customJSON.UpdateScore(_singleInfoType, _index, _score);
 
         //저장
         SaveData();
@@ -116,7 +120,7 @@ public class JSONManager : MonoBehaviour
 
     public void SaveData() //그냥 저장하기
     {
-        string data = JsonUtility.ToJson(singleScore);//데이터 -> JSON 변환
+        string data = JsonUtility.ToJson(customJSON);//데이터 -> JSON 변환
         File.WriteAllText(path, data);//path/save의 형식으로 data 저장
     }
 
@@ -124,7 +128,7 @@ public class JSONManager : MonoBehaviour
     {
         if (_value == 0)//완전 초기화
         {
-            singleScore = new SingleScore();
+            customJSON = new CustomJSON();
         }
         else //갱신
         {
@@ -132,12 +136,12 @@ public class JSONManager : MonoBehaviour
             {
                 for (int i = 0; i <= 2; i++)
                 {
-                    singleScore.UpdateScore(_type, i, _value);
+                    customJSON.UpdateScore(_type, i, _value);
                 }
             }
         }
 
-        string data = JsonUtility.ToJson(singleScore);//데이터 -> JSON 변환
+        string data = JsonUtility.ToJson(customJSON);//데이터 -> JSON 변환
         File.WriteAllText(path, data);
     }
 }

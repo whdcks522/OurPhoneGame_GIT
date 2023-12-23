@@ -58,7 +58,7 @@ public class SingleInfo : MonoBehaviour
         }   
 
         //3. 정상 실행
-        maxScore = singleSelectManager.battleUIManager.jsonManager.singleScore.LoadScore(singleInfoData.singleType, singleInfoData.sceneLevel);
+        maxScore = singleSelectManager.battleUIManager.jsonManager.customJSON.LoadScore(singleInfoData.singleType, singleInfoData.sceneLevel);
 
         //쉐이더 설정
         shader.material = singleInfoData.shader;

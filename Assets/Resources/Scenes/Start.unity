@@ -1011,7 +1011,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928f551e584afc74980bd1938dd32f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleScore:
+  customJSON:
+    clothesArr:
+    - HumanShadow#FFFFFF/0:0:0
+    - 
+    - Human#FFFFFF/0:0:0
+    - 'Human#FFFFFF/0:0:'
+    - Hair2#FFFFFF/0:0:0
+    - PirateCostume#FFFFFF/0:0:0
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
     isPlayBgm: 1
     isPlaySfx: 1
     TrainMaxScore: 000000000000000000000000

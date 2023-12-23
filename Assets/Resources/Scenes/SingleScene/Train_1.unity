@@ -19740,7 +19740,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1191892128}
         m_TargetAssemblyTypeName: Paper, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: changeClothes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23604,7 +23604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7728597737573043116, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: m_Name
-      value: Box
+      value: palleteBox
       objectReference: {fileID: 0}
     - target: {fileID: 7904477858575556268, guid: ac673f8d2de87364191930888a6accac, type: 3}
       propertyPath: m_FlipX

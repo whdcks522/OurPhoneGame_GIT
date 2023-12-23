@@ -17299,13 +17299,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteCollection: {fileID: 11400000, guid: 490ae32d2288bb44c860168dd03613ca, type: 2}
-  Head: Human
-  Ears: Human
-  Eyes: Human
-  Body: Human
-  Hair: Hair1
-  Armor: PirateCostume
-  Helmet: PirateBandana
+  Head: HumanShadow#FFFFFF/0:0:0
+  Ears: 
+  Eyes: Human#FFFFFF/0:0:0
+  Body: 'Human#FFFFFF/0:0:'
+  Hair: Hair2#FFFFFF/0:0:0
+  Armor: PirateCostume#FFFFFF/0:0:0
+  Helmet: 
   Weapon: 
   Shield: 
   Cape: 

@@ -83,8 +83,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        isPlayBgm = battleUIManager.jsonManager.singleScore.isPlayBgm;
-        isPlaySfx = battleUIManager.jsonManager.singleScore.isPlaySfx;
+        isPlayBgm = battleUIManager.jsonManager.customJSON.isPlayBgm;
+        isPlaySfx = battleUIManager.jsonManager.customJSON.isPlaySfx;
     }
 
     public void StopBgm() //πË∞Ê ¿Ωæ« ∏ÿ√ﬂ±‚
