@@ -65,7 +65,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isRoom;
         //죽었는지
         bool isDead;
-        public Vector2[] createVec;
         public GameObject player;
         
 
@@ -89,8 +88,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             Character.SetState(AnimationState.Idle);
 
             //복장 커스텀
-            //CharacterBuilder.Head = "Lizard#FFFFFF/0:0:0";
-            CharacterBuilder.Rebuild();
 
             miniUI.SetActive(false);
             miniName.color = Color.red;
@@ -99,6 +96,30 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void Update()
         {
             KeyInput();
+        }
+
+        [PunRPC]
+        void changeClothRPC(string[] arr = null)
+        {
+            
+            CharacterBuilder.Head = arr[0];//헤드
+            CharacterBuilder.Ears = arr[1];//귀
+            CharacterBuilder.Eyes = arr[2];//눈
+            CharacterBuilder.Body = arr[3];//눈
+            CharacterBuilder.Hair = arr[4];//머리카락
+
+            CharacterBuilder.Armor = arr[5];//갑옷
+            CharacterBuilder.Helmet = arr[6];//모자
+            CharacterBuilder.Weapon = arr[7];//무기
+            CharacterBuilder.Shield = arr[8];//방패
+
+            CharacterBuilder.Cape = arr[9];//망토
+            CharacterBuilder.Back = arr[10];//등
+            CharacterBuilder.Mask = arr[11];//마스크
+            CharacterBuilder.Horns = arr[12];//뿔
+
+            CharacterBuilder.Rebuild();
+
         }
 
         #region 키 입력
@@ -227,154 +248,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     Character.SetState(AnimationState.Jumping);
             }
 
-
-
             rigid.velocity = new Vector2(_inputX * RunSpeed, rigid.velocity.y);
-
-            /*
-            if (PhotonNetwork.InRoom) 
-            {
-                if (photonView.IsMine)
-                    _inputX = _inputY = 0;
-            }
-            else if (!PhotonNetwork.InRoom)
-                _inputX = _inputY = 0;
-            */
-
             //점프인 경우와 아닌 경우로 전환했을 때
             if ((isJumpAni && Character.GetState() != AnimationState.Jumping) || (!isJumpAni && Character.GetState() == AnimationState.Jumping)) //점프였다가 걷는 경우
             {
                 JumpDust.Play();
             }
-
-            #region 물리 바꿈
-
-            /*
-
-             if (Time.frameCount <= 1)
-             {
-                 Controller.Move(new Vector3(0, Gravity) * Time.fixedDeltaTime);
-                 return;
-             }
-
-             var state = Character.GetState();
-
-             if (state == AnimationState.Dead)//죽었는데 방향키 누르면 움직이도록
-             {
-                 _motion.y += Gravity;
-                 Controller.Move(_motion * Time.fixedDeltaTime);
-
-                 //if (_inputX == 0)
-                 return;
-
-                 //Character.SetState(AnimationState.Running);
-             }
-
-             if (_inputX != 0)//좌우 방향 전환
-             {
-                 if (PhotonNetwork.InRoom)
-                     photonView.RPC("Turn", RpcTarget.AllBuffered, _inputX);//-------------
-                 else
-                     Turn(_inputX);
-             }
-
-             if (Controller.isGrounded)//땅에 있을 시
-             {
-                 if (state == AnimationState.Jumping)
-                 {
-                     if (Input.GetKey(KeyCode.X))
-                     {
-                         GetDown();
-                     }
-                     else
-                     {
-                         Character.Animator.SetTrigger("Landed");
-                         Character.SetState(AnimationState.Ready);
-                         JumpDust.Play(true);
-                     }
-                 }
-
-                 _motion = state == AnimationState.Crawling
-                     ? new Vector3(CrawlSpeed * _inputX, 0)
-                     : new Vector3(RunSpeed * _inputX, JumpSpeed * _inputY);
-
-                 if (_inputX != 0 || _inputY != 0)
-                 {
-                     if (_inputY > 0)
-                     {
-                         Character.SetState(AnimationState.Jumping);
-                     }
-                     else
-                     {
-                         switch (state)
-                         {
-                             case AnimationState.Idle:
-                             case AnimationState.Ready:
-                                 Character.SetState(AnimationState.Running);
-                                 break;
-                         }
-                     }
-                 }
-                 else
-                 {
-                     switch (state)
-                     {
-                         case AnimationState.Crawling:
-                         case AnimationState.Climbing:
-                         case AnimationState.Blocking:
-                             break;
-                         default:
-                             var targetState = Time.time - _activityTime > 5 ? AnimationState.Idle : AnimationState.Ready;
-
-                             if (state != targetState)
-                             {
-                                 Character.SetState(targetState);
-                             }
-
-                             break;
-                     }
-                 }
-             }//땅에 있을 시
-             else//하늘에 있을 시
-             {
-                 _motion = new Vector3(RunSpeed * _inputX, _motion.y);
-                 Character.SetState(AnimationState.Jumping);
-             }
-
-             _motion.y += Gravity;
-
-
-             Controller.Move(_motion * Time.fixedDeltaTime);//!!!!!!!!!!!!!!이부분 빼면 안움직임
-             //Controller.
-             Character.Animator.SetBool("Grounded", Controller.isGrounded);
-             Character.Animator.SetBool("Moving", Controller.isGrounded && _inputX != 0);
-             Character.Animator.SetBool("Falling", !Controller.isGrounded && Controller.velocity.y < 0);
-
-             if (_inputX != 0 && _inputY != 0 || Character.Animator.GetBool("Action"))
-             {
-                 _activityTime = Time.time;
-             }
-
-             _inputX = _inputY = 0;
-
-
-             if (Controller.isGrounded && !Mathf.Approximately(Controller.velocity.x, 0))
-             {
-                 var velocity = MoveDust.velocityOverLifetime;
-
-                 velocity.xMultiplier = 0.2f * -Mathf.Sign(Controller.velocity.x);
-
-                 if (!MoveDust.isPlaying)
-                 {
-                     MoveDust.Play();
-                 }
-             }
-             else
-             {
-                 MoveDust.Stop();
-             }
-             */
-            #endregion
         }
         #endregion
 
@@ -394,130 +273,49 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #endregion
 
         [PunRPC]
-        void activeRPC(bool isDead)
+        void deadRPC()
         {
-            curHealth = maxHealth;
+            //사망 처리
+            isDead = true;
+            //애니메이션
+            Character.SetState(AnimationState.Dead);
+            //체력 처리
+            curHealth = 0;
+            //miniHealthGauge.fillAmount = 0;
+            //효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+            miniUI.SetActive(false);
+            //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
+            rigid.velocity = Vector2.zero;
+
+            if (isRoom)
+                photonView.RPC("changeVelocity", RpcTarget.All, rigid.velocity);
+
+            //곧 죽음
+            if (!isRoom)
+                Invoke("SoonDie", 1.5f);
         }
 
-        /*
-        void lateUpdate()
+        [PunRPC]//죽었을 때 가속도 동기화를 위함
+        void changeVelocity(Vector2 _tmpVec)
         {
-            if (battleUIManager.btnContinue.activeSelf)//죽고 1.5초 후에 비활성화 됨
-            {
-                if (!isDead) //죽자 마자 정지
-                {
-                    //자연 체력 감소
-                    curHealth -= healthMinus * Time.deltaTime;
-
-                    //생존 파악
-                    if (PhotonNetwork.InRoom)
-                    {
-                        if (photonView.IsMine)
-                        {
-                            //피격 처리
-                            damageControlRPC(0, false);
-                        }
-                    }
-                    else if (!PhotonNetwork.InRoom)
-                    {
-                        damageControlRPC(0, false);
-                    }
-                    //UI 관리-------------------------------------------------------
-
-                    //미니 체력 바 적용
-                    miniHealthGauge.fillAmount = curHealth / maxHealth;
-
-                    //큰 체력바 적용
-                    if (PhotonNetwork.InRoom)
-                    {
-                        if (photonView.IsMine)
-                        {
-                            float firstValue = battleUIManager.bigHealthBar.value;
-                            battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
-                        }
-                    }
-                    else if (!PhotonNetwork.InRoom)
-                    {
-                        float firstValue = battleUIManager.bigHealthBar.value;
-                        battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
-                    }
-
-                    //시간에 따라 점수 증가
-                    battleUIManager.curScore += Time.deltaTime * scorePlus;
-
-                }//죽자 마자 정지
-
-                //랭크와 점수 텍스트 적용
-                battleUIManager.bigScoreText.text = Mathf.FloorToInt(battleUIManager.curScore) + "/";
-                if (battleUIManager.curScore >= battleUIManager.Sscore) //S급 이상의 경우
-                {
-                    if (!isSRank)
-                    {
-                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                        battleUIManager.rankType = BattleUIManager.RankType.S;
-                        isSRank = true;
-
-                    }
-                    battleUIManager.bigRankText.text = "<color=#AA00FF> S </color>";
-                    battleUIManager.bigScoreText.text += '-';
-                }
-                else if (battleUIManager.curScore >= battleUIManager.Ascore) //A급 이상의 경우
-                {
-                    if (!isARank)
-                    {
-                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                        battleUIManager.rankType = BattleUIManager.RankType.A;
-                        isARank = true;
-                    }
-                    battleUIManager.bigRankText.text = "<color=#0000FF> A </color>";
-                    battleUIManager.bigScoreText.text += battleUIManager.Sscore;
-                }
-                else if (battleUIManager.curScore >= battleUIManager.Bscore) //B급 이상의 경우
-                {
-                    if (!isBRank)
-                    {
-                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                        battleUIManager.rankType = BattleUIManager.RankType.B;
-                        isBRank = true;
-                    }
-                    battleUIManager.bigRankText.text = "<color=#00AA00> B </color>";
-                    battleUIManager.bigScoreText.text += battleUIManager.Ascore;
-                }
-                else if (battleUIManager.curScore >= battleUIManager.Cscore) //C급 이상의 경우
-                {
-                    if (!isCRank)
-                    {
-                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                        battleUIManager.rankType = BattleUIManager.RankType.C;
-                        isCRank = true;
-                    }
-                    battleUIManager.bigRankText.text = "<color=#FF0000> C </color>";
-                    battleUIManager.bigScoreText.text += battleUIManager.Bscore;
-                }
-                else if (battleUIManager.curScore >= battleUIManager.Dscore) //D급 이상의 경우
-                {
-                    if (!isDRank)
-                    {
-                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.RankUp);
-                        battleUIManager.rankType = BattleUIManager.RankType.D;
-                        isDRank = true;
-                    }
-                    battleUIManager.bigRankText.text = "<color=#FFFF00> D </color>";
-                    battleUIManager.bigScoreText.text += battleUIManager.Cscore;
-                }
-                else if (battleUIManager.curScore >= battleUIManager.Escore) //E급 이상의 경우
-                {
-                    battleUIManager.bigRankText.text = "<color=#FFFFFF> E </color>";
-                    battleUIManager.bigScoreText.text += battleUIManager.Dscore;
-                }
-            }
+            rigid.velocity = _tmpVec;
         }
+
+
+        //죽었고 조금 뒤, 죽음에 대한 처리
+        void SoonDie()
+        {
+            
+        }
+
+       
 
         private void LateUpdate()
         {
-            lateUpdate();
+            miniHealthGauge.fillAmount = curHealth / maxHealth;
         }
-        */
+        
 
         #region 피격 처리
         [PunRPC]
@@ -541,8 +339,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                             GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
                             Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
-                            textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.AllBuffered, _dmg.ToString());
-                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.AllBuffered, transform.position);
+                            textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.All, _dmg.ToString());
+                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.All, transform.position);
                         }
                     }
                     else if (!PhotonNetwork.InRoom)
@@ -555,14 +353,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         textEffectComponent.effectOnRPC(transform.position);
                     }    
                 }
-                if (curHealth > 0)//피격
-                {
-                    //효과음
-                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Damage);
-                }
-
             }
 
+            if (curHealth > 0)//피격
+            {
+                //효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+            }
             if (curHealth <= 0)
             {
                 if (!isDead)
@@ -571,19 +368,38 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         if (photonView.IsMine)
                         {
-                            photonView.RPC("activeRPC", RpcTarget.AllBuffered, true);
+                            photonView.RPC("deadRPC", RpcTarget.All);  
                         }
                     }
                     else if (!PhotonNetwork.InRoom)
                     {
-                        activeRPC(true);
+                        deadRPC();
                     }
                 }
             }
         }
         #endregion
 
-
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("playerSword"))
+            {
+                if (isRoom)
+                {
+                    //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
+                    if (photonView.IsMine)
+                    {
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.All, 20, true);
+                    }
+                }
+                else if (!isRoom) 
+                {
+                    //피격 처리
+                    damageControlRPC(20, true);
+                }
+            }
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -594,7 +410,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine && !isDead)
                     {
                         //피격 처리
-                        photonView.RPC("transformRPC", RpcTarget.AllBuffered, true, Vector3.up * 10);
+                        photonView.RPC("transformRPC", RpcTarget.All, true, Vector3.up * 10);
                     }
                 }
                 else if (!isRoom && !isDead)

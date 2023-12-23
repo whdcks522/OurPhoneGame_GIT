@@ -318,7 +318,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             CharacterBuilder.Horns = arr[12];//뿔
 
             CharacterBuilder.Rebuild();
-
         }
 
 
