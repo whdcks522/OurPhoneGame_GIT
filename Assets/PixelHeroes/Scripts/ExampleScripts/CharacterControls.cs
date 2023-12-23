@@ -174,10 +174,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     isCanJump = isCheck;
                     break;
                 case PlayerStateType.RightControl:
-                    if (!isCheck)//비활성화 하는 경우
-                        SwordComponent.leaderSwordExitRPC(0);//칼 수납
+                    //if (!isCheck)//비활성화 하는 경우
+                    //    SwordComponent.leaderSwordExitRPC(0);//칼 수납
                     isRightControl = isCheck;
-                    swordJoy.gameObject.SetActive(isCheck);
                     break;
                 case PlayerStateType.CanHeal:
                     isCanHeal = isCheck;
