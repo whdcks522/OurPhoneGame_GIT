@@ -5006,7 +5006,7 @@ GameObject:
   - component: {fileID: -3876477875717422519}
   - component: {fileID: 548720284759478570}
   m_Layer: 0
-  m_Name: Text 52
+  m_Name: Text 52_Player
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -9974,8 +9974,8 @@ MonoBehaviour:
   size: 1
   letterSpacing: 0.44
   backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  color1: {r: 1, g: 0.25490198, b: 0, a: 1}
-  color2: {r: 1, g: 0.04705883, b: 0, a: 1}
+  color1: {r: 0, g: 1, b: 0.990005, a: 1}
+  color2: {r: 0.19737911, g: 0, b: 1, a: 1}
   delay: 0.05
   cumulativeDelay: 1
   compensateLifetime: 0

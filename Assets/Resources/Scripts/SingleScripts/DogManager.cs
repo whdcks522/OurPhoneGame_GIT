@@ -1,4 +1,5 @@
 using Assets.PixelHeroes.Scripts.ExampleScripts;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,11 +36,6 @@ public class DogManager : MonoBehaviour
     {
         battleUIManager = BattleUIManager.Instance;
 
-        //플레이어 체력 감소 비율 0으로 설정
-        characterControls.healthMinus = 0;
-
-        characterControls.scorePlus = 1;
-
         //바람 발생지 배열 적용
         dogPoints = new GameObject[dogPointsParent.childCount];
         for (int i = 0; i < dogPointsParent.childCount; i++)
@@ -48,6 +44,9 @@ public class DogManager : MonoBehaviour
         }
         //게임 시작 시,  재생산 속도 목록
         curDogSpeed = dogSpeedArr[5];
+        //플레이어 체력 감소 비율 0으로 설정
+        characterControls.healthMinus = curDogSpeed;
+        characterControls.scorePlus = 1;
 
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
@@ -56,7 +55,6 @@ public class DogManager : MonoBehaviour
 
     private void Update()
     {
-        return;
         curTime += Time.deltaTime * curDogSpeed;
 
         if (curTime > maxTime)
@@ -89,10 +87,26 @@ public class DogManager : MonoBehaviour
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
 
-            //총알 생성
-            //BulletShotter bulletShotter = windPoints[ran].GetComponent<BulletShotter>();
-            //bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
-            //        windPoints[ran], player, 1);
+            //적 생성
+            if (scenelevel == 0)
+            {
+
+
+                /*
+                if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
+                {
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                        starFallPoints[ranPos], player, 0);
+                    curPowerUpIndex = 0;
+                }
+                else //기본 운석
+                {
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                        starFallPoints[ranPos], player, 1);
+                    curPowerUpIndex++;
+                }
+                */
+            }
         }
     }
 }

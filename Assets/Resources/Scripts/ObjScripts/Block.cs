@@ -121,7 +121,7 @@ public class Block : MonoBehaviourPunCallbacks
                 GameObject effect = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
-                effect.transform.parent = transform.parent.transform;
+                //effect.transform.parent = transform.parent.transform;
             }
             else if (blockEffectType == BlockEffectType.PowerUp)
             {
@@ -143,7 +143,7 @@ public class Block : MonoBehaviourPunCallbacks
                 GameObject effect = gameManager.CreateObj("Explosion 2_PowerUp", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
-                effect.transform.parent = transform.parent.transform;
+                //effect.transform.parent = transform.parent.transform;
             }
             else if (blockEffectType == BlockEffectType.Cure)
             {
@@ -153,7 +153,7 @@ public class Block : MonoBehaviourPunCallbacks
                 GameObject effect = gameManager.CreateObj("Explosion 2_Cure", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
-                effect.transform.parent = transform.parent.transform;
+                //effect.transform.parent = transform.parent.transform;
             }
         }
         else if (!isBreak)//떨어진 경우
@@ -167,7 +167,7 @@ public class Block : MonoBehaviourPunCallbacks
             Block blockComponent = block.GetComponent<Block>();
 
             //블록 부모 조정
-            block.transform.parent = transform.parent.transform;
+            //block.transform.parent = transform.parent.transform;
             blockComponent.blockPoints = blockPoints;
 
             //블록 활성화
@@ -211,7 +211,7 @@ public class Block : MonoBehaviourPunCallbacks
                     GameObject effect = gameManager.CreateObj("Explosion 6", GameManager.PoolTypes.EffectType);
                     effect.SetActive(true);
                     effect.transform.position = transform.position;
-                    effect.transform.parent = transform.parent.transform;
+                    //effect.transform.parent = transform.parent.transform;
 
                     //매터리얼 관리
                     crackColor = new Color(1, 0.5f, 0.5f, 1);

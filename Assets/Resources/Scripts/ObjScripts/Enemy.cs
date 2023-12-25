@@ -43,7 +43,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //좌우 반전을 위해 필요함
         private Vector3 dirVec = new Vector3(1, 1, 1);
 
-        BattleUIManager battleUIManager;
+        public BattleUIManager battleUIManager;
         public GameManager gameManager;
         Rigidbody2D rigid;
         [Header("Rigidbody 점프력")]
@@ -56,15 +56,20 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("레이의 시작점")]
         public Vector3 rayVec = Vector3.zero;
         //현재 바닥인지
-        bool isGround = false;
+        public bool isGround = false;
         Collider2D hitCol = null;
 
         //멀티인지 솔로인지
         bool isRoom;
         //죽었는지
         bool isDead;
+        [Header("플레이어 객체")]
         public GameObject player;
-        
+        //[Header("머신러닝 중인지")]
+        //public bool isML;
+
+        public enum EnemyType { Goblin, Orc }
+        //public EnemyType enemyType;
 
         private void Awake()
         {
@@ -86,65 +91,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             Character.SetState(AnimationState.Idle);
         }
 
-        void Update()
-        {
-            KeyInput();
-        }
-
-        [PunRPC]
-        void changeClothRPC(string[] arr = null)
-        {
-            
-            CharacterBuilder.Head = arr[0];//헤드
-            CharacterBuilder.Ears = arr[1];//귀
-            CharacterBuilder.Eyes = arr[2];//눈
-            CharacterBuilder.Body = arr[3];//눈
-            CharacterBuilder.Hair = arr[4];//머리카락
-
-            CharacterBuilder.Armor = arr[5];//갑옷
-            CharacterBuilder.Helmet = arr[6];//모자
-            CharacterBuilder.Weapon = arr[7];//무기
-            CharacterBuilder.Shield = arr[8];//방패
-
-            CharacterBuilder.Cape = arr[9];//망토
-            CharacterBuilder.Back = arr[10];//등
-            CharacterBuilder.Mask = arr[11];//마스크
-            CharacterBuilder.Horns = arr[12];//뿔
-
-            CharacterBuilder.Rebuild();
-
-        }
-
-        #region 키 입력
-        void KeyInput()
-        {
-            if (curHealth <= 0 ) return;
-
-            #region 안쓰는 애니메이션
-            /*
-            if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
-            else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
-            else if (Input.GetKeyDown(KeyCode.P)) Character.Animator.SetTrigger("Push");
-            else if (Input.GetKeyDown(KeyCode.H)) Character.Animator.SetTrigger("Hit");
-            else if (Input.GetKeyDown(KeyCode.I)) { Character.SetState(AnimationState.Idle); _activityTime = 0; }
-            else if (Input.GetKeyDown(KeyCode.R)) { Character.SetState(AnimationState.Ready); _activityTime = Time.time; }
-            else if (Input.GetKeyDown(KeyCode.B)) Character.SetState(AnimationState.Blocking);
-            else if (Input.GetKeyUp(KeyCode.B)) Character.SetState(AnimationState.Ready);
-            else if (Input.GetKeyDown(KeyCode.D)) Character.SetState(AnimationState.Dead);
-
-            
-            else if (Input.GetKeyDown(KeyCode.Alpha1)) Character.Animator.SetTrigger("Slash");
-            else if (Input.GetKeyDown(KeyCode.O)) Character.Animator.SetTrigger("Shot");
-            else if (Input.GetKeyDown(KeyCode.F)) Character.Animator.SetTrigger("Fire1H");
-            else if (Input.GetKeyDown(KeyCode.E)) Character.Animator.SetTrigger("Fire2H");
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) Character.SetState(AnimationState.Climbing);
-            else if (Input.GetKeyUp(KeyCode.Alpha2)) Character.SetState(AnimationState.Ready);
-            else if (Input.GetKeyUp(KeyCode.L)) Character.Blink();
-            */
-            #endregion
-        }
-        #endregion
-
         #region xy 동기화
         [PunRPC]
         void xyRPC(int x, int y)
@@ -154,20 +100,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-
+        #region 이동
         public void FixedUpdate()
         {
             if (isDead)
                 return;
 
-            //이동
-            Move();
-        }
-
-
-        #region 이동
-        private void Move()
-        {
             if (_inputX != 0)//좌우 방향 전환
             {
                 TurnRPC(_inputX);
@@ -265,49 +203,65 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
+        #region 칼과 충돌시 체력 감소
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("playerSword"))
+            {
+                int damage = collision.gameObject.GetComponent<Sword>().swordDamage;
+                if (isRoom)
+                {
+                    //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
+                    if (photonView.IsMine)
+                    {
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.All, damage, true);
+                    }
+                }
+                else if (!isRoom)
+                {
+                    //피격 처리
+                    damageControlRPC(damage, true);
+                }
+            }
+        }
+        #endregion
+
+        #region 게임 경계에 충돌 시, 순간이동
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
+            {
+                if (isRoom)
+                {
+                    if (photonView.IsMine && !isDead)
+                    {
+                        //피격 처리
+                        photonView.RPC("transformRPC", RpcTarget.All, true, Vector3.up * 10);
+                    }
+                }
+                else if (!isRoom && !isDead)
+                {
+                    transformRPC(true, Vector3.up * 10);
+                }
+            }
+        }
+        #endregion
+
+        #region 순간이동
         [PunRPC]
-        void deadRPC()
+        void transformRPC(bool isOut, Vector2 tmpVec)
         {
-            //사망 처리
-            isDead = true;
-            //애니메이션
-            Character.SetState(AnimationState.Dead);
-            //효과음
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-            //미니 UI 닫기
-            miniUI.fillAmount = 0;
-            //먼지 종료
-            MoveDust.Stop();
-            JumpDust.Stop();
-            //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
-            rigid.velocity = Vector2.zero;
-
-
-            //곧 죽음
-            if (!isRoom)
-                Invoke("SoonDie", 1.5f);
+            if (isOut) //맵 밖으로 나간 경우
+            {
+                transform.position = player.transform.position + Vector3.up * 10;
+            }
+            else if (!isOut) //포탈 사용
+            {
+                transform.position = tmpVec;
+            }
         }
-
-        [PunRPC]//죽었을 때 가속도 동기화를 위함
-        void changeVelocity(Vector2 _tmpVec)
-        {
-            rigid.velocity = _tmpVec;
-        }
-
-
-        //죽었고 조금 뒤, 죽음에 대한 처리
-        void SoonDie()
-        {
-            
-        }
-
-       
-
-        private void LateUpdate()
-        {
-            miniUI.fillAmount = curHealth / maxHealth;
-        }
-        
+        #endregion
 
         #region 피격 처리
         [PunRPC]
@@ -317,14 +271,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             curHealth -= _dmg;
             if (curHealth <= 0) curHealth = 0;
             else if (curHealth > maxHealth) curHealth = maxHealth;
+            //UI관리
+            miniUI.fillAmount = curHealth / maxHealth;
 
             //충격 초기화
             if (_dmg != 0)//피해가 있을 때
             {
                 if (isEffect) 
                 {
-                    
-
                     if (PhotonNetwork.InRoom)
                     {
                         if (photonView.IsMine)
@@ -345,18 +299,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
                         textEffectComponent.effectNameRPC(_dmg.ToString());
                         textEffectComponent.effectOnRPC(transform.position);
-                    }    
+                    }
+
+                    if (curHealth > 0)//피격
+                    {
+                        //효과음
+                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                        //번쩍
+                        Character.Blink();
+                    }
                 }
             }
 
-            if (curHealth > 0)//피격
-            {
-                //효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
-                //번쩍
-                Character.Blink();
-            }
-            else if (curHealth <= 0)
+            if (curHealth <= 0)
             {
                 if (!isDead)
                 {
@@ -376,57 +331,53 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("playerSword"))
-            {
-                if (isRoom)
-                {
-                    //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
-                    if (photonView.IsMine)
-                    {
-                        //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.All, 20, true);
-                    }
-                }
-                else if (!isRoom) 
-                {
-                    //피격 처리
-                    damageControlRPC(20, true);
-                }
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
-            {
-                if (isRoom)
-                {
-                    if (photonView.IsMine && !isDead)
-                    {
-                        //피격 처리
-                        photonView.RPC("transformRPC", RpcTarget.All, true, Vector3.up * 10);
-                    }
-                }
-                else if (!isRoom && !isDead)
-                {
-                    transformRPC(true, Vector3.up * 10);
-                }
-            }
-        }
+        #region 사망처리
         [PunRPC]
-
-        void transformRPC(bool isOut, Vector2 tmpVec) 
+        void deadRPC()
         {
-            if (isOut) //맵 밖으로 나간 경우
+            //사망 처리
+            isDead = true;
+            //애니메이션
+            Character.SetState(AnimationState.Dead);
+            //효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+            //미니 UI 닫기
+            miniUI.fillAmount = 0;
+            //먼지 종료
+            MoveDust.Stop();
+            JumpDust.Stop();
+            //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
+            rigid.velocity = Vector2.zero;
+
+            //곧 죽음
+            Invoke("SoonDieRPC", 1.5f);
+        }
+        #endregion
+
+        #region 사망 뒤, 소멸
+        void SoonDieRPC()//죽었고 조금 뒤, 죽음에 대한 처리
+        {
+            //게임오브젝트 활성화
+            gameObject.SetActive(false);
+
+            //파괴 효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+
+            if (isRoom)
             {
-                transform.position = player.transform.position + Vector3.up * 10;
+                if (photonView.IsMine)
+                {
+                    //파괴 이펙트
+                    GameObject effect = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
+                    effect.SetActive(true);
+                    effect.transform.position = transform.position;
+                }
             }
-            else if (!isOut) //포탈 사용
-            {
-                transform.position = tmpVec;
-            }
-        }   
+            //파괴 이펙트
+            GameObject effect2 = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
+            effect2.SetActive(true);
+            effect2.transform.position = transform.position;
+        }
+        #endregion
     }
 }

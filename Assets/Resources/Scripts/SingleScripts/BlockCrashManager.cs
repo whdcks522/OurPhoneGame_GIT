@@ -133,7 +133,7 @@ public class BlockCrashManager : MonoBehaviour
 
 
             //블록 부모 조정
-            block.transform.parent = this.transform;
+            //block.transform.parent = this.transform;
             blockComponent.blockPoints = blockPoints;
 
             //블록 활성화

@@ -42,7 +42,7 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/SingleScene/Fly_1.unity
     guid: 27fb5fca9359e4e44845f96abc0b0898
   - enabled: 1
-    path: Assets/Resources/Scenes/SingleScene/Dog_0.unity
+    path: Assets/Resources/Scenes/Dog_0.unity
     guid: 1b8e7026249575c4eab210f9afb1257d
   - enabled: 1
     path: Assets/Resources/Scenes/MultyScene/Lobby.unity

@@ -15,7 +15,7 @@ namespace CartoonFX
     [RequireComponent(typeof(ParticleSystem))]
     public class CFXR_ParticleText : MonoBehaviour
     {
-        //-------------!!! 1) 텍스트 조절
+        //-------------!!!!!!!!!!!!!!!!!!!!!! 1) 텍스트 조절
         public string tmpText = "10";
         int tmpSize = 1;
 
@@ -189,12 +189,12 @@ namespace CartoonFX
             }
 
             if (newSize != null) this.size = newSize.Value;
-            if (newColor1 != null) this.color1 = newColor1.Value;
+            //if (newColor1 != null) this.color1 = newColor1.Value;     //-----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 3)자동적으로 color1이 고정되서 주석 처리함
             if (newColor2 != null) this.color2 = newColor2.Value;
             if (newBackgroundColor != null) this.backgroundColor = newBackgroundColor.Value;
             if (newLifetimeMultiplier != null) this.lifetimeMultiplier = newLifetimeMultiplier.Value;
 
-            //-----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 3)아래부분 한 줄 추가
+            //-----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 4)아래부분 한 줄 추가
             this.size = tmpSize;
 
             if (text == null || font == null || !font.IsValid())

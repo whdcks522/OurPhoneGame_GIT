@@ -43,7 +43,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     List<GameObject>[] blockPools;
 
     //4. 이펙트 리스트(2가 강한 폭발, 6이 약한 폭발),3은 안씀
-    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_Cure", "Explosion 2_PowerUp", "Text 52", "congratulation 9" };//
+    string[] effectNames = { "Explosion 2", "Explosion 3", "Explosion 6", "Explosion 2_Cure", "Explosion 2_PowerUp",
+                                "Text 52_Enemy", "Text 52_Player", "congratulation 9"};
     //이펙트 주소가 저장될 곳
     List<GameObject>[] effectPools;
 

@@ -1075,7 +1075,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         if (photonView.IsMine) 
                         {
                             //피격 텍스트 이펙트
-                            GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                            GameObject textEffect = gameManager.CreateObj("Text 52_Player", GameManager.PoolTypes.EffectType);
                             Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
                             textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.All, _dmg.ToString());
@@ -1085,7 +1085,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     else if (!PhotonNetwork.InRoom)
                     {
                         //피격 텍스트 이펙트
-                        GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                        GameObject textEffect = gameManager.CreateObj("Text 52_Player", GameManager.PoolTypes.EffectType);
                         Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
                         textEffectComponent.effectNameRPC(_dmg.ToString());
