@@ -15004,7 +15004,8 @@ MonoBehaviour:
   JumpDust: {fileID: 2465723098712406413}
   _inputX: 0
   _inputY: 0
-  curHealth: 100
+  maxHealth: 300
+  curHealth: 300
   miniUI: {fileID: 500615374362100254}
   battleUIManager: {fileID: 0}
   gameManager: {fileID: 0}
@@ -15069,7 +15070,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 25
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2

@@ -90,7 +90,16 @@ public class DogManager : MonoBehaviour
             //적 생성
             if (scenelevel == 0)
             {
+                
 
+
+                GameObject enemyGameObject = gameManager.CreateObj("Enemy_Goblin", GameManager.PoolTypes.EnemyType);
+                Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
+                enemyComponent.gameManager = gameManager;
+                //적 위치 조정
+                enemyComponent.transformRPC(false, dogPoints[1].transform.position);
+                //적 활성화
+                enemyComponent.activateRPC();
 
                 /*
                 if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석

@@ -58,9 +58,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     //이펙트 주소가 저장될 곳
     List<GameObject>[] objPools;
 
+    //7. 적 리스트
+    string[] enemyNames = { "Enemy_Goblin", "Enemy_Orc"};
+    //이펙트 주소가 저장될 곳
+    List<GameObject>[] enemyPools;
+
     public enum PoolTypes
     {
-        BulletType, BombType, BlockType, EffectType, WindType, ObjType //EnemyType, 
+        BulletType, BombType, BlockType, EffectType, WindType, ObjType, EnemyType, 
     }
 
     private void Awake()
@@ -97,6 +102,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         objPools = new List<GameObject>[objNames.Length];
         for (int index = 0; index < objNames.Length; index++)//풀 하나하나 초기화
             objPools[index] = new List<GameObject>();
+
+        //6. 오브젝트 풀 초기화(4개씩 수정)
+        enemyPools = new List<GameObject>[enemyNames.Length];
+        for (int index = 0; index < enemyNames.Length; index++)//풀 하나하나 초기화
+            enemyPools[index] = new List<GameObject>();
     }
 
     private void Start()
@@ -175,6 +185,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 tmpPools = objPools;
                 tmpNames = objNames;//awake에서 선언햇니
                 break;
+            case PoolTypes.EnemyType:
+                tmpPools = enemyPools;
+                tmpNames = enemyNames;//awake에서 선언햇니
+                break;
         }
 
         int index = NametoIndex(tmpNames, _name);
@@ -226,6 +240,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                     break;
                 case PoolTypes.ObjType:
                     objPools = tmpPools;
+                    break;
+                case PoolTypes.EnemyType:
+                    objPools = enemyPools;
                     break;
             }
         }   
@@ -291,13 +308,4 @@ public class GameManager : MonoBehaviourPunCallbacks
         */
     }
     #endregion
-
-
-    /*
-     //룸 설정
-        ExitGames.Client.Photon.Hashtable roomProperties = new ExitGames.Client.Photon.Hashtable();
-        roomProperties.Add("IsAllowedToEnter", false);//입장은 맨 처음 빼고 더이상 못들어옴
-        roomProperties.Add("IsAllowedToExit", true);//대기 중에는 나갈 수 있도록
-        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);//모두에게 적용됨-------
-     */
 }

@@ -34,8 +34,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
 
         [Header("----새로 추가----")]
+        public float maxHealth;
         public float curHealth;
-        float maxHealth;
 
         [Header("캐릭터 위의 미니 UI")]
         public Image miniUI;
@@ -81,14 +81,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             rigid = GetComponent<Rigidbody2D>();
             
             isRoom = PhotonNetwork.InRoom;
-            //체력 동기화
-            maxHealth = curHealth;
+            //환복
+            CharacterBuilder.Rebuild();
         }
 
-        void Start()
+        public void activateRPC() 
         {
+            isGround = false;
+
+            //체력 회복
+            curHealth = maxHealth;
+            miniUI.fillAmount = 1;
             //기존에 있던 것
             Character.SetState(AnimationState.Idle);
+
+            //오브젝트 활성화
+            isDead = false;
+            gameObject.SetActive(true);
         }
 
         #region xy 동기화
@@ -250,7 +259,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region 순간이동
         [PunRPC]
-        void transformRPC(bool isOut, Vector2 tmpVec)
+        public void transformRPC(bool isOut, Vector2 tmpVec)
         {
             if (isOut) //맵 밖으로 나간 경우
             {
@@ -279,12 +288,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (isEffect) 
                 {
+                    /*
                     if (PhotonNetwork.InRoom)
                     {
                         if (photonView.IsMine)
                         {
                             //피격 텍스트 이펙트
-                            GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                            GameObject textEffect = gameManager.CreateObj("Text 52_Enemy", GameManager.PoolTypes.EffectType);
                             Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
                             textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.All, _dmg.ToString());
@@ -294,12 +304,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     else if (!PhotonNetwork.InRoom)
                     {
                         //피격 텍스트 이펙트
-                        GameObject textEffect = gameManager.CreateObj("Text 52", GameManager.PoolTypes.EffectType);
+                        GameObject textEffect = gameManager.CreateObj("Text 52_Enemy", GameManager.PoolTypes.EffectType);
                         Effect textEffectComponent = textEffect.GetComponent<Effect>();
 
                         textEffectComponent.effectNameRPC(_dmg.ToString());
                         textEffectComponent.effectOnRPC(transform.position);
                     }
+                    */
 
                     if (curHealth > 0)//피격
                     {
