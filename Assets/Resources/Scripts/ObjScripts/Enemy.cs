@@ -219,9 +219,27 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         #region 칼과 충돌시 체력 감소
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("playerSword"))
+            if (collision.gameObject.CompareTag("playerSword"))//칼과 충돌했을 때
             {
                 int damage = collision.gameObject.GetComponent<Sword>().swordDamage;
+                if (isRoom)
+                {
+                    //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
+                    if (photonView.IsMine)
+                    {
+                        //피격 처리
+                        photonView.RPC("damageControlRPC", RpcTarget.All, damage, true);
+                    }
+                }
+                else if (!isRoom)
+                {
+                    //피격 처리
+                    damageControlRPC(damage, true);
+                }
+            }
+            else if (collision.gameObject.CompareTag("Bomb"))//폭탄과 충돌했을 때
+            {
+                int damage = collision.gameObject.GetComponent<Bomb>().bombDmg;
                 if (isRoom)
                 {
                     //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
@@ -292,30 +310,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 if (isEffect) 
                 {
-                    /*
-                    if (PhotonNetwork.InRoom)
-                    {
-                        if (photonView.IsMine)
-                        {
-                            //피격 텍스트 이펙트
-                            GameObject textEffect = gameManager.CreateObj("Text 52_Enemy", GameManager.PoolTypes.EffectType);
-                            Effect textEffectComponent = textEffect.GetComponent<Effect>();
-
-                            textEffectComponent.photonView.RPC("effectNameRPC", RpcTarget.All, _dmg.ToString());
-                            textEffectComponent.photonView.RPC("effectOnRPC", RpcTarget.All, transform.position);
-                        }
-                    }
-                    else if (!PhotonNetwork.InRoom)
-                    {
-                        //피격 텍스트 이펙트
-                        GameObject textEffect = gameManager.CreateObj("Text 52_Enemy", GameManager.PoolTypes.EffectType);
-                        Effect textEffectComponent = textEffect.GetComponent<Effect>();
-
-                        textEffectComponent.effectNameRPC(_dmg.ToString());
-                        textEffectComponent.effectOnRPC(transform.position);
-                    }
-                    */
-
                     if (curHealth > 0)//피격
                     {
                         //효과음

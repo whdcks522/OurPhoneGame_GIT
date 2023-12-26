@@ -317,9 +317,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 263677236813503384}
   maxSwordIndex: 8
   curSwordIndex: 5
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &1822214940800411375
 MonoBehaviour:
@@ -1240,9 +1242,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 4457625464112178257}
   maxSwordIndex: 8
   curSwordIndex: 3
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &2381587850975651875
 MonoBehaviour:
@@ -6541,7 +6545,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3847358460461224433}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -6741,9 +6745,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 4129060967423004733}
   maxSwordIndex: 8
   curSwordIndex: 4
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &6317733242623581196
 MonoBehaviour:
@@ -11970,9 +11976,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 1821614375241386906}
   maxSwordIndex: 8
   curSwordIndex: 8
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &3317951420070708183
 MonoBehaviour:
@@ -12313,9 +12321,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 1005886793439678650}
   maxSwordIndex: 8
   curSwordIndex: 6
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &3856291898889062028
 MonoBehaviour:
@@ -17642,9 +17652,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 6259890221695978630}
   maxSwordIndex: 8
   curSwordIndex: 1
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &7406846429251221552
 MonoBehaviour:
@@ -18103,9 +18115,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 1986923581611249642}
   maxSwordIndex: 8
   curSwordIndex: 7
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &4077871818435755315
 MonoBehaviour:
@@ -18451,9 +18465,11 @@ MonoBehaviour:
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
   saveSwordVec: {x: 0, y: 0}
+  isReadyExplode: 1
   trailRenderer: {fileID: 7964095566423556670}
   maxSwordIndex: 8
   curSwordIndex: 2
+  swordDamage: 10
   battleUIManager: {fileID: 0}
 --- !u!114 &3559113474980580789
 MonoBehaviour:

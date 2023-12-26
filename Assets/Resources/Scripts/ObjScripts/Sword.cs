@@ -43,7 +43,7 @@ public class Sword : MonoBehaviourPunCallbacks
     public Vector2 saveSwordVec = Vector3.zero;
 
     //터져도 되는지(영역 안에서 수납시 터지는 경우가 있음)
-    bool isReadyExplode  = true;
+    public bool isReadyExplode  = true;
 
     //경로
     public TrailRenderer trailRenderer;
@@ -99,7 +99,7 @@ public class Sword : MonoBehaviourPunCallbacks
     private void OnEnable()
     {
         trailRenderer.Clear();
-        swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);//transform이 나을듯?
+        swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);
         isReadyExplode = true;
     }
 
@@ -223,7 +223,7 @@ public class Sword : MonoBehaviourPunCallbacks
                     if (photonView.IsMine)
                     {
                         //플레이어 폭파
-                        createBomb(player.transform.position);
+                        createBomb(player.transform.position);//만드는 쪽에서 RPC 실행
                         //무기 폭파
                         if (gameObject.activeSelf)
                             createBomb(transform.position);
@@ -231,24 +231,29 @@ public class Sword : MonoBehaviourPunCallbacks
                 }
                 else if (!PhotonNetwork.InRoom)
                 {
+                    //안하면 안터지더라
+                    isReadyExplode = true;
                     //플레이어 폭파
                     createBomb(player.transform.position);
+
                     //무기 폭파
-                    if (gameObject.activeSelf)
+                    if (gameObject.activeSelf) 
                         createBomb(transform.position);
                 }
             }
 
             //등의 칼 활성화
             characterControls.backSwords.SetActive(true);
-            //다시 칼 비활성화
+            //폭탄 금지(안하면 칼 터짐)
+            isReadyExplode = false;
+
+            //모든 칼 비활성화
             for (int i = 0; i <= maxSwordIndex - 1; i++)
             {
                 GameObject tmpSword = characterControls.swordParent.transform.GetChild(i).gameObject;
                 Sword tmpSwordComponent = tmpSword.GetComponent<Sword>();
 
-                //칼 활성화
-                tmpSwordComponent.isReadyExplode = false;
+                //칼 오브젝트 비활성화
                 tmpSword.SetActive(false);
 
                 if (tmpSwordComponent != null)
@@ -256,12 +261,15 @@ public class Sword : MonoBehaviourPunCallbacks
                     tmpSwordComponent.swordQueue.Clear();//큐 초기화
                 }
             }
+            
         }
         //---------- 죽을 때 오류
         else if (curSwordIndex != 1)
         {
-            if (upperSword.gameObject.activeSelf)//꺼져 있을 시
+            //Debug.Log("AA");
+            //if (upperSword.gameObject.activeSelf)//켜져 있을 시
             {
+                //Debug.Log("BB");
                 transform.position = upperSword.swordQueueInfo.swordPos;
             }
         }
@@ -271,131 +279,40 @@ public class Sword : MonoBehaviourPunCallbacks
     #region 폭탄 생성
     void createBomb(Vector3 bombPos)
     {
-        if (!isReadyExplode) 
-            return;
-
-        //폭탄 생성
-        GameObject bomb = null;
-
-        if (PhotonNetwork.InRoom)
+        if (isReadyExplode)
         {
-            if (photonView.IsMine)
+
+            //폭탄 생성
+            GameObject bomb = null;
+
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    //무기 수 1 감소
+                    characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, -1);
+
+                    bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
+
+                    //여기 없는 경우 오류 날 수도 있음
+                    Bomb bombComponent = bomb.GetComponent<Bomb>();
+                    //폭탄 해당 위치에 활성화
+                    bombComponent.photonView.RPC("bombOnRPC", RpcTarget.AllBuffered, bombPos);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)
             {
                 //무기 수 1 감소
-                characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, -1);
+                characterControls.swordCountRPC(-1);
 
                 bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
 
                 //여기 없는 경우 오류 날 수도 있음
                 Bomb bombComponent = bomb.GetComponent<Bomb>();
                 //폭탄 해당 위치에 활성화
-                //bombComponent.bombOnRPC(bombPos);
-                bombComponent.photonView.RPC("bombOnRPC", RpcTarget.AllBuffered, bombPos);
+                bombComponent.bombOnRPC(bombPos);
             }
-        }
-        else if (!PhotonNetwork.InRoom)
-        {
-            //무기 수 1 감소
-            characterControls.swordCountRPC(-1);
-
-            bomb = battleUIManager.gameManager.CreateObj("Broken Phantasm", GameManager.PoolTypes.BombType);
-
-            //여기 없는 경우 오류 날 수도 있음
-            Bomb bombComponent = bomb.GetComponent<Bomb>();
-            //폭탄 해당 위치에 활성화
-            bombComponent.bombOnRPC(bombPos);
         }
     }
     #endregion
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.CompareTag("EnemyBullet"))
-        {
-            Bullet bullet = other.GetComponent<Bullet>();
-
-            if (bullet.bulletEffectType == Bullet.BulletEffectType.UnBreakable)
-                return;
-
-            //총알 파괴와 회복
-            if (PhotonNetwork.InRoom)
-            {
-                if (photonView.IsMine)
-                {
-                    //총알 파괴
-                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.All);
-                    //회복
-                    characterControls.photonView.RPC("healOffRPC", RpcTarget.All, bullet.bulletHeal);
-                }
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                //총알 파괴
-                bullet.bulletOffRPC();
-                //회복
-                characterControls.healControlRPC(bullet.bulletHeal);
-            }
-
-            if (bullet.bulletEffectType == Bullet.BulletEffectType.PowerUp)//파워업의 경우
-            {
-                if (PhotonNetwork.InRoom)
-                {
-                    if (photonView.IsMine)
-                    {
-                        //무기 수 1 증가
-                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, 1);
-                    }
-                }
-                else if (!PhotonNetwork.InRoom)
-                {
-                    //무기 수 1 증가
-                    characterControls.swordCountRPC(1);
-                }
-
-            }
-            else if (bullet.bulletEffectType == Bullet.BulletEffectType.Normal)
-            {
-                //일반 효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-            }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.transform.CompareTag("Block"))
-        {
-            Block block = other.gameObject.GetComponent<Block>();
-            if (PhotonNetwork.InRoom)
-            {
-                if (photonView.IsMine)
-                {
-                    block.photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * swordDamage);
-                }
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                block.healthControl(Time.deltaTime * swordDamage);
-            }
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.transform.CompareTag("Enemy"))
-        {
-            Enemy enemyScript = other.gameObject.GetComponent<Enemy>();
-            if (PhotonNetwork.InRoom)
-            {
-                if (photonView.IsMine)
-                {
-                    enemyScript.photonView.RPC("damageControlRPC", RpcTarget.AllBuffered, swordDamage, true);
-                }
-            }
-            else if (!PhotonNetwork.InRoom)
-            {
-                enemyScript.damageControlRPC(swordDamage, true);
-            }
-        }
-    }
 }

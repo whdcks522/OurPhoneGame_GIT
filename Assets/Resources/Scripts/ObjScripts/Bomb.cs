@@ -13,18 +13,11 @@ public class Bomb : MonoBehaviourPunCallbacks
     float curTime = 0f;
     [Header("폭탄의 최대 수명")]
     public int bombDmg;
-    BattleUIManager battleUIManager;
-    GameManager gameManager;
-    CharacterControls characterControls;
     ParticleSystem particleSystem;
     
 
     private void Awake()
     {
-        battleUIManager = BattleUIManager.Instance.GetComponent<BattleUIManager>();
-        gameManager = battleUIManager.gameManager;
-        characterControls = gameManager.player.GetComponent<CharacterControls>();
-
         particleSystem = GetComponent<ParticleSystem>();
     }
 
@@ -65,48 +58,4 @@ public class Bomb : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
     #endregion
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.CompareTag("EnemyBullet"))//총알과 충돌
-        {
-            Bullet bullet = other.GetComponent<Bullet>();
-
-            if (PhotonNetwork.InRoom)//멀티의 경우
-            {
-                if (photonView.IsMine)
-                {
-                    //총알 파괴
-                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
-                    //회복
-                    characterControls.photonView.RPC("healOffRPC", RpcTarget.AllBuffered, bullet.bulletHeal);
-                }
-            }
-            else if (!PhotonNetwork.InRoom)//싱글의 경우
-            {
-                //총알 파괴
-                bullet.bulletOffRPC();
-                //회복
-                characterControls.healControlRPC(bullet.bulletHeal);
-            }
-
-            //파워업의 경우
-            if (bullet.bulletEffectType == Bullet.BulletEffectType.PowerUp)
-            {
-                if (PhotonNetwork.InRoom)
-                {
-                    if (photonView.IsMine)
-                    {
-                        //무기 수 1 증가
-                        characterControls.photonView.RPC("swordCountRPC", RpcTarget.AllBuffered, 1);
-                    }
-                }
-                else if (!PhotonNetwork.InRoom)
-                {
-                    //무기 수 1 증가
-                    characterControls.swordCountRPC(1);
-                }
-            }
-        }
-    }
 }

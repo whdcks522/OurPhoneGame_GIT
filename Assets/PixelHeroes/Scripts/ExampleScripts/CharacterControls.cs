@@ -141,7 +141,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         battleUIManager.bigHealthBar.value = 0;
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
-                        //칼 비활성화
+                        //칼 비활성화(폭발)
                         SwordComponent.leaderSwordExitRPC(2);
                         //미니 UI 닫기
                         miniUI.SetActive(false);
@@ -995,32 +995,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.transform.CompareTag("EnemyBullet"))
-            {
-                Bullet bullet = other.GetComponent<Bullet>();
-                int dmg = bullet.bulletDamage;
-
-                if (!bullet.isAlreadyHit) 
-                {
-                    if (PhotonNetwork.InRoom)
-                    {
-                        if (photonView.IsMine)
-                        {
-                            //피격 처리
-                            photonView.RPC("damageControlRPC", RpcTarget.All, dmg, true);
-                            //투사체 파괴
-                            bullet.photonView.RPC("bulletOffRPC", RpcTarget.All);
-                        }
-                    }
-                    else if (!PhotonNetwork.InRoom)
-                    {
-                        //피격 처리
-                        damageControlRPC(dmg, true);
-                        //투사체 파괴
-                        bullet.bulletOffRPC();
-                    }
-                }
-            }
             if (other.transform.CompareTag("Outline") || other.transform.CompareTag("RedRose")) //맵 밖으로 나가지면 종료
             {
                 if (PhotonNetwork.InRoom)
@@ -1036,7 +1010,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     changeStateRPC(PlayerStateType.Dead, true);
                 }
             }
-            if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
+            else if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
             {
                 //바람 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
@@ -1141,7 +1115,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         
         #endregion
 
-        #region 칼로 파괴시, 회복
+        #region 오브젝트 파괴시, 회복
         [PunRPC]
         public void healControlRPC(int _heal)
         {

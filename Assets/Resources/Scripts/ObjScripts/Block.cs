@@ -304,6 +304,24 @@ public class Block : MonoBehaviourPunCallbacks
         }
     }
 
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.transform.CompareTag("playerSword"))
+        {
+            int damage = other.gameObject.GetComponent<Sword>().swordDamage;
+            if (PhotonNetwork.InRoom)
+            {
+                if (photonView.IsMine)
+                {
+                    photonView.RPC("healthControl", RpcTarget.AllBuffered, Time.deltaTime * damage);
+                }
+            }
+            else if (!PhotonNetwork.InRoom)
+            {
+                healthControl(Time.deltaTime * damage);
+            }
+        }
+    }
 
     //콜라이더가 3개여서 충돌 제어용
     int threeCount = 0;
