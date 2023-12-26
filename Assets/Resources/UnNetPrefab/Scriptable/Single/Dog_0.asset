@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dog_0
   m_EditorClassIdentifier: 
   singleType: 4
-  shader: {fileID: 2100000, guid: f06a3cd4443120a408f3aaf3a1bfc01c, type: 2}
+  shader: {fileID: 2100000, guid: 9b8c98c3f5d11ce40a08436bb5d8fbf2, type: 2}
   icon: {fileID: 21300000, guid: 4fcc8ec004f86fd45b728c5f5905823b, type: 3}
   sceneInnerTitle: Dog_0
   sceneOutterTitle: "\uAC1C\uC2F8\uC6C0 0"
