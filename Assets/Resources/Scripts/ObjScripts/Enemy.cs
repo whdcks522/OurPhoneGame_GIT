@@ -73,7 +73,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //멀티인지 솔로인지
         bool isRoom;
         //죽었는지
-        bool isDead;
+        public bool isDead;
         [Header("플레이어 객체")]
         public GameObject player;
         public CharacterControls characterControls;
@@ -140,6 +140,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //시간 더하기
             curTime += Time.deltaTime;
 
+            //if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
+
             if (_inputX != 0)//좌우 방향 전환
             {
                 TurnRPC(_inputX);
@@ -161,7 +163,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                    hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block")) ||
                    hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword")) ||
                    hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Obj")) ||
-                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")) ||
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Enemy")))
                 {
                     hitCol = hitObj.collider;
 
@@ -388,8 +391,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        public void reloadRPC()
+        public void reloadRPC(float tmpF)
         {
+            Character.Animator.SetTrigger("Shot");
+
+            maxTime = tmpTime + UnityEngine.Random.Range(-1 * tmpF, tmpF);
             curTime = 0;
         }
     }

@@ -361,7 +361,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void KeyInput() 
         {
             if (curHealth <= 0 || !isLeftControl) return;
-
             #region 안쓰는 부분
             // Builder characters only.
             /*
@@ -514,7 +513,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                    hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Block")) ||
                    hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("PlayerSword")) ||
                    hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Obj")) ||
-                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Player")) ||
+                   hitObj.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Enemy")))
                 {
                     hitCol = hitObj.collider;
 

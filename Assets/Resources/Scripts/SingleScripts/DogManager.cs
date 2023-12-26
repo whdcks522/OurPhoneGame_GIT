@@ -82,7 +82,7 @@ public class DogManager : MonoBehaviour
             }
 
             //시간 초기화
-            curTime = 0f;
+            curTime = -100f;
 
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);

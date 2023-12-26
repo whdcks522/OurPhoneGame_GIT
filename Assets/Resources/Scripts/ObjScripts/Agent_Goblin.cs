@@ -11,6 +11,7 @@ public class Agent_Goblin : MonoBehaviour
     public BulletShotter bulletShotter;
     public GameObject player;
     public CharacterControls characterControls;
+    AudioManager audioManager;
 
     void Start()
     {
@@ -20,14 +21,15 @@ public class Agent_Goblin : MonoBehaviour
         characterControls = enemy.characterControls;
 
         bulletShotter.gameManager = enemy.gameManager;
+
+        audioManager = enemy.battleUIManager.audioManager;
     }
 
     void Update()
     {
         if (enemy.maxTime <= enemy.curTime) 
         {
-            enemy.reloadRPC();
-            //float randomValue = Random.Range(-1f, 1f);
+            enemy.reloadRPC(1f);
 
             tripleCor = StartCoroutine(tripleShot());
         }
@@ -41,7 +43,7 @@ public class Agent_Goblin : MonoBehaviour
 
 
     Coroutine tripleCor;
-    WaitForSeconds wait0_25 = new WaitForSeconds(0.25f);
+    WaitForSeconds wait0_15 = new WaitForSeconds(0.15f);
     IEnumerator tripleShot() 
     {
         //고개 전환
@@ -50,17 +52,18 @@ public class Agent_Goblin : MonoBehaviour
             dir = -1;
         enemy.TurnRPC(dir);
         //저격 애니메이션 재생
-        characterControls.Character.Animator.SetTrigger("Shot");
+        
+
+        
 
         //저격
-        yield return wait0_25;
-        yield return wait0_25;
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
+        yield return wait0_15;
 
-        yield return wait0_25;
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
-
-        yield return wait0_25;
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
+        for (int i = 0; i < 3; i++) 
+        {
+            yield return wait0_15;
+            audioManager.PlaySfx(AudioManager.Sfx.Arrow);
+            bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
+        } 
     }
 }
