@@ -14919,7 +14919,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4567551690595120229
 Transform:
   m_ObjectHideFlags: 0
@@ -14929,7 +14929,7 @@ Transform:
   m_GameObject: {fileID: 5974046474224742084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7772805651078444140}
@@ -15010,7 +15010,8 @@ MonoBehaviour:
   maxTime: 0
   tmpTime: 0
   curTime: 0
-  miniUI: {fileID: 500615374362100254}
+  miniUI: {fileID: 0}
+  miniHealth: {fileID: 0}
   battleUIManager: {fileID: 0}
   gameManager: {fileID: 0}
   rigid: {fileID: 2394127353045944079}

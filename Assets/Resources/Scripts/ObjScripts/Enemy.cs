@@ -78,7 +78,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public GameObject player;
         public CharacterControls characterControls;
         //[Header("머신러닝 중인지")]
-        //public bool isML;
+        public bool isML;
 
         public enum EnemyType { Goblin, Orc }//쓸려나?
         public EnemyType enemyType;
@@ -98,8 +98,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Start()
         {
-            player = gameManager.player;
-            characterControls = gameManager.characterControl;
+            if (!isML) 
+            {
+                player = gameManager.player;
+                characterControls = gameManager.characterControl;
+            }
         }
 
         [PunRPC]
