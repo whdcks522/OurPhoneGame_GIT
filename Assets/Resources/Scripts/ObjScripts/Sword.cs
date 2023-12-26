@@ -35,9 +35,10 @@ public class Sword : MonoBehaviourPunCallbacks
     //플레이어의 함수
     public CharacterControls characterControls;
 
-    [Header("칼과 플레이어 사이의 거리 계산")]
+    [Header("칼과 플레이어 사이의 현재 거리")]
     public float swordDir;
-
+    [Header("칼과 플레이어 사이의 최대 거리")]
+    public float maxDir;
 
     [Header("리더의 속도")]
     public Vector2 saveSwordVec = Vector3.zero;
@@ -105,25 +106,41 @@ public class Sword : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (PhotonNetwork.InRoom && photonView.IsMine) 
+        Vector2 swordPos = transform.position;
+        Vector2 playerPos = player.transform.position;
+        if (PhotonNetwork.InRoom) 
         {
-            // 두 위치 간의 거리를 계산합니다.
-            Vector2 swordPos = transform.position;
-            Vector2 playerPos = player.transform.position;
+            if(photonView.IsMine) 
+            {
+                // 두 위치 간의 거리를 계산합니다.
+                swordDir = Vector3.Distance(swordPos, playerPos) / 20;
 
-            swordDir = Vector3.Distance(swordPos, playerPos) / 20;
+                if (swordDir > maxDir) //자신의 영역에서 벗어 났을 때만
+                {
+                    //플레이어와 리더 칼의 거리 연산 초기화
+                    swordDir = 0;
+                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 1);
+                }
+            }
         }
         else if (!PhotonNetwork.InRoom)
         {
-            if (curSwordIndex == 1) 
-            {
-                // 두 위치 간의 거리를 계산합니다.
-                Vector2 swordPos = transform.position;
-                Vector2 playerPos = player.transform.position;
+            // 두 위치 간의 거리를 계산합니다
+            swordDir = Vector3.Distance(swordPos, playerPos) / 20;
 
-                swordDir = Vector3.Distance(swordPos, playerPos) / 20;
-            }  
+            if (swordDir > maxDir) //자신의 영역에서 벗어 났을 때만
+            {
+                //플레이어와 리더 칼의 거리 연산 초기화
+                Debug.Log("aaa");
+                swordDir = 0;
+                leaderSwordExitRPC(1);
+            }
         }
+        
+
+        //-----
+
+        //----
 
         //큐에 정보 삽입
         swordQueue.Enqueue(new SwordInfo(transform.position, saveSwordVec));
@@ -159,15 +176,19 @@ public class Sword : MonoBehaviourPunCallbacks
 
         if (curSwordIndex < characterControls.curSwordCount)
             lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
+
+
     }
 
+    /*
     [PunRPC]
     void saveSwordRPC(SwordInfo tmpSwordInfo) 
     {
         lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
     }
+    */
 
-
+    /*
     private void OnTriggerExit2D(Collider2D other)
     {
         if (PhotonNetwork.InRoom)//멀티 중이라면
@@ -193,6 +214,7 @@ public class Sword : MonoBehaviourPunCallbacks
             }
         }
     }
+    */
 
     #region 칼이 범위 밖으로 이탈 시
     [PunRPC]
@@ -281,7 +303,6 @@ public class Sword : MonoBehaviourPunCallbacks
     {
         if (isReadyExplode)
         {
-
             //폭탄 생성
             GameObject bomb = null;
 

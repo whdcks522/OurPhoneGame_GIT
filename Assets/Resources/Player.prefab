@@ -316,6 +316,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 263677236813503384}
@@ -1241,6 +1242,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 4457625464112178257}
@@ -6744,6 +6746,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 4129060967423004733}
@@ -11975,6 +11978,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 1821614375241386906}
@@ -12320,6 +12324,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 1005886793439678650}
@@ -17651,6 +17656,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 6259890221695978630}
@@ -18114,6 +18120,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 1986923581611249642}
@@ -18464,6 +18471,7 @@ MonoBehaviour:
   player: {fileID: 5974046474224742084}
   characterControls: {fileID: 1454313627835892949}
   swordDir: 0
+  maxDir: 0.55
   saveSwordVec: {x: 0, y: 0}
   isReadyExplode: 1
   trailRenderer: {fileID: 7964095566423556670}
