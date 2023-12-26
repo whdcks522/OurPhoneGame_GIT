@@ -50,7 +50,7 @@ public class Block : MonoBehaviourPunCallbacks
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
 
-    public BoxCollider2D []boxColliders;
+    public BoxCollider2D []boxColliders;//동시 충돌 해결할려고 만들었다가 안씀
 
     private void Awake()
     {
@@ -71,11 +71,6 @@ public class Block : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
-        //콜라이더 비활성화
-        for (int i = 0; i < boxColliders.Length; i++)
-        {
-            //boxColliders[i].enabled = true;
-        }
         //체력 관리
         curHealth = maxHealth;
 
@@ -117,10 +112,6 @@ public class Block : MonoBehaviourPunCallbacks
         //게임오브젝트 활성화
         gameObject.SetActive(false);
         //콜라이더 비활성화
-        for (int i = 0; i < boxColliders.Length; i++) 
-        {
-            //boxColliders[i].enabled = false;
-        }
 
         if (isBreak) //부순경우
         {
@@ -134,7 +125,6 @@ public class Block : MonoBehaviourPunCallbacks
                 GameObject effect = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
-                //effect.transform.parent = transform.parent.transform;
             }
             else if (blockEffectType == BlockEffectType.PowerUp)
             {
@@ -174,13 +164,11 @@ public class Block : MonoBehaviourPunCallbacks
             //경고 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Warn);
             
-
             //강한 블록 생성
             GameObject block = gameManager.CreateObj("HardBlock", GameManager.PoolTypes.BlockType);
             Block blockComponent = block.GetComponent<Block>();
 
             //블록 부모 조정
-            //block.transform.parent = transform.parent.transform;
             blockComponent.blockPoints = blockPoints;
 
             //블록 활성화

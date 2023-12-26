@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] multyBgmClips;
 
 
-    public enum Sfx { PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver, Summon, Block, Warn, Typing, Wind }
+    public enum Sfx { PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver, Summon, Block, Warn, Typing, Wind, Arrow, Slash }
 
     [Header("파워 업 Sfx")]
     public AudioClip[] powerUpSfxClips;
@@ -56,6 +56,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] typingSfxClips;
     [Header("바람 Sfx")]
     public AudioClip[] windSfxClips;
+    [Header("화살 Sfx")]
+    public AudioClip[] arrowSfxClips;
+    [Header("베기 Sfx")]
+    public AudioClip[] slashSfxClips;
 
 
     BattleUIManager battleUIManager;
@@ -202,6 +206,12 @@ public class AudioManager : MonoBehaviour
                     break;
                 case Sfx.Wind:
                     tmpSfxClips = windSfxClips;
+                    break;
+                case Sfx.Arrow:
+                    tmpSfxClips = arrowSfxClips;
+                    break;
+                case Sfx.Slash:
+                    tmpSfxClips = slashSfxClips;
                     break;
             }
 

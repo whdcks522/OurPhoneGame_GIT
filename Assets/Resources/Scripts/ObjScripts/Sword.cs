@@ -102,6 +102,7 @@ public class Sword : MonoBehaviourPunCallbacks
         trailRenderer.Clear();
         swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);
         isReadyExplode = true;
+        //swordDir = 0;
     }
 
     void FixedUpdate()
@@ -118,7 +119,6 @@ public class Sword : MonoBehaviourPunCallbacks
                 if (swordDir > maxDir) //자신의 영역에서 벗어 났을 때만
                 {
                     //플레이어와 리더 칼의 거리 연산 초기화
-                    swordDir = 0;
                     photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 1);
                 }
             }
@@ -131,8 +131,6 @@ public class Sword : MonoBehaviourPunCallbacks
             if (swordDir > maxDir) //자신의 영역에서 벗어 났을 때만
             {
                 //플레이어와 리더 칼의 거리 연산 초기화
-                Debug.Log("aaa");
-                swordDir = 0;
                 leaderSwordExitRPC(1);
             }
         }
@@ -179,42 +177,6 @@ public class Sword : MonoBehaviourPunCallbacks
 
 
     }
-
-    /*
-    [PunRPC]
-    void saveSwordRPC(SwordInfo tmpSwordInfo) 
-    {
-        lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
-    }
-    */
-
-    /*
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (PhotonNetwork.InRoom)//멀티 중이라면
-        {
-            if (other.transform.CompareTag("PlayerSwordArea") && photonView.IsMine)//리더 검이 충돌 했다면
-            {
-                PhotonView tmpPhotonView = other.gameObject.GetComponent<PhotonView>();
-                if (tmpPhotonView.IsMine) //자신의 영역에서 벗어 났을 때만
-                {
-                    //플레이어와 리더 칼의 거리 연산 초기화
-                    swordDir = 0;
-                    photonView.RPC("leaderSwordExitRPC", RpcTarget.AllBuffered, 1);
-                }
-            }
-        }
-        else //1인이라면
-        {
-            if (other.transform.CompareTag("PlayerSwordArea"))//리더 검이 충돌 했다면  && curSwordIndex == 1
-            {
-                //플레이어와 리더 칼의 거리 연산 초기화
-                swordDir = 0;
-                leaderSwordExitRPC(1);
-            }
-        }
-    }
-    */
 
     #region 칼이 범위 밖으로 이탈 시
     [PunRPC]
@@ -288,12 +250,7 @@ public class Sword : MonoBehaviourPunCallbacks
         //---------- 죽을 때 오류
         else if (curSwordIndex != 1)
         {
-            //Debug.Log("AA");
-            //if (upperSword.gameObject.activeSelf)//켜져 있을 시
-            {
-                //Debug.Log("BB");
-                transform.position = upperSword.swordQueueInfo.swordPos;
-            }
+            transform.position = upperSword.swordQueueInfo.swordPos;
         }
     }
     #endregion

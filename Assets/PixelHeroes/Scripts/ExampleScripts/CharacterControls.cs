@@ -362,6 +362,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             if (curHealth <= 0 || !isLeftControl) return;
 
+            #region 안쓰는 부분
+            // Builder characters only.
+            /*
             if (Input.GetKeyDown(KeyCode.A)) Character.Animator.SetTrigger("Attack");
             else if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
             else if (Input.GetKeyDown(KeyCode.P)) Character.Animator.SetTrigger("Push");
@@ -372,9 +375,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             else if (Input.GetKeyUp(KeyCode.B)) Character.SetState(AnimationState.Ready);
             else if (Input.GetKeyDown(KeyCode.D)) Character.SetState(AnimationState.Dead);
 
-            #region 안쓰는 부분
-            // Builder characters only.
-            /*
+            
             else if (Input.GetKeyDown(KeyCode.Alpha1)) Character.Animator.SetTrigger("Slash");
             else if (Input.GetKeyDown(KeyCode.O)) Character.Animator.SetTrigger("Shot");
             else if (Input.GetKeyDown(KeyCode.F)) Character.Animator.SetTrigger("Fire1H");

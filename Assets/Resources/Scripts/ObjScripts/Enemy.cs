@@ -40,16 +40,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public float curHealth;
         [Header("플레이어의 회복량")]
         public int playerHeal;
+        [Header("적의 최대 공격 대기 시간")]
+        public float maxTime;
+        [Header("적의 임시 공격 대기 시간")]
+        public float tmpTime;
+        [Header("적의 현재 공격 대기 시간")]
+        public float curTime;
 
         [Header("캐릭터 위의 미니 UI")]
-        public Image miniUI;
+        public GameObject miniUI;
+        public Image miniHealth;
 
         //좌우 반전을 위해 필요함
         private Vector3 dirVec = new Vector3(1, 1, 1);
 
         public BattleUIManager battleUIManager;
         public GameManager gameManager;
-        Rigidbody2D rigid;
+        public Rigidbody2D rigid;
         [Header("Rigidbody 점프력")]
         public int jumpForce;
 
@@ -69,11 +76,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isDead;
         [Header("플레이어 객체")]
         public GameObject player;
+        public CharacterControls characterControls;
         //[Header("머신러닝 중인지")]
         //public bool isML;
 
-        public enum EnemyType { Goblin, Orc }
-        //public EnemyType enemyType;
+        public enum EnemyType { Goblin, Orc }//쓸려나?
+        public EnemyType enemyType;
 
         private void Awake()
         {
@@ -81,21 +89,29 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             PhotonNetwork.SendRate = 60;
             PhotonNetwork.SerializationRate = 30;
-
-            rigid = GetComponent<Rigidbody2D>();
             
+
             isRoom = PhotonNetwork.InRoom;
             //환복
             CharacterBuilder.Rebuild();
         }
 
+        private void Start()
+        {
+            player = gameManager.player;
+            characterControls = gameManager.characterControl;
+        }
+
+        [PunRPC]
         public void activateRPC() 
         {
             isGround = false;
-
+            curTime = 0;
+            //가속 초기화
+            rigid.velocity = Vector2.zero;
             //체력 회복
             curHealth = maxHealth;
-            miniUI.fillAmount = 1;
+            miniHealth.fillAmount = 1;
             //기존에 있던 것
             Character.SetState(AnimationState.Idle);
 
@@ -113,11 +129,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        #region 이동
+        #region 이동과 시간 축적
         public void FixedUpdate()
         {
             if (isDead)
+            {
+                rigid.velocity = new Vector3(0, rigid.velocity.y);
                 return;
+            }
+            //시간 더하기
+            curTime += Time.deltaTime;
 
             if (_inputX != 0)//좌우 방향 전환
             {
@@ -203,7 +224,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region Scale을 돌려서 좌우 반전 적용
         [PunRPC]
-        void TurnRPC(int direction)
+        public void TurnRPC(int direction)
         {
             var scale = Character.transform.localScale;
 
@@ -216,8 +237,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        #region 칼과 충돌시 체력 감소
-        private void OnCollisionEnter2D(Collision2D collision)
+        #region 충돌 관리
+        private void OnCollisionStay2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("playerSword"))//칼과 충돌했을 때
             {
@@ -228,18 +249,27 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.All, damage, true);
+                        photonView.RPC("damageControlRPC", RpcTarget.All, 50 * damage * Time.deltaTime, true);
                     }
                 }
                 else if (!isRoom)
                 {
                     //피격 처리
-                    damageControlRPC(damage, true);
+                    damageControlRPC(50 * damage * Time.deltaTime, true);
                 }
             }
-            else if (collision.gameObject.CompareTag("Bomb"))//폭탄과 충돌했을 때
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
             {
-                int damage = collision.gameObject.GetComponent<Bomb>().bombDmg;
+                transform.position = player.transform.position + Vector3.up * 10;
+                activateRPC();
+            }
+            else if (other.gameObject.CompareTag("Bomb"))//폭탄과 충돌했을 때
+            {
+                int damage = other.gameObject.GetComponent<Bomb>().bombDmg;
                 if (isRoom)
                 {
                     //내 플레이어에 남의 칼이 왔으며, 전투 허가가 났을 때
@@ -256,54 +286,20 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
             }
         }
+    
         #endregion
 
-        #region 게임 경계에 충돌 시, 순간이동
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
-            {
-                if (isRoom)
-                {
-                    if (photonView.IsMine && !isDead)
-                    {
-                        //피격 처리
-                        photonView.RPC("transformRPC", RpcTarget.All, true, Vector3.up * 10);
-                    }
-                }
-                else if (!isRoom && !isDead)
-                {
-                    transformRPC(true, Vector3.up * 10);
-                }
-            }
-        }
-        #endregion
-
-        #region 순간이동
-        [PunRPC]
-        public void transformRPC(bool isOut, Vector2 tmpVec)
-        {
-            if (isOut) //맵 밖으로 나간 경우
-            {
-                transform.position = player.transform.position + Vector3.up * 10;
-            }
-            else if (!isOut) //포탈 사용
-            {
-                transform.position = tmpVec;
-            }
-        }
-        #endregion
 
         #region 피격 처리
         [PunRPC]
-        public void damageControlRPC(int _dmg, bool isEffect)
+        public void damageControlRPC(float _dmg, bool isEffect)
         {
             //피해량 계산
             curHealth -= _dmg;
             if (curHealth <= 0) curHealth = 0;
             else if (curHealth > maxHealth) curHealth = maxHealth;
             //UI관리
-            miniUI.fillAmount = curHealth / maxHealth;
+            miniHealth.fillAmount = curHealth / maxHealth;
 
             //충격 초기화
             if (_dmg != 0)//피해가 있을 때
@@ -351,13 +347,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
             //미니 UI 닫기
-            miniUI.fillAmount = 0;
+            miniHealth.fillAmount = 0;
             //먼지 종료
             MoveDust.Stop();
             JumpDust.Stop();
-            //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
-            rigid.velocity = Vector2.zero;
-
             //곧 죽음
             Invoke("SoonDieRPC", 1.5f);
         }
@@ -372,6 +365,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //파괴 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
 
+            //체력 회복
+            characterControls.healControlRPC(playerHeal);
+
             if (isRoom)
             {
                 if (photonView.IsMine)
@@ -382,11 +378,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     effect.transform.position = transform.position;
                 }
             }
-            //파괴 이펙트
-            GameObject effect2 = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
-            effect2.SetActive(true);
-            effect2.transform.position = transform.position;
+            else if (!isRoom)
+            {
+                //파괴 이펙트
+                GameObject effect2 = gameManager.CreateObj("Explosion 2", GameManager.PoolTypes.EffectType);
+                effect2.SetActive(true);
+                effect2.transform.position = transform.position;
+            } 
         }
         #endregion
+
+        public void reloadRPC()
+        {
+            curTime = 0;
+        }
     }
 }

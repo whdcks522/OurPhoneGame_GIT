@@ -14908,6 +14908,7 @@ GameObject:
   - component: {fileID: 1196669799950250002}
   - component: {fileID: 7105501179868493938}
   - component: {fileID: 4817277029382731046}
+  - component: {fileID: 6525706736713190484}
   - component: {fileID: 5498480976259529555}
   - component: {fileID: 161898016194952143}
   - component: {fileID: 2394127353045944079}
@@ -14936,7 +14937,7 @@ Transform:
   - {fileID: 8229682630656034452}
   - {fileID: 5308080356065859033}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1196669799950250002
 MonoBehaviour:
@@ -15005,15 +15006,35 @@ MonoBehaviour:
   _inputY: 0
   maxHealth: 300
   curHealth: 300
+  playerHeal: 20
+  maxTime: 0
+  tmpTime: 0
+  curTime: 0
   miniUI: {fileID: 500615374362100254}
   battleUIManager: {fileID: 0}
   gameManager: {fileID: 0}
+  rigid: {fileID: 2394127353045944079}
   jumpForce: 12
   rayRadius: 0.2
   raySize: 0
   rayVec: {x: 0, y: -0.2, z: 0}
   isGround: 0
   player: {fileID: 0}
+  characterControls: {fileID: 0}
+  enemyType: 1
+--- !u!114 &6525706736713190484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5974046474224742084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0cb1fa92dc669a42a58e9b184cb02fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
 --- !u!95 &5498480976259529555
 Animator:
   serializedVersion: 5

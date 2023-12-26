@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - PlayerSwordArea
   - EnemyBullet
   - Enemy
   - playerSword
@@ -28,7 +27,7 @@ TagManager:
   - Enemy
   - EnemyBullet
   - PlayerSword
-  - PlayerSwordArea
+  - 
   - Outline
   - Effect
   - Bomb

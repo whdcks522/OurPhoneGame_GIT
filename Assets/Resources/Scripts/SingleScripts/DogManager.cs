@@ -11,7 +11,7 @@ public class DogManager : MonoBehaviour
     [Header("최대 생성 시간")]
     public float maxTime;
     //현재 생성 시간
-    float curTime = 0;
+    float curTime = 2;//------------------ㄱㅊ아서
 
     [Header("적 발생 지점")]
     public Transform dogPointsParent;
@@ -90,31 +90,13 @@ public class DogManager : MonoBehaviour
             //적 생성
             if (scenelevel == 0)
             {
-                
-
-
                 GameObject enemyGameObject = gameManager.CreateObj("Enemy_Goblin", GameManager.PoolTypes.EnemyType);
                 Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
                 enemyComponent.gameManager = gameManager;
                 //적 위치 조정
-                enemyComponent.transformRPC(false, dogPoints[1].transform.position);
+                enemyGameObject.transform.position = dogPoints[1].transform.position;
                 //적 활성화
                 enemyComponent.activateRPC();
-
-                /*
-                if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
-                {
-                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
-                        starFallPoints[ranPos], player, 0);
-                    curPowerUpIndex = 0;
-                }
-                else //기본 운석
-                {
-                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
-                        starFallPoints[ranPos], player, 1);
-                    curPowerUpIndex++;
-                }
-                */
             }
         }
     }
