@@ -212,7 +212,6 @@ public class Block : MonoBehaviourPunCallbacks
                     GameObject effect = gameManager.CreateObj("Explosion 6", GameManager.PoolTypes.EffectType);
                     effect.SetActive(true);
                     effect.transform.position = transform.position;
-                    //effect.transform.parent = transform.parent.transform;
 
                     //매터리얼 관리
                     crackColor = new Color(1, 0.5f, 0.5f, 1);

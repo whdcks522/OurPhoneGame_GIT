@@ -73,7 +73,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //멀티인지 솔로인지
         bool isRoom;
         //죽었는지
-        public bool isDead;
+        bool isDead;
         [Header("플레이어 객체")]
         public GameObject player;
         public CharacterControls characterControls;
@@ -107,6 +107,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             isGround = false;
             curTime = 0;
+            sfxLevel = 4;
             //가속 초기화
             rigid.velocity = Vector2.zero;
             //체력 회복
@@ -117,6 +118,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             //오브젝트 활성화
             isDead = false;
+            
             gameObject.SetActive(true);
         }
 
@@ -181,7 +183,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 if (_inputY > 0)//점프
                 {
                     Character.SetState(AnimationState.Jumping);
-                    rigid.velocity = new Vector3(rigid.velocity.x, jumpForce);
+                    rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
 
                     //런닝 먼지 중지
                     if (MoveDust.isPlaying)
@@ -252,13 +254,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.All, 50 * damage * Time.deltaTime, true);
+                        photonView.RPC("damageControlRPC", RpcTarget.All, 25 * damage * Time.deltaTime);
                     }
                 }
                 else if (!isRoom)
                 {
                     //피격 처리
-                    damageControlRPC(50 * damage * Time.deltaTime, true);
+                    damageControlRPC(50 * damage * Time.deltaTime);
                 }
             }
         }
@@ -279,24 +281,29 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     if (photonView.IsMine)
                     {
                         //피격 처리
-                        photonView.RPC("damageControlRPC", RpcTarget.All, damage, true);
+                        photonView.RPC("damageControlRPC", RpcTarget.All, damage * 3);
                     }
                 }
                 else if (!isRoom)
                 {
                     //피격 처리
-                    damageControlRPC(damage, true);
+                    damageControlRPC(damage);
                 }
             }
         }
-    
+
         #endregion
 
+        //효과음의 계층 분류를 위함
+        int sfxLevel = 4;
 
         #region 피격 처리
         [PunRPC]
-        public void damageControlRPC(float _dmg, bool isEffect)
+        public void damageControlRPC(float _dmg)
         {
+            if (isDead)
+                return;
+
             //피해량 계산
             curHealth -= _dmg;
             if (curHealth <= 0) curHealth = 0;
@@ -305,35 +312,51 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             miniHealth.fillAmount = curHealth / maxHealth;
 
             //충격 초기화
-            if (_dmg != 0)//피해가 있을 때
+            if (curHealth > 0)//피격
             {
-                if (isEffect) 
+                //번쩍
+                Character.Blink();
+
+                if (curHealth <= maxHealth * 0.75f && sfxLevel > 3) 
                 {
-                    if (curHealth > 0)//피격
-                    {
-                        //효과음
-                        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
-                        //번쩍
-                        Character.Blink();
-                    }
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                    sfxLevel = 3;
                 }
+                else if (curHealth <= maxHealth * 0.5f && sfxLevel > 2)
+                {
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                    sfxLevel = 2;
+                }
+                else if (curHealth <= maxHealth * 0.25f && sfxLevel > 1)
+                {
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                    sfxLevel = 1;
+                }
+                else if (curHealth <= 0 && sfxLevel > 0)
+                {
+                    //효과음
+                    battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
+                    sfxLevel = 0;
+                }
+
+
             }
 
             if (curHealth <= 0)
             {
-                if (!isDead)
+                if (PhotonNetwork.InRoom)
                 {
-                    if (PhotonNetwork.InRoom)
+                    if (photonView.IsMine)
                     {
-                        if (photonView.IsMine)
-                        {
-                            photonView.RPC("deadRPC", RpcTarget.All);  
-                        }
+                        photonView.RPC("deadRPC", RpcTarget.All);
                     }
-                    else if (!PhotonNetwork.InRoom)
-                    {
-                        deadRPC();
-                    }
+                }
+                else if (!PhotonNetwork.InRoom)
+                {
+                    deadRPC();
                 }
             }
         }
@@ -345,6 +368,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         {
             //사망 처리
             isDead = true;
+            rigid.velocity = new Vector3(rigid.velocity.x, -jumpForce/2);
             //애니메이션
             Character.SetState(AnimationState.Dead);
             //효과음
@@ -391,9 +415,17 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         }
         #endregion
 
-        public void reloadRPC(float tmpF)
+        public void reloadRPC(float tmpF, string ani)//재장전
         {
-            Character.Animator.SetTrigger("Shot");
+            switch (ani) 
+            {
+                //사격 애니메이션
+                case "Shot":
+                    Character.Animator.SetTrigger("Shot");
+                    break;
+                default:
+                    break;
+            }
 
             maxTime = tmpTime + UnityEngine.Random.Range(-1 * tmpF, tmpF);
             curTime = 0;

@@ -29,8 +29,16 @@ public class Agent_Goblin : MonoBehaviour
     {
         if (enemy.maxTime <= enemy.curTime) 
         {
-            enemy.reloadRPC(1f);
+            //장전
+            enemy.reloadRPC(1f, "Shot");
 
+            //방향 전환
+            int dir = 1;
+            if (player.transform.position.x < transform.position.x)//플레이어가 왼쪽에 있는 경우
+                dir = -1;
+            enemy.TurnRPC(dir);
+
+            //실제 사격
             tripleCor = StartCoroutine(tripleShot());
         }
     }
@@ -41,27 +49,16 @@ public class Agent_Goblin : MonoBehaviour
         StopCoroutine(tripleCor);
     }
 
-
     Coroutine tripleCor;
-    WaitForSeconds wait0_15 = new WaitForSeconds(0.15f);
+    WaitForSeconds wait = new WaitForSeconds(0.12f);
     IEnumerator tripleShot() 
     {
-        //고개 전환
-        int dir = 1;
-        if (player.transform.position.x < transform.position.x)//플레이어가 왼쪽에 있는 경우
-            dir = -1;
-        enemy.TurnRPC(dir);
-        //저격 애니메이션 재생
-        
-
-        
-
         //저격
-        yield return wait0_15;
+        yield return wait;
 
         for (int i = 0; i < 3; i++) 
         {
-            yield return wait0_15;
+            yield return wait;
             audioManager.PlaySfx(AudioManager.Sfx.Arrow);
             bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
         } 
