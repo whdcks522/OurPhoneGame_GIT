@@ -150,7 +150,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         JumpDust.Stop();
                         //동기화 개귀찮자너...
                         //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
-                        rigid.velocity = Vector2.zero;
+                        rigid.velocity = Vector2.zero;//!1!!!!!!!!!!!!!!!!!!!!!
 
                         //곧 죽음
                         if (!PhotonNetwork.InRoom)
@@ -457,8 +457,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
        
         public void FixedUpdate()
         {
-            if (isDead) 
+            if (isDead)
+            {
+                rigid.velocity = new Vector2(0, rigid.velocity.y);
                 return;
+            }
 
             //이동
             Move();

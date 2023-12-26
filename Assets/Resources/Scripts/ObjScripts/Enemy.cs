@@ -34,8 +34,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
 
         [Header("----새로 추가----")]
+        [Header("적의 최대 체력")]
         public float maxHealth;
+        [Header("적의 현재 체력")]
         public float curHealth;
+        [Header("플레이어의 회복량")]
+        public int playerHeal;
 
         [Header("캐릭터 위의 미니 UI")]
         public Image miniUI;

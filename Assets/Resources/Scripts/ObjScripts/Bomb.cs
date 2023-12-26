@@ -9,9 +9,10 @@ using Assets.PixelHeroes.Scripts.ExampleScripts;
 public class Bomb : MonoBehaviourPunCallbacks
 {
     [Header("ÆøÅºÀÇ ÃÖ´ë ¼ö¸í")]
-
     public float maxTime;
     float curTime = 0f;
+    [Header("ÆøÅºÀÇ ÃÖ´ë ¼ö¸í")]
+    public int bombDmg;
     BattleUIManager battleUIManager;
     GameManager gameManager;
     CharacterControls characterControls;
@@ -67,7 +68,7 @@ public class Bomb : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.CompareTag("EnemyBullet"))
+        if (other.transform.CompareTag("EnemyBullet"))//ÃÑ¾Ë°ú Ãæµ¹
         {
             Bullet bullet = other.GetComponent<Bullet>();
 
@@ -105,28 +106,6 @@ public class Bomb : MonoBehaviourPunCallbacks
                     //¹«±â ¼ö 1 Áõ°¡
                     characterControls.swordCountRPC(1);
                 }
-            }
-        }
-        else if (other.transform.CompareTag("Block"))
-        {
-            Block block = other.GetComponent<Block>();
-
-            if (PhotonNetwork.InRoom)//¸ÖÆ¼ÀÇ °æ¿ì
-            {
-                if (photonView.IsMine)
-                {
-                    //ÃÑ¾Ë ÆÄ±«
-                    block.photonView.RPC("blockOffRPC", RpcTarget.AllBuffered, true);
-                    //È¸º¹
-                    characterControls.photonView.RPC("healOffRPC", RpcTarget.AllBuffered, block.blockHeal);
-                }
-            }
-            else if (!PhotonNetwork.InRoom)//½Ì±ÛÀÇ °æ¿ì
-            {
-                //ÃÑ¾Ë ÆÄ±«
-                block.blockOffRPC(true);
-                //È¸º¹
-                characterControls.healControlRPC(block.blockHeal);
             }
         }
     }

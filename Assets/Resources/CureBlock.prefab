@@ -106,7 +106,7 @@ GameObject:
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4890423948865773262
 Transform:
   m_ObjectHideFlags: 0
@@ -195,6 +195,10 @@ MonoBehaviour:
   blockEffectType: 2
   gameManager: {fileID: 0}
   characterControls: {fileID: 0}
+  boxColliders:
+  - {fileID: 2621338511716314143}
+  - {fileID: 4152225080337283562}
+  - {fileID: 5223300001744734597}
 --- !u!114 &1924315502127359073
 MonoBehaviour:
   m_ObjectHideFlags: 0

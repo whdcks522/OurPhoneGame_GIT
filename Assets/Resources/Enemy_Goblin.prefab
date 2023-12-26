@@ -15004,8 +15004,8 @@ MonoBehaviour:
   JumpDust: {fileID: 2465723098712406413}
   _inputX: 0
   _inputY: 0
-  maxHealth: 300
-  curHealth: 300
+  maxHealth: 400
+  curHealth: 400
   miniUI: {fileID: 500615374362100254}
   battleUIManager: {fileID: 0}
   gameManager: {fileID: 0}

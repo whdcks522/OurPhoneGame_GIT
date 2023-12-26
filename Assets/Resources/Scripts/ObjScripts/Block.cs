@@ -50,6 +50,8 @@ public class Block : MonoBehaviourPunCallbacks
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
 
+    public BoxCollider2D []boxColliders;
+
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
@@ -69,6 +71,11 @@ public class Block : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
+        //콜라이더 비활성화
+        for (int i = 0; i < boxColliders.Length; i++)
+        {
+            //boxColliders[i].enabled = true;
+        }
         //체력 관리
         curHealth = maxHealth;
 
@@ -109,6 +116,12 @@ public class Block : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(false);
+        //콜라이더 비활성화
+        for (int i = 0; i < boxColliders.Length; i++) 
+        {
+            //boxColliders[i].enabled = false;
+        }
+
         if (isBreak) //부순경우
         {
             characterControls.healControlRPC(blockHeal);
@@ -281,7 +294,7 @@ public class Block : MonoBehaviourPunCallbacks
             {
                 if (photonView.IsMine)
                 {
-                    photonView.RPC("blockOffRPC", RpcTarget.AllBuffered);
+                    photonView.RPC("blockOffRPC", RpcTarget.All);
                 }
             }
             else if (!PhotonNetwork.InRoom) 
@@ -291,6 +304,10 @@ public class Block : MonoBehaviourPunCallbacks
         }
     }
 
+
+    //콜라이더가 3개여서 충돌 제어용
+    int threeCount = 0;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
@@ -299,16 +316,49 @@ public class Block : MonoBehaviourPunCallbacks
             {
                 if (photonView.IsMine)
                 {
-                    //블록 파괴
-                    photonView.RPC("blockOffRPC", RpcTarget.AllBuffered, false);
-
+                    if (++threeCount >= 3)
+                    {
+                        threeCount = 0;
+                        //블록 파괴 실패
+                        photonView.RPC("blockOffRPC", RpcTarget.All, false);
+                    }
                 }
-
             }
             else if (!PhotonNetwork.InRoom)
             {
-                //블록 파괴 실패
-                blockOffRPC(false);
+                if (++threeCount >= 3) 
+                {
+                    threeCount = 0;
+                    //블록 파괴 실패
+                    blockOffRPC(false);
+                }
+            }
+        }
+        else if (other.transform.CompareTag("Bomb"))//블록과 충돌
+        {
+            Bomb bomb = other.GetComponent<Bomb>();
+
+            if (PhotonNetwork.InRoom)//멀티의 경우
+            {
+                if (photonView.IsMine)
+                {
+                    if (++threeCount >= 3)
+                    {
+                        threeCount = 0;
+                        //블록 부수기
+                        photonView.RPC("healthControl", RpcTarget.All, bomb.bombDmg);
+                    }
+                }
+            }
+            else if (!PhotonNetwork.InRoom)//싱글의 경우
+            {
+                if (++threeCount >= 3)
+                {
+                    threeCount = 0;
+                    //블록 부수기
+                    healthControl(bomb.bombDmg);
+                }
+                
             }
         }
     }

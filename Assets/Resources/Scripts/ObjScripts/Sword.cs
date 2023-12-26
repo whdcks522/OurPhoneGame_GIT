@@ -323,9 +323,9 @@ public class Sword : MonoBehaviourPunCallbacks
                 if (photonView.IsMine)
                 {
                     //ÃÑ¾Ë ÆÄ±«
-                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.AllBuffered);
+                    bullet.photonView.RPC("bulletOffRPC", RpcTarget.All);
                     //È¸º¹
-                    characterControls.photonView.RPC("healOffRPC", RpcTarget.AllBuffered, bullet.bulletHeal);
+                    characterControls.photonView.RPC("healOffRPC", RpcTarget.All, bullet.bulletHeal);
                 }
             }
             else if (!PhotonNetwork.InRoom)

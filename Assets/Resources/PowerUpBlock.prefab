@@ -195,6 +195,10 @@ MonoBehaviour:
   blockEffectType: 1
   gameManager: {fileID: 0}
   characterControls: {fileID: 0}
+  boxColliders:
+  - {fileID: 2621338511716314143}
+  - {fileID: 4152225080337283562}
+  - {fileID: 5223300001744734597}
 --- !u!114 &1924315502127359073
 MonoBehaviour:
   m_ObjectHideFlags: 0
