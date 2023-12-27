@@ -15206,11 +15206,22 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 5000
   enemy: {fileID: 0}
   bulletShotter: {fileID: 0}
   player: {fileID: 0}
   characterControls: {fileID: 0}
+  maxRange: 15
+  points:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2650741302234849207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15224,12 +15235,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
-    NumStackedVectorObservations: 1
+    VectorObservationSize: 9
+    NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 05000000
-    VectorActionSize: 05000000
+      BranchSizes: 0300000002000000
+    VectorActionSize: 0300000002000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1

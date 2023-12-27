@@ -82,7 +82,7 @@ public class DogManager : MonoBehaviour
             }
 
             //시간 초기화
-            curTime = -100f;
+            curTime = -0f;
 
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
@@ -90,13 +90,25 @@ public class DogManager : MonoBehaviour
             //적 생성
             if (scenelevel == 0)
             {
-                int r = 2;//Random.Range(0, dogPoints.Length);
+                //장소와 타입 설정
+                int posR = Random.Range(0, dogPoints.Length);
+                int typeR = 1;//Random.Range(0, 2);
+                string type = "";
+                switch (typeR) 
+                {
+                    case 0:
+                        type = "Enemy_Goblin";
+                        break;
+                    case 1:
+                        type = "Enemy_Orc";
+                        break;
+                }
 
-                GameObject enemyGameObject = gameManager.CreateObj("Enemy_Goblin", GameManager.PoolTypes.EnemyType);
+                GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
                 Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
                 enemyComponent.gameManager = gameManager;
                 //적 위치 조정
-                enemyGameObject.transform.position = dogPoints[r].transform.position;
+                enemyGameObject.transform.position = dogPoints[posR].transform.position;
                 //적 활성화
                 enemyComponent.activateRPC();
             }

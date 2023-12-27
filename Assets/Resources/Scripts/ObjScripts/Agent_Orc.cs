@@ -28,6 +28,7 @@ public class Agent_Orc : Agent
             bulletShotter.gameManager = enemy.gameManager;
 
             audioManager = enemy.battleUIManager.audioManager;
+            MaxStep = 0;
         }
     }
     

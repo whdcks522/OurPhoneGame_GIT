@@ -890,7 +890,7 @@ Transform:
   - {fileID: 6103840391538098500}
   - {fileID: 3012386206193093263}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7983938476938689089
 GameObject:
@@ -2225,18 +2225,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829479165587831264}
     m_Modifications:
-    - target: {fileID: 161898016194952143, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: sceneViewId
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: m_Model
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
       value: 9
@@ -2313,30 +2301,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4817277029382731046, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: isML
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817277029382731046, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: maxTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817277029382731046, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: tmpTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817277029382731046, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: curHealth
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817277029382731046, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: maxHealth
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5867539376383281820, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5974046474224742084, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_Name
       value: Enemy_Orc
@@ -2393,10 +2357,6 @@ PrefabInstance:
       propertyPath: points.Array.data[8]
       value: 
       objectReference: {fileID: 4714822297135821324}
-    - target: {fileID: 8513683546242818020, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: points.Array.data[9]
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
