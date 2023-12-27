@@ -223,8 +223,6 @@ public class BulletShotter : MonoBehaviour
     }
     #endregion
 
-    
-
     #region 회전 발사
     IEnumerator spinShot(string bulletName, GameObject host, GameObject target, int index)
     {

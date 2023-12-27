@@ -30,30 +30,34 @@ public class Agent_Orc : Agent
             audioManager = enemy.battleUIManager.audioManager;
         }
     }
-    /*
-    Coroutine scatterCor;
+    
+    Coroutine bigCor;
     WaitForSeconds wait = new WaitForSeconds(0.12f);
-    IEnumerator tripleShot()
+    IEnumerator bigSlash()
     {
         //저격
         yield return wait;
 
-        for (int i = 0; i < 3; i++)
-        {
-            yield return wait;
-            audioManager.PlaySfx(AudioManager.Sfx.Arrow);
-            bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
-        }
+        audioManager.PlaySfx(AudioManager.Sfx.Slash);
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);//작게 산탄
     }
-    */
+
+    private void OnDisable()
+    {
+        if (bigCor != null)
+            StopCoroutine(bigCor);
+    }
+
 
     public override void OnActionReceived(ActionBuffers actions)//액션 기입(가능한 동작), 매 번 호출 
     {
         float curRange = (player.transform.position - transform.position).magnitude;
         //Debug.Log("curRange: "+curRange);//20 ~ 40
-        
-        SetReward(-curRange + 50f);
+
+        //SetReward(-curRange + 50f);
         //Debug.LogError(-curRange + 50f);
+
+        AddReward(-0.0005f);
 
         if (!enemy.isML) 
         {
@@ -62,12 +66,9 @@ public class Agent_Orc : Agent
                 //장전
                 enemy.reloadRPC(1f, "Slash");
                 //실제 사격
-                //tripleCor = StartCoroutine(tripleShot());
+                bigCor = StartCoroutine(bigSlash());
             }
         }
-        
-
-        //AddReward(-0.001f);//행동 할 때마다 계속 감점(최대한 빨리 클리어하도록 학습)
 
         //  Discrete Action(정수를 반환함, 특정 행동에 사용하기 좋음(AllBuffered와 같은 느낌?))
         //  mlagents-learn --force
@@ -75,6 +76,11 @@ public class Agent_Orc : Agent
         int X = actions.DiscreteActions[0] - 1;
         int Y = actions.DiscreteActions[1];
         //Debug.Log("X: "+ X + "/ Y: " + Y);
+
+        if (Y == 1) 
+        {
+            AddReward(-0.0010f);
+        }
 
         enemy.xyRPC(X, Y);
     }
@@ -102,31 +108,38 @@ public class Agent_Orc : Agent
     {
         //1. 수치형, 받아오는 데이터가 적을 수록 좋음
         //자신의 정보
-        sensor.AddObservation(gameObject.transform.position.x);//state size = 1     x,y,z를 모두 받아오면 size가 3이 됨
-        sensor.AddObservation(gameObject.transform.position.y);
+        sensor.AddObservation(transform.position.x);//state size = 1     x,y,z를 모두 받아오면 size가 3이 됨
+        sensor.AddObservation(transform.position.y);
 
         //플레이어의 정보
         sensor.AddObservation(player.transform.position.x);
         sensor.AddObservation(player.transform.position.y);
         //각각의 거리
-        sensor.AddObservation(player.transform.position.x - gameObject.transform.position.x);
-        sensor.AddObservation(player.transform.position.y - gameObject.transform.position.y);
+        sensor.AddObservation(player.transform.position.x - transform.position.x);
+        sensor.AddObservation(player.transform.position.y - transform.position.y);
 
         //가속을 더하기도 함
         sensor.AddObservation(rigid.velocity.x);//state size = 1
         sensor.AddObservation(rigid.velocity.y);
 
-        //sensor.AddObservation(StepCount/ MaxStep);//진행한 스텝 비율    //state size = 1
+        sensor.AddObservation(StepCount/ (float)MaxStep);//진행한 스텝 비율    //state size = 1
     }
 
     
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.CompareTag("Outline") && enemy.isML) //맵 밖으로 나가지면 사망
+        if ( enemy.isML) 
         {
-            SetReward(-150f);
-            EndEpisode();
+            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 사망
+            {
+                SetReward(-1f);
+                EndEpisode();
+            }
+            else if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
+            {
+                AddReward(0.0004f);
+            }
         }
     }
 
@@ -135,7 +148,7 @@ public class Agent_Orc : Agent
         if (collision.gameObject.CompareTag("Finish") && enemy.isML)
         {
 
-            SetReward(150f);
+            SetReward(1f);
             EndEpisode();//이것만으로 초기화가 되진 않음
         }
     }
@@ -147,7 +160,6 @@ public class Agent_Orc : Agent
     {
         if (enemy.isML) 
         {
-            enemy.curTime = 0;
             int r1 = Random.Range(0, points.Length);
             //Debug.Log("Swap!");
 

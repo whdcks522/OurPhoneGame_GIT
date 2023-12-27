@@ -1197,7 +1197,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459726214300823888, guid: d52292505912aeb4d9526bea699ad581, type: 3}
       propertyPath: sceneViewId
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3524036863276204707, guid: d52292505912aeb4d9526bea699ad581, type: 3}
       propertyPath: m_RootOrder
@@ -1257,7 +1257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7192753360400961430, guid: d52292505912aeb4d9526bea699ad581, type: 3}
       propertyPath: sceneViewId
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1279,7 +1279,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1459726214300823888, guid: d52292505912aeb4d9526bea699ad581, type: 3}
       propertyPath: sceneViewId
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3524036863276204707, guid: d52292505912aeb4d9526bea699ad581, type: 3}
       propertyPath: m_RootOrder
@@ -1339,7 +1339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7192753360400961430, guid: d52292505912aeb4d9526bea699ad581, type: 3}
       propertyPath: sceneViewId
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2227,19 +2227,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 161898016194952143, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: sceneViewId
-      value: 13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: b7e9a39b1d8c71e44982ea94287ec826, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_BehaviorType
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.size
@@ -2347,7 +2347,7 @@ PrefabInstance:
       objectReference: {fileID: 1672313333873496834}
     - target: {fileID: 8513683546242818020, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: MaxStep
-      value: 1000
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 8513683546242818020, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: maxRange
