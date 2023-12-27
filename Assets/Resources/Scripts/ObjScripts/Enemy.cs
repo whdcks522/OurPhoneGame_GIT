@@ -127,7 +127,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         #region xy 동기화
         [PunRPC]
-        void xyRPC(int x, int y)
+        public void xyRPC(int x, int y)
         {
             _inputX = x;
             _inputY = y;
@@ -177,6 +177,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         isGround = true;
                         break;
+                    }
+                    else //밑에 뭐가 없는 경우
+                    {
+                        if (MoveDust.isPlaying)
+                            MoveDust.Stop();
                     }
                 }
             }
@@ -270,10 +275,19 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
+            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 사망
             {
-                transform.position = player.transform.position + Vector3.up * 10;
-                activateRPC();
+                if (PhotonNetwork.InRoom)
+                {
+                    if (photonView.IsMine)
+                    {
+                        photonView.RPC("deadRPC", RpcTarget.All);
+                    }
+                }
+                else if (!PhotonNetwork.InRoom)
+                {
+                    deadRPC();
+                }
             }
             else if (other.gameObject.CompareTag("Bomb"))//폭탄과 충돌했을 때
             {
@@ -290,7 +304,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!isRoom)
                 {
                     //피격 처리
-                    damageControlRPC(damage);
+                    damageControlRPC(damage * 3);
                 }
             }
         }
@@ -369,20 +383,23 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [PunRPC]
         void deadRPC()
         {
-            //사망 처리
-            isDead = true;
-            rigid.velocity = new Vector3(rigid.velocity.x, -jumpForce/2);
-            //애니메이션
-            Character.SetState(AnimationState.Dead);
-            //효과음
-            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
-            //미니 UI 닫기
-            miniHealth.fillAmount = 0;
-            //먼지 종료
-            MoveDust.Stop();
-            JumpDust.Stop();
-            //곧 죽음
-            Invoke("SoonDieRPC", 1.5f);
+            if (!isML) 
+            {
+                //사망 처리
+                isDead = true;
+                rigid.velocity = new Vector3(rigid.velocity.x, -jumpForce / 2);
+                //애니메이션
+                Character.SetState(AnimationState.Dead);
+                //효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Heal);
+                //미니 UI 닫기
+                miniHealth.fillAmount = 0;
+                //먼지 종료
+                MoveDust.Stop();
+                JumpDust.Stop();
+                //곧 죽음
+                Invoke("SoonDieRPC", 1.5f);
+            } 
         }
         #endregion
 
@@ -425,6 +442,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 //사격 애니메이션
                 case "Shot":
                     Character.Animator.SetTrigger("Shot");
+                    break;
+                //베기 애니메이션
+                case "Slash":
+                    Character.Animator.SetTrigger("Slash");
                     break;
                 default:
                     break;

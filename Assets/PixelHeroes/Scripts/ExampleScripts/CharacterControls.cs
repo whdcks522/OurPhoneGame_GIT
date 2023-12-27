@@ -520,8 +520,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
                     if (!hitCol.isTrigger && hitObj.transform.gameObject != gameObject)//자신은 무시해야됨 
                     {
+
                         isGround = true;
                         break;
+                    }
+                    else //밑에 뭐가 없는 경우
+                    {
+                        if(MoveDust.isPlaying)
+                            MoveDust.Stop();
                     }
                 }
             }
@@ -1015,7 +1021,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             {
                 //바람 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
-            }          
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
