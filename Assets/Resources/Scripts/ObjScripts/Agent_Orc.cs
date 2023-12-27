@@ -47,10 +47,11 @@ public class Agent_Orc : Agent
             StopCoroutine(bigCor);
     }
 
-
+    //대상과의 거리
+    float curRange;
     public override void OnActionReceived(ActionBuffers actions)//액션 기입(가능한 동작), 매 번 호출 
     {
-        float curRange = (player.transform.position - transform.position).magnitude;
+        curRange = (player.transform.position - transform.position).magnitude;
         AddReward(-0.0005f);
 
         if (!enemy.isML) 
@@ -71,9 +72,9 @@ public class Agent_Orc : Agent
         int Y = actions.DiscreteActions[1];
         //Debug.Log("X: "+ X + "/ Y: " + Y);
 
-        if (Y == 1) 
+        if (Y == 1 && enemy.isGround) 
         {
-            AddReward(-0.0100f);
+            AddReward(-0.0500f);
         }
 
         enemy.xyRPC(X, Y);
@@ -118,8 +119,7 @@ public class Agent_Orc : Agent
                 sensor.AddObservation(player.transform.position.x);
                 sensor.AddObservation(player.transform.position.y);
                 //각각의 거리
-                sensor.AddObservation(player.transform.position.x - transform.position.x);
-                sensor.AddObservation(player.transform.position.y - transform.position.y);
+                sensor.AddObservation(curRange);
             }
 
             sensor.AddObservation(StepCount / (float)MaxStep);//진행한 스텝 비율    //state size = 1
@@ -135,7 +135,7 @@ public class Agent_Orc : Agent
         {
             if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 사망
             {
-                SetReward(-1f);
+                AddReward(-10f);
                 EndEpisode();
             }
         }
@@ -145,8 +145,8 @@ public class Agent_Orc : Agent
     {
         if (collision.gameObject.CompareTag("Finish") && enemy.isML)
         {
-
-            SetReward(1f);
+            Debug.Log("Finish");
+            AddReward(10f);//점프였나 거기
             EndEpisode();//이것만으로 초기화가 되진 않음
         }
     }
