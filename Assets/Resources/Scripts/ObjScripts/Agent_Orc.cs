@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Policies;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 public class Agent_Orc : Agent
 {
-    Rigidbody2D rigid;
+    public Rigidbody2D rigid;
     public Enemy enemy;
     public BulletShotter bulletShotter;
     public GameObject player;
@@ -17,9 +18,6 @@ public class Agent_Orc : Agent
     public float maxRange;
     void Start()
     {
-        enemy = GetComponent<Enemy>();
-        bulletShotter = GetComponent<BulletShotter>();
-        rigid = GetComponent<Rigidbody2D>();
         if (!enemy.isML) 
         {
             player = enemy.player;
@@ -28,9 +26,9 @@ public class Agent_Orc : Agent
             bulletShotter.gameManager = enemy.gameManager;
 
             audioManager = enemy.battleUIManager.audioManager;
-            MaxStep = 0;
         }
     }
+    //맥스 스텝은 늘린채로 놔도 이상 없음
     
     Coroutine bigCor;
     WaitForSeconds wait = new WaitForSeconds(0.12f);
@@ -40,7 +38,7 @@ public class Agent_Orc : Agent
         yield return wait;
 
         audioManager.PlaySfx(AudioManager.Sfx.Slash);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);//작게 산탄
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 1);//작게 산탄
     }
 
     private void OnDisable()
@@ -53,16 +51,11 @@ public class Agent_Orc : Agent
     public override void OnActionReceived(ActionBuffers actions)//액션 기입(가능한 동작), 매 번 호출 
     {
         float curRange = (player.transform.position - transform.position).magnitude;
-        //Debug.Log("curRange: "+curRange);//20 ~ 40
-
-        //SetReward(-curRange + 50f);
-        //Debug.LogError(-curRange + 50f);
-
         AddReward(-0.0005f);
 
         if (!enemy.isML) 
         {
-            if (enemy.maxTime <= enemy.curTime && curRange <= maxRange)
+            if (enemy.maxTime <= enemy.curTime && curRange <= maxRange && gameObject.activeSelf)
             {
                 //장전
                 enemy.reloadRPC(1f, "Slash");
@@ -80,7 +73,7 @@ public class Agent_Orc : Agent
 
         if (Y == 1) 
         {
-            AddReward(-0.0010f);
+            AddReward(-0.0100f);
         }
 
         enemy.xyRPC(X, Y);
@@ -107,23 +100,31 @@ public class Agent_Orc : Agent
 
     public override void CollectObservations(VectorSensor sensor)//관찰할 정보, 5번 당 한번 호출
     {
+        
         //1. 수치형, 받아오는 데이터가 적을 수록 좋음
         //자신의 정보
-        sensor.AddObservation(transform.position.x);//state size = 1     x,y,z를 모두 받아오면 size가 3이 됨
-        sensor.AddObservation(transform.position.y);
+        if (gameObject.activeSelf) 
+        {
+            sensor.AddObservation(transform.position.x);//state size = 1     x,y,z를 모두 받아오면 size가 3이 됨
+            sensor.AddObservation(transform.position.y);
 
-        //플레이어의 정보
-        sensor.AddObservation(player.transform.position.x);
-        sensor.AddObservation(player.transform.position.y);
-        //각각의 거리
-        sensor.AddObservation(player.transform.position.x - transform.position.x);
-        sensor.AddObservation(player.transform.position.y - transform.position.y);
+            //가속을 더하기도 함
+            sensor.AddObservation(rigid.velocity.x);//state size = 1
+            sensor.AddObservation(rigid.velocity.y);
 
-        //가속을 더하기도 함
-        sensor.AddObservation(rigid.velocity.x);//state size = 1
-        sensor.AddObservation(rigid.velocity.y);
+            if (player != null) //시작 한 순간, 빈 취급됨
+            {
+                //플레이어의 정보
+                sensor.AddObservation(player.transform.position.x);
+                sensor.AddObservation(player.transform.position.y);
+                //각각의 거리
+                sensor.AddObservation(player.transform.position.x - transform.position.x);
+                sensor.AddObservation(player.transform.position.y - transform.position.y);
+            }
 
-        sensor.AddObservation(StepCount/ (float)MaxStep);//진행한 스텝 비율    //state size = 1
+            sensor.AddObservation(StepCount / (float)MaxStep);//진행한 스텝 비율    //state size = 1
+        }
+        
     }
 
     
@@ -136,10 +137,6 @@ public class Agent_Orc : Agent
             {
                 SetReward(-1f);
                 EndEpisode();
-            }
-            else if (other.transform.CompareTag("Wind")) //맵 밖으로 나가지면 종료
-            {
-                AddReward(0.0004f);
             }
         }
     }
@@ -162,7 +159,6 @@ public class Agent_Orc : Agent
         if (enemy.isML) 
         {
             int r1 = Random.Range(0, points.Length);
-            //Debug.Log("Swap!");
 
             while (true)
             {

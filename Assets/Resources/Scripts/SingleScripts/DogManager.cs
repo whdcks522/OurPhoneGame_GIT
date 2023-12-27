@@ -50,6 +50,14 @@ public class DogManager : MonoBehaviour
 
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
+
+        /*
+        for (int i = 0; i < 5; i++) 
+        {
+            Debug.Log("Generate");
+            createEnemy(dogPoints.Length - 1, "Enemy_Orc", false);
+        }
+        */
     }
 
 
@@ -103,15 +111,23 @@ public class DogManager : MonoBehaviour
                         type = "Enemy_Orc";
                         break;
                 }
-
-                GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
-                Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
-                enemyComponent.gameManager = gameManager;
-                //적 위치 조정
-                enemyGameObject.transform.position = dogPoints[posR].transform.position;
-                //적 활성화
-                enemyComponent.activateRPC();
+                createEnemy(posR, type, true);
             }
+        }
+    }
+
+    void createEnemy(int pos, string type, bool isActive) 
+    {
+        GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
+        Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
+        enemyComponent.gameManager = gameManager;
+
+        //if (isActive) 
+        {
+            //적 위치 조정
+            enemyGameObject.transform.position = dogPoints[pos].transform.position;
+            //적 활성화
+            enemyComponent.activateRPC();
         }
     }
 }

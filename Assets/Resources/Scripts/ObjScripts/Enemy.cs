@@ -98,6 +98,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Start()
         {
+            //애니메이션
+            Character.SetState(AnimationState.Idle);
+
             if (!isML) 
             {
                 player = gameManager.player;
@@ -116,8 +119,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             //체력 회복
             curHealth = maxHealth;
             miniHealth.fillAmount = 1;
-            //기존에 있던 것
-            Character.SetState(AnimationState.Idle);
+
+            
 
             //오브젝트 활성화
             isDead = false;
@@ -144,8 +147,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             //시간 더하기
             curTime += Time.deltaTime;
-
-            //if (Input.GetKeyDown(KeyCode.J)) Character.Animator.SetTrigger("Jab");
 
             if (_inputX != 0)//좌우 방향 전환
             {

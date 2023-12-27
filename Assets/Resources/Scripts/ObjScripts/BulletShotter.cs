@@ -99,7 +99,9 @@ public class BulletShotter : MonoBehaviour
 
         yield return null;
 
+        float maxCount = 2;
         float interval = 0.03f;
+
         if (index == 0)
             interval = 0.03f;
         if (index == 1)
@@ -108,7 +110,7 @@ public class BulletShotter : MonoBehaviour
         Vector2 mainVec = (target.transform.position - host.transform.position).normalized;
         Vector2 tmpVec = new Vector2(-mainVec.y, mainVec.x);
 
-        for (float i = 0f; i <= interval * 5; i += interval)
+        for (float i = 0f; i <= interval * maxCount; i += interval)
         {
             Vector2 bulletVec = Vector2.Lerp(mainVec, tmpVec, i).normalized;
 
@@ -130,7 +132,7 @@ public class BulletShotter : MonoBehaviour
         }
 
         tmpVec = new Vector2(mainVec.y, -mainVec.x);
-        for (float i = interval * 5; i > 0.0f; i -= interval)
+        for (float i = interval * maxCount ; i > 0.0f ; i -= interval)
         {
             Vector2 bulletVec = Vector2.Lerp(mainVec, tmpVec, i).normalized;
 

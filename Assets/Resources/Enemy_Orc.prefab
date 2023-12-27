@@ -14986,7 +14986,7 @@ Transform:
   - {fileID: 4606062992382735528}
   - {fileID: 2413450872702121222}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1196669799950250002
 MonoBehaviour:
@@ -15053,11 +15053,11 @@ MonoBehaviour:
   JumpDust: {fileID: 2465723098712406413}
   _inputX: 0
   _inputY: 0
-  maxHealth: 600
-  curHealth: 600
+  maxHealth: 200
+  curHealth: 200
   playerHeal: 20
-  maxTime: 3
-  tmpTime: 3
+  maxTime: 5
+  tmpTime: 5
   curTime: 0
   miniUI: {fileID: 7914241226073535964}
   miniHealth: {fileID: 8135465804925549303}
@@ -15207,11 +15207,12 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
-  enemy: {fileID: 0}
-  bulletShotter: {fileID: 0}
+  rigid: {fileID: 2394127353045944079}
+  enemy: {fileID: 4817277029382731046}
+  bulletShotter: {fileID: 6525706736713190484}
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  maxRange: 15
+  maxRange: 3
   points:
   - {fileID: 0}
   - {fileID: 0}
@@ -15244,7 +15245,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 0a0f9890b8b84874ab28bdf6ee31b2c5, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Hallway
