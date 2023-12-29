@@ -29,7 +29,10 @@ public class Agent_Orc : Agent
         }
     }
     //맥스 스텝은 늘린채로 놔도 이상 없음
-    
+    //평면에서 학습하다가 환경 2로 옮김
+    //<Enemy_Orc>
+    //mlagents-learn "D:\gitHubDeskTop\ML_EX_GIT\config\ppo\Enemy_Orc.yaml" --run-id=Enemy_Orc_K --resum(2시간즈음부터 성능 향상 시작됨)
+
     Coroutine bigCor;
     WaitForSeconds wait = new WaitForSeconds(0.12f);
     IEnumerator bigSlash()
@@ -74,7 +77,7 @@ public class Agent_Orc : Agent
 
         if (Y == 1 && enemy.isGround) 
         {
-            AddReward(-0.0500f);
+            AddReward(-0.0050f);
         }
 
         enemy.xyRPC(X, Y);
@@ -135,7 +138,7 @@ public class Agent_Orc : Agent
         {
             if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 사망
             {
-                AddReward(-10f);
+                AddReward(-1f);
                 EndEpisode();
             }
         }
@@ -143,9 +146,9 @@ public class Agent_Orc : Agent
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Finish") && enemy.isML)
+        if (collision.gameObject.CompareTag("Player") && enemy.isML)
         {
-            Debug.Log("Finish");
+            //Debug.Log("Finish");
             AddReward(10f);//점프였나 거기
             EndEpisode();//이것만으로 초기화가 되진 않음
         }
@@ -158,17 +161,20 @@ public class Agent_Orc : Agent
     {
         if (enemy.isML) 
         {
-            int r1 = Random.Range(0, points.Length);
+            return;
+
+            int enemyIndex = Random.Range(0, points.Length);
+            
 
             while (true)
             {
-                int r2 = Random.Range(0, points.Length);
-                if (r1 != r2)
+                int playerIndex = Random.Range(0, points.Length);
+                if (enemyIndex != playerIndex)
                 {
-                    transform.position = points[r1].position;
+                    transform.position = points[enemyIndex].position;
                     rigid.velocity = Vector2.zero;
 
-                    player.transform.position = points[r2].position;
+                    player.transform.position = points[playerIndex].position;
                     break;
                 }
             }

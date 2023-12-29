@@ -80,7 +80,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         //[Header("머신러닝 중인지")]
         public bool isML;
 
-        public enum EnemyType { Goblin, Orc }//쓸려나?
+        public enum EnemyType { Goblin, Orc, Lizard}//쓸려나?
         public EnemyType enemyType;
 
         private void Awake()
