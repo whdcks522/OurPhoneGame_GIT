@@ -158,6 +158,9 @@ public class Agent_Orc : Agent
     {
         if (enemy.isML) //자신에 의해서만 발동
         {
+            //Debug.Log("Orc");
+            //자신의 코드에 의해서만 발동됨(남이 뭘 하든 상관 x, 충돌의 경우 둘다 적용됨)
+
             int enemyIndex = Random.Range(0, points.Length);
             
 

@@ -240,7 +240,9 @@ mlagents-learn "D:\gitHubDeskTop\ML_EX_GIT\config\ppo\Enemy_Orc.yaml" --run-id=E
 
 <Enemy_Lizard>
 mlagents-learn "D:\gitHubDeskTop\OurPhoneGame_GIT\Assets\Resources\Scenes\ML\Enemy_Lizard.yaml" --run-id=Enemy_Lizard_A --resum(오크의 Behavior Type을 Inference Only로 수정해야됨, 가중치 동시 입력 가능함(축구 참조))
-
+[INFO] Enemy_Lizard. Step: 8080000. Time Elapsed: 31025.638 s. Mean Reward: 6.146. Std of Reward: 7.572. Training.
+[INFO] Enemy_Lizard. Step: 8090000. Time Elapsed: 31071.068 s. Mean Reward: 5.591. Std of Reward: 7.187. Training.
+[INFO] Enemy_Lizard. Step: 8100000. Time Elapsed: 31116.453 s. Mean Reward: 6.215. Std of Reward: 6.966. Training.
 
 
 

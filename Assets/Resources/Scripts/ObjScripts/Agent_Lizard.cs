@@ -36,7 +36,7 @@ public class Agent_Lizard : Agent
         //저격
         yield return wait;
 
-        audioManager.PlaySfx(AudioManager.Sfx.Slash);
+        audioManager.PlaySfx(AudioManager.Sfx.Arrow);
         bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);//작게 산탄
     }
 
@@ -52,7 +52,9 @@ public class Agent_Lizard : Agent
     {
         curRange = (player.transform.position - transform.position).magnitude;
         AddReward(0.005f);//* 10    (0~15)
+
         //Debug.Log(GetCumulativeReward());
+
         if (!enemy.isML)
         {
             if (enemy.maxTime <= enemy.curTime && curRange >= maxRange && gameObject.activeSelf)
@@ -155,12 +157,17 @@ public class Agent_Lizard : Agent
     {
         if (enemy.isML)
         {
-            int enemyIndex = Random.Range(0, points.Length);
+            //Debug.Log("Lizard");
+            //자신의 코드에 의해서만 발동됨(남이 뭘 하든 상관 x, 충돌의 경우 둘다 적용됨)
+
+            //오크가 죽는다고 리자드 시간이 초기화되진 않음
+
+            int enemyIndex = Random.Range(0, points.Length);//본인(적)의 위치
 
 
             while (true)
             {
-                int playerIndex = Random.Range(0, points.Length);
+                int playerIndex = Random.Range(0, points.Length);//플레이어의 위치
                 if (enemyIndex != playerIndex)
                 {
                     transform.position = points[enemyIndex].position;
