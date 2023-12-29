@@ -13,7 +13,6 @@ public class Agent_Orc : Agent
     public Enemy enemy;
     public BulletShotter bulletShotter;
     public GameObject player;
-    public CharacterControls characterControls;
     AudioManager audioManager;
     public float maxRange;
     void Start()
@@ -21,7 +20,6 @@ public class Agent_Orc : Agent
         if (!enemy.isML) 
         {
             player = enemy.player;
-            characterControls = enemy.characterControls;
 
             bulletShotter.gameManager = enemy.gameManager;
 
@@ -41,7 +39,7 @@ public class Agent_Orc : Agent
         yield return wait;
 
         audioManager.PlaySfx(AudioManager.Sfx.Slash);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 1);//작게 산탄
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 1);//크게 산탄
     }
 
     private void OnDisable()
@@ -146,9 +144,8 @@ public class Agent_Orc : Agent
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && enemy.isML)
+        if (collision.gameObject == player && enemy.isML)
         {
-            //Debug.Log("Finish");
             AddReward(10f);//점프였나 거기
             EndEpisode();//이것만으로 초기화가 되진 않음
         }
@@ -159,10 +156,8 @@ public class Agent_Orc : Agent
 
     public override void OnEpisodeBegin()//EndEpisode가 호출됐을 때 사용됨(씬을 호출할 때는 통째로 삭제)
     {
-        if (enemy.isML) 
+        if (enemy.isML) //자신에 의해서만 발동
         {
-            return;
-
             int enemyIndex = Random.Range(0, points.Length);
             
 
@@ -177,7 +172,7 @@ public class Agent_Orc : Agent
                     player.transform.position = points[playerIndex].position;
                     break;
                 }
-            }
+            }    
         }
     }
 }

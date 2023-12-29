@@ -1,0 +1,246 @@
+유튜브 강좌)	https://www.youtube.com/watch?v=RsCjC4yDpzE
+예제)	https://github.com/Unity-Technologies/ml-agents/blob/develop/docs/Learning-Environment-Examples.md
+크기: 5GB
+
+1. 파이썬 다운
+3.7.9	//최신버전은 오류 발생하나봄
+
+2. 파이썬 머신러닝 다운
+python -m pip install mlagents==0.28.0	//pip설치?
+python -m pip install --upgrade pip		//pip업그레이드?
+
+3. 파이토치
+pip3 install torch torchvision torchaudio
+
+
+3.5	//비공식	https://forum.unity.com/threads/typeerror-descriptors-cannot-be-created-directly-error-when-running-mlagents-learn.1399114/
+3.5.1 버퍼 다운
+pip install protobuf==3.20.3
+3.5.2 six 다운
+pip uninstall six
+pip install six
+
+4. 머신러닝 함수 확인(설치 확인)	//3.5없이 하면 고장남
+mlagents-learn --help
+
+5. 유니티 LTS 프로젝트 생성(URP는 아니였음, 다른 프로젝트에서도 되나봄)
+유니티 레지스트리)ML_Tutorial
+에셋에 생성 되는건 아닌가봄
+
+6. 직접 신경망 만들기(CMD 끄면 종료됨)
+mlagents-learn "D:\UnityHub\UnityProject\ml-agents-develop\config\ppo\Hallway.yaml" --run-id=UTK_Hallway
+
+config/ppo(ppo가 안정적임, 각 환경에 걸맞은 하이퍼 파라미터가 있음)
+
+이러면 실행해서 학습하라고 나옴
+디폴트로 하고 실행
+
+GPT 질문)
+유니티에서 머신러닝 학습하려고 mlagents-learn "D:\UnityHub\UnityProject\ml-agents-develop\config\ppo\Hallway.yaml" --run-id="UTK_Hallway"을 입력했더니
+ mlagents.trainers.exception.UnityTrainerException: Previous data from this run ID was found.
+ Either specify a new run ID, use --resume to resume this run, or use the --force parameter to overwrite existing data. 이런 오류가 발생해.
+
+답)
+이 오류는 ML-Agents에서 학습을 시작하려고 할 때 발생하는 것으로, 이전에 동일한 Run ID로 실행한 학습 데이터가 이미 존재한다는 것을 나타냅니다.
+이 문제를 해결하기 위해 다음 중 하나를 시도할 수 있습니다:
+선택한 옵션에 따라서 진행하시면 됩니다. 보통은 학습을 처음 시작할 때는 새로운 Run ID를 사용하는 것이 좋습니다. 
+그리고 이전 학습을 재개하거나 데이터를 덮어쓸 때는 주의해서 진행하세요.
+
+6.1 새로운 Run ID 사용:
+새로운 학습 실행에 대해 새로운 Run ID를 지정하십시오. 이렇게 하면 이전 데이터와 충돌하지 않습니다.
+mlagents-learn "D:\UnityHub\UnityProject\ml-agents-develop\config\ppo\Hallway.yaml" --run-id=NewRunID
+
+6.2 이전 학습 재개:	//이거하니까 되더라
+이미 실행 중인 학습을 재개하려면 --resume 플래그를 사용하십시오.
+mlagents-learn "D:\UnityHub\UnityProject\ml-agents-develop\config\ppo\Hallway.yaml" --run-id=UTK_Hallway --resume
+
+6.3 기존 데이터 덮어쓰기:
+이전 데이터를 덮어쓰려면 --force 파라미터를 사용하십시오. 주의가 필요합니다. 이렇게 하면 이전 데이터가 손실될 수 있습니다.
+mlagents-learn "D:\UnityHub\UnityProject\ml-agents-develop\config\ppo\Hallway.yaml" --run-id=UTK_Hallway --force
+
+하지만 이대로면 학습이 느림
+해결책 1. 하나의 씬에 여러가지 환경을 만드는 것
+Training Area Replicator
+Base Area: 학습 환경
+Num Areas: 환경의 갯수
+Separation: 환경 간의 거리
+build only 해제
+
+해결책 2. 분산학습(--envs = 실행파일의 경로 필요함, --num-envs=4개의 빌드 화면, 작동 안됨)
+mlagents-learn "D:\UnityHub\UnityProject\ml-agents-develop\config\ppo\Hallway.yaml" --env = "D:\UnityHub\UnityExe\ML_EX\UnityEnvironment.exe" --run-id=UTK_Hallway --num-envs=4
+
+<<유니티 머신러닝 학습 방법 & 예제 데모 시연>>	//https://www.youtube.com/watch?v=pO2j9vpY0vM
+요즘은 텐서플로우가 아니라 파이토치를 씀
+휴리스틱으로 해서 학습 하는 것은, 이미테이션 학습에서만 가능(우린 안함)
+자동 배속으로 학습함
+
+
+방화벽으로 못할 수 도 있음(난 확인창 뜨더라)
+환경은 유니티에 있고 설정값이 yami임
+잠깐씩 멈출때마다 버퍼에 저장함
+에이전트가 많으면 더 빠름
+Traceback은 그냥 오래둬도 발생하기도 함
+cmd에서 파이토치를 시작하면 연동해서 하는 것
+
+파일은 아래에 생성됨(위치 안알려주더랑): C:\Users\Happy\results\UTK_Hallway\3DBall
+--------------------------------------------------------------------------------------------------------
+cmd 종료하면 유니티도 정지됨
+[INFO] Basic. Step: 2000. Time Elapsed: 29.840 s. Mean Reward: 0.014. Std of Reward: 0.351. Training.
+Basic. Step: 2000: 현재 학습 단계(Step)가 2000임을 나타냅니다.
+			에이전트가 환경에서 몇 번의 행동을 수행했는지를 나타내는 값입니다.
+Time Elapsed: 29.840 s: 학습에 소요된 시간입니다.
+			현재까지의 학습에 걸린 총 시간을 나타냅니다. 여기서는 29.840초가 걸렸습니다.
+Mean Reward: 0.014: 현재까지의 학습에서 얻은 보상의 평균값입니다.
+			보상은 에이전트의 행동에 대한 환경의 피드백으로서, 이 값은 양수일 수도 있고 음수일 수도 있습니다. 현재는 0.014로 매우 작은 양수값을 나타냅니다.
+Std of Reward: 0.351: 보상의 표준편차입니다. 이 값은 보상의 변동성을 나타냅니다.
+			표준편차가 크면 보상이 불안정하게 흔들린다는 것을 의미할 수 있습니다.
+Training: 현재 학습 중임을 나타냅니다
+maxStep 다되면 초기화되나봄 60정도가 1초
+--------------------------------------------------------------------------------------------------------
+유니티[TIPS] ML-Agents 관측과 센서 소개
+시각, 촉각
+우선적으로 수치적 관측을 한 뒤, 잘 안되면 시각적 관측(센서)으로 이동
+
+그리드 센서: 이미지 센서, 3D에서만 사용 가능함
+
+    -중간-------------------------
+    보상 설정 1. 더하기
+        addReward(1.0f);
+        addReward(1.0f);
+        addReward(1.0f);
+        =reward = 3.0f; 
+    보상 설정 2. 설정
+        setReward(10.0f);
+        =reward = 10.0f; 
+    적용 예제
+    1. 가까워질수록 설정
+    2. 체크 포인트 느낌
+    3. 생존 할 수록 점수 주는 것(3DBall, 실제론 이렇게 안주던뎅)
+    4. 살아 있는 한 감점(SetReward:죽었을 때 사용함, 쥐돌이)
+
+
+    알고리즘과 하이퍼 파라미터
+    ML 에이전트는 PPO, SAC, MA_POCA, Imitation 러닝을 지원(여기서는 모방 학습과 다중 에이전트 강화 학습을 제외, Continous만 가능한 SAC도 생략)
+    PPO가 제일 범용성이 높고, 학습 안정성이 높음
+    하이퍼 파라미터 튜닝은 환경마다 조금씩 달라서, 강의 내용은 하나의 참고 자료로 사용
+        보통 시행착오로 찾는게 일반적임
+
+    behavoirs:
+        ??: 행동 파라미터의 이름과 같아야 함(예제는 변경돼 있음)
+            trainer_type: ppo
+            어떤 내장 알고리즘을 사용할지(PPO 사용 할 것, SAC, POCA로도 설정이 가능함)
+
+                batch_size: 128
+                각 경사하강법의 반복의 횟수(Discrete에서는 32~512, Continuous:512~5120, 2의 배수로 설정)
+
+                buffer_size: 1024
+                업데이트 하기 전 수집하는 경험의 갯수(2048~409600, 2의 배수, ##배치 값의 배수로 설정(보통 배치의 40배), 비슷한 배치값을 점차 높임)
+                
+                learning_rate: 0.0003!!(1)
+                경사하강법에 대한 초기학습률(훈련이 불안정하거나, reward가 지속적으로 증가하지 않을 때 값을 줄임, 1e^(-5) ~ 1e^(-3))
+                ##안정성과 관련됨
+                
+                beta: 0.03
+                정책을 무작위로 만드는 엔트로피값(텐서 모드에서 학습이 되지 않앗는데도 엔트로피 값이 너무 빨리 떨어질 경우 값을 높임, 1e^(-4) ~ 1e^(-2))
+                ML에이전트에서는 Discrete 환경에서 엔트로피는 0 이하 될 수 없지만, Continous에서는 0보다 작아 질 수 있음
+                만약 Discrete 환경이라면, 엔트로피가 너무 빨리 0이 될 경우, 이 값을 높임, 너무 느리게 0이 될 경우, 이 값을 줄임
+
+                epsilon: 0.2
+                정책이 얼마나 빠르게 발전하는지 값(값을 줄일수록 ##안정적이지만 학습 속도가 느려짐)
+                ##개인적으로 디폴트가 제일 좋은듯(0.1~0.3)
+
+                lambd: 0.95
+                가치 추정에 의존할지, 실제 수령하는 보상에 의존할지 결정함(0.9~0.95)
+                값이 작으면 가치 추정에 의존하고, 값이 크면 실제 수령 보상에 의존함
+
+                num_epoch: 3!!(2)
+                경험 버퍼에 쌓인 데이터에 대해, 학습을 몇 번 수행할 지에 대한 값
+                배치가 커질 수록 커져야 함
+                작으면 ##안정적이지만 학습 속도는 느려짐(3 ~ 10)
+
+                learing_rate_schedule: linear
+                linear, Constant가 있음.
+                linear로 설정할 경우, maxStep에 따라 learningRate가 감소하면서, 학습이 진행됨
+                ##개인적으로 에피소드의 길이가 긴 학습이면, 학습이 진행됨에 따라 점차 안정적인 학습을 요구해, linear로 설정하면 베타와 같이 값이 하락
+                이름과 달리 베타 값도 같이 선형적으로 감소할지, 초기 값을 유지할 지 처리됨
+            network_settings:
+                normalize: false!!(3)
+                벡터,관측 입력을 정교화 할지 결정하는 값
+                단순하거나 Discrete한 환경: false
+                복잡하거나 Continuous한 환경: true
+                하지만 예제를 보면, Continous한 환경이여도 단순한 환경이면 false를 사용하는 경우도 있음
+
+                hidden_units: 128!!(4)
+                인공 신경망에 몇개의 유닛을 사용할 지 결정함
+                단순한 환경일 경우 작게, 복잡하면 크게
+                32 ~ 512
+
+                num_layers: 2
+                은닉층의 갯수를 설정
+                1~3(머신 러닝 에이전트에서는 2가 정석임)
+                
+                vis_encode_type: simple
+                시각적 관찰을 인코딩하는 인코더 유형
+                기본적으로는 simple(20 * 20)을 사용함
+                크기를 작게 하고싶은 경우, Match3, Resnet을 사용
+                크기를 키우고 싶은 경우, Nature_cnn, Fully_connected
+
+        reward_signals:     //보상 신호
+            extrinsic:
+                gamma: 0.99
+                할인률와 관련됨
+                절대 1이 넘지 않아야 함, 값이 클 수록 원시안 쪽으로, 작을수록 근시안 쪽으로 에이전트가 행동함
+                0.8 ~ 0.995
+                
+                strength: 1.0
+                설정한 보상에 곱할 인수
+                보통 1.0을 사용함
+
+            keep_checkpoints: 5
+            몇 번 학습 모델을 저장할 지 설정
+            max_steps: 10000000     //천만번
+            학습이 진행될 최대 스텝
+            이 값에 도달하면, 학습이 종료됨
+            learing_rate_schedule를 linear로 설정하면, 이 값에 따라 학습률의 beta가 감소함
+            복잡한 환경에서는 값을 키워야 함
+            10000000 / 5 = 2000000번 학습 할때마다, 체크포인트, 즉 학습모델을 저장함
+
+            time_horizon:64
+            경험 버퍼에 저장하기 전, 에이전트가 수집할 경험의 스탭 수
+            에피소드가 끝나기 않고 이 스탭에 도달하게 되면, 에이전트는 전체 보상을 예측함
+            값이 클 수록 분산이 커짐, 작으면 분산이 작아짐
+            보상이 잦은 경우에는, 작게 설정하는 것이 이상적임
+            32~2048
+
+            summary_freq: 10000
+            콘솔에 출력 될 학습 주기
+            개인적으로 가독성을 키우기 위해 복잡하고 max_step이 높은 환경에서는 크게, 단순한 환경에서는 작게
+            학습과 관련된 파라미터는 아니지만, 모니터링 할때 학습이 잘 되는지 확인하기 어려움
+
+            나머지는 공식문서 링크에 올려놓음
+
+            데모 시연 10:05 //오래되면 cmd 연결 끊김 
+            데모 시연 13:20 //유니티 플레이 멈추면 파일 생성됨
+
+32개가 적당함(내 개인적인 체감상)
+----------------------------------------------------------------------------------------------------------------
+<HallWayTest>	//약 2시간 걸림
+브레인 껴둔채로 학습하면, 브레인 없는 취급됨
+mlagents-learn "D:\gitHubDeskTop\ML_EX_GIT\config\ppo\Hallway.yaml" --run-id=HallWayTest --resum
+[INFO] Hallway. Step: 4290000. Time Elapsed: 1839.980 s. Mean Reward: 0.656. Std of Reward: 0.472. Training.
+[INFO] Hallway. Step: 4300000. Time Elapsed: 1858.945 s. Mean Reward: 0.588. Std of Reward: 0.508. Training.
+[INFO] Hallway. Step: 4310000. Time Elapsed: 1878.158 s. Mean Reward: 0.553. Std of Reward: 0.521. Training.
+
+<SampleTest>	//약 10분 걸림(로그 속도가 위 보다 한 10배 빠른듯)
+mlagents-learn "D:\gitHubDeskTop\ML_EX_GIT\config\ppo\Hallway.yaml" --run-id=HallWayTest --resum
+mlagents-learn "D:\gitHubDeskTop\ML_EX_GIT\config\ppo\Basic.yaml" --run-id=SampleTest --resum
+
+<Enemy_Orc>
+mlagents-learn "D:\gitHubDeskTop\ML_EX_GIT\config\ppo\Enemy_Orc.yaml" --run-id=Enemy_Orc_K --resum(2시간즈음부터 성능 향상 시작됨)
+
+<Enemy_Lizard>
+mlagents-learn "D:\gitHubDeskTop\OurPhoneGame_GIT\Assets\Resources\Scenes\ML\Enemy_Lizard.yaml" --run-id=Enemy_Lizard_A --resum(오크의 Behavior Type을 Inference Only로 수정해야됨, 가중치 동시 입력 가능함(축구 참조))
+
+
+
+
