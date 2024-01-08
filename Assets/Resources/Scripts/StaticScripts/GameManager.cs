@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     List<GameObject>[] objPools;
 
     //7. 적 리스트
-    string[] enemyNames = { "Enemy_Goblin", "Enemy_Orc"};
+    string[] enemyNames = { "Enemy_Goblin", "Enemy_Orc", "Enemy_Lizard" };
     //이펙트 주소가 저장될 곳
     List<GameObject>[] enemyPools;
 

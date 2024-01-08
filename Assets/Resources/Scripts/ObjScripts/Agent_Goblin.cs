@@ -13,10 +13,12 @@ public class Agent_Goblin : MonoBehaviour
     public CharacterControls characterControls;
     AudioManager audioManager;
 
+    Vector2 rigidVec;
     void Start()
     {
         enemy = GetComponent<Enemy>();
         bulletShotter = GetComponent<BulletShotter>();
+
         player = enemy.player;
         characterControls = enemy.characterControls;
 
@@ -27,6 +29,9 @@ public class Agent_Goblin : MonoBehaviour
 
     void Update()
     {
+        //속도 초기화
+        enemy.xyRPC(0, 0);
+
         if (enemy.maxTime <= enemy.curTime) 
         {
             //장전

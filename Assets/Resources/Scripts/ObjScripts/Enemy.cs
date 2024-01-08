@@ -120,8 +120,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             curHealth = maxHealth;
             miniHealth.fillAmount = 1;
 
-            
-
             //오브젝트 활성화
             isDead = false;
             
@@ -359,8 +357,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Block);
                     sfxLevel = 0;
                 }
-
-
             }
 
             if (curHealth <= 0)
@@ -389,6 +385,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 //사망 처리
                 isDead = true;
                 rigid.velocity = new Vector3(rigid.velocity.x, -jumpForce / 2);
+                //번쩍
+                Character.Blink();
                 //애니메이션
                 Character.SetState(AnimationState.Dead);
                 //효과음
@@ -451,9 +449,16 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 default:
                     break;
             }
-
-            maxTime = tmpTime + UnityEngine.Random.Range(-1 * tmpF, tmpF);
             curTime = 0;
+
+            if (tmpF != 0f)
+            {
+                maxTime = tmpTime + UnityEngine.Random.Range(-1 * tmpF, tmpF);
+            }
+            else if (tmpF == 0f)
+            {
+                maxTime = tmpTime;
+            }
         }
     }
 }

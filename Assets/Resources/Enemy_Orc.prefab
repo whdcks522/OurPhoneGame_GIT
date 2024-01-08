@@ -14969,7 +14969,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4567551690595120229
 Transform:
   m_ObjectHideFlags: 0
@@ -15057,11 +15057,11 @@ MonoBehaviour:
   JumpDust: {fileID: 2465723098712406413}
   _inputX: 0
   _inputY: 0
-  maxHealth: 150
-  curHealth: 150
-  playerHeal: 20
-  maxTime: 5
-  tmpTime: 5
+  maxHealth: 200
+  curHealth: 200
+  playerHeal: 10
+  maxTime: 3
+  tmpTime: 3
   curTime: 0
   miniUI: {fileID: 7914241226073535964}
   miniHealth: {fileID: 8135465804925549303}
@@ -15075,7 +15075,7 @@ MonoBehaviour:
   isGround: 0
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  isML: 1
+  isML: 0
   enemyType: 1
 --- !u!114 &6525706736713190484
 MonoBehaviour:
@@ -15215,8 +15215,7 @@ MonoBehaviour:
   enemy: {fileID: 4817277029382731046}
   bulletShotter: {fileID: 6525706736713190484}
   player: {fileID: 0}
-  characterControls: {fileID: 0}
-  maxRange: 3
+  maxRange: 7
   points:
   - {fileID: 0}
   - {fileID: 0}

@@ -33,13 +33,13 @@ public class Agent_Orc : Agent
 
     Coroutine bigCor;
     WaitForSeconds wait = new WaitForSeconds(0.12f);
-    IEnumerator bigSlash()
+    IEnumerator directSlash()
     {
         //저격
         yield return wait;
 
         audioManager.PlaySfx(AudioManager.Sfx.Slash);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 1);//크게 산탄
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 0);
     }
 
     private void OnDisable()
@@ -62,7 +62,7 @@ public class Agent_Orc : Agent
                 //장전
                 enemy.reloadRPC(1f, "Slash");
                 //실제 사격
-                bigCor = StartCoroutine(bigSlash());
+                bigCor = StartCoroutine(directSlash());
             }
         }
 
@@ -105,7 +105,7 @@ public class Agent_Orc : Agent
         
         //1. 수치형, 받아오는 데이터가 적을 수록 좋음
         //자신의 정보
-        if (gameObject.activeSelf) 
+        if (gameObject.activeSelf) //죽으면 필요 없자너
         {
             sensor.AddObservation(transform.position.x);//state size = 1     x,y,z를 모두 받아오면 size가 3이 됨
             sensor.AddObservation(transform.position.y);

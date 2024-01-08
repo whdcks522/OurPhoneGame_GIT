@@ -800,7 +800,7 @@ Transform:
   - {fileID: 7205275427755846636}
   - {fileID: 3012386206193093263}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7841486788915021170
 GameObject:
@@ -1351,18 +1351,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829479165587831264}
     m_Modifications:
-    - target: {fileID: 161898016194952143, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
-      propertyPath: sceneViewId
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2650741302234849207, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650741302234849207, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
-      propertyPath: m_BehaviorName
-      value: Enemy_Lizard
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: 711fd4042293b1842a23aee21bb981c7, type: 3}
     - target: {fileID: 2650741302234849207, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
       propertyPath: m_BehaviorType
       value: 0
@@ -1415,10 +1407,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4817277029382731046, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
-      propertyPath: enemyType
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5974046474224742084, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
       propertyPath: m_Name
       value: Enemy_Lizard
@@ -1427,10 +1415,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 3565630142289642778}
-    - target: {fileID: 7238822321369929978, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
-      propertyPath: playerRigid
-      value: 
-      objectReference: {fileID: 4803682740364324049}
     - target: {fileID: 7238822321369929978, guid: 7141881d8d1195c4ba7b302b87546efd, type: 3}
       propertyPath: points.Array.data[0]
       value: 
@@ -2640,14 +2624,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829479165587831264}
     m_Modifications:
-    - target: {fileID: 161898016194952143, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: sceneViewId
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2650741302234849207, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-      propertyPath: m_BehaviorType
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4567551690595120229, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2744,11 +2720,6 @@ PrefabInstance:
 --- !u!1 &3565630142289642778 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5974046474224742084, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
-  m_PrefabInstance: {fileID: 7175283298339302366}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &4803682740364324049 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 2394127353045944079, guid: 591f5b8fa411d8c4697ecc52206dc6e3, type: 3}
   m_PrefabInstance: {fileID: 7175283298339302366}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6697009003301871547 stripped

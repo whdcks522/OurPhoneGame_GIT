@@ -14969,7 +14969,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4567551690595120229
 Transform:
   m_ObjectHideFlags: 0
@@ -15060,8 +15060,8 @@ MonoBehaviour:
   maxHealth: 150
   curHealth: 150
   playerHeal: 20
-  maxTime: 5
-  tmpTime: 5
+  maxTime: 3
+  tmpTime: 3
   curTime: 0
   miniUI: {fileID: 7914241226073535964}
   miniHealth: {fileID: 8135465804925549303}
@@ -15075,7 +15075,7 @@ MonoBehaviour:
   isGround: 0
   player: {fileID: 0}
   characterControls: {fileID: 0}
-  isML: 1
+  isML: 0
   enemyType: 2
 --- !u!114 &6525706736713190484
 MonoBehaviour:
@@ -15212,7 +15212,6 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 3000
   rigid: {fileID: 2394127353045944079}
-  playerRigid: {fileID: 0}
   enemy: {fileID: 4817277029382731046}
   bulletShotter: {fileID: 6525706736713190484}
   player: {fileID: 0}
@@ -15240,7 +15239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 10
+    VectorObservationSize: 8
     NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -15249,9 +15248,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 711fd4042293b1842a23aee21bb981c7, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: Enemy_Lizard
   TeamId: 0
   m_UseChildSensors: 1

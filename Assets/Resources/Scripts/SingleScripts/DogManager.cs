@@ -11,11 +11,17 @@ public class DogManager : MonoBehaviour
     [Header("최대 생성 시간")]
     public float maxTime;
     //현재 생성 시간
-    float curTime = 2;//------------------ㄱㅊ아서
+    float curTime = 2;//------------------
 
     [Header("적 발생 지점")]
     public Transform dogPointsParent;
     GameObject[] dogPoints;
+
+    [Header("강화 별 발생 지점")]
+    public Transform powerUpPointsParent;
+    GameObject[] powerUpPoints;
+    int powerUpCurIndex = 0;
+    public int powerUpMaxIndex = 0;
 
     [Header("씬의 레벨")]
     public int scenelevel;
@@ -27,20 +33,28 @@ public class DogManager : MonoBehaviour
 
     [Header("플레이어 스크립트")]
     public CharacterControls characterControls;
+    public GameObject player;
 
     BattleUIManager battleUIManager;
-    [Header("게임 매니저")]
     public GameManager gameManager;
+    public BulletShotter bulletShotter;
+
 
     private void Start()
     {
         battleUIManager = BattleUIManager.Instance;
 
-        //바람 발생지 배열 적용
+        //적 발생지 배열 적용
         dogPoints = new GameObject[dogPointsParent.childCount];
         for (int i = 0; i < dogPointsParent.childCount; i++)
         {
             dogPoints[i] = dogPointsParent.GetChild(i).gameObject;
+        }
+        //강화 별 발생지 배열 적용
+        powerUpPoints = new GameObject[powerUpPointsParent.childCount];
+        for (int i = 0; i < powerUpPointsParent.childCount; i++)
+        {
+            powerUpPoints[i] = powerUpPointsParent.GetChild(i).gameObject;
         }
         //게임 시작 시,  재생산 속도 목록
         curDogSpeed = dogSpeedArr[5];
@@ -51,13 +65,6 @@ public class DogManager : MonoBehaviour
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Fly);
 
-        /*
-        for (int i = 0; i < 5; i++) 
-        {
-            Debug.Log("Generate");
-            createEnemy(dogPoints.Length - 1, "Enemy_Orc", false);
-        }
-        */
     }
 
 
@@ -90,44 +97,65 @@ public class DogManager : MonoBehaviour
             }
 
             //시간 초기화
-            curTime = -0f;
+            curTime = 0f;
+            //curTime = -100f;
 
             //생성 효과음
             battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Summon);
+
+            if (++powerUpCurIndex >= powerUpMaxIndex) 
+            {
+                powerUpCurIndex = 0;
+                int powerUpPos = Random.Range(0, powerUpMaxIndex);
+                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp, powerUpPoints[powerUpPos], player, 0);
+            }
 
             //적 생성
             if (scenelevel == 0)
             {
                 //장소와 타입 설정
                 int posR = Random.Range(0, dogPoints.Length);
-                int typeR = 1;//Random.Range(0, 2);
+
+                //int typeR = 2;
+                int typeR = Random.Range(0, 4);
                 string type = "";
+
                 switch (typeR) 
                 {
                     case 0:
                         type = "Enemy_Goblin";
                         break;
                     case 1:
+                    case 2:
                         type = "Enemy_Orc";
                         break;
+                    case 3:
+                        type = "Enemy_Lizard";
+                        break;
                 }
-                createEnemy(posR, type, true);
+                createEnemy(posR, type);
             }
         }
     }
 
-    void createEnemy(int pos, string type, bool isActive) 
+    //적이 생성 될 위치
+    Vector3 createVec;
+
+    #region 적 생성
+    void createEnemy(int pos, string type) 
     {
         GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
         Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
         enemyComponent.gameManager = gameManager;
 
-        //if (isActive) 
-        {
-            //적 위치 조정
-            enemyGameObject.transform.position = dogPoints[pos].transform.position;
-            //적 활성화
-            enemyComponent.activateRPC();
-        }
+        //적 위치 조정
+        float x = Random.Range(-1f, 1f);
+        float y = Random.Range(-1f, 1f);
+        createVec = new Vector3(x, y, 0);
+        enemyGameObject.transform.position = dogPoints[pos].transform.position + createVec;
+
+        //적 활성화
+        enemyComponent.activateRPC();
     }
+    #endregion
 }

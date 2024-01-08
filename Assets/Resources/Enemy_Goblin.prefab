@@ -15007,9 +15007,9 @@ MonoBehaviour:
   _inputY: 0
   maxHealth: 400
   curHealth: 400
-  playerHeal: 20
-  maxTime: 5
-  tmpTime: 5
+  playerHeal: 10
+  maxTime: 3
+  tmpTime: 3
   curTime: 0
   miniUI: {fileID: 8764504986146110352}
   miniHealth: {fileID: 500615374362100254}

@@ -13,7 +13,10 @@ public class Agent_Lizard : Agent
     public BulletShotter bulletShotter;
     public GameObject player;
     AudioManager audioManager;
+    //대상과의 최대 거리(거리 밖이면 사격)
     public float maxRange;
+    //대상과의 거리
+    float curRange;
     void Start()
     {
         if (!enemy.isML)//머신러닝중이 아니라면
@@ -46,8 +49,7 @@ public class Agent_Lizard : Agent
             StopCoroutine(bigCor);
     }
 
-    //대상과의 거리
-    float curRange;
+    
     public override void OnActionReceived(ActionBuffers actions)//액션 기입(가능한 동작), 매 번 호출 
     {
         curRange = (player.transform.position - transform.position).magnitude;
@@ -67,7 +69,7 @@ public class Agent_Lizard : Agent
         }
 
         //  Discrete Action(정수를 반환함, 특정 행동에 사용하기 좋음(AllBuffered와 같은 느낌?))
-        //  mlagents-learn --force
+        //  mlagents-learn --force(그냥 실험하기)
 
         int X = actions.DiscreteActions[0] - 1;
         int Y = actions.DiscreteActions[1];
