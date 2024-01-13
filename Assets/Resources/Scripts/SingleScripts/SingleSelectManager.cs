@@ -11,6 +11,10 @@ public class SingleSelectManager : MonoBehaviour
     [Header("페이드 아웃을 구현할 이미지")]
     public GameObject fadeGameObject;
     Image fadeImage;
+    [Header("페이드 아웃을 구현할 툴팁 텍스트")]
+    public Text tipText;
+    public TipData tipData;
+    
     [Header("로딩중 보여주는 이미지")]
     public GameObject loadGameObject;
     Text loadText;
@@ -45,10 +49,9 @@ public class SingleSelectManager : MonoBehaviour
 
         // 시작할 때 페이드 아웃 효과 실행
         StartCoroutine(StartFadeIn(singlePanelInnerTitle));
-        
     }
 
-    IEnumerator StartFadeIn(string _targetScene)
+    IEnumerator StartFadeIn(string _targetScene)//화면 까매짐
     {
         fadeGameObject.SetActive(true);
         Color color = fadeImage.color;
@@ -64,11 +67,12 @@ public class SingleSelectManager : MonoBehaviour
 
             yield return null;
         }
-
-        loadText.gameObject.SetActive(true);
+        //별 활성화
         loadGameObject.SetActive(true);
-        //로딩 실행
-
+        //팁 텍스트 활성화
+        tipText.GetComponent<Text>().text = tipData.returnTip();
+        //로드 텍스트 활성화
+        loadText.gameObject.SetActive(true);
         StartCoroutine(LoadSceneAsyncCoroutine(singlePanelInnerTitle));
     }
 
