@@ -1163,12 +1163,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     case TypingType.Draw:
                         str = "Draw?";
                         break;
+                    case TypingType.None:
+                        str = _str;
+                        break;
                 }
                 loopTypingCor = StartCoroutine(loopTyping(str, isLoop));
             }
         }
-
-        
 
         IEnumerator loopTyping(string _str, bool isLoop)
         {
@@ -1176,10 +1177,11 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
             battleUIManager.typingControl(_str);
 
-            yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);
-
-            if(isLoop)
+            if (isLoop) 
+            {
+                yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);
                 loopTypingCor = StartCoroutine(loopTyping(_str, isLoop));
+            } 
         }
         #endregion
 

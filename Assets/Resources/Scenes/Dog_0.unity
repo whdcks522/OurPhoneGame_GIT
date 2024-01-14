@@ -2275,7 +2275,7 @@ MonoBehaviour:
   maxTime: 3
   dogPointsParent: {fileID: 124260841}
   powerUpPointsParent: {fileID: 1505183375}
-  powerUpMaxIndex: 2
+  powerUpMaxIndex: 4
   scenelevel: 0
   dogSpeedArr:
   - 2.5
@@ -2506,7 +2506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3049968198842785164, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.44444466
+      value: 1.5555553
       objectReference: {fileID: 0}
     - target: {fileID: 3049968198842785164, guid: 34016945e42510e4880e864a7f752c26, type: 3}
       propertyPath: m_LocalPosition.y

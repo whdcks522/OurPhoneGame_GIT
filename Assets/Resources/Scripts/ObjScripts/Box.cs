@@ -60,7 +60,9 @@ public class Box : MonoBehaviour
             {
                 #region 훈련용 상자 작동
 
-                battleUIManager.typingControl(boxDesc);
+                //타이핑
+                //battleUIManager.typingControl(boxDesc);
+                characterControls.loopTypingRPC(CharacterControls.TypingType.None, boxDesc, false);
 
                 if (boxChat.activeSelf)
                 {
@@ -138,6 +140,4 @@ public class Box : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    
 }

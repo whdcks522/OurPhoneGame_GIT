@@ -107,7 +107,8 @@ public class DogManager : MonoBehaviour
             {
                 powerUpCurIndex = 0;
                 int powerUpPos = Random.Range(0, powerUpMaxIndex);
-                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp, powerUpPoints[powerUpPos], player, 0);
+                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp, 
+                    powerUpPoints[powerUpPos], player, 1);
             }
 
             //Àû »ý¼º

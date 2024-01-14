@@ -17,8 +17,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 4fcc8ec004f86fd45b728c5f5905823b, type: 3}
   sceneInnerTitle: Dog_0
   sceneOutterTitle: "\uAC1C\uC2F8\uC6C0 0"
-  sceneDesc: "<color=#87CEEB>\uD558\uB298</color>\uC5D0\uC11C \uB5A8\uC5B4\uC9C0\uB294
-    <color=yellow>\uB178\uB780</color> \uBCC4\uC744 \uD53C\uD558\uBA70 \uC0DD\uC874\uD574\uB77C!\n"
+  sceneDesc: "<color=red>\uC801</color>\uB4E4\uC744 \uCC98\uCE58\uD558\uBA70 \uC0DD\uC874\uD574\uB77C!\n"
   Sscore: 250
   Ascore: 150
   Bscore: 100
