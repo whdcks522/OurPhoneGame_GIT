@@ -120,10 +120,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             curHealth = maxHealth;
             miniHealth.fillAmount = 1;
 
-            //오브젝트 활성화
             isDead = false;
-            
+
+            //오브젝트 활성화
             gameObject.SetActive(true);
+            //번쩍
+            Character.Blink();
         }
 
         #region xy 동기화

@@ -17,6 +17,7 @@ public class Paper : MonoBehaviour
         battleUIManager = BattleUIManager.Instance;
         JsonManager = battleUIManager.jsonManager;
         characterBuilder = hostBox.characterControls.CharacterBuilder;
+
         //귀찮아서 비활성화
         gameObject.SetActive(false);
     }
@@ -26,6 +27,7 @@ public class Paper : MonoBehaviour
     {
         //박스 창 나가기
         hostBox.ControlAdavancedBox(false);
+
         //몸 다시 만들기
         hostBox.characterControls.CharacterBuilder.Rebuild();
         //JSON 저장하기

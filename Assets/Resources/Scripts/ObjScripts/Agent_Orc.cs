@@ -39,7 +39,8 @@ public class Agent_Orc : Agent
         yield return wait;
 
         audioManager.PlaySfx(AudioManager.Sfx.Slash);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 0);
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 1);
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 1);
     }
 
     private void OnDisable()

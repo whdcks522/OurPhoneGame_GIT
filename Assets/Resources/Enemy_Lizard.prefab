@@ -15060,8 +15060,8 @@ MonoBehaviour:
   maxHealth: 150
   curHealth: 150
   playerHeal: 20
-  maxTime: 3
-  tmpTime: 3
+  maxTime: 4
+  tmpTime: 4
   curTime: 0
   miniUI: {fileID: 7914241226073535964}
   miniHealth: {fileID: 8135465804925549303}

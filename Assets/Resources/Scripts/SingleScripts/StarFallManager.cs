@@ -116,7 +116,7 @@ public class StarFallManager : MonoBehaviour
 
             BulletShotter bulletShotter = starFallPoints[ranPos].GetComponent<BulletShotter>();
 
-            if (scenelevel == 0) 
+            if (scenelevel == 0) //강화 운석 1개 발사
             {
                 if (curPowerUpIndex >= maxPowerUpIndex)//강화 운석
                 {
@@ -124,10 +124,13 @@ public class StarFallManager : MonoBehaviour
                         starFallPoints[ranPos], player, 0);
                     curPowerUpIndex = 0;
                 }
-                else //기본 운석
+                else //기본 운석 2개 발사
                 {
                     bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
                         starFallPoints[ranPos], player, 1);
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                        starFallPoints[ranPos], player, 1);
+
                     curPowerUpIndex++;
                 }
             }
@@ -143,27 +146,26 @@ public class StarFallManager : MonoBehaviour
                 }
                 else //그냥 사격의 경우
                 {
-                    //쏘는 형태
-                    //BulletShotter.BulletShotType bulletShotType = BulletShotter.BulletShotType.Direction;
-                    //투사체 종류
+                    //투사체 종류 설정
                     Bullet.BulletEffectType bulletEffectType = Bullet.BulletEffectType.Normal;//기본 투사체
                     if (curPowerUpIndex == 0)
-                        bulletEffectType = Bullet.BulletEffectType.UnBreakable;//깨지지 않는 투사체
+                        bulletEffectType = Bullet.BulletEffectType.UnBreakable;//0일때는, 깨지지 않는 투사체
 
-                    //공격 패턴
-                    int ranPattern = 2;
+                    //공격 패턴 설정
+                    int ranPattern = Random.Range(0, 3);
+
                     switch (ranPattern)
                     {
-                        case 0://일괄 발사
+                        case 0://일괄 비틀어서 발사
                             for (int i = 0; i < starFallPoints.Length; i++) 
                             {
                                 BulletShotter allBulletShotter = starFallPoints[i].GetComponent<BulletShotter>();
 
                                 allBulletShotter.sortShot(BulletShotter.BulletShotType.Direction, bulletEffectType,
-                                starFallPoints[i], player, 0);
+                                starFallPoints[i], player, 1);
                             }
                             break;
-                        case 1://산탄
+                        case 1://작게 산탄
                             bulletShotter.sortShot(BulletShotter.BulletShotType.Big, bulletEffectType,
                             starFallPoints[ranPos], player, 0);
                             break;
@@ -172,14 +174,10 @@ public class StarFallManager : MonoBehaviour
                             starFallPoints[ranPos], player, 1);
                             break;
                     }
-
-                    
-
+                    //여기에 안하면 붉은 별 패턴 안나옴
                     curPowerUpIndex++;
                 }
             }
-
-
         }
     }
 }

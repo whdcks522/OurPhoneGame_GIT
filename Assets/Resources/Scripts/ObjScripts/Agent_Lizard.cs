@@ -40,7 +40,7 @@ public class Agent_Lizard : Agent
         yield return wait;
 
         audioManager.PlaySfx(AudioManager.Sfx.Arrow);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);//작게 산탄
+        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.Normal, gameObject, player, 0);//노말을 작게 산탄
     }
 
     private void OnDisable()

@@ -11,7 +11,7 @@ public class DogManager : MonoBehaviour
     [Header("최대 생성 시간")]
     public float maxTime;
     //현재 생성 시간
-    float curTime = 2;//------------------
+    float curTime = 0f;//------------------
 
     [Header("적 발생 지점")]
     public Transform dogPointsParent;
@@ -43,6 +43,7 @@ public class DogManager : MonoBehaviour
     private void Start()
     {
         battleUIManager = BattleUIManager.Instance;
+        curTime = maxTime - 2;
 
         //적 발생지 배열 적용
         dogPoints = new GameObject[dogPointsParent.childCount];
@@ -108,7 +109,7 @@ public class DogManager : MonoBehaviour
                 powerUpCurIndex = 0;
                 int powerUpPos = Random.Range(0, powerUpMaxIndex);
                 bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp, 
-                    powerUpPoints[powerUpPos], player, 1);
+                    powerUpPoints[powerUpPos], player, 0);
             }
 
             //적 생성

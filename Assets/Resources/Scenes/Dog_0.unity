@@ -2272,17 +2272,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ff1858177160d4f89a35dec9ec5035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTime: 3
+  maxTime: 5
   dogPointsParent: {fileID: 124260841}
   powerUpPointsParent: {fileID: 1505183375}
-  powerUpMaxIndex: 4
+  powerUpMaxIndex: 2
   scenelevel: 0
   dogSpeedArr:
-  - 2.5
   - 2
-  - 1.75
-  - 1.5
-  - 1.25
+  - 1.8
+  - 1.6
+  - 1.4
+  - 1.2
   - 1
   characterControls: {fileID: 1184215559}
   player: {fileID: 1184215558}

@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d35d8e03e9891d241a2d19d723e4601f, type: 3}
   sceneInnerTitle: Train_0
   sceneOutterTitle: "\uD6C8\uB828 0"
-  sceneDesc: "<color=#87CEEB>\uAE30\uBCF8\uC801\uC778</color> \uC870\uC791\uBC95\uC744
+  sceneDesc: "<color=#87CEEB>\uAE30\uBCF8\uC801\uC778 \uC870\uC791\uBC95</color>\uC744
     \uC775\uD788\uC790!"
   Sscore: 90
   Ascore: 70

@@ -17,11 +17,12 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d35d8e03e9891d241a2d19d723e4601f, type: 3}
   sceneInnerTitle: Train_1
   sceneOutterTitle: "\uD6C8\uB828 1"
-  sceneDesc: "<color=#FFFF00>\uAE30\uBCF8\uC801\uC778</color>\uC815\uBCF4\uB97C \uD30C\uC545\uD558\uC790!"
-  Sscore: 90
-  Ascore: 70
-  Bscore: 50
-  Cscore: 30
-  Dscore: 10
+  sceneDesc: "<color=#FFAA00>\uAE30\uBCF8\uC801\uC778 \uC815\uBCF4</color>\uB97C
+    \uD30C\uC545\uD558\uC790!"
+  Sscore: 0
+  Ascore: 0
+  Bscore: 0
+  Cscore: 0
+  Dscore: 0
   Escore: 0
   sceneLevel: 1

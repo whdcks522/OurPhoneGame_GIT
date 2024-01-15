@@ -61,7 +61,7 @@ public class Agent_Goblin : MonoBehaviour
         //저격
         yield return wait;
 
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < 2; i++) //2번 쏘기
         {
             yield return wait;
             audioManager.PlaySfx(AudioManager.Sfx.Arrow);

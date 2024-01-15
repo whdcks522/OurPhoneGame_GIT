@@ -55,7 +55,6 @@ public class Sword : MonoBehaviourPunCallbacks
     //칼의 데미지
     public int swordDamage = 10;
 
-    //배틀 매니저
     public BattleUIManager battleUIManager;
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
@@ -88,7 +87,7 @@ public class Sword : MonoBehaviourPunCallbacks
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (PhotonNetwork.InRoom) 
         {
-            if (!photonView.IsMine) 
+            if (!photonView.IsMine)//멀티에서 칼 색깔 조절
             {
                 spriteRenderer.color = Color.red;
                 trailRenderer.startColor = Color.red;
@@ -102,7 +101,6 @@ public class Sword : MonoBehaviourPunCallbacks
         trailRenderer.Clear();
         swordQueueInfo = new SwordInfo(transform.position, Vector2.zero);
         isReadyExplode = true;
-        //swordDir = 0;
     }
 
     void FixedUpdate()
@@ -134,11 +132,6 @@ public class Sword : MonoBehaviourPunCallbacks
                 leaderSwordExitRPC(1);
             }
         }
-        
-
-        //-----
-
-        //----
 
         //큐에 정보 삽입
         swordQueue.Enqueue(new SwordInfo(transform.position, saveSwordVec));
@@ -174,8 +167,6 @@ public class Sword : MonoBehaviourPunCallbacks
 
         if (curSwordIndex < characterControls.curSwordCount)
             lowerSword.GetComponent<Sword>().saveSwordVec = swordQueueInfo.swordVec;
-
-
     }
 
     #region 칼이 범위 밖으로 이탈 시
@@ -226,6 +217,8 @@ public class Sword : MonoBehaviourPunCallbacks
                 }
             }
 
+            //칼 영역 안보이도록
+            swordDir = 0;
             //등의 칼 활성화
             characterControls.backSwords.SetActive(true);
             //폭탄 금지(안하면 칼 터짐)

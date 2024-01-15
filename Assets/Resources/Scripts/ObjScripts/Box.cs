@@ -82,14 +82,15 @@ public class Box : MonoBehaviour
                     //효과음 출력
                     battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.PowerUp);
                     //이펙트 생성
-                    GameObject effect = gameManager.CreateObj("congratulation 9", GameManager.PoolTypes.EffectType);//"Explosion 2"
+                    GameObject effect = gameManager.CreateObj("congratulation 9", GameManager.PoolTypes.EffectType);
                     effect.SetActive(true);
                     effect.transform.position = transform.position;
                 }
                 #endregion
             }
-            else if (boxType == BoxType.Paper)//종이 상자 
+            else if (boxType == BoxType.Paper)//종이를 펼치는 상자 
             {
+
                 ControlAdavancedBox(true);
             }
         }
@@ -98,18 +99,26 @@ public class Box : MonoBehaviour
     #region 향상된 박스 컨트롤
     public void ControlAdavancedBox(bool isOpen) 
     {
+        Debug.Log(isOpen);
+
         //효과음 출력
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
-        characterControls.xyRPC(0, 0);
 
-        ///열린 형태로 변화
+        //플레이어 정지
+        if(isOpen)
+            characterControls.xyRPC(0, 0);
+
+        //박스를 열린 형태로 변화
         changeForm(isOpen);
-        //대상 열기
+
+        //종이 열기
         customPaper.SetActive(isOpen);
 
+        //플레이어 움직임 제한
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.LeftControl, !isOpen);
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, !isOpen);
 
+        //조이스틱 크기 조절
         battleUIManager.JoySizeControl(!isOpen);
     }
     #endregion
