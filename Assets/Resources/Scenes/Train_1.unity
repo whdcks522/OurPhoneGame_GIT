@@ -3815,7 +3815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &201712220
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7974,11 +7974,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 408520522}
   m_CullTransparentMesh: 0
---- !u!20 &411919519 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5326585186242922979, guid: 34016945e42510e4880e864a7f752c26, type: 3}
-  m_PrefabInstance: {fileID: 1690911683}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &422959112
 GameObject:
   m_ObjectHideFlags: 0
@@ -19783,7 +19778,7 @@ GameObject:
   - component: {fileID: 1014369572}
   - component: {fileID: 1014369571}
   m_Layer: 5
-  m_Name: Next
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21642,7 +21637,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 411919519}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -24044,7 +24039,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -277, y: -105}
-  m_SizeDelta: {x: 1800, y: 600}
+  m_SizeDelta: {x: 1200, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1972915875
 MonoBehaviour:
@@ -24499,7 +24494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 377, y: 0}
+  m_AnchoredPosition: {x: 250, y: 0}
   m_SizeDelta: {x: 1500, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1998271345
@@ -24522,7 +24517,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 800, y: 64}
+  m_CellSize: {x: 500, y: 64}
   m_Spacing: {x: 175, y: 75}
   m_Constraint: 1
   m_ConstraintCount: 2
