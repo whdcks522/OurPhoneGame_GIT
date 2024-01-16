@@ -51,4 +51,11 @@ public class Paper : MonoBehaviour
         JsonManager.SaveData();
     }
     #endregion
+
+    #region 색 전환
+    public void changeColor()
+    {
+        Debug.Log("입력");
+    }
+    #endregion
 }
