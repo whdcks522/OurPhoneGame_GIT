@@ -30,6 +30,7 @@ public class Paper : MonoBehaviour
 
         //몸 다시 만들기
         hostBox.characterControls.CharacterBuilder.Rebuild();
+
         //JSON 저장하기
         JsonManager.customJSON.clothesArr[0] = characterBuilder.Head;//헤드
         JsonManager.customJSON.clothesArr[1] = characterBuilder.Ears;//귀

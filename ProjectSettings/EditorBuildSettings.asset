@@ -45,7 +45,7 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/Dog_0.unity
     guid: 1b8e7026249575c4eab210f9afb1257d
   - enabled: 1
-    path: Assets/Resources/Scenes/MultyScene/Lobby.unity
+    path: Assets/Resources/Scenes/Lobby.unity
     guid: f321dc4ab9ba9b64d829cc6e979ffb37
   - enabled: 1
     path: Assets/Resources/Scenes/MultyScene/PvP.unity

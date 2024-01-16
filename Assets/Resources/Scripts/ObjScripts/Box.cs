@@ -48,7 +48,7 @@ public class Box : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         battleUIManager = BattleUIManager.Instance;
 
-        if (boxType == BoxType.Paper)
+        if (boxType == BoxType.Paper)//±»È÷±â
             rigid.bodyType = RigidbodyType2D.Static;
     }
 

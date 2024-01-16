@@ -15,6 +15,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Text loadText;
     [Header("씬 로드 게임 오브젝트")]
     public GameObject loadGameObject;
+    [Header("씬 로드 툴팁 텍스트")]
+    public Text tipText;
+    public TipData tipData;
+
     WaitForSeconds wait0_35 = new WaitForSeconds(0.35f);
     //로비에 입장함
     bool isJoinedLobby = false;
@@ -65,7 +69,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     int currentPage = 1, maxPage, multiple;
 
     public BattleUIManager battleUIManager;
-    private readonly string gameVersion = "1";
 
     private void Awake()
     {
@@ -91,14 +94,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         //배경음
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmMulty.Lobby);
+        //팁 텍스트 활성화
+        tipText.GetComponent<Text>().text = tipData.returnTip();
         //텍스트 자동 변경
         StartCoroutine(loadTextSwap());
+
     }
 
     #region 로비에 접속
     public void Connect()
     {
-        PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -144,6 +149,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //텍스트와 별 비활성화
         loadText.gameObject.SetActive(false);
         loadGameObject.SetActive(false);
+        tipText.gameObject.SetActive(false);
 
         Color color = loadFadeOutImage.color;
         float time = 1, minTime = 0;
