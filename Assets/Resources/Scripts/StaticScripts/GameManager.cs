@@ -147,9 +147,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         //카메라 관리
         cinemachineVirtualCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
-        cinemachineVirtualCamera.Follow = player.transform;
-        cinemachineVirtualCamera.LookAt = player.transform;
+        cameraControl(player.transform);
     }
+
+    #region 카메라 컨트롤(훈련 1에서 사용하기 위함)
+    public void cameraControl(Transform target) 
+    {
+        cinemachineVirtualCamera.Follow = target;
+        cinemachineVirtualCamera.LookAt = target;
+    }
+    #endregion
 
     public GameObject CreateObj(string _name, PoolTypes poolTypes) //있으면 적 부르고, 없으면 생성
     {

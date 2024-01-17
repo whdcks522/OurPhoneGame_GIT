@@ -24,8 +24,9 @@ public class Paper : MonoBehaviour
         JsonManager = battleUIManager.jsonManager;
         characterBuilder = hostBox.characterControls.CharacterBuilder;
 
-        //비활성화
-        gameObject.SetActive(false);
+        //활성화돼있다면, 비활성화
+        if(gameObject.activeSelf)
+            gameObject.SetActive(false);
 
         //색깔 리스트 저장
         colorArr = new GameObject[colorParent.transform.childCount];
@@ -36,11 +37,8 @@ public class Paper : MonoBehaviour
     }
 
     #region 의상 전환
-    public void saveClothes() 
+    public void saveData() 
     {
-        //효과음 출력
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
-
         //박스 창 나가기
         hostBox.ControlAdavancedBox(false);
 

@@ -31,6 +31,8 @@ public class Box : MonoBehaviour
     [Header("펼칠 종이(종이 사용 여부)")]
     public GameObject customPaper;
     Rigidbody2D rigid;
+    public Transform cameraTarget;
+    
 
     public enum BoxType { Train, Paper }
     public BoxType boxType;
@@ -105,6 +107,11 @@ public class Box : MonoBehaviour
         changeForm(isOpen);
         //종이 열기
         customPaper.SetActive(isOpen);
+        //카메라 관리
+        if(isOpen)
+            gameManager.cameraControl(cameraTarget);
+        else if (!isOpen)
+            gameManager.cameraControl(gameManager.player.transform);
 
         //플레이어 움직임 제한(안놓은 상태면, 계속 조작해서 필요함)
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.LeftControl, !isOpen);
