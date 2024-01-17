@@ -156,8 +156,8 @@ public class BattleUIManager : MonoBehaviour
     }
     #endregion
 
-    //정지 버튼
-    public void btnStop()
+
+    public void btnStop()//정지 버튼
     {
         //종이 효과음
         audioManager.PlaySfx(AudioManager.Sfx.Paper);
@@ -235,20 +235,22 @@ public class BattleUIManager : MonoBehaviour
         else
         {
             Debug.Log("SceneError");
-        }
-        
+        } 
     }
+
+
+
+    Vector3 healthBarVec = new Vector3(3, 2.5f, 1);
     public void JoySizeControl(bool isLarge)//조이버튼 비활성화 대용
     {
-        if (isLarge)
-        {
-            moveJoy.GetComponent<Image>().rectTransform.localScale = Vector3.one;
-            swordJoy.GetComponent<Image>().rectTransform.localScale = Vector3.one;
-        }
-        else if (!isLarge)
-        {
-            moveJoy.GetComponent<Image>().rectTransform.localScale = Vector3.zero;
-            swordJoy.GetComponent<Image>().rectTransform.localScale = Vector3.zero;
-        }
+        //true면 펼침
+        moveJoy.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
+        swordJoy.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
+
+        bigHealthBar.GetComponent<RectTransform>().localScale = isLarge ? healthBarVec : Vector3.zero;//크기 조정 불가능
+        bigScoreText.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
+        bigRankText.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
+
+        singleStopBtn.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
     }
 }

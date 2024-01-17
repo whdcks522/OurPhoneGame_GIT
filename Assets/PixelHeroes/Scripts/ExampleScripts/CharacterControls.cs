@@ -411,7 +411,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     tmpY = 1;
                 }
                 //Debug.Log("x축 보정 전: " + moveJoyVec.x + " x축 보정 후: " + tmpX); 
-                Debug.Log("y축 보정 전: " + moveJoyVec.y + " y축 보정 후: " + tmpY); 
+                //Debug.Log("y축 보정 전: " + moveJoyVec.y + " y축 보정 후: " + tmpY); 
 
             }//조이스틱
 

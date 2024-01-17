@@ -3,6 +3,7 @@ using Assets.PixelHeroes.Scripts.ExampleScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static SingleInfoData;
 
 public class Paper : MonoBehaviour
@@ -12,19 +13,34 @@ public class Paper : MonoBehaviour
     BattleUIManager battleUIManager;
     JSONManager JsonManager;
 
+    [Header("의상")]
+    public Text clothesText;
+    public GameObject colorParent;
+    public GameObject[] colorArr;
+
     private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
         JsonManager = battleUIManager.jsonManager;
         characterBuilder = hostBox.characterControls.CharacterBuilder;
 
-        //귀찮아서 비활성화
+        //비활성화
         gameObject.SetActive(false);
+
+        //색깔 리스트 저장
+        colorArr = new GameObject[colorParent.transform.childCount];
+        for (int i = 0; i < colorParent.transform.childCount; i++)
+        {
+            colorArr[i] = colorParent.transform.GetChild(i).gameObject;
+        }
     }
 
     #region 의상 전환
-    public void changeClothes() 
+    public void saveClothes() 
     {
+        //효과음 출력
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+
         //박스 창 나가기
         hostBox.ControlAdavancedBox(false);
 
@@ -53,9 +69,51 @@ public class Paper : MonoBehaviour
     #endregion
 
     #region 색 전환
-    public void changeColor()
+    public void changeColor(int index)
     {
-        Debug.Log("입력");
+        //효과음 출력
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+
+        //전부 비활성화
+        foreach (GameObject go in colorArr) 
+            go.SetActive(false);
+        
+        //선택한 색만 활성화
+        colorArr[index].SetActive(true);
+
+        string str = "";
+        switch (index) 
+        {
+            case 0:
+            default:
+                str = "HEAD";
+                break;
+            case 1:
+                str = "EARS";
+                break;
+            case 2:
+                str = "BODY";
+                break;
+            case 3:
+                str = "EYES";
+                break;
+            case 4:
+                str = "MASK";
+                break;
+            case 5:
+                str = "HAIR";
+                break;
+            case 6:
+                str = "ARMOR";
+                break;
+            case 7:
+                str = "HELMET";
+                break;
+        }
+        clothesText.text = "의상_"+str;
     }
     #endregion
+
+    //색깔 전용
+    public void playColorSfx()=> battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Ink);
 }

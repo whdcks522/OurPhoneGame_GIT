@@ -61,7 +61,6 @@ public class Box : MonoBehaviour
                 #region 훈련용 상자 작동
 
                 //타이핑
-                //battleUIManager.typingControl(boxDesc);
                 characterControls.loopTypingRPC(CharacterControls.TypingType.None, boxDesc, false);
 
                 if (boxChat.activeSelf)
@@ -99,27 +98,22 @@ public class Box : MonoBehaviour
     #region 향상된 박스 컨트롤
     public void ControlAdavancedBox(bool isOpen) 
     {
-        Debug.Log(isOpen);
-
         //효과음 출력
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
 
-        //플레이어 정지
-        if(isOpen)
-            characterControls.xyRPC(0, 0);
-
         //박스를 열린 형태로 변화
         changeForm(isOpen);
-
         //종이 열기
         customPaper.SetActive(isOpen);
 
-        //플레이어 움직임 제한
+        //플레이어 움직임 제한(안놓은 상태면, 계속 조작해서 필요함)
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.LeftControl, !isOpen);
         characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, !isOpen);
-
         //조이스틱 크기 조절
         battleUIManager.JoySizeControl(!isOpen);
+        //플레이어 정지
+        if (isOpen)
+            characterControls.xyRPC(0, 0);
     }
     #endregion
  
@@ -147,6 +141,7 @@ public class Box : MonoBehaviour
         if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 종료
         {
             Destroy(this.gameObject);
+            Debug.Log("박스 나감");
         }
     }
 }
