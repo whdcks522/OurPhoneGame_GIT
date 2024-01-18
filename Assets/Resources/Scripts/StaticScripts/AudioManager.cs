@@ -189,7 +189,7 @@ public class AudioManager : MonoBehaviour
                     tmpSfxClips = paperSfxClips;
                     break;
                 case Sfx.Broken:
-                    tmpSfxClips = brokenSfxClips;
+                    tmpSfxClips = brokenSfxClips;//블록 금감
                     break;
                 case Sfx.TimeOver:
                     tmpSfxClips = timeOverSfxClips;
@@ -201,7 +201,7 @@ public class AudioManager : MonoBehaviour
                     tmpSfxClips = blockSfxClips;
                     break;
                 case Sfx.Warn:
-                    tmpSfxClips = warnSfxClips;
+                    tmpSfxClips = warnSfxClips;//하얀 블록
                     break;
                 case Sfx.Typing:
                     tmpSfxClips = typingSfxClips;
@@ -216,7 +216,7 @@ public class AudioManager : MonoBehaviour
                     tmpSfxClips = slashSfxClips;
                     break;
                 case Sfx.Ink:
-                    tmpSfxClips = inkSfxClips;
+                    tmpSfxClips = inkSfxClips;//플레이어 색 바꾸기
                     break;
             }
 

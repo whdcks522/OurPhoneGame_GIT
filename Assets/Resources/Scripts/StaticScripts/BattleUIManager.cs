@@ -45,6 +45,8 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("이동 조이스틱")]
     public VariableJoystick moveJoy;
+    public Image leftJumpArea;
+    public Image rightJumpArea;
     [Header("칼 조이스틱")]
     public VariableJoystick swordJoy;
 
@@ -241,7 +243,7 @@ public class BattleUIManager : MonoBehaviour
 
 
     Vector3 healthBarVec = new Vector3(3, 2.5f, 1);
-    public void JoySizeControl(bool isLarge)//조이버튼 비활성화 대용
+    public void JoySizeControl(bool isLarge)//훈련 1에서 조이버튼 비활성화 하는 용도
     {
         //true면 펼침
         moveJoy.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
@@ -252,5 +254,12 @@ public class BattleUIManager : MonoBehaviour
         bigRankText.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
 
         singleStopBtn.GetComponent<RectTransform>().localScale = isLarge ? Vector3.one : Vector3.zero;
+    }
+
+    public void jumpSenseControl()//시작 했을 때랑, 훈련 1에서 설정했을 때 사용(paper에서 긁어옴)
+    {
+        //이미지 갱신하기
+        leftJumpArea.fillAmount = -0.25f * jsonManager.customJSON.jumpSense + 0.25f;//1일때 0
+        rightJumpArea.fillAmount = -0.25f * jsonManager.customJSON.jumpSense + 0.25f;//-1일때 0.5
     }
 }

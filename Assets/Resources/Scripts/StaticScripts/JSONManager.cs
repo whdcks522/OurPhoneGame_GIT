@@ -13,6 +13,8 @@ public class JSONManager : MonoBehaviour
         public string[] clothesArr = new string[13] { "HumanShadow#FFFFFF/0:0:0", "", "Human#FFFFFF/0:0:0", "Human#FFFFFF/0:0:",
                                                         "Hair2#FFFFFF/0:0:0", "PirateCostume#FFFFFF/0:0:0", "", "", "", "", "", "", "" };
 
+        //점프 민감도(이거 -1로 하면 튜토리얼 못해서 접어야 할 수도 있음, 초기화 부탁함)
+        public float jumpSense = 0.65f;
 
         public enum SettingType {Bgm, Sfx }
 
@@ -92,6 +94,7 @@ public class JSONManager : MonoBehaviour
     }
 
     public CustomJSON customJSON = new CustomJSON();
+    public BattleUIManager battleUIManager;
     string path;
 
     private void Awake()
@@ -101,6 +104,12 @@ public class JSONManager : MonoBehaviour
 
         if (File.Exists(path))//파일이 존재한다면
             LoadData();
+    }
+
+    private void Start()
+    {
+        //점프 민감도 이미지 설정
+        battleUIManager.jumpSenseControl();
     }
 
     public void LoadData()//불러오기

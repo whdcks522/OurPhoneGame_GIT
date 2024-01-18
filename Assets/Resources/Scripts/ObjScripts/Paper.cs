@@ -13,10 +13,15 @@ public class Paper : MonoBehaviour
     BattleUIManager battleUIManager;
     JSONManager JsonManager;
 
-    [Header("의상")]
+    [Header("의상 요소")]
     public Text clothesText;
     public GameObject colorParent;
-    public GameObject[] colorArr;
+    GameObject[] colorArr;
+
+    [Header("점프 민감도 조작 요소")]
+    public Text JumpSenseText;
+    public Image leftJumpArea;
+    public Image rightJumpArea;
 
     private void Awake()
     {
@@ -34,6 +39,9 @@ public class Paper : MonoBehaviour
         {
             colorArr[i] = colorParent.transform.GetChild(i).gameObject;
         }
+
+        //점프 민감도 이미지 갱신을 위함
+        changeJumpSense(0f);
     }
 
     #region 의상 전환
@@ -62,7 +70,13 @@ public class Paper : MonoBehaviour
         JsonManager.customJSON.clothesArr[11] = characterBuilder.Mask;//마스크
         JsonManager.customJSON.clothesArr[12] = characterBuilder.Horns;//뿔
 
+        //데이터 저장
         JsonManager.SaveData();
+
+        //점프 민감도 이미지 설정
+        battleUIManager.jumpSenseControl();
+        //플레이어의 점프 민감도 수치 설정
+        hostBox.characterControls.jumpSense = JsonManager.customJSON.jumpSense;
     }
     #endregion
 
@@ -114,4 +128,64 @@ public class Paper : MonoBehaviour
 
     //색깔 전용
     public void playColorSfx()=> battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Ink);
+
+
+    //float startValue = 0.01f;//
+    void changeJumpSense(float _value)//점프 민감도 조작, 이미지 갱신
+    {
+        JsonManager.customJSON.jumpSense += _value;
+
+        if (JsonManager.customJSON.jumpSense > 0.85f) JsonManager.customJSON.jumpSense = 0.85f;
+        else if (JsonManager.customJSON.jumpSense < -0.85f) JsonManager.customJSON.jumpSense = -0.85f;
+
+        //텍스트 갱신하기
+        JumpSenseText.text = (JsonManager.customJSON.jumpSense).ToString("F2");
+
+        //이미지 갱신하기
+        leftJumpArea.fillAmount = - 0.25f * JsonManager.customJSON.jumpSense + 0.25f;//1일때 0
+        rightJumpArea.fillAmount = -0.25f * JsonManager.customJSON.jumpSense + 0.25f;//-1일때 0.5
+    }
+    //-1과 +1을
+    //0과 0.5 사이로 변환
+
+    
+    private void Update()
+    {
+        if (curTime >= 1f)
+        {
+            curTime = 1f;
+            if (jumpSenseIndex != 0)
+            {
+                //값 갱신하기
+                if (jumpSenseIndex == -1)
+                    changeJumpSense(-0.005f);
+                else if (jumpSenseIndex == +1)
+                    changeJumpSense(0.005f);
+            }
+        }
+        else if (curTime < 1f) 
+        {
+            curTime += Time.deltaTime;
+        }
+    }
+
+    float curTime = 0f;//1초 대기를 위함
+
+    int jumpSenseIndex = 0;//-1이면 감소, +1이면 증가
+    public void clickJumpSense(int _input)//버튼 눌러서 값 조절
+    {
+        //금속 효과음
+        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
+
+        //바로 증가하지 않도록 설정
+        curTime = 0f;
+
+        //누른 순간 증가
+        if(_input == -1)
+            changeJumpSense(-0.01f);
+        else if(_input == 1)
+            changeJumpSense(0.01f);
+
+        jumpSenseIndex = _input;
+    }
 }

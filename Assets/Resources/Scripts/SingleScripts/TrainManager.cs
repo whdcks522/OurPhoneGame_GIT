@@ -16,27 +16,24 @@ public class TrainManager : MonoBehaviour
     //현재 발사 시간
     float curTime = 0f;
 
-    [Header("발생 지점")]
-    public GameObject[] trainPoints;
-
     [Header("씬의 레벨")]
     public int scenelevel;
-
-    [Header("이동을 위한 박스")]
-    public GameObject moveBox;
 
     [Header("플레이어 스크립트")]
     public CharacterControls characterControls;
 
-    //채팅용 대기시간 3초
-    WaitForSeconds wait3_00 = new WaitForSeconds(3);
+    [Header("총알 시작점들(훈련 0)------------------------ ")]
+    public GameObject[] trainPoints;
 
-    BattleUIManager battleUIManager;
-    [Header("게임 매니저")]
-    public GameManager gameManager;
+    [Header("시작 시, 이동을 위한 박스")]
+    public GameObject moveBox;
 
     [Header("블록 배열")]
     public Block[] blockArr;
+
+    [Header("매니저들")]
+    BattleUIManager battleUIManager;
+    public GameManager gameManager;
 
 
     private void Start()
@@ -65,7 +62,7 @@ public class TrainManager : MonoBehaviour
             battleUIManager.typingControl("훈련장에 어서오세요!");
             StartCoroutine(moveBoxRoutine());
 
-            //블록 피해주기
+            //블록 깨부수기
             foreach (Block block in blockArr)
             {
                 block.healthControl(80);
@@ -89,7 +86,6 @@ public class TrainManager : MonoBehaviour
         {
             curTime += Time.deltaTime;
 
-
             if (curTime > maxTime)
             {
                 //시간 초기화
@@ -106,6 +102,9 @@ public class TrainManager : MonoBehaviour
         }
     }
 
+
+    //채팅용 대기시간 3초
+    WaitForSeconds wait3_00 = new WaitForSeconds(3);
     #region 이동 상자 생성
     IEnumerator moveBoxRoutine()
     {
@@ -113,7 +112,6 @@ public class TrainManager : MonoBehaviour
         yield return wait3_00;
 
         moveBox.transform.position = trainPoints[0].transform.position;
-        
     }
     #endregion
 }

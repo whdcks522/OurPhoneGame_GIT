@@ -103,6 +103,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         int playerLayer;
         int playerSwordLayer;
 
+        //PC로 진행중인지 확인
+        bool isPC;
+        //텍스트를 위한 반복하는 문장 코루틴
+        Coroutine loopTypingCor;
+        public float jumpSense = 0.65f;
+
         //플레이어의 상태--------------
         public enum PlayerStateType
         {
@@ -120,10 +126,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isCanHeal = false;//플레이어 스크립트에서 true로 초기화함
         //칼로 플레이어끼리 전투할 것인지
         bool isSwordFight = false;
-        //PC로 진행중인지 확인
-        bool isPC;
-        //텍스트를 위한 반복하는 문장 코루틴
-        Coroutine loopTypingCor;
+        
 
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
@@ -168,8 +171,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     isCanJump = isCheck;
                     break;
                 case PlayerStateType.RightControl:
-                    //if (!isCheck)//비활성화 하는 경우
-                    //    SwordComponent.leaderSwordExitRPC(0);//칼 수납
                     isRightControl = isCheck;
                     break;
                 case PlayerStateType.CanHeal:
@@ -261,6 +262,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         void Start()
         {
             gameManager = battleUIManager.gameManager;
+            //점프 감도 가져오기
+            jumpSense = battleUIManager.jsonManager.customJSON.jumpSense;
 
             Character.SetState(AnimationState.Idle);
             Character.Blink();
@@ -406,12 +409,12 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 moveJoyVec.y = moveJoy.Vertical;
                 tmpX = (int)moveJoyVec.x;
                 
-                if (moveJoyVec.y >= 0.65f)
+                if (moveJoyVec.y >= jumpSense)
                 {
                     tmpY = 1;
                 }
                 //Debug.Log("x축 보정 전: " + moveJoyVec.x + " x축 보정 후: " + tmpX); 
-                //Debug.Log("y축 보정 전: " + moveJoyVec.y + " y축 보정 후: " + tmpY); 
+                Debug.Log("y축 보정 전: " + moveJoyVec.y + " y축 보정 후: " + tmpY); 
 
             }//조이스틱
 
