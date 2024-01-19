@@ -1,7 +1,9 @@
 using Assets.PixelHeroes.Scripts.CharacterScripts;
 using Assets.PixelHeroes.Scripts.ExampleScripts;
+using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 using static SingleInfoData;
@@ -13,6 +15,9 @@ public class Paper : MonoBehaviour
     BattleUIManager battleUIManager;
     JSONManager JsonManager;
 
+    public enum PaperType { Player, Bullet, Enemy };
+    public PaperType paperType;
+
     [Header("의상 요소")]
     public Text clothesText;
     public GameObject colorParent;
@@ -23,25 +28,52 @@ public class Paper : MonoBehaviour
     public Image leftJumpArea;
     public Image rightJumpArea;
 
+    [Header("투사체 저장소 요소")]
+    public Bullet bulletScript;
+    public Text bulletTitleText;
+    public string bulletTitle;
+    public Transform bulletCreator;
+    public Text bulletDmgText;
+    public Text bulletCureText;
+    public Text bulletSpdText;
+    public Text bulletDescText;
+    [TextArea]
+    public string bulletDesc;
+
+    public GameManager gameManager;
+
+    //회복량, 피해량, 속도
+
     private void Awake()
     {
-        battleUIManager = BattleUIManager.Instance;
-        JsonManager = battleUIManager.jsonManager;
-        characterBuilder = hostBox.characterControls.CharacterBuilder;
-
-        //활성화돼있다면, 비활성화
-        if(gameObject.activeSelf)
-            gameObject.SetActive(false);
+        //battleUIManager = BattleUIManager.Instance;
+        //JsonManager = battleUIManager.jsonManager;
 
         //색깔 리스트 저장
-        colorArr = new GameObject[colorParent.transform.childCount];
-        for (int i = 0; i < colorParent.transform.childCount; i++)
+        if (paperType == PaperType.Player)
         {
-            colorArr[i] = colorParent.transform.GetChild(i).gameObject;
+            //활성화돼있다면, 비활성화
+            if (gameObject.activeSelf)
+                gameObject.SetActive(false);
+
+            characterBuilder = hostBox.characterControls.CharacterBuilder;
+
+            colorArr = new GameObject[colorParent.transform.childCount];
+            for (int i = 0; i < colorParent.transform.childCount; i++)
+            {
+                colorArr[i] = colorParent.transform.GetChild(i).gameObject;
+            }
+
+            //점프 민감도 이미지 갱신을 위함
+            changeJumpSense(0f);
+        }
+        else if (paperType == PaperType.Bullet) 
+        {
+            bulletPanelControl();
         }
 
-        //점프 민감도 이미지 갱신을 위함
-        changeJumpSense(0f);
+
+
     }
 
     #region 의상 전환
@@ -129,9 +161,8 @@ public class Paper : MonoBehaviour
     //색깔 전용
     public void playColorSfx()=> battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Ink);
 
-
-    //float startValue = 0.01f;//
-    void changeJumpSense(float _value)//점프 민감도 조작, 이미지 갱신
+    #region 점프 민감도 조작, 이미지 갱신
+    void changeJumpSense(float _value)
     {
         JsonManager.customJSON.jumpSense += _value;
 
@@ -145,33 +176,36 @@ public class Paper : MonoBehaviour
         leftJumpArea.fillAmount = - 0.25f * JsonManager.customJSON.jumpSense + 0.25f;//1일때 0
         rightJumpArea.fillAmount = -0.25f * JsonManager.customJSON.jumpSense + 0.25f;//-1일때 0.5
     }
-    //-1과 +1을
-    //0과 0.5 사이로 변환
+    #endregion
 
-    
     private void Update()
     {
-        if (curTime >= 1f)
+        if (paperType == PaperType.Player) 
         {
-            curTime = 1f;
-            if (jumpSenseIndex != 0)
+            if (curTime >= 1f)
             {
-                //값 갱신하기
-                if (jumpSenseIndex == -1)
-                    changeJumpSense(-0.005f);
-                else if (jumpSenseIndex == +1)
-                    changeJumpSense(0.005f);
+                curTime = 1f;
+                if (jumpSenseIndex != 0)
+                {
+                    //값 갱신하기
+                    if (jumpSenseIndex == -1)
+                        changeJumpSense(-0.005f);
+                    else if (jumpSenseIndex == +1)
+                        changeJumpSense(0.005f);
+                }
+            }
+            else if (curTime < 1f)
+            {
+                curTime += Time.deltaTime;
             }
         }
-        else if (curTime < 1f) 
-        {
-            curTime += Time.deltaTime;
-        }
+        
     }
 
-    float curTime = 0f;//1초 대기를 위함
-
+    float curTime = 0f;//플레이어 세팅에서, 1초 대기를 위함
     int jumpSenseIndex = 0;//-1이면 감소, +1이면 증가
+
+    #region 점프 민감도 조작 버튼
     public void clickJumpSense(int _input)//버튼 눌러서 값 조절
     {
         //금속 효과음
@@ -187,5 +221,48 @@ public class Paper : MonoBehaviour
             changeJumpSense(0.01f);
 
         jumpSenseIndex = _input;
+    }
+    #endregion
+
+    #region 투사체 차트 조작
+    void bulletPanelControl() 
+    {
+        //제목
+        bulletTitleText.text = bulletTitle;
+
+        //피해량
+        bulletDmgText.text = "피해량: " + bulletScript.bulletDamage.ToString();
+
+        //회복량
+        bulletCureText.text = "회복량: " + bulletScript.bulletHeal.ToString();
+
+        //속도
+        bulletSpdText.text = "속도: " + bulletScript.bulletSpeed.ToString();
+
+        //설명
+        bulletDescText.text = bulletDesc;
+    }
+    #endregion
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (paperType == PaperType.Bullet) 
+        {
+            if (collision.transform.CompareTag("Player"))
+            {
+                gameManager.cameraControl(transform);
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (paperType == PaperType.Bullet)
+        {
+            if (collision.transform.CompareTag("Player"))
+            {
+                gameManager.cameraControl(gameManager.player.transform);
+            }
+        }
     }
 }

@@ -5013,9 +5013,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTime: 10
-  bulletSpeed: 10
-  bulletDamage: 10
+  bulletDamage: 7
   bulletHeal: 20
+  bulletSpeed: 8
+  bulletDesc: 
   bulletTarget: {fileID: 0}
   isAlreadyHit: 0
   bulletEffectType: 1
@@ -5023,6 +5024,7 @@ MonoBehaviour:
   flashStr: 
   isHit: 1
   hitStr: PowerUpBulletHit
+  characterControls: {fileID: 0}
 --- !u!114 &2146903461172564057
 MonoBehaviour:
   m_ObjectHideFlags: 0

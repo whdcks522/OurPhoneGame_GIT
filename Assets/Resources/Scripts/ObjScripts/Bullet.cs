@@ -13,14 +13,14 @@ public class Bullet : MonoBehaviourPunCallbacks
     public float maxTime;
     float curTime = 0f;
 
-    [Header("총알의 속도")]
-    public float bulletSpeed;
-
     [Header("총알의 피해량")]
     public int bulletDamage;
 
     [Header("파괴 시, 총알의 회복량")]
     public int bulletHeal;
+
+    [Header("총알의 속도")]
+    public float bulletSpeed;
 
     [Header("총알의 목표")]
     public Transform bulletTarget;
@@ -266,6 +266,5 @@ public class Bullet : MonoBehaviourPunCallbacks
                 bulletOffRPC(0);
             }
         }
-        
     }
 }

@@ -5013,9 +5013,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTime: 10
-  bulletSpeed: 10
   bulletDamage: 10
   bulletHeal: 3
+  bulletSpeed: 10
+  bulletDesc: 
   bulletTarget: {fileID: 0}
   isAlreadyHit: 0
   bulletEffectType: 0
