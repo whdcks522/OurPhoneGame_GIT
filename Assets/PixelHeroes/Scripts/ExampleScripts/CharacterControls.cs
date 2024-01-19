@@ -877,12 +877,31 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
             }
             else if (other.transform.CompareTag("Portal")) //맵 밖으로 나가지면 종료
             {
-                //순간이동 효과음
-                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Portal);
-                //무기 수납
-                SwordComponent.leaderSwordExitRPC(0);
-                //순간이동
-                transform.position = other.GetComponent<Portal>().otherExit.position;
+                Portal portal = other.GetComponent<Portal>();
+                bool isCanWarp = portal.canWarp;
+                
+                /*
+                if (portal.isMainPortal && portal.canUseMainPortal) 
+                {
+                    portal.canUseMainPortal = false;
+                    isCanWarp = true;
+                }
+                else if (!portal.isMainPortal && portal.canUseSubPortal)
+                {
+                    portal.canUseSubPortal = false;
+                    isCanWarp = true;
+                }
+                */
+
+                if (isCanWarp) 
+                {
+                    //순간이동 효과음
+                    //battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Portal);
+                    //무기 수납
+                    //SwordComponent.leaderSwordExitRPC(0);
+                    //순간이동
+                    transform.position = portal.otherPortal.position;
+                }
             }
         }
 

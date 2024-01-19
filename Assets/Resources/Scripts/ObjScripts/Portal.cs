@@ -37,4 +37,25 @@ public class Portal : MonoBehaviour
             subText.text = subTitle;
         }
     }
+
+    public bool canUseMainPortal = true;
+    public bool canUseSubPortal = true;
+
+
+    public bool canWarp = true;
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Player"))
+        {
+            if (isMainPortal)//메인 포탈에서 나온 경우
+            {
+                canUseSubPortal = true;
+            }
+            else if (!isMainPortal)//서브 포탈에서 나온 경우
+            {
+                canUseMainPortal = true;
+            }
+        }
+    }
 }
