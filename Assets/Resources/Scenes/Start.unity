@@ -970,6 +970,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6396ed51d54088046ae60a184cc9e7b7, type: 3}
   - {fileID: 8300000, guid: 69c66221605febf469aa8e14646430d4, type: 3}
   - {fileID: 8300000, guid: 2e2cd47b86dcacf4ba8d65377f474de2, type: 3}
+  portalSfxClips:
+  - {fileID: 8300000, guid: cf35ee13c45f41b4fa7ecc8cc21229c7, type: 3}
+  - {fileID: 8300000, guid: 26e40427eca3306458645e36626fb320, type: 3}
+  - {fileID: 8300000, guid: d22ac9006bce2ce4b931a6fe56bc21f3, type: 3}
 --- !u!114 &978758252
 MonoBehaviour:
   m_ObjectHideFlags: 0

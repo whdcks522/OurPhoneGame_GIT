@@ -414,7 +414,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     tmpY = 1;
                 }
                 //Debug.Log("x축 보정 전: " + moveJoyVec.x + " x축 보정 후: " + tmpX); 
-                Debug.Log("y축 보정 전: " + moveJoyVec.y + " y축 보정 후: " + tmpY); 
+                //Debug.Log("y축 보정 전: " + moveJoyVec.y + " y축 보정 후: " + tmpY); 
 
             }//조이스틱
 
@@ -875,6 +875,15 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 //바람 효과음
                 battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Wind);
             }
+            else if (other.transform.CompareTag("Portal")) //맵 밖으로 나가지면 종료
+            {
+                //순간이동 효과음
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Portal);
+                //무기 수납
+                SwordComponent.leaderSwordExitRPC(0);
+                //순간이동
+                transform.position = other.GetComponent<Portal>().otherExit.position;
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -1038,8 +1047,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     yield return wait0_075;
                 }
-
-                //yield return new WaitForSeconds(3.5f + 0.075f * _str.Length);
 
                 loopTypingCor = StartCoroutine(loopTyping(_str, isLoop));
             } 

@@ -28,7 +28,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] multyBgmClips;
 
 
-    public enum Sfx { PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver, Summon, Block, Warn, Typing, Wind, Arrow, Slash, Ink }
+    public enum Sfx { PowerUp, RankUp, Damage, Heal, Door, Paper, Broken, TimeOver, Summon, Block, Warn, Typing, Wind, Arrow, Slash, Ink,
+                        Portal}
 
     [Header("파워 업 Sfx")]
     public AudioClip[] powerUpSfxClips;
@@ -62,6 +63,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] slashSfxClips;
     [Header("잉크 Sfx")]
     public AudioClip[] inkSfxClips;
+    [Header("포탈 Sfx")]
+    public AudioClip[] portalSfxClips;
 
 
     BattleUIManager battleUIManager;
@@ -217,6 +220,9 @@ public class AudioManager : MonoBehaviour
                     break;
                 case Sfx.Ink:
                     tmpSfxClips = inkSfxClips;//플레이어 색 바꾸기
+                    break;
+                case Sfx.Portal:
+                    tmpSfxClips = portalSfxClips;//포탈
                     break;
             }
 

@@ -44,7 +44,7 @@ public class TrainManager : MonoBehaviour
         //¹è°æÀ½ Àç»ý
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Train);
         //Ä® °¹¼ö Á¶Á¤
-        characterControls.curSwordCount = 1;
+        characterControls.curSwordCount = 6;
         
 
         if (scenelevel == 0) 
