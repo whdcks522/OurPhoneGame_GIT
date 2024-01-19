@@ -7,13 +7,16 @@ using UnityEngine.UI;
 public class Portal : MonoBehaviour
 {
     LineRenderer lineRenderer;
+
     [Header("메인 포탈인지")]
     public bool isMainPortal;
 
-
     [Header("연결된 포탈")]
-    public Transform otherPortal;//포탈 라인 긋기
-    public Transform otherExit;//실제 이동하는 위치
+    public Transform otherPortalPos;//이동 할 포탈
+    Portal otherPortal;
+
+    [Header("워프 허가(안하면 계속 순간이동함)")]
+    public bool canWarp = true;
 
     [Header("메인 텍스트")]
     public Text mainText;
@@ -25,9 +28,12 @@ public class Portal : MonoBehaviour
 
     void Start()
     {
+        otherPortal = otherPortalPos.GetComponent<Portal>();
+
         if (isMainPortal) //메인 포탈이면 선 긋기
         {
             lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.enabled = true;
 
             // 시작점과 끝점 설정
             lineRenderer.SetPosition(0, transform.position);
@@ -38,23 +44,16 @@ public class Portal : MonoBehaviour
         }
     }
 
-    public bool canUseMainPortal = true;
-    public bool canUseSubPortal = true;
-
-
-    public bool canWarp = true;
-
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("Player"))
         {
-            if (isMainPortal)//메인 포탈에서 나온 경우
+            canWarp = !canWarp;
+            otherPortal.canWarp = !otherPortal.canWarp;
+
+            if (!canWarp) 
             {
-                canUseSubPortal = true;
-            }
-            else if (!isMainPortal)//서브 포탈에서 나온 경우
-            {
-                canUseMainPortal = true;
+                collision.transform.position = otherPortalPos.position;
             }
         }
     }

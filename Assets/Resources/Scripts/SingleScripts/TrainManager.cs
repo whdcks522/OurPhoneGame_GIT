@@ -44,17 +44,17 @@ public class TrainManager : MonoBehaviour
         //배경음 재생
         battleUIManager.audioManager.PlayBgm(AudioManager.BgmSingle.Train);
         //칼 갯수 조정
-        characterControls.curSwordCount = 6;
-        
+        characterControls.curSwordCount = 1;
+        //무기 조작 금지
+        characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, false);
 
-        if (scenelevel == 0) 
+        if (scenelevel == 0)
         {
             //플레이어 체력 설정
             characterControls.curHealth = 20;
 
             characterControls.changeStateRPC(CharacterControls.PlayerStateType.LeftControl, false);
             characterControls.changeStateRPC(CharacterControls.PlayerStateType.IsCanJump, false);
-            characterControls.changeStateRPC(CharacterControls.PlayerStateType.RightControl, false);
             //칼과 충돌 무시
             characterControls.changeStateRPC(CharacterControls.PlayerStateType.SwordCollision, false);
             characterControls.backSwords.SetActive(false);
@@ -67,6 +67,10 @@ public class TrainManager : MonoBehaviour
             {
                 block.healthControl(80);
             }
+        }
+        else if (scenelevel == 1) 
+        {
+            
         }
     }
 
