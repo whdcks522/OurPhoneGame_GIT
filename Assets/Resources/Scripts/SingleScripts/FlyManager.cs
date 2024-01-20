@@ -161,7 +161,6 @@ public class FlyManager : MonoBehaviour
                 curWindIndex = 0;
                 //바람 생성 위치 조절
 
-                
                 createWind(); 
             }
         }

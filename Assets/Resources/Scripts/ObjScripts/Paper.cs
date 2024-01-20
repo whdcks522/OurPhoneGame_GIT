@@ -1,6 +1,7 @@
 using Assets.PixelHeroes.Scripts.CharacterScripts;
 using Assets.PixelHeroes.Scripts.ExampleScripts;
 using Photon.Pun.Demo.PunBasics;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -32,7 +33,9 @@ public class Paper : MonoBehaviour
     public Bullet bulletScript;
     public Text bulletTitleText;
     public string bulletTitle;
-    public Transform bulletCreator;
+    public BulletShotter bulletShotter;
+    public GameObject bulletStart;
+    public GameObject bulletEnd;
     public Text bulletDmgText;
     public Text bulletCureText;
     public Text bulletSpdText;
@@ -46,8 +49,8 @@ public class Paper : MonoBehaviour
 
     private void Awake()
     {
-        //battleUIManager = BattleUIManager.Instance;
-        //JsonManager = battleUIManager.jsonManager;
+        battleUIManager = BattleUIManager.Instance;
+        JsonManager = battleUIManager.jsonManager;
 
         //색깔 리스트 저장
         if (paperType == PaperType.Player)
@@ -180,7 +183,7 @@ public class Paper : MonoBehaviour
 
     private void Update()
     {
-        if (paperType == PaperType.Player) 
+        if (paperType == PaperType.Player)
         {
             if (curTime >= 1f)
             {
@@ -199,11 +202,21 @@ public class Paper : MonoBehaviour
                 curTime += Time.deltaTime;
             }
         }
-        
+        else if (paperType == PaperType.Bullet)
+        {
+            curTime += Time.deltaTime;
+            if (curTime >= 1.5f)//1초마다 발사
+            {
+                //시간 초기화
+                curTime = 0f;
+                //직선 총알을 약간 꺽어서 생성
+                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, bulletScript.bulletEffectType, bulletStart, bulletEnd, 0);
+            }
+        }
     }
 
     float curTime = 0f;//플레이어 세팅에서, 1초 대기를 위함
-    int jumpSenseIndex = 0;//-1이면 감소, +1이면 증가
+    int jumpSenseIndex = 0;//-1 이면 점프 민감도 감소, +1 이면 점프 민감도 증가
 
     #region 점프 민감도 조작 버튼
     public void clickJumpSense(int _input)//버튼 눌러서 값 조절
@@ -224,11 +237,14 @@ public class Paper : MonoBehaviour
     }
     #endregion
 
-    #region 투사체 차트 조작
+    #region 투사체 차트 조작(시작했을 때, 보여줌)
     void bulletPanelControl() 
     {
         //제목
         bulletTitleText.text = bulletTitle;
+
+        //투사체 설정
+        bulletShotter.gameManager = gameManager;
 
         //피해량
         bulletDmgText.text = "피해량: " + bulletScript.bulletDamage.ToString();

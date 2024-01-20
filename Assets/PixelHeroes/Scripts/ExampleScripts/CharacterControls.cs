@@ -127,7 +127,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         bool isCanHeal = false;//플레이어 스크립트에서 true로 초기화함
         //칼로 플레이어끼리 전투할 것인지
         bool isSwordFight = false;
-        
+
 
         [PunRPC]
         public void changeStateRPC(PlayerStateType tmpPlayerStateType, bool isCheck)
