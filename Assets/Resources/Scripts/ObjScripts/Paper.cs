@@ -57,10 +57,7 @@ public class Paper : MonoBehaviour
     [TextArea]
     public string enemyDesc;
 
-
-    //회복량, 피해량, 속도
-
-    private void Awake()
+    private void Start()
     {
         battleUIManager = BattleUIManager.Instance;
         JsonManager = battleUIManager.jsonManager;
@@ -83,9 +80,14 @@ public class Paper : MonoBehaviour
             //점프 민감도 이미지 갱신을 위함
             changeJumpSense(0f);
         }
-        else if (paperType == PaperType.Bullet || paperType == PaperType.Enemy) 
+        else if (paperType == PaperType.Bullet)//투사체 패널
         {
             descPanelControl();
+        }
+        else if (paperType == PaperType.Enemy)//빌런 패널
+        {
+            //바로 하면 위치 오류
+            Invoke("descPanelControl", 0.5f);
         }
     }
 
@@ -283,6 +285,9 @@ public class Paper : MonoBehaviour
 
             //설명
             enemyDescText.text = enemyDesc;
+            enemyScript.isML = true;
+            enemyScript.gameManager = gameManager;
+
 
             //적 생성
             string type = "";
@@ -298,7 +303,6 @@ public class Paper : MonoBehaviour
                     type = "Enemy_Lizard";
                     break;
             }
-            Debug.Log(type);
 
             GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
             Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();

@@ -111,23 +111,22 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)//Room에 있는지 물어보면 작동 안하더라
+        if (battleUIManager.battleType == BattleUIManager.BattleType.Multy)//멀티인지
         {
-            var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(1부터 시작, 배열을 이용함)
+            var localPlayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;//현재 방에 들어온 플레이어의 번호(index가 1부터 시작)
             var spawnPosition = spawnPositions[localPlayerIndex % spawnPositions.Length];//혹시 몰라서 나눔
 
             player = PhotonNetwork.Instantiate("Player", spawnPosition.position, Quaternion.identity);
             characterControl = player.GetComponent<CharacterControls>();
-            //방향 전환
+            //방향 전환(좌표의 x축 기준 반전)
             characterControl.GetComponent<PhotonView>().RPC("TurnRPC", RpcTarget.AllBuffered, (int)spawnPosition.localScale.x);
             characterControl.gameManager = this;
             player.transform.parent = playerGroup;
-            
 
             //UI 가져오기
             battleUIManager.battleUI.SetActive(true);
-            battleUIManager.bigRankText.gameObject.SetActive(false);
-            battleUIManager.bigScoreText.gameObject.SetActive(false);
+            battleUIManager.bigRankText.gameObject.SetActive(false);//랭크 텍스트 비활성화
+            battleUIManager.bigScoreText.gameObject.SetActive(false);//점수 텍스트 비활성화
             battleUIManager.multyExitBtn.SetActive(true);
             battleUIManager.singleStopBtn.SetActive(false);
         }
