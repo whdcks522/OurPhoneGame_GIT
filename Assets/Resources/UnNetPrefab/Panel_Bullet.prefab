@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 2115785796590962460}
   - component: {fileID: 1711546968095811371}
   m_Layer: 22
-  m_Name: BulletPanel
+  m_Name: Panel_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

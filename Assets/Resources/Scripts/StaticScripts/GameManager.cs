@@ -198,9 +198,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 break;
         }
 
-        int index = NametoIndex(tmpNames, _name);
-       //있다면 찾아봄
-        foreach (GameObject item in tmpPools[index])
+        int index = NametoIndex(tmpNames, _name);//이름을 번호로
+        foreach (GameObject item in tmpPools[index])//있다면 찾아봄
         {
             if (!item.activeSelf)
             {

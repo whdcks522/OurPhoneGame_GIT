@@ -32,7 +32,7 @@ public class Agent_Goblin : MonoBehaviour
         //속도 초기화
         enemy.xyRPC(0, 0);
 
-        if (enemy.maxTime <= enemy.curTime) 
+        if (enemy.maxTime <= enemy.curTime && !enemy.isML) 
         {
             //장전
             enemy.reloadRPC(1f, "Shot");

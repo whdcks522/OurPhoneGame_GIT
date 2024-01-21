@@ -8,10 +8,13 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 using static SingleInfoData;
+using static UnityEditor.PlayerSettings;
 
 public class Paper : MonoBehaviour
 {
     public Box hostBox;
+    public GameManager gameManager;
+
     CharacterBuilder characterBuilder;
     BattleUIManager battleUIManager;
     JSONManager JsonManager;
@@ -43,7 +46,17 @@ public class Paper : MonoBehaviour
     [TextArea]
     public string bulletDesc;
 
-    public GameManager gameManager;
+    [Header("빌런 저장소 요소")]
+    public Enemy enemyScript;
+    public Text enemyTitleText;
+    public string enemyTitle;
+    public Transform enemyPoint;
+    public Text enemyHealthText;
+    public Text enemyCureText;
+    public Text enemyDescText;
+    [TextArea]
+    public string enemyDesc;
+
 
     //회복량, 피해량, 속도
 
@@ -70,13 +83,10 @@ public class Paper : MonoBehaviour
             //점프 민감도 이미지 갱신을 위함
             changeJumpSense(0f);
         }
-        else if (paperType == PaperType.Bullet) 
+        else if (paperType == PaperType.Bullet || paperType == PaperType.Enemy) 
         {
-            bulletPanelControl();
+            descPanelControl();
         }
-
-
-
     }
 
     #region 의상 전환
@@ -237,30 +247,74 @@ public class Paper : MonoBehaviour
     }
     #endregion
 
-    #region 투사체 차트 조작(시작했을 때, 보여줌)
-    void bulletPanelControl() 
+    #region 패널 조작(시작했을 때, 보여줌)
+    void descPanelControl() 
     {
-        //제목
-        bulletTitleText.text = bulletTitle;
+        if (paperType == PaperType.Bullet)//투사체 패널
+        {
+            //제목
+            bulletTitleText.text = bulletTitle;
 
-        //투사체 설정
-        bulletShotter.gameManager = gameManager;
+            //투사체 설정
+            bulletShotter.gameManager = gameManager;
 
-        //피해량
-        bulletDmgText.text = "피해량: " + bulletScript.bulletDamage.ToString();
+            //피해량
+            bulletDmgText.text = "피해량: " + bulletScript.bulletDamage.ToString();
 
-        //회복량
-        bulletCureText.text = "회복량: " + bulletScript.bulletHeal.ToString();
+            //회복량
+            bulletCureText.text = "회복량: " + bulletScript.bulletHeal.ToString();
 
-        //속도
-        bulletSpdText.text = "속도: " + bulletScript.bulletSpeed.ToString();
+            //속도
+            bulletSpdText.text = "속도: " + bulletScript.bulletSpeed.ToString();
 
-        //설명
-        bulletDescText.text = bulletDesc;
+            //설명
+            bulletDescText.text = bulletDesc;
+        }
+        else if (paperType == PaperType.Enemy)//빌런 패널
+        {
+            //제목
+            enemyTitleText.text = enemyTitle;
+
+            //체력
+            enemyHealthText.text = "체력: " + enemyScript.maxHealth.ToString();
+
+            //회복량
+            enemyCureText.text = "회복량: " + enemyScript.playerHeal.ToString();
+
+            //설명
+            enemyDescText.text = enemyDesc;
+
+            //적 생성
+            string type = "";
+            switch (enemyScript.enemyType)
+            {
+                case Enemy.EnemyType.Goblin:
+                    type = "Enemy_Goblin";
+                    break;
+                case Enemy.EnemyType.Orc:
+                    type = "Enemy_Orc";
+                    break;
+                case Enemy.EnemyType.Lizard:
+                    type = "Enemy_Lizard";
+                    break;
+            }
+            Debug.Log(type);
+
+            GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
+            Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
+            enemyComponent.gameManager = gameManager;
+            enemyComponent.isML = true;
+
+            //적 위치 조정
+            enemyGameObject.transform.position = enemyPoint.position;
+
+            //적 활성화
+            enemyComponent.activateRPC();
+        }
     }
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)//카메라 이동
     {
         if (paperType == PaperType.Bullet) 
         {
@@ -269,11 +323,18 @@ public class Paper : MonoBehaviour
                 gameManager.cameraControl(transform);
             }
         }
+        else if (paperType == PaperType.Enemy)
+        {
+            if (collision.transform.CompareTag("Player"))
+            {
+                gameManager.cameraControl(enemyPoint);
+            }
+        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)//카메라 돌아옴
     {
-        if (paperType == PaperType.Bullet)
+        if (paperType == PaperType.Bullet || paperType == PaperType.Enemy)
         {
             if (collision.transform.CompareTag("Player"))
             {

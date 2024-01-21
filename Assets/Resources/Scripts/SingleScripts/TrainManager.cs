@@ -68,10 +68,6 @@ public class TrainManager : MonoBehaviour
                 block.healthControl(80);
             }
         }
-        else if (scenelevel == 1) 
-        {
-            
-        }
     }
 
     private void OnDisable()

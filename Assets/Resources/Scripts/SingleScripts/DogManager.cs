@@ -119,7 +119,7 @@ public class DogManager : MonoBehaviour
                 int posR = Random.Range(0, dogPoints.Length);
 
                 //int typeR = 2;
-                int typeR = Random.Range(0, 4);
+                int typeR = Random.Range(0, 5);
                 string type = "";
 
                 switch (typeR) 
@@ -129,9 +129,10 @@ public class DogManager : MonoBehaviour
                         break;
                     case 1:
                     case 2:
+                    case 3:
                         type = "Enemy_Orc";
                         break;
-                    case 3:
+                    case 4:
                         type = "Enemy_Lizard";
                         break;
                 }
