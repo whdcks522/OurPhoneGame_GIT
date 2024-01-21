@@ -57,17 +57,21 @@ public class Paper : MonoBehaviour
     [TextArea]
     public string enemyDesc;
 
-    private void Start()
+
+    private void Awake()
     {
         battleUIManager = BattleUIManager.Instance;
-        JsonManager = battleUIManager.jsonManager;
+        if (battleUIManager != null)//테스트에서 간편성 증가
+            JsonManager = battleUIManager.jsonManager;
 
-        //색깔 리스트 저장
-        if (paperType == PaperType.Player)
+        if (paperType == PaperType.Player)//플레이어 세팅 패널
         {
             //활성화돼있다면, 비활성화
-            if (gameObject.activeSelf)
-                gameObject.SetActive(false);
+            //if (gameObject.activeSelf)
+            {
+                //gameObject.SetActive(false);
+                //Debug.Log("비활성화");
+            }
 
             characterBuilder = hostBox.characterControls.CharacterBuilder;
 
@@ -89,6 +93,11 @@ public class Paper : MonoBehaviour
             //바로 하면 위치 오류
             Invoke("descPanelControl", 0.5f);
         }
+
+    }
+    private void Start()
+    {
+        
     }
 
     #region 의상 전환
@@ -287,6 +296,7 @@ public class Paper : MonoBehaviour
             enemyDescText.text = enemyDesc;
             enemyScript.isML = true;
             enemyScript.gameManager = gameManager;
+            enemyScript.player = gameManager.player;
 
 
             //적 생성

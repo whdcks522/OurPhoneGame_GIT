@@ -19,6 +19,8 @@ public class Agent_Lizard : Agent
     float curRange;
     void Start()
     {
+        
+
         if (!enemy.isML)//머신러닝중이 아니라면
         {
             player = enemy.player;

@@ -77,8 +77,10 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         [Header("플레이어 객체")]
         public GameObject player;
         public CharacterControls characterControls;
-        //[Header("머신러닝 중인지")]
+        [Header("머신러닝 중인지")]
         public bool isML;
+        [Header("감옥인지(공격만 불가함, 위에랑 코드 엮기 귀찮아성)")]
+        public bool isPrison;
 
         public enum EnemyType { Goblin, Orc, Lizard}//쓸려나?
         public EnemyType enemyType;
