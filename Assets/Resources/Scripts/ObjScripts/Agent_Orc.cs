@@ -35,12 +35,15 @@ public class Agent_Orc : Agent
     WaitForSeconds wait = new WaitForSeconds(0.12f);
     IEnumerator directSlash()
     {
-        //저격
-        yield return wait;
+        if (!enemy.isPrison)//훈련 1에서는 공격 안하도록
+        {
+            //저격
+            yield return wait;
 
-        audioManager.PlaySfx(AudioManager.Sfx.Slash);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 1);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 1);
+            audioManager.PlaySfx(AudioManager.Sfx.Slash);
+            bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 1);
+            bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal, gameObject, player, 1);
+        }  
     }
 
     private void OnDisable()
@@ -61,7 +64,7 @@ public class Agent_Orc : Agent
             if (enemy.maxTime <= enemy.curTime && curRange <= maxRange && gameObject.activeSelf)
             {
                 //장전
-                enemy.reloadRPC(1f, "Slash");
+                enemy.reloadRPC(enemy.intervalTime, "Slash");
                 //실제 사격
                 bigCor = StartCoroutine(directSlash());
             }
@@ -128,8 +131,6 @@ public class Agent_Orc : Agent
         }
         
     }
-
-    
 
     private void OnTriggerEnter2D(Collider2D other)
     {

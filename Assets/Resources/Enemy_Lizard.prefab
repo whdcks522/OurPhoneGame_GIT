@@ -15063,6 +15063,7 @@ MonoBehaviour:
   maxTime: 4
   tmpTime: 4
   curTime: 0
+  intervalTime: 1
   miniUI: {fileID: 7914241226073535964}
   miniHealth: {fileID: 8135465804925549303}
   battleUIManager: {fileID: 0}
@@ -15076,6 +15077,7 @@ MonoBehaviour:
   player: {fileID: 0}
   characterControls: {fileID: 0}
   isML: 0
+  isPrison: 0
   enemyType: 2
 --- !u!114 &6525706736713190484
 MonoBehaviour:

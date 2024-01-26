@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5299508521936623345}
   - component: {fileID: 108190909068301365}
   - component: {fileID: 7672187377603318245}
+  - component: {fileID: 1693592456179000304}
   m_Layer: 22
   m_Name: bulleCureText
   m_TagString: Untagged
@@ -80,6 +81,21 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\uD68C\uBCF5\uB7C9: ?"
+--- !u!114 &1693592456179000304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226316591325963550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1286550483495121793
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +187,7 @@ GameObject:
   - component: {fileID: 8768160708582011693}
   - component: {fileID: 7945092620283516061}
   - component: {fileID: 2643429577025408658}
+  - component: {fileID: 5812209953554594833}
   m_Layer: 22
   m_Name: bulletDmgText
   m_TagString: Untagged
@@ -240,6 +257,21 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\uD53C\uD574\uB7C9: ?"
+--- !u!114 &5812209953554594833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464043201003443935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &3339090814625965355
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -175}
+  m_AnchoredPosition: {x: 50, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!61 &1410048392830477678
@@ -399,6 +431,7 @@ GameObject:
   - component: {fileID: 4334059233804747395}
   - component: {fileID: 4658420786241911091}
   - component: {fileID: 2489746046280388653}
+  - component: {fileID: 7042521080927333290}
   m_Layer: 22
   m_Name: BulletTitleText
   m_TagString: Untagged
@@ -468,6 +501,21 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: BulletTitle
+--- !u!114 &7042521080927333290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620050324567387047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &7931196711949791823
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +527,7 @@ GameObject:
   - component: {fileID: 6182829211873787830}
   - component: {fileID: 7276507050464661318}
   - component: {fileID: 2879920188055509984}
+  - component: {fileID: 3500616998101069419}
   m_Layer: 22
   m_Name: bulletSpdText
   m_TagString: Untagged
@@ -548,6 +597,21 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\uC18D\uB3C4: ?"
+--- !u!114 &3500616998101069419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7931196711949791823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8090217264533588078
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +647,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -175}
+  m_AnchoredPosition: {x: -50, y: -150}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &9144580719413062458
@@ -636,7 +700,7 @@ RectTransform:
   m_GameObject: {fileID: 8968261835483762245}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 1}
+  m_LocalScale: {x: 0.015, y: 0.015, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4334059233804747395}

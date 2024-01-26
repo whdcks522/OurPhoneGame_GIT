@@ -46,6 +46,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
         public float tmpTime;
         [Header("적의 현재 공격 대기 시간")]
         public float curTime;
+        [Header("적의 현재 공격 대기 시간")]
+        public float intervalTime;
 
         [Header("캐릭터 위의 미니 UI")]
         public GameObject miniUI;

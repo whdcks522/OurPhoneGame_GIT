@@ -35,6 +35,7 @@ public class Paper : MonoBehaviour
     [Header("투사체 저장소 요소")]
     public Bullet bulletScript;
     public Text bulletTitleText;
+    [TextArea]
     public string bulletTitle;
     public BulletShotter bulletShotter;
     public GameObject bulletStart;
@@ -49,6 +50,7 @@ public class Paper : MonoBehaviour
     [Header("빌런 저장소 요소")]
     public Enemy enemyScript;
     public Text enemyTitleText;
+    [TextArea]
     public string enemyTitle;
     public Transform enemyPoint;
     public Text enemyHealthText;
@@ -91,13 +93,9 @@ public class Paper : MonoBehaviour
         else if (paperType == PaperType.Enemy)//빌런 패널
         {
             //바로 하면 위치 오류
-            Invoke("descPanelControl", 0.5f);
+            Invoke("descPanelControl", 0.1f);
         }
 
-    }
-    private void Start()
-    {
-        
     }
 
     #region 의상 전환
@@ -294,10 +292,6 @@ public class Paper : MonoBehaviour
 
             //설명
             enemyDescText.text = enemyDesc;
-            enemyScript.isML = true;
-            enemyScript.gameManager = gameManager;
-            enemyScript.player = gameManager.player;
-
 
             //적 생성
             string type = "";
@@ -317,7 +311,9 @@ public class Paper : MonoBehaviour
             GameObject enemyGameObject = gameManager.CreateObj(type, GameManager.PoolTypes.EnemyType);
             Enemy enemyComponent = enemyGameObject.GetComponent<Enemy>();
             enemyComponent.gameManager = gameManager;
-            enemyComponent.isML = true;
+            enemyComponent.player = gameManager.player;
+
+            enemyComponent.isPrison = true;//공격 방지
 
             //적 위치 조정
             enemyGameObject.transform.position = enemyPoint.position;
@@ -334,7 +330,7 @@ public class Paper : MonoBehaviour
         {
             if (collision.transform.CompareTag("Player"))
             {
-                gameManager.cameraControl(transform);
+                gameManager.cameraControl(bulletStart.transform);
             }
         }
         else if (paperType == PaperType.Enemy)
@@ -346,7 +342,7 @@ public class Paper : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)//카메라 돌아옴
+    private void OnTriggerExit2D(Collider2D collision)//카메라 복귀
     {
         if (paperType == PaperType.Bullet || paperType == PaperType.Enemy)
         {

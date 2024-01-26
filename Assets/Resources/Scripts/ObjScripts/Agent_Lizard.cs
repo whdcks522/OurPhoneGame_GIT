@@ -19,8 +19,6 @@ public class Agent_Lizard : Agent
     float curRange;
     void Start()
     {
-        
-
         if (!enemy.isML)//머신러닝중이 아니라면
         {
             player = enemy.player;
@@ -38,11 +36,14 @@ public class Agent_Lizard : Agent
     WaitForSeconds wait = new WaitForSeconds(0.12f);
     IEnumerator bigShot()
     {
-        //저격
-        yield return wait;
+        if (!enemy.isPrison)//훈련 1에서는 공격 안하도록
+        {
+            //저격
+            yield return wait;
 
-        audioManager.PlaySfx(AudioManager.Sfx.Arrow);
-        bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.Normal, gameObject, player, 0);//노말을 작게 산탄
+            audioManager.PlaySfx(AudioManager.Sfx.Arrow);
+            bulletShotter.sortShot(BulletShotter.BulletShotType.Big, Bullet.BulletEffectType.Normal, gameObject, player, 0);//노말을 작게 산탄
+        }                
     }
 
     private void OnDisable()
@@ -64,7 +65,7 @@ public class Agent_Lizard : Agent
             if (enemy.maxTime <= enemy.curTime && curRange >= maxRange && gameObject.activeSelf)
             {
                 //장전
-                enemy.reloadRPC(1f, "Shot");
+                enemy.reloadRPC(enemy.intervalTime, "Shot");
                 //실제 사격
                 bigCor = StartCoroutine(bigShot());
             }

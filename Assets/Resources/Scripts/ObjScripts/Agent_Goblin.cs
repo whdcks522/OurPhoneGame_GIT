@@ -27,6 +27,24 @@ public class Agent_Goblin : MonoBehaviour
         audioManager = enemy.battleUIManager.audioManager;
     }
 
+    Coroutine tripleCor;
+    WaitForSeconds wait = new WaitForSeconds(0.12f);
+    IEnumerator tripleShot()
+    {
+        if (!enemy.isPrison)//훈련 1에서는 공격 안하도록
+        {
+            //저격
+            yield return wait;
+
+            for (int i = 0; i < 2; i++) //2번 쏘기
+            {
+                yield return wait;
+                audioManager.PlaySfx(AudioManager.Sfx.Arrow);
+                bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
+            }
+        }
+    }
+
     void Update()
     {
         //속도 초기화
@@ -35,7 +53,7 @@ public class Agent_Goblin : MonoBehaviour
         if (enemy.maxTime <= enemy.curTime && !enemy.isML) 
         {
             //장전
-            enemy.reloadRPC(1f, "Shot");
+            enemy.reloadRPC(enemy.intervalTime, "Shot");
 
             //방향 전환
             int dir = 1;
@@ -54,18 +72,4 @@ public class Agent_Goblin : MonoBehaviour
         StopCoroutine(tripleCor);
     }
 
-    Coroutine tripleCor;
-    WaitForSeconds wait = new WaitForSeconds(0.12f);
-    IEnumerator tripleShot() 
-    {
-        //저격
-        yield return wait;
-
-        for (int i = 0; i < 2; i++) //2번 쏘기
-        {
-            yield return wait;
-            audioManager.PlaySfx(AudioManager.Sfx.Arrow);
-            bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.UnBreakable, gameObject, player, 0);
-        } 
-    }
 }
