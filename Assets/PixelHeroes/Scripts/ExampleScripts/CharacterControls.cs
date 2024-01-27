@@ -712,7 +712,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         void lateUpdate() 
         {
-            if (battleUIManager.btnContinue.activeSelf)//죽고 1.5초 후에 비활성화 됨
+            if (battleUIManager.btnContinue.activeSelf)//죽고 1.5초 후에 비활성화 됨(꺼져 있어도 켜있음)
             {
                 if (!isDead) //죽자 마자 정지
                 {
@@ -751,6 +751,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         float firstValue = battleUIManager.bigHealthBar.value;
                         battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
                     }
+                    battleUIManager.bigHealthBarText.text = (int)curHealth + "/" + maxHealth;
 
                     //시간에 따라 점수 증가
                     battleUIManager.curScore += Time.deltaTime * scorePlus;

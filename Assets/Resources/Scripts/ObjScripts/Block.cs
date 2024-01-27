@@ -36,6 +36,8 @@ public class Block : MonoBehaviourPunCallbacks
     }
     [Header("블록의 효과")]
     public BlockEffectType blockEffectType;
+    [Header("이펙트 아이콘")]
+    public GameObject effectIcon;
 
     //금간 색
     Color crackColor;
@@ -71,6 +73,8 @@ public class Block : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(true);
+        //폭탄에 한 번 만 맞도록
+        threeCount = 0;
         //체력 관리
         curHealth = maxHealth;
 
@@ -87,11 +91,15 @@ public class Block : MonoBehaviourPunCallbacks
         {
             //매터리얼 관리
             crackColor = new Color(0.5f, 0.5f, 1, 1);
+            //이펙트 아이콘 사이즈 관리
+            //effectIcon.transform.localScale = new Vector3(transform.localScale.y, transform.localScale.x, 1);
         }
         else if (blockEffectType == BlockEffectType.Cure)
         {
             //매터리얼 관리
             crackColor = new Color(0.5f, 1, 0.5f, 1);
+            //이펙트 아이콘 사이즈 관리
+            //effectIcon.transform.localScale = new Vector3(transform.localScale.y, transform.localScale.x, 1);
         }
 
 

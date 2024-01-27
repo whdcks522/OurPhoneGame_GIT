@@ -56,7 +56,9 @@ public class BattleUIManager : MonoBehaviour
     [Header("체력 바 슬라이더")]
     public Slider bigHealthBar;
     [Header("체력 바 슬라이더의 파티클")]
-    public GameObject bigHealthBarParticle;
+    public GameObject bigHealthBarParticle;//정지 시 오류 발생해서
+    [Header("체력 바 슬라이더의 텍스트")]
+    public Text bigHealthBarText;
 
     [Header("랭크 텍스트")]
     public Text bigRankText;
