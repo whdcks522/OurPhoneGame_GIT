@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using AnimationState = Assets.PixelHeroes.Scripts.CharacterScripts.AnimationState;
@@ -141,8 +141,9 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         isDead = true;
                         //애니메이션
                         Character.SetState(AnimationState.Dead);
-                        //체력 처리
+                        //체력바 처리
                         battleUIManager.bigHealthBar.value = 0;
+                        battleUIManager.bigHealthBarText.text = battleUIManager.bigHealthBarText.text = 0 + "/" + maxHealth;
                         //효과음
                         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.TimeOver);
                         //칼 비활성화(폭발)
@@ -154,7 +155,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         JumpDust.Stop();
                         //동기화 개귀찮자너...
                         //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
-                        rigid.velocity = Vector2.zero;//!1!!!!!!!!!!!!!!!!!!!!!
+                        //rigid.velocity = Vector2.zero;//!1!!!!!!!!!!!!!!!!!!!!!
 
                         //곧 죽음
                         if (!PhotonNetwork.InRoom)
@@ -738,20 +739,26 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     miniHealthGauge.fillAmount = curHealth / maxHealth;
 
                     //큰 체력바 적용
-                    if (PhotonNetwork.InRoom)
+                    if (PhotonNetwork.InRoom)//멀티에서
                     {
                         if (photonView.IsMine)
                         {
                             float firstValue = battleUIManager.bigHealthBar.value;
                             battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
+
+                            //체력바 텍스트에 적용
+                            battleUIManager.bigHealthBarText.text = (int)curHealth + "/" + maxHealth;
                         }
                     }
-                    else if (!PhotonNetwork.InRoom)
+                    else if (!PhotonNetwork.InRoom)//싱글에서
                     {
                         float firstValue = battleUIManager.bigHealthBar.value;
                         battleUIManager.bigHealthBar.value = Mathf.Lerp(firstValue, curHealth / maxHealth, 1f);
+
+                        //체력바 텍스트에 적용
+                        battleUIManager.bigHealthBarText.text = (int)curHealth + "/" + maxHealth;
                     }
-                    battleUIManager.bigHealthBarText.text = (int)curHealth + "/" + maxHealth;
+                    
 
                     //시간에 따라 점수 증가
                     battleUIManager.curScore += Time.deltaTime * scorePlus;

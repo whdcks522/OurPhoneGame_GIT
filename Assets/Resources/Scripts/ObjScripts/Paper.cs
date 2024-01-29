@@ -8,7 +8,7 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 using static SingleInfoData;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
 
 public class Paper : MonoBehaviour
 {
@@ -180,7 +180,7 @@ public class Paper : MonoBehaviour
     }
     #endregion
 
-    //색깔 전용
+    //옷 색깔 바꿈 전용
     public void playColorSfx()=> battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Ink);
 
     #region 점프 민감도 조작, 이미지 갱신
@@ -240,18 +240,21 @@ public class Paper : MonoBehaviour
     #region 점프 민감도 조작 버튼
     public void clickJumpSense(int _input)//버튼 눌러서 값 조절
     {
-        //금속 효과음
-        battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
-
         //바로 증가하지 않도록 설정
         curTime = 0f;
 
         //누른 순간 증가
-        if(_input == -1)
-            changeJumpSense(-0.01f);
-        else if(_input == 1)
-            changeJumpSense(0.01f);
+        if (_input != 0) 
+        {
+            //금속 효과음
+            battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Door);
 
+            if (_input == -1)
+                changeJumpSense(-0.01f);
+            else if (_input == 1) 
+                changeJumpSense(0.01f);
+        }
+        
         jumpSenseIndex = _input;
     }
     #endregion
