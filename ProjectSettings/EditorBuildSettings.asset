@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/SingleScene/StarFall_1.unity
     guid: 792afffe8e35b8d4f9aedab6e49aeb29
   - enabled: 1
+    path: Assets/Resources/Scenes/SingleScene/StarFall_2.unity
+    guid: e38e7fa83a0898c4081c2d3531b0bda0
+  - enabled: 1
     path: Assets/Resources/Scenes/SingleScene/BlockCrash_0.unity
     guid: 1579e12df3e36604fbf11f178557cfc2
   - enabled: 1

@@ -46,12 +46,13 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("EnemyBullet"))
         {
+            //맨 처음 입장 시, true에서 false로 전환
             canWarp = !canWarp;
             otherPortal.canWarp = !otherPortal.canWarp;
 
-            if (!canWarp) 
+            if (!canWarp) //서브 포탈과 충돌 시, 순간이동
             {
                 collision.transform.position = otherPortalPos.position;
             }

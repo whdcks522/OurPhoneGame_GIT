@@ -11,6 +11,11 @@ Cartoon FX Remaster(JEAN MORENO), 한국어 입력 효과(KIMYC1223), Pixel Heroes Edit
 Horror Bundle - Sound Effects(ALAN DALCASTAGNE DA CUNHA), Cute UI & Interact Sound Effects Pack(SWISHSWOOSH),
 Game Music Stingers and UI SFX 2 Pack(WOW SOUND),
 
-
-
+아쉬운 점
+싱글톤이랑 battleUI 합치지 말걸
+싱글톤 이름
+스크립타블 오브젝트 처음부터 쓸걸
+체력바 scene마다 놓을 걸
+레이어좀 아껴쓸 걸
+일일이 startScene안가도록 설정
  */

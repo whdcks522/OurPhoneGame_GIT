@@ -11559,6 +11559,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
+      propertyPath: singleInfoData
+      value: 
+      objectReference: {fileID: 11400000, guid: 76df127875e6c0140aaaf2f4e3ddaf9d, type: 2}
+    - target: {fileID: 7871115975362194578, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: singleSelectManager
       value: 
       objectReference: {fileID: 770684545}

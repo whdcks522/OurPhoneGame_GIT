@@ -177,7 +177,27 @@ public class StarFallManager : MonoBehaviour
                     //여기에 안하면 붉은 별 패턴 안나옴
                     curPowerUpIndex++;
                 }
-            }
+            }//Scene == 1
+            else if (scenelevel == 2) 
+            {
+                if (true)//강화 운석 curPowerUpIndex >= maxPowerUpIndex)
+                {
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                        starFallPoints[4], starFallPoints[12], 0);
+
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.PowerUp,
+                        starFallPoints[4], starFallPoints[12], 0);
+
+                    curPowerUpIndex = 0;
+                }
+                else //기본 운석 2개 발사
+                {
+                    bulletShotter.sortShot(BulletShotter.BulletShotType.Direction, Bullet.BulletEffectType.Normal,
+                        starFallPoints[4], starFallPoints[12], 0);
+
+                    curPowerUpIndex++;
+                }
+            }//Scene == 2
         }
     }
 }

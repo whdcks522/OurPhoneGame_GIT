@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMainPortal: 0
-  otherPortalPos: {fileID: 0}
+  otherPortalPos: {fileID: 6784468409771382016}
   canWarp: 1
   mainText: {fileID: 0}
   mainTitle: 
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMainPortal: 1
-  otherPortalPos: {fileID: 0}
+  otherPortalPos: {fileID: 1018191554161300143}
   canWarp: 1
   mainText: {fileID: 2356563980608766632}
   mainTitle: 
