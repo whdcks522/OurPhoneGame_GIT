@@ -2278,7 +2278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9961947
+      value: 0.9990483
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2290,7 +2290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.08715578
+      value: -0.043619405
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2302,7 +2302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1472432004010198603, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -10
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 1718486350521625500, guid: dc0cd52cfaaec9141b913743aa5de898, type: 3}
       propertyPath: m_Name
@@ -8473,16 +8473,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb1ce96c8bf7214d9198278b90284ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scenelevel: 0
+  characterControls: {fileID: 1672712182}
   trainPoints:
   - {fileID: 1632183842}
   - {fileID: 684538920}
   - {fileID: 932968427}
   - {fileID: 296799841}
   - {fileID: 1461502491}
-  scenelevel: 0
   moveBox: {fileID: 2102640449}
-  characterControls: {fileID: 1672712182}
-  gameManager: {fileID: 1701117493}
   blockArr:
   - {fileID: 269995693}
   - {fileID: 47579268}
@@ -8501,6 +8500,7 @@ MonoBehaviour:
   - {fileID: 708631583}
   - {fileID: 206240053}
   - {fileID: 232982354}
+  gameManager: {fileID: 1701117493}
 --- !u!1001 &1521906375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11305,7 +11305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2028439092}
   m_Layer: 0
-  m_Name: GreenSheets
+  m_Name: BlueSheets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

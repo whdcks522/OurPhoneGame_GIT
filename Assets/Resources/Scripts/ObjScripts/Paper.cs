@@ -137,7 +137,7 @@ public class Paper : MonoBehaviour
     #region 색 전환
     public void changeColor(int index)
     {
-        //효과음 출력
+        //종이 넘기는 효과음 출력
         battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
 
         //전부 비활성화
@@ -327,12 +327,15 @@ public class Paper : MonoBehaviour
     }
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D collision)//카메라 이동
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (paperType == PaperType.Bullet) 
         {
             if (collision.transform.CompareTag("Player"))
             {
+                //종이 넘기는 효과음 출력
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+                //카메라 이동
                 gameManager.cameraControl(bulletStart.transform);
             }
         }
@@ -340,17 +343,23 @@ public class Paper : MonoBehaviour
         {
             if (collision.transform.CompareTag("Player"))
             {
+                //종이 넘기는 효과음 출력
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+                //카메라 이동
                 gameManager.cameraControl(enemyPoint);
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)//카메라 복귀
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (paperType == PaperType.Bullet || paperType == PaperType.Enemy)
         {
             if (collision.transform.CompareTag("Player"))
             {
+                //종이 넘기는 효과음 출력
+                battleUIManager.audioManager.PlaySfx(AudioManager.Sfx.Paper);
+                //카메라 복귀
                 gameManager.cameraControl(gameManager.player.transform);
             }
         }

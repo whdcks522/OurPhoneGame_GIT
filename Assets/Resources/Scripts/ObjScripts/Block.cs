@@ -36,8 +36,6 @@ public class Block : MonoBehaviourPunCallbacks
     }
     [Header("블록의 효과")]
     public BlockEffectType blockEffectType;
-    [Header("이펙트 아이콘")]
-    public GameObject effectIcon;
 
     //금간 색
     Color crackColor;
@@ -92,14 +90,12 @@ public class Block : MonoBehaviourPunCallbacks
             //매터리얼 관리
             crackColor = new Color(0.5f, 0.5f, 1, 1);
             //이펙트 아이콘 사이즈 관리
-            //effectIcon.transform.localScale = new Vector3(transform.localScale.y, transform.localScale.x, 1);
         }
         else if (blockEffectType == BlockEffectType.Cure)
         {
             //매터리얼 관리
             crackColor = new Color(0.5f, 1, 0.5f, 1);
             //이펙트 아이콘 사이즈 관리
-            //effectIcon.transform.localScale = new Vector3(transform.localScale.y, transform.localScale.x, 1);
         }
 
 
@@ -119,7 +115,6 @@ public class Block : MonoBehaviourPunCallbacks
     {
         //게임오브젝트 활성화
         gameObject.SetActive(false);
-        //콜라이더 비활성화
 
         if (isBreak) //부순경우
         {
@@ -154,7 +149,6 @@ public class Block : MonoBehaviourPunCallbacks
                 GameObject effect = gameManager.CreateObj("Explosion 2_PowerUp", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
-                //effect.transform.parent = transform.parent.transform;
             }
             else if (blockEffectType == BlockEffectType.Cure)
             {
@@ -164,7 +158,6 @@ public class Block : MonoBehaviourPunCallbacks
                 GameObject effect = gameManager.CreateObj("Explosion 2_Cure", GameManager.PoolTypes.EffectType);
                 effect.SetActive(true);
                 effect.transform.position = transform.position;
-                //effect.transform.parent = transform.parent.transform;
             }
         }
         else if (!isBreak)//떨어진 경우
@@ -303,7 +296,7 @@ public class Block : MonoBehaviourPunCallbacks
     {
         if (other.transform.CompareTag("playerSword"))
         {
-            int damage = other.gameObject.GetComponent<Sword>().swordDamage;
+            int damage = 2 * other.gameObject.GetComponent<Sword>().swordDamage;
             if (PhotonNetwork.InRoom)
             {
                 if (photonView.IsMine)

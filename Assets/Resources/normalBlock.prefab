@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2116e32f8212280449f7438b204a1a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHealth: 100
+  curHealth: 300
   blockPoints: []
   blockHeal: 2
   crackMul: 1

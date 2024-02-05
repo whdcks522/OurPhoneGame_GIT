@@ -63,9 +63,10 @@ public class TrainManager : MonoBehaviour
             StartCoroutine(moveBoxRoutine());
 
             //블록 깨부수기
+            float dmg = blockArr[0].GetComponent<Block>().curHealth * 0.4f;
             foreach (Block block in blockArr)
             {
-                block.healthControl(80);
+                block.healthControl(dmg);
             }
         }
     }

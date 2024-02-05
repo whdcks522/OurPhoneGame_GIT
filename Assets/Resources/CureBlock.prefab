@@ -187,13 +187,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2116e32f8212280449f7438b204a1a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHealth: 40
+  curHealth: 120
   blockPoints: []
   blockHeal: 20
   crackMul: 1
   blockHealthType: 3
   blockEffectType: 2
-  effectIcon: {fileID: 4019819239674071761}
   gameManager: {fileID: 0}
   characterControls: {fileID: 0}
   boxColliders:
