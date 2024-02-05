@@ -2275,7 +2275,7 @@ MonoBehaviour:
   maxTime: 5
   dogPointsParent: {fileID: 124260841}
   powerUpPointsParent: {fileID: 1505183375}
-  powerUpMaxIndex: 2
+  powerUpMaxIndex: 3
   scenelevel: 0
   dogSpeedArr:
   - 2

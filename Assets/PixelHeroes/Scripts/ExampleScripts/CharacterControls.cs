@@ -329,14 +329,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 else if (!photonView.IsMine) 
                 {
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동
+                    if ((transform.position - rpcPos).sqrMagnitude >= 100)//너무 멀면 순간이동, 2
                     {
                         //Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
                     }
                     else
                     {
-                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 40);
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 5);//40
                     }
 
                     //칼 이동
