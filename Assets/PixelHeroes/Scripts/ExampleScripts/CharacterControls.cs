@@ -328,7 +328,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 }
                 else if (!photonView.IsMine) 
                 {
-                    /*
                     //플레이어 위치 관리
                     if ((transform.position - rpcPos).sqrMagnitude >= 100)//너무 멀면 순간이동, 2
                     {
@@ -339,7 +338,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     {
                         transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 5);//40
                     }
-                    
 
                     //칼 이동
                     if ((playerSwords[0].transform.position - swordsRpcPos[0]).sqrMagnitude >= 1)//너무 멀면 순간이동 
@@ -351,9 +349,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         SwordComponent.GetComponent<Rigidbody2D>().position = 
                             Vector3.Lerp(playerSwords[0].transform.position, swordsRpcPos[0], Time.deltaTime * 10);//1이 넘으면 의미가 없음
                     }
-                    */
                 }
-
+                
             }
             else if (!PhotonNetwork.InRoom)
             {
