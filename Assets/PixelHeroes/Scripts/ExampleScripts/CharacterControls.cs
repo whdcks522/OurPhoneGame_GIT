@@ -201,8 +201,8 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
 
         private void Awake()
         {
-            PhotonNetwork.SendRate = 60;
-            PhotonNetwork.SerializationRate = 30;
+            PhotonNetwork.SendRate = 600;
+            PhotonNetwork.SerializationRate = 300;
 
             rigid = GetComponent<Rigidbody2D>();
 
@@ -326,7 +326,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 3)//너무 멀면 순간이동, 2
+                    if ((transform.position - rpcPos).sqrMagnitude >= 4)//너무 멀면 순간이동, 2
                     {
                         //Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
