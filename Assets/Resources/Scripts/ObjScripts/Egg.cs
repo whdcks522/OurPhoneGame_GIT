@@ -31,8 +31,12 @@ public class Egg : MonoBehaviourPunCallbacks
     {
         if (collision.transform.CompareTag("Construction") || collision.transform.CompareTag("Player"))
         {
+            eggJumpRPC();
+            return;
+            Debug.Log("충돌 감지 1");
             if (photonView.IsMine)
             {
+                Debug.Log("충돌 감지 2");
                 photonView.RPC("eggJumpRPC", RpcTarget.All);
             }
         }
@@ -41,7 +45,7 @@ public class Egg : MonoBehaviourPunCallbacks
     [PunRPC]
     public void eggJumpRPC()
     {
-        rigid.AddForce(jumpVec);
+        rigid.velocity = new Vector2(rigid.velocity.x, 15);
     }
-    Vector2 jumpVec = new Vector2(0, 15f);
+    Vector2 jumpVec = new Vector2(0, 50f);
 }
