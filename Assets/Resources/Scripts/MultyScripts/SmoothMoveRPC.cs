@@ -36,14 +36,9 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
                 Debug.Log("AAA");
                 transform.position = rpcPos;
             }
-            else if ((transform.position - rpcPos).sqrMagnitude >= 1f)//너무 멀면 순간이동 
-            {
-                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
-                Debug.Log("BBB");
-            }
             else
             {
-                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 2);//아니면 부드럽게
+                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 0.5f);//아니면 부드럽게
             }
         }
     }
