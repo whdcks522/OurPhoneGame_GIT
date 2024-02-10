@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Island : MonoBehaviour
 {
-    AreaEffector2D areaEffector2D;
-    public enum IslandType 
-    {
-        ConveyorBelt
-    }
-    public IslandType islandType;
+    [Header("이동 컴포넌트")]
+    public AreaEffector2D playerEffector2D;
+    public AreaEffector2D blockEffector2D;
 
+    [Header("추가 속도")]
+    public int playerValue;
+    public int blockValue;
 
     private void Awake()
     {
-        areaEffector2D = GetComponent<AreaEffector2D>();
-        areaEffector2D.forceMagnitude *= 300;
+        playerEffector2D.forceMagnitude *= playerValue;
+        blockEffector2D.forceMagnitude *= blockValue;
     }
 }
