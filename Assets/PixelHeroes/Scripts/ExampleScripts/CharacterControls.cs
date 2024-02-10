@@ -333,13 +333,13 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     }
                     else
                     {
-                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 5);
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 2);
                     }
 
                     //칼 이동
                     if ((playerSwords[0].transform.position - swordsRpcPos[0]).sqrMagnitude >= 1)//너무 멀면 순간이동 
                     {
-                        Debug.LogWarning("SwordQuickMove");
+                        //Debug.LogWarning("SwordQuickMove");
                         SwordComponent.GetComponent<Rigidbody2D>().position = swordsRpcPos[0];
                     }
                     else
