@@ -14,7 +14,7 @@ public class Egg : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        Debug.Log(rigid.velocity.magnitude);
+        //Debug.Log(rigid.velocity.magnitude);
     }
 
     [PunRPC]

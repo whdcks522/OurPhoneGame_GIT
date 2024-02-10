@@ -8,12 +8,18 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
     //속도 공유를 위함
     Vector3 rpcPos;
     bool isRoom;
+
+    Rigidbody2D rigid;
     void Awake() 
     {
+        
+
         PhotonNetwork.SendRate = 120;
         PhotonNetwork.SerializationRate = 60;
 
         isRoom = PhotonNetwork.InRoom;
+
+        rigid = GetComponent<Rigidbody2D>();
     }
 
 
@@ -23,14 +29,21 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!photonView.IsMine && isRoom)
         {
+            rigid.velocity = rpcVec;
             if ((transform.position - rpcPos).sqrMagnitude >= 3)//너무 멀면 순간이동 
             {
-                Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
+                //Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
+                Debug.Log("AAA");
                 transform.position = rpcPos;
+            }
+            else if ((transform.position - rpcPos).sqrMagnitude >= 1f)//너무 멀면 순간이동 
+            {
+                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
+                Debug.Log("BBB");
             }
             else
             {
-                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
+                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 2);//아니면 부드럽게
             }
         }
     }
@@ -40,10 +53,13 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)//포톤.isMine이랑 같나봄
         {
             stream.SendNext(transform.position);
+            stream.SendNext(rigid.velocity);
         }
         else//남의 거면 받나봄
         {
             rpcPos = (Vector3)stream.ReceiveNext();//1번째 줄을 1번째 줄로 받음
+            rpcVec = (Vector2)stream.ReceiveNext();
         }
     }
+    public Vector2 rpcVec;
 }
