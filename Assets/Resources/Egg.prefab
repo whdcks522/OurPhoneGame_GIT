@@ -137,7 +137,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 30
+  m_Mass: 3
   m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 3
@@ -150,7 +150,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &1924315502127359073
 MonoBehaviour:
@@ -188,7 +188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rpcVec: {x: 0, y: 0}
 --- !u!114 &3650856806605591271
 MonoBehaviour:
   m_ObjectHideFlags: 0
