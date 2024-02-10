@@ -14,7 +14,7 @@ public class Island : MonoBehaviour
 
     private void Awake()
     {
+        blockEffector2D.forceMagnitude = playerEffector2D.forceMagnitude * blockValue;
         playerEffector2D.forceMagnitude *= playerValue;
-        blockEffector2D.forceMagnitude *= blockValue;
     }
 }
