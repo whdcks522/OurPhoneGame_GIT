@@ -339,7 +339,7 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                     //칼 이동
                     if ((playerSwords[0].transform.position - swordsRpcPos[0]).sqrMagnitude >= 1)//너무 멀면 순간이동 
                     {
-                        Debug.LogError("SwordQuickMove");
+                        //Debug.LogError("SwordQuickMove");
                         SwordComponent.GetComponent<Rigidbody2D>().position = swordsRpcPos[0];
                     }
                     else
