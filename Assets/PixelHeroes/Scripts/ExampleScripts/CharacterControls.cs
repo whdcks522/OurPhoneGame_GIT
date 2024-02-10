@@ -153,10 +153,6 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                         //먼지 종료
                         MoveDust.Stop();
                         JumpDust.Stop();
-                        //동기화 개귀찮자너...
-                        //속도 동기화(안하면 본체만 닿아서 날아가는 경우 있음)
-                        //rigid.velocity = Vector2.zero;//!1!!!!!!!!!!!!!!!!!!!!!
-
                         //곧 죽음
                         if (!PhotonNetwork.InRoom)
                             Invoke("SoonDie", 1.5f);

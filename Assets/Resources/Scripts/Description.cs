@@ -11,9 +11,11 @@ Cartoon FX Remaster(JEAN MORENO), 한국어 입력 효과(KIMYC1223), Pixel Heroes Edit
 Horror Bundle - Sound Effects(ALAN DALCASTAGNE DA CUNHA), Cute UI & Interact Sound Effects Pack(SWISHSWOOSH),
 Game Music Stingers and UI SFX 2 Pack(WOW SOUND),
 
+<고칠점>
 태그, 레이어 아끼자
 스크립타블 처음부터
 싱글턴은 존재 자체만 하자
 테스트용도로도 바르게 실행 되도록
 
+블록은 바람 부는게 나을듯
  */
