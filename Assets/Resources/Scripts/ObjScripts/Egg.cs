@@ -27,11 +27,11 @@ public class Egg : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Construction") || collision.transform.CompareTag("Player")) 
+        if (collision.transform.CompareTag("Construction") || collision.transform.CompareTag("Player"))
         {
-            if (photonView.IsMine) 
+            if (photonView.IsMine)
             {
                 photonView.RPC("eggJumpRPC", RpcTarget.All);
             }
