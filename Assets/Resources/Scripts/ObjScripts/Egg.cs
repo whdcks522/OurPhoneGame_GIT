@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class Egg : MonoBehaviourPunCallbacks
 {
-    Rigidbody2D rigid;
-    public float speed;
+    //Rigidbody2D rigid;
+    //public float speed;
 
     private void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        //rigid = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        speed = rigid.velocity.magnitude;
+        //speed = rigid.velocity.magnitude;
     }
 
     [PunRPC]
