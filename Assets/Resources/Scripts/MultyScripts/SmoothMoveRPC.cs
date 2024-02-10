@@ -19,6 +19,8 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
+        return;
+
         if (!photonView.IsMine && isRoom)
         {
             if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동 
