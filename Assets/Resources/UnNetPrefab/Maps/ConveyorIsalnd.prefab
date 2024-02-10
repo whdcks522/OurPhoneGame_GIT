@@ -246,4 +246,4 @@ MonoBehaviour:
   playerEffector2D: {fileID: 3451872281685382691}
   blockEffector2D: {fileID: 457078993988703302}
   playerValue: 300
-  blockValue: 500
+  blockValue: 600
