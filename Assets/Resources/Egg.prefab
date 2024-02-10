@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 7832943456476000556}
   - component: {fileID: 3650856806605591271}
   - component: {fileID: 5797874182012060093}
-  - component: {fileID: 554159045653748743}
   m_Layer: 7
   m_Name: Egg
   m_TagString: Egg
@@ -174,7 +173,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7832943456476000556}
   - {fileID: 5797874182012060093}
-  - {fileID: 554159045653748743}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -185,7 +183,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5415062459960576652}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
   m_Name: 
@@ -218,19 +216,3 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &554159045653748743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5415062459960576652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 0

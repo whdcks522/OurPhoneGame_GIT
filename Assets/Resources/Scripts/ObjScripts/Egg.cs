@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class Egg : MonoBehaviourPunCallbacks
 {
+    Rigidbody2D rigid;
+
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        Debug.Log(rigid.velocity.magnitude);
+    }
+
     [PunRPC]
     public void eggOnRPC()
     {
