@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5114d77f781934a43a5f4693b807221f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rpcVec: {x: 0, y: 0}
 --- !u!114 &3650856806605591271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +214,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 1
+  m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
