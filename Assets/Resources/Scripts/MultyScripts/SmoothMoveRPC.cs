@@ -10,8 +10,8 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
     bool isRoom;
     void Awake() 
     {
-        PhotonNetwork.SendRate = 80;
-        PhotonNetwork.SerializationRate = 40;
+        PhotonNetwork.SendRate = 120;
+        PhotonNetwork.SerializationRate = 60;
 
         isRoom = PhotonNetwork.InRoom;
     }
@@ -21,14 +21,14 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine && isRoom)
         {
-            if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
+            if ((transform.position - rpcPos).sqrMagnitude >= 1)//너무 멀면 순간이동 
             {
                 Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
                 transform.position = rpcPos;
             }
             else
             {
-                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//아니면 부드럽게
+                transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 30);//아니면 부드럽게
             }
         }
     }

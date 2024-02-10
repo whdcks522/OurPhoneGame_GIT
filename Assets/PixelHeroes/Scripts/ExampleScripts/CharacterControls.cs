@@ -326,14 +326,14 @@ namespace Assets.PixelHeroes.Scripts.ExampleScripts
                 {
                     
                     //플레이어 위치 관리
-                    if ((transform.position - rpcPos).sqrMagnitude >= 4)//너무 멀면 순간이동, 2
+                    if ((transform.position - rpcPos).sqrMagnitude >= 5)//너무 멀면 순간이동, 2
                     {
                         Debug.LogWarning("PlayerQuickMove");
                         transform.position = rpcPos;
                     }
                     else
                     {
-                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 10);//40
+                        transform.position = Vector3.Lerp(transform.position, rpcPos, Time.deltaTime * 5);//40
                     }
 
                     //칼 이동
