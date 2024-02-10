@@ -6,6 +6,7 @@ using UnityEngine;
 public class Egg : MonoBehaviourPunCallbacks
 {
     Rigidbody2D rigid;
+    public float speed;
 
     private void Awake()
     {
@@ -14,7 +15,8 @@ public class Egg : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        Debug.Log(rigid.velocity.magnitude);
+        speed = rigid.velocity.magnitude;
+        Debug.Log(speed);
     }
 
     [PunRPC]
