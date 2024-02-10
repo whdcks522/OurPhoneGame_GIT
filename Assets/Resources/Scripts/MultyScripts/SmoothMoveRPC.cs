@@ -23,7 +23,7 @@ public class SmoothMoveRPC : MonoBehaviourPunCallbacks, IPunObservable
         {
             if ((transform.position - rpcPos).sqrMagnitude >= 2)//너무 멀면 순간이동 
             {
-                //Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
+                Debug.LogError("이름: "+gameObject.name+" 현재 위치:"+transform.position + " 목표 위치: "+ rpcPos );
                 transform.position = rpcPos;
             }
             else
