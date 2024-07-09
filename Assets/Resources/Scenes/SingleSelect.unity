@@ -2341,9 +2341,7 @@ PrefabInstance:
       objectReference: {fileID: 770684545}
     - target: {fileID: 7890185814413094177, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Text
-      value: 'E 0
-
-'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7890185814413094177, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
@@ -4118,9 +4116,7 @@ PrefabInstance:
       objectReference: {fileID: 770684545}
     - target: {fileID: 7890185814413094177, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Text
-      value: 'E 0
-
-'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7890185814413094177, guid: 87632d9914f348b4aa6218ab8f4594af, type: 3}
       propertyPath: m_Color.b
