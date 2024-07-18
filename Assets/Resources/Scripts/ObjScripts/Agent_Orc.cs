@@ -54,6 +54,7 @@ public class Agent_Orc : Agent
 
     //대상과의 거리
     float curRange;
+
     public override void OnActionReceived(ActionBuffers actions)//액션 기입(가능한 동작), 매 번 호출 
     {
         curRange = (player.transform.position - transform.position).magnitude;
@@ -106,10 +107,8 @@ public class Agent_Orc : Agent
 
     public override void CollectObservations(VectorSensor sensor)//관찰할 정보, 5번 당 한번 호출
     {
-        
         //1. 수치형, 받아오는 데이터가 적을 수록 좋음
-        //자신의 정보
-        if (gameObject.activeSelf) //죽으면 필요 없자너
+        if (gameObject.activeSelf) //죽으면 정보 인식이  필요 없음
         {
             sensor.AddObservation(transform.position.x);//state size = 1     x,y,z를 모두 받아오면 size가 3이 됨
             sensor.AddObservation(transform.position.y);
@@ -129,14 +128,13 @@ public class Agent_Orc : Agent
 
             sensor.AddObservation(StepCount / (float)MaxStep);//진행한 스텝 비율    //state size = 1
         }
-        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if ( enemy.isML) 
         {
-            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가지면 사망
+            if (other.transform.CompareTag("Outline")) //맵 밖으로 나가면 감점
             {
                 AddReward(-1f);
                 EndEpisode();
@@ -144,7 +142,7 @@ public class Agent_Orc : Agent
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)//플레이어와 충돌하면 득점
     {
         if (collision.gameObject == player && enemy.isML)
         {
@@ -158,15 +156,16 @@ public class Agent_Orc : Agent
 
     public override void OnEpisodeBegin()//EndEpisode가 호출됐을 때 사용됨(씬을 호출할 때는 통째로 삭제)
     {
+        //다음 학습을 위해 초기화하는 함수
+
         if (enemy.isML) //자신에 의해서만 발동
         {
             //Debug.Log("Orc");
-            //자신의 코드에 의해서만 발동됨(남이 뭘 하든 상관 x, 충돌의 경우 둘다 적용됨)
+            //자신의 코드에 의해서만 발동됨(플레이어가 초기화해도 이 코드는 호출 x, 충돌의 경우 둘다 적용됨)
 
             int enemyIndex = Random.Range(0, points.Length);
             
-
-            while (true)
+            while (true)//무작위 위치에서 다시 소환됨(다양한 위치에서 학습을 위함)
             {
                 int playerIndex = Random.Range(0, points.Length);
                 if (enemyIndex != playerIndex)
